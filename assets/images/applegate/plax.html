@@ -1,0 +1,103 @@
+<html class = 'js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms no-csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths mozilla'>
+
+
+  <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <title>plax Number 1</title>
+  <script type='text/javascript' src="js/jquery.js"></script>
+  <script type='text/javascript' src='js/plax.js'></script>
+  <link rel='stylesheet' href='plax.css' type='text/css'/>
+
+
+
+  </head>
+  <body>
+    
+ <div id='frame'>
+    <img id='werks' src='howitwerks.png'/>
+    <span class ='arrows'>
+      <img id='arrow_one' src='bluearrow1.png'/>
+      <img id='arrow_two' src='bluearrow2.png'/>
+      <img id='arrow_three' src='bluearrow3.png'/>
+      <img id='arrow_four' src='bluearrow4.png'/>
+    </span>
+
+     <div class='info_panel' id='arrow_one'></div>
+     <div class='info_panel' id='arrow_two'></div>
+     <div class='info_panel' id ='arrow_three'></div>
+     <div class='info_panel' id = 'arrow_four'></div>
+
+  <div id='big_bot'>
+    <!--  <img id='kid' src ='kid.png' /> -->
+      <img id='robot' src='robot.png'/>
+    </div>
+  </div>
+
+  </body>
+</html>
+<script type='text/javascript'>
+
+  $(document).ready(function() {
+
+      $('div#frame').slideDown('10000');
+     var panel; 
+
+
+      console.log('starting');
+      $('#werks').plaxify({"xRange":10, "yRange":10, "invert":'true' });
+      $('#arrow_one').plaxify({"xRange":5, "yRange":5});
+      $('#arrow_two').plaxify({"xRange":5, "yRange":5});
+      $('#arrow_three').plaxify({"xRange":5, "yRange":5});
+      $('#arrow_four').plaxify({"xRange":5, "yRange":5});
+      $('#robot').plaxify({"xRange":7, "yRange":7});
+      $('#kid').plaxify({"xRange":7, "yRange":7});
+      
+      $.plax.enable();
+      console.log('enabled');
+
+
+
+      //$('.arrows img').unbind('mouseout');
+     // $('.arrows img').unbind('mouseleave');
+     // $('.arrows img').click(function(){
+        
+      function bobble(arrow) {  
+        arrow.animate({top:"-=4px"},150).animate({top:"+=4px"},150);
+        arrow.animate({top:"-=4px"},150).animate({top:"+=4px"},150);
+      }
+
+
+      function hide_robot() {
+        $('#robot').fadeOut(100);
+      }
+      function show_robot() {
+        $('#robot').fadeIn(100);
+      }
+
+
+      $('.arrows img').click(function() {
+        $('.info_panel').hide(); 
+          var arrow = $(this);
+          bobble(arrow);
+          bobble($('#robot'));
+          //hide_robot();
+
+
+          var id = $(this).attr('id');
+          panel = $('div#' + id);
+          
+            panel.fadeIn();
+            
+          });
+
+      $('.arrows img').bind('mouseout', function() {
+           // panel.fadeOut();
+            //show_robot();
+       }); 
+
+        
+
+
+      });
+
+</script>
