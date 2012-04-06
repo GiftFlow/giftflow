@@ -1,9 +1,0 @@
-health 
-family
-food
-house
-transportation
-art
-sport
-music
-entertainment
