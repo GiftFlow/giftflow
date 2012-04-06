@@ -24,10 +24,10 @@ Configuration
 ----------------
 1.	*Create the database*
 	
-	Create a database called gift. Everything you need is in database/stable/. 
-	Import the latest gifts.sql and then defaults.sql. 
+	Create a database called gift. Everything you need is in `database/stable/` 
+	Import the latest `gifts.sql` and then `defaults.sql` 
 	Then run summon.php in your browser to generate a database of fake data. 
-	(databse/stable/setUpInstructions.txt is a step by step guide with more info)
+	`databse/stable/setUpInstructions.txt` is a step by step guide with more info.
 
 2.	*Edit config.php* 
 	
