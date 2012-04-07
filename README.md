@@ -44,6 +44,15 @@ Configuration
 	Here you should edit the database connection information to suit your needs. By default, it
 	looks to localhost for a database named gift using the username root with a blank password.
 
+
+Reassembly
+-------------
+1.	To protect the security of GiftFlow.org and its users, this codebase is lacking many crucial
+	settings, encryption keys, api keys, passwords, etc. To get your own repo up and running, you need
+	to go through and add your own keys and passwords. For a full list, see the wiki article titled
+	Reassembly.
+
+
 Using Git
 =======
 
