@@ -26,7 +26,7 @@ for ($i = 0; $i < $Users_total; $i++)
 	$created = date('Y-m-d', strtotime('-' . mt_rand(500, 2000) . ' days'));
 	$updated = date('Y-m-d', strtotime('-' . mt_rand(0, 130) . ' days'));
 	$salt = "64f3735fbc544aefe51685131f5f3e24";
-	$password = "03ede3233279cf0ac9dddc18c8b08a1fb453181f";
+	$password = "03ede3233279cf0ac9dddc18c8b08a1fb453181f"; # 'giftflow'
 	$locale = rand(1, $Locations_total);
 	
 	

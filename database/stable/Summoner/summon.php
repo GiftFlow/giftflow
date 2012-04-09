@@ -5,12 +5,12 @@
 	// CHOOSE HOW MUCH DATA YOU WANT
 	//You cannot have more transactions than goods
 	$Transactions_total = 100;
-	$Goods_total = 2000;
-	$Users_total = 1000;
-	$Reviews_total = 2000;
-	$Tags_total = 400;
-	$Goods_tags_total = 900;
-	$Locations_total = 300;
+	$Goods_total = 500;
+	$Users_total = 200;
+	$Reviews_total = 1000;
+	$Tags_total = 200;
+	$Goods_tags_total =4900;
+	$Locations_total = 100;
 	
 	ini_set("memory_limit","1024M");
 	$balrog = 'Balrog.sql';

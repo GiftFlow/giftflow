@@ -1,15 +1,10 @@
 Hello and Welcome to the GiftFlow Database!
 
-IMPORTANT TIP: If you use the Summoner to create a fake database -- the password to all the fake accounts is 'giftflow'
+IMPORTANT TIP: If you use the Summoner to create a fake database -- the password to all the fake accounts is 'giftflow'.
 
+This manual will guide you through setting up a development environment database, complete with a set of fake data of whatever size you want.
 
-This manual will guide you through setting up a development
-environment database, complete with a set of fake data of whatever
-size you want.
-
-This directory contains a gift.sql file and a defaults.sql file. Both filenames start
-with the date of their creation, so you know what version of the database
-you are setting up
+This directory contains a gift.sql file and a defaults.sql file. Both filenames start with the date of their creation, so you know what version of the database you are setting up.
 
 
 DATE_gift.sql is the database structure. Create a blank database then import this file first.
@@ -17,7 +12,7 @@ DATE_gift.sql is the database structure. Create a blank database then import thi
 DATE_defaults.sql contains all the functional data that the app needs (email templates, categories, events, etc......)
 Import this second to have an empty, but functional application.
 
-Summoner is the tool for creating a set of test data to use in your development environment.
+Summoner is a tool for creating a set of test data to use in your development environment.
 To use the Summoner, open up summon.php and set the totals to whatever you want them to be. 
 Try to stick to the same relative proportions. No more transactions than goods.
 Save summon.php and then run it in your browser. It should generate a file called balrog.sql.
