@@ -1,10 +1,11 @@
 # Giftflow
 
-Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. To learn more about the concept behind it and to see the project in action please visit Giftflow.org.
+Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. To learn more about the concept behind it and to see the project in action please visit [http://www.giftflow.org](Giftflow.org).
 
 The source code for this project was released per request of the users. We put it here so people can deploy their own gift economy web site, and so that developers can continue to contribute and discuss the future of this application.
 
-## Install
+
+## Installation
 
 If you need help figuring out how to download this project, There is a good [introduction to using Git here](http://learn.github.com/). 
 
@@ -14,9 +15,17 @@ This application is based on the CodeIgniter framework which requires PHP 5 and 
 
 ### Configuration
 
+* Web server *
+
+In your Apache configuration make sure you have the 'mod_rewrite' and 'mcrypt' modules installed and enabled.
+
+Depending on your PHP version, you might need to set date.timezone to something like 'America/New_York' in your php.ini file.
+
+* Database *
+
 In MySQL create a database called 'gift'. Import the database structure from database/stable/gifts.sql, and the default values from database/stable/defaults.sql.
 
-Then edit the following files:
+* Configuration files *
 
 * application/config/database.php - Make sure it matches your MySQL credentials.
 
@@ -30,12 +39,11 @@ Then edit the following files:
 
 * application/libraries/auth.php - Here I also removed the encryption we do of forgotten password codes and more. The “ENCRYPT " messages will show you where.
 
-
 ### Generating test data
 
 If you are not deploying to a production server and would like to generate some fake data for your database, you can use our Summoner application.
 
 To use the Summoner, enter the database/stable/Summoner directory and edit summon.php and set the totals to what you need. Try to stick to the same relative proportions. No more transactions than goods. Save summon.php and run it in a terminal. It should generate a file called Balrog.sql which can be imported into your existing empty database.
 
-IMPORTANT TIP: If you use the Summoner to create a fake database -- the password to all the fake accounts is 'giftflow'.
+IMPORTANT TIP: If you use the Summoner to create a fake database, the password to all the fake accounts is 'giftflow'.
 
