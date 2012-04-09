@@ -1,6 +1,6 @@
 # Giftflow
 
-Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. To learn more about the concept behind it and to see the project in action please visit [http://www.giftflow.org](Giftflow.org).
+Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. To learn more about the concept behind it and to see the project in action please visit [Giftflow.org](http://www.giftflow.org).
 
 The source code for this project was released per request of the users. We put it here so people can deploy their own gift economy web site, and so that developers can continue to contribute and discuss the future of this application.
 
@@ -15,17 +15,17 @@ This application is based on the CodeIgniter framework which requires PHP 5 and 
 
 ### Configuration
 
-* Web server *
+*Web server*
 
 In your Apache configuration make sure you have the 'mod_rewrite' and 'mcrypt' modules installed and enabled.
 
 Depending on your PHP version, you might need to set date.timezone to something like 'America/New_York' in your php.ini file.
 
-* Database *
+*Database*
 
 In MySQL create a database called 'gift'. Import the database structure from database/stable/gifts.sql, and the default values from database/stable/defaults.sql.
 
-* Configuration files *
+*Configuration files*
 
 * application/config/database.php - Make sure it matches your MySQL credentials.
 
