@@ -90,8 +90,8 @@ class Auth
 		// Generate salt based on time and email
 		$this->U->salt =  sha1('~'.$this->U->email.'~'.microtime(TRUE));
 		 
-		 //Generate forgotten password code
-		//$this->U->forgotten_password_code = ENCRYPT WHAT YOU WANT HERE
+		// Generate forgotten password code
+		$this->U->forgotten_password_code = sha1('$'.$this->U->ip_address.'$'.microtime(TRUE));
 		
 		// Save new user. If successful....
 		if($this->U->register())
@@ -121,9 +121,9 @@ class Auth
 		
 		$this->U->password = $this->CI->input->post('password');
 		// Generate salt based on time and email
-		//$this->U->salt =  ENCRYPT HOW YOU WANT HERE
-		 //Generate forgotten password code
-		//$this->U->forgotten_password_code = ENCRYPT HOW YOU WANT HERE
+		$this->U->salt =  sha1('~'.$this->U->email.'~'.microtime(TRUE));
+		// Generate forgotten password code
+		$this->U->forgotten_password_code = sha1('$'.$this->U->ip_address.'$'.microtime(TRUE));
 		
 		$this->U->activation_code = "0";
 		

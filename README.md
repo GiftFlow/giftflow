@@ -7,7 +7,7 @@ The source code for this project was released per request of the users. We put i
 
 ## Installation
 
-If you need help figuring out how to download this project, There is a good [introduction to using Git here](http://learn.github.com/). 
+If you need help figuring out how to download this project, there is a good [introduction to using Git here](http://learn.github.com/). 
 
 ### Requirements
 
@@ -23,9 +23,9 @@ Depending on your PHP version, you might need to set date.timezone to something 
 
 *Database*
 
-In MySQL create a database called 'gift'. Import the database structure from database/stable/gifts.sql, and the default values from database/stable/defaults.sql.
+In MySQL create a database called 'gift'. Import the database structure from database/stable/gift.sql, and the default values from database/stable/defaults.sql.
 
-*Configuration files*
+*Application files*
 
 * application/config/database.php - Make sure it matches your MySQL credentials.
 
@@ -35,13 +35,13 @@ In MySQL create a database called 'gift'. Import the database structure from dat
 
 * application/libraries/geo.php - Set to your own Google Maps api key.
 
-* application/models/user.php - All the places where we encrypt user passwords and salts need to be addressed. Look for “ENCRYPT HERE” messages.
+* .htaccess - If you are installing this in a place different then your web root, you might need to change your RewriteRule accordingly.
 
-* application/libraries/auth.php - Here I also removed the encryption we do of forgotten password codes and more. The “ENCRYPT " messages will show you where.
+* uploads/ - Make sure this directory has writable so it can accept photo uploads. The same needs to be done for uploads/thumb/.
 
 ### Generating test data
 
-If you are not deploying to a production server and would like to generate some fake data for your database, you can use our Summoner application.
+If you are not deploying to a production server and would like to generate some fake test data for your database, you can use our Summoner application.
 
 To use the Summoner, enter the database/stable/Summoner directory and edit summon.php and set the totals to what you need. Try to stick to the same relative proportions. No more transactions than goods. Save summon.php and run it in a terminal. It should generate a file called Balrog.sql which can be imported into your existing empty database.
 
