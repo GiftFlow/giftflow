@@ -270,35 +270,32 @@
 </div>
 
 <script type='text/javascript'>
-var tags = new Array();
-	var more_photos = document.getElementById('more_photos');
+	var tags = new Array();
 	
 $(function(){
 		
 	
-	
 	$('#show_photos').click(function() {
-	var photos = <?php if(!empty($photos)) { echo $photos; } else { echo "empty"; } ?>;
+		var photos = <?php if(!empty($photos)) { echo $photos; } else { echo "empty"; } ?>;
 
-		if(photos != 'empty')
+		if(photos != 'empty' && $('#more_photos').children().length == 0)
 		{
 			for (var data in photos)
 			{		
-					var d = document.createElement("div");
-					text = document.createTextNode(photos[data].caption);
-					
-					var img = document.createElement("IMG");
-					img.src = photos[data].thumb_url;
-									
-					d.appendChild(img);
-					d.appendChild(text);
-					
-					more_photos.appendChild(d);
-					$(more_photos).addClass('photo_block');
+				var d = document.createElement("div");
+				text = document.createTextNode(photos[data].caption);
+
+				var img = document.createElement("IMG");
+				img.src = photos[data].thumb_url;
+
+				d.appendChild(img);
+				d.appendChild(text);
+
+				$('#more_photos').append(d);
 			}
+			$('#more_photos').addClass('photo_block');
 		}
 	});
-	
 	
 	$("#request_gift_button.open").click(function(){
 		$(this).slideUp();

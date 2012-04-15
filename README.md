@@ -11,19 +11,19 @@ If you need help figuring out how to download this project, there is a good [int
 
 ### Requirements
 
-This application is based on the CodeIgniter framework which requires PHP 5 and MySQL installed on your web server.
+This application is based on the CodeIgniter (version 2.0.0) framework which requires the following:
+
+* Apache with 'mod_rewrite' and 'mcrypt' modules enabled.
+
+* PHP 5.3 with the 'GD' or 'iMagick' extensions. Depending on your PHP version, you might need to set date.timezone to something like 'America/New_York' in your php.ini file.
+
+* MySQL
 
 ### Configuration
 
-*Web server*
+*Database setup*
 
-In your Apache configuration make sure you have the 'mod_rewrite' and 'mcrypt' modules installed and enabled.
-
-Depending on your PHP version, you might need to set date.timezone to something like 'America/New_York' in your php.ini file.
-
-*Database*
-
-In MySQL create a database called 'gift'. Import the database structure from database/stable/gift.sql, and the default values from database/stable/defaults.sql.
+In MySQL create a database called 'gift'. Import the database structure from database/stable/gift.sql, and the default values from database/stable/defaults.sql. If you need to populate the database with test data, see below.
 
 *Application files*
 
@@ -31,9 +31,11 @@ In MySQL create a database called 'gift'. Import the database structure from dat
 
 * application/config/config.php - Set `$config['base_url']` and `$config['base_path']` to reflect your installation.
 
-* application/config/postmark.php - In order to send automated emails your will need a [Postmark account](http://postmarkapp.com/). Your Postmark API key goes in this file.
+* application/config/postmark.php - In order to send automated emails your will need a [Postmark account](http://postmarkapp.com/). Your Postmark API key goes in this file. The same must be done in 'application/libraries/Postmark.php'.
 
-* application/libraries/geo.php - Set to your own Google Maps api key.
+* application/libraries/Alert.php - Set $config["from_email"] to your postmark signature email address.
+
+* application/libraries/geo.php - Set to your own [IPInfoDB](http://ipinfodb.com/) API key in order to geolocate users.
 
 * .htaccess - If you are installing this in a place different then your web root, you might need to change your RewriteRule accordingly.
 
@@ -46,4 +48,3 @@ If you are not deploying to a production server and would like to generate some 
 To use the Summoner, enter the database/stable/Summoner directory and edit summon.php and set the totals to what you need. Try to stick to the same relative proportions. No more transactions than goods. Save summon.php and run it in a terminal. It should generate a file called Balrog.sql which can be imported into your existing empty database.
 
 IMPORTANT TIP: If you use the Summoner to create a fake database, the password to all the fake accounts is 'giftflow'.
-

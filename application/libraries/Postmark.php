@@ -15,7 +15,7 @@ class Postmark {
 
     //private
     var $CI;
-    var $api_key = 'INSERT YOUR KEY HERE';
+    var $api_key = '';  // INSERT YOUR KEY HERE
     var $validation = TRUE;
     var $strip_html = FALSE;
     var $develop = FALSE;

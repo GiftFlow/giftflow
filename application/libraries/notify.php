@@ -89,7 +89,7 @@ class Notify
 	*/
 	function alert_transaction_new( $params, $data )
 	{		
-		$A = new Alert;
+		$A = new Alert();
 
 		$A->parseables = array(
 			'demander_name' => $data->transaction->demander->screen_name,
@@ -113,7 +113,7 @@ class Notify
 	
 	function alert_transaction_activated( $params, $data )
 	{
-		$A = new Alert;
+		$A = new Alert();
 		
 		$A->parseables = array(
 			"message" => $data->message,
@@ -136,7 +136,7 @@ class Notify
 	
 	function alert_transaction_message( $params, $data )
 	{
-		$A = new Alert;
+		$A = new Alert();
 		
 		// Get the latest message
 		$M = $data->conversation->get_latest_message();
@@ -167,7 +167,7 @@ class Notify
 	function review_new($params, $data)
 	{
 
-		$A = new Alert;
+		$A = new Alert();
 		
 		$A->parseables = array(
 			"reviewed_screen_name" => $data->reviewed->screen_name,
@@ -202,7 +202,7 @@ class Notify
 	*/
 	function reset_password($params, $data)
 	{
-		$A = new Alert;
+		$A = new Alert();
 		
 		$A->parseables = array(
 			'password_reset_link' => site_url('member/reset_password/'.$data['forgotten_password_code']),
@@ -223,7 +223,7 @@ class Notify
 	*/
 	function report_error($params, $data)
 	{
-		$A = new Alert;
+		$A = new Alert();
 		$A->parseables = array (
 			"subject" => $data['heading'],
 			"message" => $data['message'],
@@ -243,7 +243,7 @@ class Notify
 	*/
 	function contact_giftflow($params, $data)
 	{
-		$A= new Alert;
+		$A= new Alert();
 		
 		$A->parseables = array (
 			'subject' => 'Message from Outer Space',

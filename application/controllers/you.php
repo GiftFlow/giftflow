@@ -74,22 +74,26 @@ class You extends CI_Controller {
       'limit' => 100,
       'location' => $this->data['userdata']['location']
       );
-
+				
     //Total hack job, rigging the event feed to show more completed transactions
 		$unsorted_events = $E->get_events($options);	
 
-        foreach($unsorted_events as $raw)
-        {
-            if($raw->event_type_id == 2)
-            {
-              $this->data['events'][] = $raw;
-            }
-                $sorter = rand() % 7;
-                if($raw->event_type_id == 8 && $sorter == 0 )
-                {   
-                  $this->data['events'][] = $raw;
-                }
-        }
+		// TODO: get_events should return an empty array instead of false
+		
+		if ($unsorted_events != FALSE) {	
+			foreach($unsorted_events as $raw)
+			{
+				if($raw->event_type_id == 2)
+				{
+					$this->data['events'][] = $raw;
+				}
+				$sorter = rand() % 7;
+				if($raw->event_type_id == 8 && $sorter == 0 )
+				{   
+					$this->data['events'][] = $raw;
+				}
+			}
+		}
 
 		// Set view variables
 		$this->data['title'] = "Your Dashboard";

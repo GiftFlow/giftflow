@@ -402,7 +402,7 @@ class Goods extends CI_Controller {
 	*/
 	function _photo_add()
 	{
-		
+		      
 		$this->auth->bouncer(1);
 
 		//load datamapper object of Good
@@ -425,13 +425,12 @@ class Goods extends CI_Controller {
 				$this->load->library('upload', $config);
 				
 				if ( ! $this->upload->do_upload('photo'))
-				{
+				{					
 					$error = $this->upload->display_errors();
 					$this->session->set_flashdata('success', $error);
 					redirect($this->G->type.'s/'.$this->G->id."/photo_add");
 				}
 				$data = $this->upload->data();
-				
 				
 			//Photo CANNOT have a good_id AND a user_id
 				$this->P->good_id = $this->G->id;
@@ -444,7 +443,11 @@ class Goods extends CI_Controller {
 					$this->P->caption = $this->G->title;
 				}
 				
-				$this->P->add($data);
+				try {
+					$this->P->add($data);
+				} catch (Exception $e) {
+					$this->session->set_flashdata('error', $e->getMessage());
+				}
 				
 				if(!$G_dmz->default_photo->exists())
 				{
@@ -511,7 +514,7 @@ class Goods extends CI_Controller {
 	*/
 	
 	function _photo_delete()
-	{
+	{      
 		$this->load->library('datamapper');
 		$G = new Good;
 		$P = new Photo;

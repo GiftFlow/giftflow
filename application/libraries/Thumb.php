@@ -136,6 +136,7 @@ class Thumb
 		// throw an exception if we can't load
 		else
 		{
+			log_message('error', 'You must have either the GD or iMagick extension loaded to use this library');
 			throw new Exception('You must have either the GD or iMagick extension loaded to use this library');
 		}
 		

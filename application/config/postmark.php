@@ -11,7 +11,7 @@
 | next to the desiered server, then clicking 'Settings & API Credentials'
 |
 */
-$config['api_key'] = '';
+$config['api_key'] = '';	// INSERT YOUR KEY HERE
  
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +26,8 @@ $config['api_key'] = '';
 |
 | Configure your Sender Signatures at http://postmarkapp.com/signatures
 */
-$config['from_name'] = 'The GiftFlow Team';
-$config['from_address'] = 'info@giftflow.org';
+//$config['from_name'] = 'The GiftFlow Team';
+//$config['from_address'] = 'info@giftflow.org';
  
 /*
 |--------------------------------------------------------------------------

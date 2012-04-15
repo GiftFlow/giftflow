@@ -118,6 +118,7 @@ class CI_Lang {
 		return TRUE;
 	}
 
+	
 	// --------------------------------------------------------------------
 
 	/**
@@ -127,18 +128,69 @@ class CI_Lang {
 	 * @param	string	$line	the language line
 	 * @return	string
 	 */
-	function line($line = '')
-	{
-		$line = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
+	function line($input = '')
+  {
+		$line = ($input == '' OR ! isset($this->language[$input])) ? FALSE : $this->language[$input];
 
 		// Because killer robots like unicorns!
 		if ($line === FALSE)
 		{
-			log_message('error', 'Could not find the language line "'.$line.'"');
+				log_message('error', 'Could not find the language line "'.$input.'"');
+
+				/*
+				$output = "Backtrace:\n";
+				$backtrace = debug_backtrace();
+
+				foreach ($backtrace as $bt) {
+						$args = '';
+						foreach ($bt['args'] as $a) {
+								if (!empty($args)) {
+										$args .= ', ';
+								}
+								switch (gettype($a)) {
+								case 'integer':
+								case 'double':
+										$args .= $a;
+										break;
+								case 'string':
+										$a = htmlspecialchars(substr($a, 0, 64)).((strlen($a) > 64) ? '...' : '');
+										$args .= "\"$a\"";
+										break;
+								case 'array':
+										$args .= 'Array('.count($a).')';
+										break;
+	              case 'object':
+		                $args .= 'Object(...)';
+		                break;
+								case 'resource':
+										$args .= 'Resource('.strstr($a, '#').')';
+										break;
+								case 'boolean':
+										$args .= $a ? 'True' : 'False';
+										break;
+								case 'NULL':
+										$args .= 'Null';
+										break;
+								default:
+										$args .= 'Unknown';
+								}
+						}
+						
+						$file = isset($bt['file']) ? $bt['file'] : "";
+						$line = isset($bt['line']) ? $bt['line'] : "";
+						$class = isset($bt['class']) ? $bt['class'] : "";
+						
+						$output .= "  file: {$line} - {$file}\n";
+						$output .= "    call: {$class}.{$bt['function']}($args)\n";
+				}
+				$output .= "\n";
+				
+				log_message('error', $output);
+				 */
 		}
 
 		return $line;
-	}
+  }
 
 }
 // END Language Class

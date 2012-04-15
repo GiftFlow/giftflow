@@ -1,8 +1,0 @@
-To add files:
-
-git add .
-git remote add origin git@github.com:giftflow/GiftFlow-Application.git
-git push origin master
-
-To get latest files:
-git pull origin master

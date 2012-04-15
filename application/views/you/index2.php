@@ -13,7 +13,7 @@
       <p>Recent activity near you!</p>
       
       <?php echo UI_Results::events(array(
-        'results' => $events,
+        'results' => (isset($events)) ? $events : array(),
         'mini' => FALSE
       )); ?>
               

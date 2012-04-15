@@ -18,7 +18,7 @@ class Geo
 	*	@todo move to config file
 	*	@var string
 	*/
-	var $ipinfodb_api_key = "";
+	var $ipinfodb_api_key = "";	// Enter your IPInfoDB.com API key here
 	
 	/**
 	*	Default search radius in miles
@@ -101,7 +101,7 @@ class Geo
 		
 		// Get & Decode Data
 		$data = json_decode(file_get_contents($url));
-
+		
 
 		// If result invalid, exit
 		if($data->status != "OK" || empty($data->results[0]))

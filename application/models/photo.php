@@ -59,20 +59,24 @@ class Photo extends DataMapperExtension {
 		else
 			return true;
 	}
+	
 	function _is_photo( $field )
 	{
 		$url = $this->{$field};
-    		$ext = strtolower(pathinfo($url, PATHINFO_EXTENSION));
-    		if ( $ext == "jpg" || $ext == "png" || $ext == "gif" )
-    			return true;
-    		else
-    			return false;
-    }
+		
+		$ext = strtolower(pathinfo($url, PATHINFO_EXTENSION));
+		if ( $ext == "jpg" || $ext == "png" || $ext == "gif" )
+			return true;
+		else
+			return false;
+	}
+		
 	function add($data)
 	{
 		//set placeholder data to save in order to get id
 		$this->url = "placeholder.jpg";
 		$this->thumb_url = "placeholder.jpg";
+		
 		if(!$this->save())
 		{
 			$this->session->set_flashdata('error', $this->error->string);
@@ -101,11 +105,10 @@ class Photo extends DataMapperExtension {
 			$this->session->set_flashdata('error', $this->error->string);
 			redirect('account/photos');
 		}
+		
 		$this->thumbnail();
-	
-
-
 	}
+	
 	function thumbnail( $size = 150 )
 	{
 		$original =	$this->url;
