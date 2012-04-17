@@ -28,13 +28,11 @@ for ($i = 0; $i < $Goods_total; $i++)
 	$num_desc = rand(1,25);
 	for ($c = 0; $c < $num_desc; $c++)
 	{
-		$z = rand(1, 50000);
-		$desc_array1[$c] = $words1[$z];
+		$desc_array1[$c] = $words1[array_rand($words1)];
 	}
 	for ($c = 0; $c < $num_desc; $c++)
 	{
-		$z = rand(1, 50000);
-		$desc_array2[$c] = $words2[$z];
+		$desc_array2[$c] = $words2[array_rand($words2)];
 	}
 	$desc_array = array_merge($desc_array1, $desc_array2);
 	$description = implode(" ", $desc_array);

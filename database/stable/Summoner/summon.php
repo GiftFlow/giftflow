@@ -1,9 +1,7 @@
-
 <?php
 
-
 	// CHOOSE HOW MUCH DATA YOU WANT
-	//You cannot have more transactions than goods
+	//  You cannot have more transactions than goods
 	$Transactions_total = 100;
 	$Goods_total = 500;
 	$Users_total = 200;
@@ -15,7 +13,7 @@
 	ini_set("memory_limit","1024M");
 	$balrog = 'Balrog.sql';
 	$b = fopen($balrog, 'w') or die("can't open balrog");
-	$checks = "SET FOREIGN_KEY_CHECKS=0;";
+	$checks = "SET FOREIGN_KEY_CHECKS=0;\n";
 	fwrite($b, $checks);
 	
 	//Import text files
@@ -47,17 +45,15 @@
 		$SQL .= "(" . implode(array_keys($array), ",") . ") ";
 		$SQL .= "VALUES (" . implode(array_values($array), ",") . ");\n";
 	
-		if($print_output)
-		{
-			echo $SQL;
-			echo "<br />";
-		}
+		// print the output if the user wants to see it
+    //echo $SQL;
+		
 		return $SQL;
 	}
 	
 	// INSERT a bunch of locations
 	include("magic_ingredients/summon_location.php");
-	$auto = "ALTER TABLE locations AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE locations AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	foreach ($places as $key => $val)
 	{
@@ -66,7 +62,7 @@
 	}
 	/////Summon Users		
 	include("magic_ingredients/summon_user.php");
-	$auto = "ALTER TABLE users AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE users AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	foreach ($users as $key => $val)
 	{
@@ -76,7 +72,7 @@
 	
 	// Summon Goods
 	include("magic_ingredients/summon_good.php");
-	$auto = "ALTER TABLE goods AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE goods AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	foreach ($goods as $key => $val)
 	{
@@ -86,7 +82,7 @@
 	
 	// Summon Reviews
 	include("magic_ingredients/summon_review.php");
-	$auto = "ALTER TABLE reviews AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE reviews AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	foreach ($reviews as $key => $val)
 	{
@@ -95,7 +91,7 @@
 	}
 	// Summon Tags
 	include("magic_ingredients/summon_tag.php");
-	$auto = "ALTER TABLE tags AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE tags AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	foreach ($tags as $key => $val)
 	{
@@ -105,7 +101,7 @@
 	
 	// Summon Goods_tags
 	include("magic_ingredients/summon_good_tag.php");
-	$auto = "ALTER TABLE goods_tags AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE goods_tags AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	foreach ($goods_tags as $key => $val)
 	{
@@ -114,12 +110,11 @@
 	}
 	
 	//Insert transactions
-	$auto = "ALTER TABLE transactions AUTO_INCREMENT = 1;";
+	$auto = "ALTER TABLE transactions AUTO_INCREMENT = 1;\n";
 	fwrite($b, $auto);
 	include("magic_ingredients/summon_transaction.php");
 	fclose($b);
 	
-	echo "Summon Completed: Beware of Balrog";
+	echo "Summon Completed: Beware of Balrog\n";
 
-
-?>	
+?>

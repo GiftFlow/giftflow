@@ -1,8 +1,11 @@
 <?php
+
 define('BASEPATH', str_replace("\\", "/", realpath(dirname(__FILE__)))); 
 
-include_once('system/application/config/database.php');
+include_once('../../application/config/database.php');
 $config = $db['default'];
+
+// TODO: add option to delete photos
 
 
 /* Accepts a filename and imports the SQL script in it.
@@ -22,65 +25,11 @@ function mysql_import_file2($filename) {
 	for ($i = 0; $i < $n; $i++) {
 		$query = $sql[$i];
 
-		//echo $query;
-
 		$result = mysql_query ($query)
-		or die ('<p>Query: <br><tt>' . $query .
-		'</tt><br>failed. MySQL error: ' . mysql_error());
+		or die ('Query failed: ' . $query .' MySQL error: ' . mysql_error());
 	}
 
 }
-
-function mysql_import_file($filename, &$errmsg)
-{
-   /* Read the file */
-   $lines = file($filename);
-
-   if(!$lines)
-   {
-      $errmsg = "cannot open file $filename";
-      return false;
-   }
-
-   $scriptfile = false;
-
-   /* Get rid of the comments and form one jumbo line */
-   foreach($lines as $line)
-   {
-      $line = trim($line);
-
-      if(!ereg('^--', $line))
-      {
-         $scriptfile.=" ".$line;
-      }
-   }
-
-   if(!$scriptfile)
-   {
-      $errmsg = "no text found in $filename";
-      return false;
-   }
-
-   /* Split the jumbo line into smaller lines */
-
-   $queries = explode(';', $scriptfile);
-
-   /* Run each line as a query */
-
-   foreach($queries as $query)
-   {
-      $query = trim($query);
-      if($query == "") { continue; }
-      if(!mysql_query($query.';'))
-      {
-         $errmsg = "query ".$query." failed";
-         return false;
-      }
-   }
-
-   /* All is well */
-   return true;
-} 
 
 
 function dropTables() {
@@ -89,7 +38,7 @@ function dropTables() {
 	$result = mysql_query($sql);
 	$num_rows = mysql_num_rows($result);
 
-	print "dropping tables ($num_rows)\n";
+//	print "dropping tables ($num_rows)\n";
 
 	if (!$result) {
 		echo "DB Error, could not list tables\n";
@@ -115,7 +64,7 @@ function dropTables() {
 
 # connect to the DB
 if (!mysql_connect($config['hostname'], $config['username'], $config['password'])) {
-	echo 'Could not connect to mysql';
+	echo 'Could not connect to database';
 	exit;
 }
 
@@ -127,28 +76,33 @@ $result = mysql_query("SELECT DISTINCT table_name, constraint_name"
   . " FROM information_schema.key_column_usage"
   . " WHERE constraint_schema = '".$config['database']."'"
   . " AND referenced_table_name IS NOT NULL");
+  
+echo "dropping foreign keys...\n";
+
 while($row = mysql_fetch_assoc($result)) {
-//echo "ALTER TABLE `$row[table_name]`". " DROP FOREIGN KEY `$row[constraint_name]`";
+
+#  echo "ALTER TABLE `$row[table_name]`". " DROP FOREIGN KEY `$row[constraint_name]`";
+  
   mysql_query("ALTER TABLE `$row[table_name]`"
     . " DROP FOREIGN KEY `$row[constraint_name]`")
     or die(mysql_error());
 }
 
+echo "dropping tables...\n";
+
 # drop the tables
 dropTables();
 
 # recreate and populate
-echo "creating tables\n";
 
-$errors;
-mysql_import_file2("gift.sql", $errors);
-print_r($errors);
+echo "creating tables...\n";
+mysql_import_file2("gift.sql");
 
-echo "populating tables\n";
+echo "populating default values...\n";
+mysql_import_file2("defaults.sql");
 
-$errors="";
-mysql_import_file2("data.sql", $errors);
-print_r($errors);
-
+if (in_array("--fakedata", $argv)) {
+  echo "populating tables with fake test data...\n";
+  mysql_import_file2("Summoner/Balrog.sql");
+}
 ?>
-

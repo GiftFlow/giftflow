@@ -1,11 +1,9 @@
-<?
+<?php
+
 $t = 0; //Transaction id
 $r = -1; //Reviewer id
 $rd = 0; //Reviewed id
 $g = 0; //Good id
-
-
-
 
 for ($count = 0; $count < $Transactions_total; $count++)
 {
@@ -13,6 +11,9 @@ for ($count = 0; $count < $Transactions_total; $count++)
 	unset($write);
 	$g++;
 	$l = rand(1, $Locations_total);
+
+	$location = ""; // TODO: put a value here?
+	
 	$t++; //increment transaction id
 	$UseCase = rand(1, 4); //rand(1,4); //randomizes type of demand
 	$k = rand(1, 8); //randomizes transaction status
@@ -82,8 +83,6 @@ for ($count = 0; $count < $Transactions_total; $count++)
 	if ($UseCase == 1)
 	{
 		//Use Case "Take" - $uone "takes" $utoo's Gift
-		
-		
 		
 		$user = "UPDATE users SET default_location_id='$l' WHERE id='$utoo';\n";
 		
