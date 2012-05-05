@@ -15,11 +15,11 @@ class Postmark {
 
     //private
     var $CI;
-    var $api_key = '';  // INSERT YOUR KEY HERE
+    var $api_key = '';
     var $validation = TRUE;
     var $strip_html = FALSE;
     var $develop = FALSE;
-    
+  
     var $from_name;
     var $from_address;
     
@@ -50,6 +50,9 @@ class Postmark {
     {
         $this->CI =& get_instance();
         
+        $this->CI->config->load('postmark', TRUE);
+        $params = array_merge($this->CI->config->config['postmark'], $params);
+
         if (count($params) > 0)
         {
             $this->initialize($params);

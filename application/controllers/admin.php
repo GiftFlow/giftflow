@@ -30,6 +30,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/admin_javascript', $this->data);
 		$this->load->view('footer', $this->data);
 	}
+	
 	function users()
 	{
 		$this->data['title'] = "Admin | Users";
@@ -38,6 +39,7 @@ class Admin extends CI_Controller {
 		$U->order_by('created', 'asc')->get();
 		$this->data['users'] = $U->all;
 		$this->data['js'][] = 'jquery-datatables.php';
+		$this->data['js'][] = 'includes/jquery-impromptu.min.php';
 		$this->data['css'][] = 'datatables.css';
 		$this->data['css'][] = 'impromptu.css';
 		$this->load->view('header', $this->data);
@@ -46,6 +48,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/admin_javascript', $this->data);
 		$this->load->view('footer', $this->data);
 	}
+	
 	function tags()
 	{
 		$this->data['title'] = "Admin | Tags";
@@ -62,10 +65,12 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/admin_javascript', $this->data);
 		$this->load->view('footer', $this->data);
 	}
+	
 	function gifts()
 	{
 		$this->_goods("Admin | Gifts", "gift");
 	}
+	
 	function needs()
 	{
 		$this->_goods("Admin | Needs", "need");
@@ -97,6 +102,7 @@ class Admin extends CI_Controller {
 		$template->where('type','alert_template')->order_by('id', 'asc')->get();
 		$this->data['tags'] = $template->all;
 		$this->data['js'][] = 'jquery-datatables.php';
+		$this->data['js'][] = 'includes/jquery-impromptu.min.php';
 		$this->data['css'][] = 'datatables.css';
 		$this->data['css'][] = 'impromptu.css';
 		$this->load->view('header', $this->data);

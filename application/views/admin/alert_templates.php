@@ -15,9 +15,15 @@
 	<td><?php echo $val->name; ?></td>
 	<td><?php echo $val->body; ?></td>
 	<td>
-    	<a onclick="update_alert_template(<?php echo $val->id ?>, '<?php echo $val->name?>', '<?php echo $val->body?>')" href="#">edit</a> |
-        <a onclick="delete_alert_template(<?php echo $val->id ?>, '<?php echo $val->name ?>')" href="#">delete</a> 
-		
+    	<a onclick="update_alert_template(<?php echo $val->id ?>, '<?php echo $val->name ?>', '<?php 
+				// TODO: fully serialize and unserialize to handle special characters
+				//echo str_replace(array("\r\n", "\r", "\n"), "+++", $val->body) 
+			  echo $val->body;
+							?>')" href="#">edit</a> |
+      <a onclick="delete_alert_template(<?php echo $val->id ?>, '<?php echo $val->name ?>')" href="#">delete</a> 
+	</td>
+</tr>
+
 <?php } ?>
 </tbody>
 </table>

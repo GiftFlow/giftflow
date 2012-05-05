@@ -80,13 +80,6 @@ class Alert {
 	*	@var string
 	*/
 	public $right_delimiter = "}}";
-	
-	/**
-	*	Name of email agent to use to transmit messages
-	*	e.g. postmark, codeigniter
-	*	@var string
-	*/
-	public $mail_agent = 'postmark';
 
 
 	function __construct()
@@ -107,19 +100,16 @@ class Alert {
 		// Parse the template
 		$this->generate();
 		
-		// Set the subject & message
+		$config = array();
+		
+		// Set the options for the outgoing email
 		$config["subject"] = $this->subject;
 		$config['message'] = $this->message;
 		
-		//Set the html_message
 		$header = $this->CI->load->view('email/header',FALSE,TRUE);
 		$footer = $this->CI->load->view('email/footer',FALSE,TRUE);
-		
 		$config['message_html'] = $header.$this->message.$footer;
 		
-		// Set other technical details
-		$config["from_email"] = 'no_reply@giftflow.org';
-		$config["from_name"] = 'GiftFlow';
 		$config["to"] = $this->to;
 		$config["reply_to_email"] = '';
 		$config["reply_to_name"] = '';
@@ -181,46 +171,10 @@ class Alert {
 	*	Low-level function which actually sends the message
 	*	@todo create new library to handle this?
 	*/
-	function email( $config = array() )
+	function email( $config )
 	{
-		if( $this->mail_agent == "codeigniter")
-		{
-			// @deprecated
-			
-			// SMTP Information
-			// Todo: Move to external config file
-			$config['protocol']  = 'smtp';
-			$config['newline'] = '\r\n';
-			$config['crlf'] = '\r\n';
-			$config['smtp_host'] = 'mail.giftflow.org';
-			$config['smtp_user'] = 'no_reply@giftflow.org';
-			$config['smtp_pass'] = 'mon3yis3vil';
-			$config['smtp_port'] = '26';
-			$config['mailtype']  = 'text';
-			$config['charset']   = 'utf-8';
-			$config['mailtype'] = 'HTML';
-			
-			$Mail = $this->CI->email;
-			
-			// Initialize CI email library using info from above
-			$Mail->initialize($config);
-		}
-		elseif($this->mail_agent=="postmark")
-		{
-			$this->CI->load->library('postmark');
-			$Mail = new Postmark;
-			if(strpos($config['to'],"@giftflow.org")!==FALSE)
-			{
-				//$config['to']  = "admin@giftflow.org";
-			}
-		}
-		else
-		{
-			return FALSE;
-		}
-		
-		// Set email sender
-		$Mail->from( $config['from_email'], $config['from_name'] );
+		$this->CI->load->library('postmark');
+		$Mail = $this->CI->postmark;
 		
 		// Set email recipient
 		$Mail->to( $config['to'] );
