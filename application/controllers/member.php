@@ -206,7 +206,7 @@ class Member extends CI_Controller {
 				$this->hooks->call('reset_password', $hook_data);
 				$this->_reset_password_success();
 			}
-			else
+			else  // TODO: Give a better error message for accounts that do not exist
 			{
 				$this->session->set_flashdata('error','Sorry an error occured');
 				redirect('');

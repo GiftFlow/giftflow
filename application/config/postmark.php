@@ -26,8 +26,8 @@ $config['api_key'] = '';	// INSERT YOUR KEY HERE
 |
 | Configure your Sender Signatures at http://postmarkapp.com/signatures
 */
-//$config['from_name'] = 'The GiftFlow Team';
-//$config['from_address'] = 'info@giftflow.org';
+$config['from_name'] = 'The GiftFlow Team';
+$config['from_address'] = '';	// INSERT YOUR ADDRESS HERE
  
 /*
 |--------------------------------------------------------------------------

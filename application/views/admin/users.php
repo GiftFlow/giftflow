@@ -28,8 +28,7 @@
 				else echo "disable";
 				echo "</a>";
 			}
-
-?>
+		?>
 
 </td>
 </tr>

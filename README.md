@@ -31,13 +31,10 @@ In MySQL create a database called 'gift'. Import the database structure from 'da
 
 * application/config/config.php - Set `$config['base_url']` and `$config['base_path']` to reflect your installation.
 
-* application/config/postmark.php - In order to send automated emails your will need a [Postmark account](http://postmarkapp.com/). Your Postmark API key goes in this file. The same must be done in 'application/libraries/Postmark.php'.
-
-* application/libraries/Alert.php - Set `$config["from_email"]` to your postmark signature email address.
+* application/config/postmark.php - In order to send automated emails you will need a [Postmark](http://postmarkapp.com/) account. In this file set `$config['api_key']` and `$config['from_address']` according to your Postmark account.
 
 * application/libraries/geo.php - Set to your own [IPInfoDB](http://ipinfodb.com/) API key in order to geolocate users.
 
 * .htaccess - If you are installing this in a place different then your web root, you might need to change your RewriteRule accordingly.
 
 * uploads/ - Make sure this directory has writable so it can accept photo uploads. The same needs to be done for uploads/thumb/.
-
