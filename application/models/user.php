@@ -718,7 +718,7 @@ class User extends DataMapperExtension {
 		{
 			if (empty($this->salt))
 			{
-				$this->salt = md5(uniqid(rand(), TRUE));
+				$this->salt = md5(uniqid(rand(), TRUE).microtime(TRUE));
 			}
 
 			$this->{$field} = sha1($this->salt . $this->{$field});

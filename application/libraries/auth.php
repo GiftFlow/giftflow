@@ -87,8 +87,6 @@ class Auth
 		// Set IP address
 		$this->U->ip_address = $this->CI->input->ip_address();
 		
-		// Generate salt based on time and email
-		$this->U->salt =  sha1('~'.$this->U->email.'~'.microtime(TRUE));
 		 
 		// Generate forgotten password code
 		$this->U->forgotten_password_code = sha1('$'.$this->U->ip_address.'$'.microtime(TRUE));
