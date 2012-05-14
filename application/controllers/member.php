@@ -354,17 +354,24 @@ class Member extends CI_Controller {
 
 	function facebook( $key1 = null, $val1 = null, $key2 = null, $val2 = null )
 	{
+		require_once("assets/facebook/facebook.php");
 		// Handles the initial facebook connect request. Redirects user to Facebook's OAuth 
 		// page. The data will be returned to /assets/facebook.php.
 		if(empty($key1))
 		{
 			$config = array (	
-				"client_id"=>111637438874755,
-				"scope" => "offline_access,user_location,user_photos,email,publish_stream",
-				"redirect_uri"=>"http://www.giftflow.org/assets/facebook.php" 
+				"appId"=>'111637438874755',
+				"secret"=>'797a827203a1ad62cace9fa429100567',
+				"fileUpload"=>true
 			);
+
+			$facebook = new Facebook($config);
+
+			$uid = $facebook->getUser();
+			print_r($uid);
 			
-			redirect("https://graph.facebook.com/oauth/authorize?".http_build_query($config));
+			//redirect("https://graph.facebook.com/oauth/authorize?".http_build_query($config));
+			die('oke we got here OK!');
 		}
 		
 		// Once the user has been authorized, this code parses the authorization code and sends 
