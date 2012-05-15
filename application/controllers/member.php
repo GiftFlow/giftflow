@@ -30,14 +30,6 @@ class Member extends CI_Controller {
 	*/
 	function login( $redirect = FALSE )
 	{
-		
-		$config = array (	
-			"appId"=>'111637438874755',
-			"secret"=>'797a827203a1ad62cace9fa429100567',
-			"fileUpload"=>true
-		);
-
-		$this->facebook = new Facebook($config);
 
 
 		// If form data POST is here, process login
@@ -376,7 +368,10 @@ class Member extends CI_Controller {
 
 		$user = $this->facebook->getUser();
 
-		if($user) {
+		$status = $this->facebook->getLoginStatusUrl();
+		print_r($status);
+
+		if($user != 0) {
 			$logoutUrl = $this->facebook->getLogoutUrl();
 		} else {
 			$loginUrl = $this->facebook->getLoginUrl();
