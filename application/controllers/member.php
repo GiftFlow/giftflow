@@ -357,8 +357,6 @@ class Member extends CI_Controller {
 
 	function facebook( $key1 = null, $val1 = null, $key2 = null, $val2 = null )
 	{
-		$this->output->enable_profiler(TRUE);
-		Console::logSpeed('Member:facebook');
 
 		if(empty($key1))
 		{
@@ -368,34 +366,15 @@ class Member extends CI_Controller {
 				"fileUpload"=>true
 			);
 
-			$this->facebook = new Facebook($config);
-
-			$user = $this->facebook->getUser();
-
-			$status = $this->facebook->getLoginStatusUrl();
-
-			if($user != 0) {
-				$logoutUrl = $this->facebook->getLogoutUrl();
-			} else {
-				$loginUrl = $this->facebook->getLoginUrl();
-			//	redirect($loginUrl);
-			}
-			Console::logSpeed('Member:facebookONE');
 			redirect("https://www.facebook.com/dialog/oauth?
 					client_id=111637438874755
-					&redirect_uri=http://mvp.giftflow.org/member/facebook
+					&redirect_uri=http://mvp.giftflow.org/assets/facebook.php
 					&scope=email, user_photos, publish_stream
 					&state=hanslbean");
 		} else {
-			Console::logSpeed('Member:facebookTWO');
-			print_r($key1);
-			die();
+			var_dump($key1);
+			echo 'here';
 		
-		redirect("https://www.graph.facebook.com/oauth/access_token?
-				client_id=111637438874755
-				&redirect_uri=http://mvp.giftflow.org/member/facebook_two
-				&client_sectet=797a827203a1ad62cace9fa429100567
-				&code=$code");
 		}
 	}
 		// Once the user has been authorized, this code parses the authorization code and sends 
