@@ -357,32 +357,47 @@ class Member extends CI_Controller {
 
 	function facebook( $key1 = null, $val1 = null, $key2 = null, $val2 = null )
 	{
-		
-		$config = array (	
-			"appId"=>'111637438874755',
-			"secret"=>'797a827203a1ad62cace9fa429100567',
-			"fileUpload"=>true
-		);
+		$this->output->enable_profiler(TRUE);
+		Console::logSpeed('Member:facebook');
 
-		$this->facebook = new Facebook($config);
+		if(empty($key1))
+		{
+			$config = array (	
+				"appId"=>'111637438874755',
+				"secret"=>'797a827203a1ad62cace9fa429100567',
+				"fileUpload"=>true
+			);
 
-		$user = $this->facebook->getUser();
+			$this->facebook = new Facebook($config);
 
-		$status = $this->facebook->getLoginStatusUrl();
+			$user = $this->facebook->getUser();
 
-		if($user != 0) {
-			$logoutUrl = $this->facebook->getLogoutUrl();
-		} else {
-			$loginUrl = $this->facebook->getLoginUrl();
-			redirect($loginUrl);
-		}
+			$status = $this->facebook->getLoginStatusUrl();
 
-		redirect("https://www.facebook.com/dialog/oauth?
+			if($user != 0) {
+				$logoutUrl = $this->facebook->getLogoutUrl();
+			} else {
+				$loginUrl = $this->facebook->getLoginUrl();
+			//	redirect($loginUrl);
+			}
+			Console::logSpeed('Member:facebookONE');
+			redirect("https://www.facebook.com/dialog/oauth?
 					client_id=111637438874755
-					&redirect_uri=http://www.giftflow.org/member/facebook_authorize
+					&redirect_uri=http://mvp.giftflow.org/member/facebook
 					&scope=email, user_photos, publish_stream
 					&state=hanslbean");
+		} else {
+			Console::logSpeed('Member:facebookTWO');
+			print_r($key1);
+			die();
 		
+		redirect("https://www.graph.facebook.com/oauth/access_token?
+				client_id=111637438874755
+				&redirect_uri=http://mvp.giftflow.org/member/facebook_two
+				&client_sectet=797a827203a1ad62cace9fa429100567
+				&code=$code");
+		}
+	}
 		// Once the user has been authorized, this code parses the authorization code and sends 
 		// the necessary data to the Auth class.
 //		else
@@ -401,7 +416,6 @@ class Member extends CI_Controller {
 //			
 //			$this->auth->facebook($facebook_data);
 //		}
-	}
 
 	//Callback from facebook authorization
 	function facebook_authorize($data = null, $code = null)
