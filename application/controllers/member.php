@@ -369,7 +369,6 @@ class Member extends CI_Controller {
 		$user = $this->facebook->getUser();
 
 		$status = $this->facebook->getLoginStatusUrl();
-		print_r($status);
 
 		if($user != 0) {
 			$logoutUrl = $this->facebook->getLogoutUrl();
@@ -378,7 +377,11 @@ class Member extends CI_Controller {
 			redirect($loginUrl);
 		}
 
-
+		redirect("https://www.facebook.com/dialog/oauth?
+					client_id=111637438874755
+					&redirect_uri=http://www.giftflow.org/member/facebook_authorize
+					&scope=email, user_photos, publish_stream
+					&state=hanslbean");
 		
 		// Once the user has been authorized, this code parses the authorization code and sends 
 		// the necessary data to the Auth class.
@@ -398,7 +401,30 @@ class Member extends CI_Controller {
 //			
 //			$this->auth->facebook($facebook_data);
 //		}
-	}	
+	}
+
+	//Callback from facebook authorization
+	function facebook_authorize($data = null, $code = null)
+	{
+		var_dump($data);
+		echo 'yayryayr';
+		var_dump($code);
+		if(!empty($code))
+		{
+		redirect("https://www.graph.facebook.com/oauth/access_token?
+				client_id=111637438874755
+				&redirect_uri=http://www.giftflow.org/member/facebook_two
+				&client_sectet=797a827203a1ad62cace9fa429100567
+				&code=$code");
+		}
+	}
+
+	function facebook_two()
+	{
+		print_r('hello');
+	}
+
+
 	function terms()
 	{
 		$this->data['title'] = "Terms of Service";
