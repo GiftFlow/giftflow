@@ -15,7 +15,15 @@ class Member extends CI_Controller {
 		$this->load->library('Search/User_search');
 		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
+		//load the facebook sdk
 		require_once('assets/facebook/facebook.php');
+		$config = array (	
+			"appId"=>'111637438874755',
+			"secret"=>'797a827203a1ad62cace9fa429100567',
+			"fileUpload"=>true
+		);
+		$this->facebook = new Facebook($config);
+
 	}
 
 	function index()
@@ -31,9 +39,19 @@ class Member extends CI_Controller {
 	function login( $redirect = FALSE )
 	{
 
+		$user = $this->facebook->getUser();
+		//facebook authorized
+		if($user > 0)
+		{
+			$user_info = $this->facebook->api('/me','GET');
+			$user_info['token'] = $this->facebook->getAccessToken();
+		print_r($user_info);
+		//	$this->auth->facebook($user_info);
+		}
+
 
 		// If form data POST is here, process login
-		if(!empty($_POST))
+		else if(!empty($_POST))
 		{
 			$this->U = $this->auth->login();
 			
@@ -306,6 +324,14 @@ class Member extends CI_Controller {
 	
 	protected function _login_form()
 	{
+		$params = array(
+			'scope' => 'email, user_photos, publish_stream',
+			'redirect_uri' => 'http://mvp.giftflow.org/member/login'
+		);
+
+		$loginUrl = $this->facebook->getLoginUrl($params);
+
+		$this->data['fbookUrl'] = $loginUrl;
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['title'] = "Login";
 		$this->load->view('header', $this->data);
@@ -353,31 +379,29 @@ class Member extends CI_Controller {
 		$this->load->view('member/reset_success', $this->data);
 		$this->load->view('footer', $this->data);
 	}
-	
 
-	function facebook( $key1 = null, $val1 = null, $key2 = null, $val2 = null )
+	function fakebook()
 	{
-
-		if(empty($key1))
-		{
-			$config = array (	
-				"appId"=>'111637438874755',
-				"secret"=>'797a827203a1ad62cace9fa429100567',
-				"fileUpload"=>true
-			);
-
-			redirect("https://www.facebook.com/dialog/oauth?
-					client_id=111637438874755
-					&redirect_uri=http://mvp.giftflow.org/assets/facebook.php
-					&scope=email, user_photos, publish_stream
-					&state=hanslbean");
-		} else {
-			var_dump($key1);
-			echo 'here';
-		
-		}
+		die('here');
 	}
-		// Once the user has been authorized, this code parses the authorization code and sends 
+
+
+	function facebook($data)
+	{
+		//$user = $this->facebook->getUser();
+		
+		//$accessToken = $this->facebook->getAccessToken();
+		
+
+		if($user) {
+		//	$user_info = $this->facebook->api('me?fields=id,name,first_name,last_name&access_token='.$accessToken);
+		//	var_dump($user_info);
+		}
+		echo('herere');
+
+
+
+	}
 		// the necessary data to the Auth class.
 //		else
 //		{
@@ -394,29 +418,6 @@ class Member extends CI_Controller {
 //			}
 //			
 //			$this->auth->facebook($facebook_data);
-//		}
-
-	//Callback from facebook authorization
-	function facebook_authorize($data = null, $code = null)
-	{
-		var_dump($data);
-		echo 'yayryayr';
-		var_dump($code);
-		if(!empty($code))
-		{
-		redirect("https://www.graph.facebook.com/oauth/access_token?
-				client_id=111637438874755
-				&redirect_uri=http://www.giftflow.org/member/facebook_two
-				&client_sectet=797a827203a1ad62cace9fa429100567
-				&code=$code");
-		}
-	}
-
-	function facebook_two()
-	{
-		print_r('hello');
-	}
-
 
 	function terms()
 	{

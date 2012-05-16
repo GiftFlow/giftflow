@@ -1,6 +1,5 @@
 <div id='login'>
 <?php echo heading('login', array('id'=>'login_heading')); ?>
-
 <table>
 <tr>
 	<td><h3>Use Facebook</h3></td>
@@ -14,7 +13,7 @@
 <tr>
 	<td style='vertical-align: top;'>
 		<p>
-			<a style='border-bottom: 0px;' href='<?php echo site_url('member/facebook'); ?>'>
+			<a style='border-bottom: 0px;' href='<?php echo $fbookUrl; ?>'>
 				<img src='<?php echo base_url(); ?>assets/images/facebook_login.png' style='border: 0;' />
 			</a>
 		</p>
