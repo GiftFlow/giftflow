@@ -45,10 +45,12 @@ class Member extends CI_Controller {
 		{
 			$user_info = $this->facebook->api('/me','GET');
 			$user_info['token'] = $this->facebook->getAccessToken();
-		print_r($user_info);
-		//	$this->auth->facebook($user_info);
-		}
+		
+			$userJson = json_encode($user_info);
+			$userObj = json_decode($userJson);
 
+			$this->auth->facebook($userObj);
+		}
 
 		// If form data POST is here, process login
 		else if(!empty($_POST))
