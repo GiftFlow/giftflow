@@ -107,6 +107,17 @@ class Member extends CI_Controller {
 	{
 		$this->load->library('recaptcha');
 
+		if(!empty($_GET['code']))
+		{
+			$user_info = $this->facebook->api('/me','GET');
+			$user_info['token'] = $this->facebook->getAccessToken();
+		
+			$userJson = json_encode($user_info);
+			$userObj = json_decode($userJson);
+
+			$this->auth->facebook($userObj);
+		}
+
 		// If form data is present, save new user
 		if(!empty($_POST))
 		{
@@ -343,6 +354,14 @@ class Member extends CI_Controller {
 
 	protected function _register_form()
 	{
+		$params = array(
+			'scope' => 'email, user_photos, publish_stream',
+			'redirect_uri' => 'http://mvp.giftflow.org/member/register'
+		);
+
+		$this->data['registerUrl'] = $this->facebook->getLoginUrl($params);
+
+
 		if(empty($this->U))
 		{
 			$this->U = new User();
