@@ -678,19 +678,18 @@ class People extends CI_Controller {
 		if(!empty($_POST))
 		{
 			$R = new Review();
-			$R->reviewer_id = $this->data['logged_in_user_id'];
-			$R->reviewed_id = $_POST['reviewed_id'];
+			$R->reviewer_id = "38";
+			$R->reviewed_id ="36";
 			$R->body = $_POST['body'];
+			$R->transaction_id = '67';
+			$R->rating = 'positive';
 			if(!$R->save())
 			{
-				return FALSE;
+				$this->output->set_output('Error, Review failed to save');
+			}else {
+				$this->output->set_output("Success! Review saved");
 			}
 
-
-			//@todo set up hook with notification etc
-			$answer = "muhgahahahahahahahahahahahahaha";
-			$real = json_encode($answer);
-			return $real;
 		}
 		else {
 			redirect('you');
@@ -708,6 +707,7 @@ class People extends CI_Controller {
 		}
 
 		$form = $this->load->view('forms/thankyou',$options);
+		return $form;
 	}
 
 
