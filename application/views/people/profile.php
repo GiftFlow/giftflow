@@ -259,24 +259,34 @@ if(!$active) { echo "DISABLED"; }
 </div>
 <div id='profile_right'>
 <?php if($logged_in) { ?>
-<div class='profile_item'>
-	<?php if($u->id!=$logged_in_user_id) { ?>
-		<?php if(isset($is_following)&&$is_following) { ?>
-			<a class='button' id='already_following'>
-				Following
-			</a>
-			<br />
-			<a href='<?php echo site_url('people/'.$u->id.'/unfollow'); ?>'>
-				Unfollow
-			</a> 
-		<?php } else { ?>
-			<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='button' id='follow_this'>
-				Follow
-			</a>
+	<div class='profile_item'>
+		<?php if($u->id!=$logged_in_user_id) { ?>
+			<?php if(isset($is_following)&&$is_following) { ?>
+				<a class='button' id='already_following'>
+					Following
+				</a>
+				<br />
+				<a href='<?php echo site_url('people/'.$u->id.'/unfollow'); ?>'>
+					Unfollow
+				</a> 
+			<?php } else { ?>
+				<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='button' id='follow_this'>
+					Follow
+				</a>
+			<?php } ?>
 		<?php } ?>
-	<?php } ?>
-	
-</div>
+		
+	</div>
+	<!-- thank you button that triggers modal dialog form -->
+	<div class='profile_item'>
+		<a class='button jqModal' id='thankyou'>
+			Send <?php echo $u->first_name; ?> a Thank you
+		</a>
+	</div>
+	<!-- modal dialog form opened up by thankyou button -->
+	<div id = 'thankyouDialog' class='jqmWindow'>
+		Loading...
+	</div>
 <?php } ?>
 
 <?php if(!empty($u->default_location->city)) { ?>
@@ -339,6 +349,29 @@ if(!$active) { echo "DISABLED"; }
 </div>
 <script type='text/javascript'>
 $(function(){
+
+	var setFormData = function(field) {
+		$('#thankyouDialog').jqmAddClose('.closeClass');
+		$('#recipient').val('<?php echo $u->screen_name; ?>');
+		$('#recipient_id').val('<?php echo $u->id; ?>');
+		$('#recipient_email').val('<?php echo $u->email; ?>');
+		$('#thankyouform').ajaxForm({
+				dataType: 'json',
+				url: "<?php echo base_url().'people/thankyou';?>",
+				success: function() {
+					console.log(responseText);
+				}
+		});
+	};
+
+
+	$('#thankyouDialog').jqm({
+		ajax:"<?php echo base_url().'people/thankyouform'; ?>",
+		trigger:'a#thankyou',
+		onLoad: setFormData
+	});
+
+
 
 	$('.follow').hide();
 	$(".thumb_grid a").tipTip({
