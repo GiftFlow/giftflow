@@ -352,17 +352,19 @@ if(!$active) { echo "DISABLED"; }
 $(function(){
 
 	var setFormData = function(field) {
+		$('.button').button();
 		$('#thankyouDialog').jqmAddClose('.closeClass');
-		$('#recipient').val('<?php echo $u->screen_name; ?>');
-		$('#recipient_id').val('<?php echo $u->id; ?>');
-		$('#recipient_email').val('<?php echo $u->email; ?>');
+		$('#reviewed').val('<?php echo $u->screen_name; ?>');
+		$('#reviewed_id').val('<?php echo $u->id; ?>');
+		$('#reviewed_email').val('<?php echo $u->email; ?>');
 		$('#thankyouform').ajaxForm({
 				dataType: 'json',
 				url: "<?php echo base_url().'people/thankyou';?>",
-				success: function() {
-					console.log(responseText);
+				success: function(data) {
+					console.log(data+'whtthehell');
 				}
 		});
+		
 	};
 
 
