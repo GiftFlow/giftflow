@@ -664,5 +664,52 @@ class People extends CI_Controller {
 			$this->session->set_flashdata('success', 'Offer sent!');
 			redirect('people/'.$_POST['decider_id']);
 		
+	
+	
 	}
+
+	/** 
+	 * The thank you function is for the Thank you button on the user profile
+	 * The idea is to enable users to write quick reviews for one another without
+	 * needing to go through the whole transaction process
+	 */
+	function thankyou() 
+	{
+		if(!empty($_POST))
+		{
+			$R = new Review();
+			$R->reviewer_id = $this->data['logged_in_user_id'];
+			$R->reviewed_id = $_POST['reviewed_id'];
+			$R->body = $_POST['body'];
+			if(!$R->save())
+			{
+				return FALSE;
+			}
+
+
+			//@todo set up hook with notification etc
+			$answer = "muhgahahahahahahahahahahahahaha";
+			$real = json_encode($answer);
+			return $real;
+		}
+		else {
+			redirect('you');
+		}
+
+	}
+
+	function thankyouform()
+	{
+		$options = array();
+
+		if(!empty($_REQUEST['recipient_name']))
+		{
+			$options['recipient_name'] = $_REQUEST['recipient_name'];
+		}
+
+		$form = $this->load->view('forms/thankyou',$options);
+	}
+
+
+
 }
