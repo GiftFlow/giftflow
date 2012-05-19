@@ -1957,4 +1957,7 @@ ul.thumbnails.photos-list li img {
 }
 ul.thumbnails.photos-list li p.caption {
 	margin-top: 10px;
+}.thank_title {
+	font-weight:bold;
+	font-size: 16px;
 }

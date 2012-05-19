@@ -24,6 +24,7 @@ class People extends CI_Controller {
 		$this->load->library('Search/User_search');
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/Transaction_search');
+		$this->load->library('Search/Review_search');
 		
 		if(!empty($this->data['logged_in_user_id']))
 		{
@@ -343,7 +344,14 @@ class People extends CI_Controller {
 		
 		// Generate stats about the user
 		$U->stats();
-		
+
+		//Load user's thank yous - transactions without goods or demands
+		$R = new Review_search();
+		$review_options = array('user_id' => $U->id);
+		//to be appended to gifts_given list in view
+		$this->data['reviews'] = $R->find($review_options);
+
+
 		// Load user's completed Transactions - to get reviews
 		$T_s = new Transaction_search();
 		$search_options = array(
@@ -392,6 +400,7 @@ class People extends CI_Controller {
 				}
 			}
 		}
+
 		//Load gifts for "Give to" panel
 		if(!empty($this->data['logged_in_user_id']))
 		{
@@ -677,21 +686,28 @@ class People extends CI_Controller {
 	{
 		if(!empty($_POST))
 		{
+
+			$T = new Transaction();
+			$T->status = 'completed';
+			if(!$T->save())
+			{
+				$this->output->set_ouput(0);
+			}
+			
 			$R = new Review();
-			$R->reviewer_id = "38";
-			$R->reviewed_id ="36";
+			$R->reviewer_id = $this->data['logged_in_user_id'];
+			$R->reviewed_id = $_POST['reviewed_id'];
 			$R->body = $_POST['body'];
-			$R->transaction_id = '67';
+			$R->transaction_id = $T->id;
 			$R->rating = 'positive';
 			if(!$R->save())
 			{
-				$this->output->set_output('Error, Review failed to save');
-			}else {
-				$this->output->set_output("Success! Review saved");
+				$this->output->set_output(0);
+			} else {
+				$this->output->set_output(1);
 			}
 
-		}
-		else {
+		} else {
 			redirect('you');
 		}
 
