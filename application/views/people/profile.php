@@ -271,7 +271,7 @@ if(!$active) { echo "DISABLED"; }
 				</a> 
 			<?php } else { ?>
 				<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='button' id='follow_this'>
-					Follow
+				Follow
 				</a>
 			<?php } ?>
 		<?php } ?>
@@ -280,7 +280,7 @@ if(!$active) { echo "DISABLED"; }
 	<!-- thank you button that triggers modal dialog form -->
 	<div class='profile_item'>
 		<a class='button jqModal' id='thankyou'>
-			Send <?php echo $u->first_name; ?> a Thank you
+			Thank 
 		</a>
 	</div>
 	<!-- modal dialog form opened up by thankyou button -->
@@ -350,17 +350,24 @@ if(!$active) { echo "DISABLED"; }
 <script type='text/javascript'>
 $(function(){
 
+
+	//Script for thankyou Modal dialog
 	var setFormData = function(field) {
 		$('.button').button();
 		$('#thankyouDialog').jqmAddClose('.closeClass');
-		$('#reviewed').val('<?php echo $u->screen_name; ?>');
+		$('#reviewed').html('<?php echo $u->screen_name; ?>');
 		$('#reviewed_id').val('<?php echo $u->id; ?>');
 		$('#reviewed_email').val('<?php echo $u->email; ?>');
 		$('#thankyouform').ajaxForm({
 				dataType: 'json',
 				url: "<?php echo base_url().'people/thankyou';?>",
 				success: function(data) {
-					console.log(data+'whtthehell');
+					if(data>0) {
+						$('#thankyouwrapper').html('Success. Thank you note sent!');
+					} else {
+						$('#errortext').text('Error sending note. Please try again');
+					}
+					setTimeout("$('#thankyouDialog').jqmHide()", 500);
 				}
 		});
 		
@@ -372,7 +379,7 @@ $(function(){
 		trigger:'a#thankyou',
 		onLoad: setFormData
 	});
-
+	//end Thankyou Dialog
 
 
 	$('.follow').hide();

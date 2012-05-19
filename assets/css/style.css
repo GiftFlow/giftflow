@@ -2259,6 +2259,10 @@ ul.simplePagerNav li.currentPage a{
 	padding: 0.2em 0.7em 0.2em 2.4em;
 	font-size: 14px;
 }
+#thankyou {
+	width:246px;
+	font-size:14px;
+}
 input.ui-button, input.ui-button.ui-state-active, a.ui-button, a.ui-button.ui-state-active{
 	font-size: 16px !important;
 	text-shadow: #FFF 1px 1px;
@@ -2897,4 +2901,7 @@ span.event_summary {
   margin: -10px 0px 10px 0px;
 }
 
-
+.thank_title {
+	font-weight:bold;
+	font-size: 16px;
+}
