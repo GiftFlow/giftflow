@@ -15,11 +15,14 @@ class Member extends CI_Controller {
 		$this->load->library('Search/User_search');
 		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
+		$this->config->load('account', TRUE);
+		$fbook = $this->config->config['account'];
+
 		//load the facebook sdk
 		require_once('assets/facebook/facebook.php');
 		$config = array (	
-			"appId"=>'111637438874755',
-			"secret"=>'797a827203a1ad62cace9fa429100567',
+			"appId"=> $fbook['appId'],
+			"secret"=> $fbook['secret'],
 			"fileUpload"=>true
 		);
 		$this->facebook = new Facebook($config);
