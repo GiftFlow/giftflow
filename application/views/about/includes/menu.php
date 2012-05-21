@@ -3,18 +3,13 @@
 		<img alt="About" src="<?php echo base_url();?>assets/images/headings/about_menu.png">
 	</li>
 	<li <?php if((empty($segment[2])&&$segment[1]!="donate") || $segment[2]=='index'){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('about');?>'> 
-			Intro
+		<a href='<?php echo site_url('about/faq');?>'> 
+			FAQ
 		</a>
 	</li>
 	<li <?php if($segment[2]=='tour'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('about/tour');?>'> 
 			The Tour
-		</a>
-	</li>
-	<li <?php if($segment[2]=='faq'){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('about/faq');?>'> 
-			FAQ
 		</a>
 	</li>
 	<li <?php if($segment[2]=='story'){ echo  "class='active'"; } ?>>
@@ -32,9 +27,14 @@
 			Donate
 		</a>
 	</li>
-  <li <?php if($segment[2] =='finances') { echo "class='active'"; }?>>
-    <a href='<?php echo site_url('about/finances');?>'>
-    Finances
+  	<li <?php if($segment[2] =='transparency') { echo "class='active'"; }?>>
+   	 <a href='<?php echo site_url('about/transparency');?>'>
+   		 Transparency
+    </a>
+  </li>
+  <li <?php if($segment[2] =='thankyou') { echo "class='active'"; }?>>
+   	 <a href='<?php echo site_url('about/thankyou');?>'>
+   		 Thank You
     </a>
   </li>
 </ul>
