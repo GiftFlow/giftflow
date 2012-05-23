@@ -230,12 +230,12 @@ class Auth
 		);
 						
 		// Determine appropriate photo thumbnail source, then add to userdata
-		if($this->U->photo_source=="facebook" && !empty($this->U->facebook_id) && empty($this->U->default_photo))
+		if($this->U->photo_source=="facebook" && !empty($this->U->facebook_id))
 		{
 			$userdata['photo_thumb_url'] = "http://graph.facebook.com/".$this->U->facebook_id."/picture?type=square";
 			$userdata['photo_url'] = "http://graph.facebook.com/".$this->U->facebook_id."/picture?type=large";
 		}
-		elseif(!empty($this->U->default_photo->thumb_url)&&!empty($this->U->default_photo->url))
+		elseif($this->U->photo_source == 'giftflow' && !empty($this->U->default_photo->thumb_url) && !empty($this->U->default_photo->url))
 		{
 			$userdata['photo_thumb_url'] = base_url().$this->U->default_photo->thumb_url;
 			$userdata['photo_url'] = base_url().$this->U->default_photo->url;

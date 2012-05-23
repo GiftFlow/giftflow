@@ -5,6 +5,7 @@ class Member extends CI_Controller {
 	var $data;
 	var $U;
 	var $code;
+	var $facebook;
 	
 	function __construct()
 	{
@@ -14,6 +15,18 @@ class Member extends CI_Controller {
 		$this->load->library('Search/User_search');
 		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
+		$this->config->load('account', TRUE);
+		$fbook = $this->config->config['account'];
+
+		//load the facebook sdk
+		require_once('assets/facebook/facebook.php');
+		$config = array (	
+			"appId"=> $fbook['appId'],
+			"secret"=> $fbook['secret'],
+			"fileUpload"=>true
+		);
+		$this->facebook = new Facebook($config);
+
 	}
 
 	function index()
@@ -28,9 +41,22 @@ class Member extends CI_Controller {
 	*/
 	function login( $redirect = FALSE )
 	{
+
+		$user = $this->facebook->getUser();
+		//facebook authorized
+		if($user > 0)
+		{
+			$user_info = $this->facebook->api('/me','GET');
+			$user_info['token'] = $this->facebook->getAccessToken();
 		
+			$userJson = json_encode($user_info);
+			$userObj = json_decode($userJson);
+
+			$this->auth->facebook($userObj);
+		}
+
 		// If form data POST is here, process login
-		if(!empty($_POST))
+		else if(!empty($_POST))
 		{
 			$this->U = $this->auth->login();
 			
@@ -83,6 +109,17 @@ class Member extends CI_Controller {
 	function register()
 	{
 		$this->load->library('recaptcha');
+
+		if(!empty($_GET['code']))
+		{
+			$user_info = $this->facebook->api('/me','GET');
+			$user_info['token'] = $this->facebook->getAccessToken();
+		
+			$userJson = json_encode($user_info);
+			$userObj = json_decode($userJson);
+
+			$this->auth->facebook($userObj);
+		}
 
 		// If form data is present, save new user
 		if(!empty($_POST))
@@ -303,6 +340,14 @@ class Member extends CI_Controller {
 	
 	protected function _login_form()
 	{
+		$params = array(
+			'scope' => 'email, user_photos, publish_stream',
+			'redirect_uri' => 'http://mvp.giftflow.org/member/login'
+		);
+
+		$loginUrl = $this->facebook->getLoginUrl($params);
+
+		$this->data['fbookUrl'] = $loginUrl;
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['title'] = "Login";
 		$this->load->view('header', $this->data);
@@ -312,6 +357,14 @@ class Member extends CI_Controller {
 
 	protected function _register_form()
 	{
+		$params = array(
+			'scope' => 'email, user_photos, publish_stream',
+			'redirect_uri' => 'http://mvp.giftflow.org/member/register'
+		);
+
+		$this->data['registerUrl'] = $this->facebook->getLoginUrl($params);
+
+
 		if(empty($this->U))
 		{
 			$this->U = new User();
@@ -350,42 +403,46 @@ class Member extends CI_Controller {
 		$this->load->view('member/reset_success', $this->data);
 		$this->load->view('footer', $this->data);
 	}
-	
 
-	function facebook( $key1 = null, $val1 = null, $key2 = null, $val2 = null )
+	function fakebook()
 	{
-		// Handles the initial facebook connect request. Redirects user to Facebook's OAuth 
-		// page. The data will be returned to /assets/facebook.php.
-		if(empty($key1))
-		{
-			$config = array (	
-				"client_id"=>111637438874755,
-				"scope" => "offline_access,user_location,user_photos,email,publish_stream",
-				"redirect_uri"=>"http://www.giftflow.org/assets/facebook.php" 
-			);
-			
-			redirect("https://graph.facebook.com/oauth/authorize?".http_build_query($config));
-		}
+		die('here');
+	}
+
+
+	function facebook($data)
+	{
+		//$user = $this->facebook->getUser();
 		
-		// Once the user has been authorized, this code parses the authorization code and sends 
-		// the necessary data to the Auth class.
-		else
-		{
-			$access = $key1.'='.$val1;
-			if(!empty($key2)&&!empty($val2))
-			{
-				$access .= $key2.'='.$val2;
-			}
-			$facebook_data = json_decode(file_get_contents("https://graph.facebook.com/me?".$access));
-			
-			if($key1=="access_token")
-			{
-				$facebook_data->token = $val1;
-			}
-			
-			$this->auth->facebook($facebook_data);
+		//$accessToken = $this->facebook->getAccessToken();
+		
+
+		if($user) {
+		//	$user_info = $this->facebook->api('me?fields=id,name,first_name,last_name&access_token='.$accessToken);
+		//	var_dump($user_info);
 		}
-	}	
+		echo('herere');
+
+
+
+	}
+		// the necessary data to the Auth class.
+//		else
+//		{
+//			$access = $key1.'='.$val1;
+//			if(!empty($key2)&&!empty($val2))
+//			{
+//				$access .= $key2.'='.$val2;
+//			}
+//			$facebook_data = json_decode(file_get_contents("https://graph.facebook.com/me?".$access));
+//			
+//			if($key1=="access_token")
+//			{
+//				$facebook_data->token = $val1;
+//			}
+//			
+//			$this->auth->facebook($facebook_data);
+
 	function terms()
 	{
 		$this->data['title'] = "Terms of Service";

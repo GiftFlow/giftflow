@@ -7,7 +7,6 @@
 */
 $config['ssl_enabled'] = FALSE;
 
-/*
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +40,16 @@ $config['openid_request_to'] = $config['openid_site_root'] . '/account/link/goog
 
 $config['oauth_google_consumer_key'] = 'www.giftflow.org';
 $config['oauth_google_consumer_secret'] = 'duDnVtmvXVBYFB53VJK2VdVY';
+
+/*
+|--------------------------------------------------------------------------
+|Facebook
+|--------------------------------------------------------------------------
+ */
+
+$config['appId'] = '';
+$config['secret'] = '';
+$config['fileUpload'] = TRUE;
 
 
 		
