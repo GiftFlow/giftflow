@@ -583,8 +583,8 @@ class Goods extends CI_Controller {
 			"decider_id" => $_POST['decider_id']
 		);
 		
-		// Make request
-		if(!$this->market->create_transaction($options))
+		// Make request, function returns the transaction id
+		if($this->market->create_transaction($options) == 0 )
 		{
 			// @todo handle request failure
 			return FALSE;
