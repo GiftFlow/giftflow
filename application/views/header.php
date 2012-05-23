@@ -17,6 +17,7 @@
 	?>
 
 	<title>GiftFlow | <?php echo $title; ?></title>
+	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/bootstrap/bootstrap.min.css' />
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/style.css' />
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/silver/jquery-ui.php' />
 	
@@ -48,6 +49,7 @@ if(isset($css))
 <?php } else { ?>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <?php } ?>
+<script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
 
 <!-- Javascript UI Compilation -->
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/ui.php"></script>
