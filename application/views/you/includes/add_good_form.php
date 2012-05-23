@@ -59,5 +59,5 @@
 </tr>
 </table>
 <input type="hidden" name="type" value="<?php echo $type; ?>"/>
-<input type='submit' value='Add <?php echo $type; ?>'>
+<input type='submit' class="btn" value='Add <?php echo $type; ?>'>
 </form>

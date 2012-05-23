@@ -5,8 +5,8 @@
 	
 	<div class='right_content'>
      <span id='quick_buttons'>
-     <a class='button' href='<?php echo site_url()."you/add_good/?type=gift";?>'> Add a Gift</a>
-     <a class='button' href='<?php echo site_url()."you/add_good/?type=need"; ?>'> Add a Need</a>
+     <a class='button btn' href='<?php echo site_url()."you/add_good/?type=gift";?>'> Add a Gift</a>
+     <a class='button btn' href='<?php echo site_url()."you/add_good/?type=need"; ?>'> Add a Need</a>
       </span>
 		<!-- GiftFlow module -->
 			<div id='dash_map'>
@@ -49,8 +49,7 @@
 <script type='text/javascript'>
 $(function(){
 	$(".tip").tipTip( { delay: 0, fadein: 0, defaultPosition: 'top' } );
-	$(".button").button();
-	$('#your_profile').button();
+
 	$("ul.invite_grid li").click(function(){ $(this).toggleClass('selected'); });
 	$("#giftflow_results").buttonTabs( { onLoad: function() {
 		var ul = $("#goods_includes_results");

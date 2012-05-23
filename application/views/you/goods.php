@@ -4,7 +4,7 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
-		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="button">Add a <?php echo ucfirst($type); ?></a>
+		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="button btn">Add a <?php echo ucfirst($type); ?></a>
 		<?php if(!empty($goods)) { ?>
 			<ul class ="transactions goods_list list_menu float_right">
 				<?php 
@@ -15,7 +15,7 @@
 						{?>
 							<li class="clearfix">
 								<div class='list_controls' >
-									<a href="#" class="button left options secondary" style='height: 2.2em;'></a>
+									<a href="#" class="button btn left options secondary" style='height: 2.2em;'></a>
 									<ul class='tooltip_menu'>
 										<li>
 											<a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit');?>" >
@@ -88,7 +88,6 @@ $(function(){
   };
 
 	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
-	$(".button").button();
 	
 	$(".button.options").button({
 		icons: {
@@ -120,7 +119,6 @@ $(function(){
 		trigger: '.edit', 
 		onLoad: function(){
 			$('#edit_location').jqmAddClose('#close_this'); 
-			$("input:submit").button();
 			$("button").button();
 		} 
 	});

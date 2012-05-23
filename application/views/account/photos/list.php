@@ -62,7 +62,7 @@
 					
 					<p>
 						<input type="hidden" name="form_type" value="choose" />
-						<input type='submit' class="button" value='Save' />
+						<input type='submit' class="button btn" value='Save' />
 					</p>
 				</form>
 		</div>

@@ -15,19 +15,19 @@
 				<div class="welcome_block" id="gifts" >
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
 					<p>What do you want to give? A helping hand? An expert opinion? Handmade jewerly? It's all up to you.</p>
-					<p><a href="<?php echo site_url('you/gifts/add');?>"  class="button">Add a Gift</a></p>
+					<p><a href="<?php echo site_url('you/gifts/add');?>"  class="button btn">Add a Gift</a></p>
 				</div>
 				
 				<div class="welcome_block" id="needs">
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
 				 <p>What do you need? Help in your garden? A pair of gloves? Don't be afraid to ask.</p>
-				 <p><a href="<?php echo site_url('you/needs/add');?>"  class="button">Add a Need</a></p>
+				 <p><a href="<?php echo site_url('you/needs/add');?>"  class="button btn">Add a Need</a></p>
 				</div>
 					
 				<div class="welcome_block" id="people">
 					<img src="<?php echo base_url();?>assets/images/user.png" style="width:150px;"/>
 					<p>Who is using GiftFlow near you? Invite your friends and build a network of giving in your community.</p>
-					<p><a href="<?php echo site_url('account'); ?>" class="button">Complete your Profile</a></p>
+					<p><a href="<?php echo site_url('account'); ?>" class="button btn">Complete your Profile</a></p>
 				</div>
 				
 			</div><!-- close welcome_three-->
@@ -40,7 +40,7 @@
 					<p>Place yourself in our community by entering your zip code below.</p>
 						<form method="post" id="location_form" action="<?php echo site_url('account/locations/add');?>" name="enter location">
 							<input type="text" name="location"/>
-							<input type="submit" value="Add Location" class="button"/>
+							<input type="submit" value="Add Location" class="button btn"/>
 						</form>
 				</div><!-- close add_location-->
 				<div id="location_added" style="display:none;">
@@ -71,7 +71,7 @@
 			</div><!-- close hyperlocal -->	
 			<div id="skip_welcome">
 				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
-						<input type=submit class="button" value='Hide this page at log-in' style="height:25px; font-size:12px !important;"/>
+						<input type=submit class="button btn" value='Hide this page at log-in' style="height:25px; font-size:12px !important;"/>
 						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
 				</form>
 				</div>
@@ -86,7 +86,6 @@
 $(function(){
 
 	var ul = $('#results');
-	$(".button").button();
 	
 	var base_url = '<?php echo site_url(); ?>';
 	

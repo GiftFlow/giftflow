@@ -151,13 +151,11 @@ $(function(){
 		return false;
 	});
 
-	$(".button").button();
   $('#options').buttonset();
 	$(".follow").button( { icons: { primary: 'ui-icon-plusthick'}   } );
 	$("#community_sources").buttonTabs();
   
 	$("a#already_following").button({ icons: { primary: 'ui-icon-check' } } );
-	$("a.button").button();
 	
 	function paginate(){
 		$("ul.simplePagerNav").remove();

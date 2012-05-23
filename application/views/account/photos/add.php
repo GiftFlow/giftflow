@@ -8,10 +8,9 @@
 <p><label>Select a photo</label>
 <input type='file' name='userfile' />
 </p>
-<input type='submit' value='Upload Photo' />
+<input type='submit' class='btn' value='Upload Photo' />
 </form>
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
 });
 </script>

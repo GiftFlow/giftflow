@@ -63,7 +63,7 @@
 		 <div class="module bottom">
             <form method="post" id="add_form" name="add_location" action="<?php echo site_url('account/locations/add'); ?>">
                 <input type="text" name="location" class="required" />
-                <input type="submit" value="Add" id="add_location"/>
+                <input type="submit" class="btn" value="Add" id="add_location"/>
             </form>
         </div> 
 	</div>
@@ -74,7 +74,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("#add_form").button();
 	$('#add_form').validate();
 	$(".button.options").button({
 		icons: {
@@ -106,8 +105,6 @@ $(function(){
 		trigger: '.edit', 
 		onLoad: function(){
 			$('#edit_location').jqmAddClose('#close_this'); 
-			$("input:submit").button();
-			$("button").button();
 		} 
 	});
 });

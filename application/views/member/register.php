@@ -69,7 +69,7 @@
 		<a href="<?php echo site_url('member/terms'); ?>">Terms of Service </a>
 		</p>
 		<p>
-			<input type="submit" value="Sign Up" />
+			<input type="submit" class="btn" value="Sign Up" />
 		</p>
 	</form>
 </td>
@@ -78,7 +78,6 @@
 <?php //echo $facebook_sdk; ?>
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
 	$("#register").validate({
 		rules: { 
 			confirm_password: {

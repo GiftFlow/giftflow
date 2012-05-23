@@ -8,7 +8,7 @@
 	<form action="<?php echo site_url('account/delete_user'); ?>" method="post">
 	<p>Please take a moment to tell us why you are deleting your account:</p>
 	<textarea name='reason'></textarea>
-	<input type='submit' name='delete' value='Please delete my account' id='delete_button'/>
+	<input type='submit' name='delete' class='btn' value='Please delete my account' id='delete_button'/>
 
 	</form>		
 
