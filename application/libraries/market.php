@@ -95,8 +95,7 @@ class Market
 		// Save Transaction
 		if(!$Transaction->save())
 		{
-			// @todo handle transaction saving error
-			return FALSE;
+			show_error('Error saving transaction');
 		}
 	
 		// Person not demanding Good. Passed in $options seperate from $demands
@@ -109,12 +108,13 @@ class Market
 		foreach($options['demands'] as $key=>$val)
 		{
 
-			// Good being requested
+			// Good being requested, include disabled goods!
 			$Good_search = new Good_search;
 			$Good = $Good_search->get(array(
 				"good_id"=>$val['good_id']
 			));
-			
+
+
 			//Set message passed in demand
 			if(!empty($val['note']) && empty($this->note))
 			{
@@ -147,7 +147,7 @@ class Market
 		// Before saving demands, validate that a Decider has been found
 		if(empty($this->Decider))
 		{
-			return FALSE;
+			show_error('Error finding Decider');
 		}
 		
 		// Save each Demand in $this->Demands array
@@ -155,8 +155,7 @@ class Market
 		{
 			if(!$val->save())
 			{
-				// @todo handle demand saving error
-				return FALSE;
+				show_error('Error saving demands array');
 			}
 		}
 	
@@ -164,14 +163,12 @@ class Market
 		// Creates 2 rows in transactions_users table
 		if(!$Transaction->save_user($this->Demander))
 		{
-			// @todo handle user saving error
-			return FALSE;
+			show_error('Error saving Demander to transaction');
 		}
 			
 		if(!$Transaction->save_user($this->Decider))
 		{
-			// @todo handle user saving error
-			return FALSE;
+			show_error('Error saving Decider to transaction');
 		}
 		if(!empty($this->note))
 		{
