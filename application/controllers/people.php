@@ -40,7 +40,7 @@ class People extends CI_Controller {
       'exclude_logged_in_user'=>TRUE
     );
 
-		$newest_search = new User_search();
+    $newest_search = new User_search();
 		$this->data['results'] = $newest_search->find($newest_options);
 
 		$this->data['title'] = "People";	
@@ -684,25 +684,80 @@ class People extends CI_Controller {
 	 */
 	function thankyou() 
 	{
+		$this->auth->bouncer('1');
+		$this->load->library('market');
 		if(!empty($_POST))
 		{
+			
+			$G = new Good();
+			$G->title = $_POST['thankyou_gift'];
 
-			$T = new Transaction();
+			//description field is not included in the thankyou form for brevity's sake
+			$G->description = $_POST['thankyou_gift'];
+			
+			//to prevent the good from showing up on their profile		
+			$G->status ='disabled';
+
+			if(!$G->save())
+			{
+				$this->output->set_output(0);
+			}
+			//Now populate parameters to send to market library
+			//note this structure is maintained to allow for multiple demands to one transaction
+			$trans_options = array (
+				"demands" => array (
+					array(
+						"user_id" => $this->data['logged_in_user_id'],
+						"good_id" => $G->id,
+						"type" => "take",
+						"note" => $_POST['body'],
+						'hook' => 'hook'
+					)
+				),
+				"decider_id" => $_POST['reviewed_id']
+			);
+
+			//create_transaction returns the transaction_id, unless there is an error, then it returns 0
+			$new_trans_id = $this->market->create_transaction($trans_options);
+
+			$string = var_dump($new_trans_id);
+			$this->output->set_output($string);
+			return $string;
+
+			if(!$new_trans_id > 0 )
+			{
+				show_error('Error creating transaction'.$new_trans_id);
+			}
+
+			$T = new Transaction($new_trans_id);
 			$T->status = 'completed';
 			if(!$T->save())
 			{
-				$this->output->set_ouput(0);
+				show_error('Error saving transaction status');
 			}
-			
-			$R = new Review();
-			$R->reviewer_id = $this->data['logged_in_user_id'];
-			$R->reviewed_id = $_POST['reviewed_id'];
-			$R->body = $_POST['body'];
-			$R->transaction_id = $T->id;
-			$R->rating = 'positive';
-			if(!$R->save())
+
+			//create options array for new review
+			$rev_options = array (
+				'transaction_id' => $new_trans_id,
+				'message' => 'not sure what this is',
+				'review' => $_POST['body'],
+				'rating' => 'positive',
+				'reivewer_id' => $this->data['logged_in_user_id'],
+				'reviewed_id' => $_POST['reviewed_id']
+			);
+
+			$string = 'NEW TRANS ID ='.$new_trans_id;
+			foreach($rev_options as $key=>$val)
 			{
-				$this->output->set_output(0);
+				$string .= $key.'   '.$val.'    ';
+			}
+
+			$this->output->set_output($string);
+			return $string;
+
+			if(!$this->market->review($rev_options))
+			{
+				$this->output->set_output('0');
 			} else {
 				$this->output->set_output(1);
 			}
