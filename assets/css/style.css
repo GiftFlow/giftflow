@@ -657,39 +657,7 @@ a.tag:hover{
 textarea{
 	width: 100%;
 }
-ul.inbox{
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	width: 660px;
-}
-ul.inbox input[type=checkbox]{
-	float: right;
-	margin-right: 20px;
-}
-ul.inbox li {
-	padding: 20px 6px;
-	border-bottom: 1px solid #ccc;
-}
-ul.inbox .inbox_left{
-	float: left;
-	width: 200px;
-}
-ul.inbox .recipients a{
-	text-decoration: none;
-	color: #4981CE;
-	font-size: 14px;
-}
-ul.inbox .date {
-	display: block;
-	color: #aaa;
-	font-size: 12px;
-}
-ul.inbox .title a{
-	text-decoration: none;
-	color: #4981CE;
-	font-size: 18px;
-}
+
 table { 
 	border-collapse: collapse;
 }
@@ -712,6 +680,7 @@ table.form td.label {
 	vertical-align:top;
 	font-size: 14px;
 	color: #333;
+	background-color: #FFF;
 }
 table.form label{
 	color: #333;
@@ -781,98 +750,7 @@ form.big input[type=text] {
 	width: 100%;
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 }
-#find_top{
-	margin-top: 20px;
-}
-#find_heading{
-	float: left;
-	margin: 3px 25px 0 0;
-	width: 125px;
-}
-#find_form .field { 
-	position:relative;
-	float: left;
-	margin-right: 25px;
-}
-#find_form .field label{
-	position:absolute;
-	margin: 13px 12px;
-	color: #CCC;
-	font-size: 24px;
-	font-weight: 300;
-}
-#find_form .field input{
-	font-size: 24px;
-	color: #333;
-	padding: 12px 10px 8px;
-	width: 301px;
-	border: 1px solid #AAA;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-}
-#find_form #find_what{
-	margin-right: 10px;
-}
-#find_form ul#find_type_buttons{
-	list-style: none;
-	padding: 0;
-}
-#find_form ul#find_type_buttons li{
-	float: left;
-}
-#find_form ul#find_type_buttons li a{
-	color: #CCC;
-	background: #FFF;
-	padding: 5px 10px;
-	margin: 0 5px 0 0;
-	width: auto;
-	display: block;
-	font-weight: bold;
-	border: 1px solid #CCC;
-	cursor: pointer;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-#find_form ul#find_type_buttons li a.active{
-	color: #FFF;
-	background: #65B15B;
-	border: 1px solid #65B15B;
-}
-#find_form #find_radius{
-	margin-top: 17px;
-}
-#find_form #find_type{
-	margin-top: 17px;
-}
-#find_form #find_radius #label{
-	color: #CCC;
-}
-#find_form #find_radius #value{
-	color: #65B15B;
-}
-#find_form #find_submit input{
-	width: 120px;
-	height: 50px;
-}
-#find_content{
-	margin-top: 30px;
-}
-#find_map {
-	background-color:#E5E3DF;
-	display:block;
-	height:400px;
-	overflow:hidden;
-	position:relative;
-	width:465px;
-	z-index:0;
-	display: none;
-	margin: 0 7px 0 15px;
-	float: right;
-}
-#find_results{
-	float: left;
-	width:465px;
-}
+
 /* for events in activity feed */
 ul.events_list {
   list-style:none;
@@ -1166,42 +1044,21 @@ a.user_image.medium img, ul.results_list.users a.user_image.medium img{
 }
 
 
-
-/*
-* Photo Section
-*/
-
-/* List */
-.photo_list {
-	float: left;
-	display: block;
-	width: 200px;
-	margin-right: 25px;
-}
-.photo_list img{
-	max-width: 192px;
-}
-/* Edit */
-#photo_edit_left{
+/* Edit Photos */
+#photo_edit_left, #photo_edit_right{
 	width: 400px;
 	float: left;
+}
+#photo_edit_left{
 	margin-right:40px;
 }
 #photo_edit_left img {
 	max-width: 400px;
 }
-#photo_edit_right{
-	width: 400px;
-	float: left;
-}
-
-
 #go_back .ui-button-text{
 	padding:2px 12px 1px 30px;
 	font-weight: normal;
 }
-
-
 #dash_header{
 	margin: 20px 0 0;
 	height: 60px;
@@ -1212,48 +1069,8 @@ a.user_image.medium img, ul.results_list.users a.user_image.medium img{
 #dash_header img.heading{
 	margin-top: 12px;
 }
-
-ul.your_feed{
-	list-style: none;
-	border-top: 1px solid #ccc;
-	margin: 0;
-	padding: 0;
-	clear: both;
-}
-ul.your_feed li{
-	border-bottom: 1px solid #ccc;
-	padding: 12px;
-}
-ul.your_feed li a{
-	text-decoration: none;
-	color: #000;
-}
-.request_recipient, .request_reason, .request_meta{
-	max-width:328px
-}
-.request_recipient{
-	font-weight: bold;
-	text-decoration: none;
-	font-size: 1.4em;
-}
-.request_meta, .request_reason{
-	color: #999;
-	font-size: 13px;
-}
-.request_reason_text{
-	display:block;
-	font-family:georgia;
-	font-size:16px;
-	font-style:italic;
-	padding: 10px 0;
-}
-
 textarea#bio{
 	height: 250px;
-}
-
-#upload_photo_form{
-	margin: 0px;
 }
 #upload_photo{
 	clear: both;
@@ -1265,56 +1082,6 @@ textarea#bio{
 #upload_photo h3{
 	margin-top: 0px;
 }
-ul#edit_good_photos{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	margin-bottom: 20px;
-}
-ul#edit_good_photos li{
-	float: left;
-	margin-right: 10px;
-	padding: 10px;
-	background: #eee;
-	margin-bottom: 10px;
-	
-}
-ul#edit_good_photos li img{
-	width: 145px;
-	
-}
-ul#edit_good_photos li .edit_dialog{
-	display: none;
-}
-ul#edit_good_photos li:hover{
-	background: black;
-}
-ul#edit_good_photos li:hover .edit_dialog{
-	display: block;
-	height: 110px;
-	padding: 20px;
-	background: url('../images/transparent_80_000.png') repeat;
-	margin-top: -150px;
-	position: absolute;
-	width: 105px;
-}
-ul#edit_good_photos li:hover .edit_dialog a{
-	text-decoration: none;
-	font-size: 12px;
-	color: #ccc;
-	background: #444;
-	display: block;
-	float: left;
-	margin-bottom: 5px;
-	padding: 7px 10px 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-ul#edit_good_photos li:hover .edit_dialog a:hover{
-	color: #fff;
-}
-
-
 #your_locations{
 	background: #fff;
 	border: 1px solid #aaa;
@@ -1433,21 +1200,6 @@ a#nonprofit_link{
 	padding:4px 8px 2px;
 	text-decoration:none;
 }
-#index_left{
-	float: left;
-	margin-right: 80px;
-	margin-top: 50px;
-}
-#index_right{
-	float: left;
-	margin-top: 50px;
-	padding-top: 20px;
-}
-
-#index_right p .green{
-	color: green;
-	font-weight: bold;
-}
 #login{
 	margin: 0 auto;
 	display: block;
@@ -1475,13 +1227,7 @@ a#nonprofit_link{
 #recaptcha_table td{
 	padding: 0px;
 }
-p.nicebigtext{
-	font-weight: 300;
-	line-height: 32px;
-	font-size: 22px;
-	color: #666;
-}
-ul.nicebigtext{
+p.nicebigtext, ul.nicebigtext{
 	font-weight: 300;
 	line-height: 32px;
 	font-size: 22px;
@@ -1521,26 +1267,6 @@ li p.nicebigtext{
 	width:160px;
 	padding-left:20px;
 }
-#the_team tr td{
-	vertical-align: top;
-}
-#the_team img{
-	max-width: 60px;
-	margin-right: 15px;
-	margin-bottom: 20px;
-}
-#the_team td .name{
-	font-weight: 300;
-	margin-right: 50px;
-}
-#the_team td .position{
-	color: #666;
-	font-style: italic;
-	display: block;
-	margin-top: 4px;
-	font-size: .8em;
-	font-weight: 300;
-}
 
 #register label.error, #login label.error{
 	color: #FF6A6A;
@@ -1556,20 +1282,6 @@ p#service{
   font-size:18px;
 }
 
-ul#index_intro{
-	list-style: none; 
-	font-size: 30px; 
-	font-weight: 300;
-	margin: 30px 0px 0px;
-	padding: 0;
-}
-ul#index_intro li{
-	margin-bottom: 10px;
-}
-ul#index_intro li .green{
-	color: #65b15b;
-	font-weight: bold;
-}
 p .green{
 	color: #65b15b;
 	font-weight: bold;
@@ -1632,68 +1344,6 @@ img#locations_map{
 .module{
 	width: 610px;
 	float: left;
-}
-ul.invite_grid{
-	padding: 0px;
-	margin: 0px;
-	list-style: none;
-}
-ul.invite_grid li{
-	float: left;
-	width: 120px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	border: 1px solid #EEE;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	cursor: pointer;
-	padding: 10px;
-	width: 135px;
-	height: 52px;
-}
-ul.invite_grid li:hover{
-	background: #FFF;
-	border: 1px solid #66cc33;
-}
-ul.invite_grid li img{
-	float: left;
-	margin-right: 10px;
-	border: none;
-}
-ul.invite_grid li.selected{
-	width: 133px;
-	background: #DEFFD8;
-	border: 2px solid #66cc33;
-	height: 50px;
-}
-ul.invite_grid li  .ui-icon{
-	display: none;
-}
-ul.invite_grid li.selected .ui-icon{
-	display:block;
-	float:right;
-	margin-left:120px;
-	margin-top:38px;
-	position:absolute;
-	background: url("images/ui-icons_FFFFFF_256x240.png")
-}
-ul.invite_grid li .name{
-	color: #000;
-	font-size: 12px;
-	float: left;
-	border-bottom: none;
-	width: 68px;
-}
-ul.invite_grid.list li .name{
-	display: none;
-}
-ul.invite_grid.list li{
-	padding: 0;
-	border: none;
-	cursor: auto;
-	width: 50px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
 }
 ul#you_menu{
 	list-style: none;
@@ -1762,7 +1412,6 @@ ul#you_menu li:hover ul, ul#you_menu:hover li ul{
 	margin-left: -26px;
 	z-index: 1000;
 	-moz-box-shadow: 0 3px 7px #CCCCCC;
-
 }
 ul#you_menu li:hover ul li{
 	float: none;
@@ -1968,6 +1617,7 @@ ul.breadcrumbs li a{
 	text-shadow: 0 1px 0 #FFFFFF;
 	font-weight: normal;
 	margin: 0;
+	line-height: 20px;
 }
 .sidebar .bottom, .module .bottom{
 	height: 6px;
@@ -2125,73 +1775,6 @@ input[type=submit].blue:active{
 }
 button::-moz-focus-inner { border: 0; }
 input::-moz-focus-inner{ border: 0; }
-
-#social_iframe{
-	padding: 0;
-}
-#social_iframe iframe{
-	z-index: 400000;
-	overflow: hidden;
-	width: 500px;
-	height: 500px;
-	border: none;
-}
-#say_something{
-	display: block;
-	background: url('../images/post_bubble.png') 90px 0px no-repeat;
-	-moz-border-radius: 10px;
-	padding: 10px;
-}
-#say_something p{
-	margin: 0px auto 15px;
-}
-#say_something textarea{
-	border:1px solid #CCCCCC;
-	height:100px;
-	margin-left:40px;
-	margin-top:5px;
-	padding:10px;
-	width:450px;
-	-moz-border-radius: 7px;
-	-webkit-border-radius: 7px;
-}
-#say_something input[type=submit]{
-	margin-top: 10px;
-}
-#conversation ul{
-	list-style: none;
-	padding: 0px;
-	margin: 0px;
-}
-#conversation ul li{
-	background: url('../images/post_bubble.png') 90px 0px no-repeat;
-	padding: 10px;
-}
-#conversation ul li .author{
-	width: 70px;
-	float: left;
-	margin-right: 45px;
-}
-#conversation ul li .author img{
-	margin-bottom: 10px;
-}
-#conversation ul li .author .author_link{
-	font-weight: normal;
-	font-size: 12px;
-}
-#conversation ul li .author .time_ago{
-	font-family: georgia, times, serif;
-	font-style: italic;
-	margin: 8px 0px;
-	color: #ccc;
-	font-size: 11px;
-}
-
-
-#conversation ul li p.message{
-	width: 460px;
-	float: left;
-}
 
 .no_results{
 	width: 90%;
@@ -2435,51 +2018,41 @@ a.gift_toolbar:hover{
 	font-size: 20px;
 	width: 550px;
 }
-
 .search_module .ui-button{
 	padding: 13px 15px 12px;
 }
-.give_button
-{
+.give_button{
 	display:inline;
 	float:right;
 }
-.positive
-{
+.positive{
 	color:#65B15B;
 }
-.neutral
-{
+.neutral{
 	color:#FFD300;
 }
-.negative
-{
+.negative{
 	color:#FF0000;
 }
-.offer_link
-{
+.offer_link{
  	float:left;
  	margin-top:18px;
  	margin-right:15px;
 }
-.normal
-{
+.normal{
 	font-weight:normal;
 }
-#skip_welcome
-{
+#skip_welcome{
 	display:block;
 	float:right;
 }
 
-#welcome_header
-{
+#welcome_header{
 	display:block;
 	width:100%;
 	margin: 5px 5px 5px 5px;
 }
-.welcome_block
-{
+.welcome_block{
 	display:block;
 	width:30%;
 	font-weight:300;
@@ -2488,25 +2061,16 @@ a.gift_toolbar:hover{
 	float:left;
 	margin: 5px 10px 5px 10px;
 }
-#welcome_three
-{
+#welcome_three{
 	display:block;
 	width:100%;
 }
-
-#need_pic
-{
-	display:block;
-	margin: 23px 12px 0px 12px;
-}
-#hyperlocal
-{
+#hyperlocal{
 	width:100%;
 	display:block;
 	margin-top: 20px;
 	float:left;
 }
-
 ul.transactions{
 	list-style: none;
 	padding: 0;
@@ -2588,7 +2152,6 @@ ul.transactions li .metadata span, ul.transactions li .metadata span a, .transac
 	font-weight: normal;
 	color: #777;
 }
-
 ul.transactions li .updated{
 	color: #CCC;
 	margin: 5px 8px 0 0;
@@ -2669,24 +2232,13 @@ ul.list_menu li .list_controls .options.clicked .ui-icon{
 #add_good.jqmWindow{
 	top: 5%;
 }
-#find_link {
-    font-size: 16px;
-    font-weight: 400;
-    font-weight: bold;
-    text-decoration: none;
-    float:right;
-    margin-left:50px;
-}
-
 #current_category {
 	color: #555555;
     text-decoration: none;
     float:left;
     margin-left:50px;
-
 }
 #beta_features {
-
     color: #333333;
     font-size: 14px;
     font-weight: 300;
@@ -2698,7 +2250,6 @@ ul.list_menu li .list_controls .options.clicked .ui-icon{
     margin:20px auto 0;
     position:relative;
     width:600px;
-
     -moz-box-shadow:0 0 22px #111;
     -webkit-box-shadow:0 0 22px #111;
     box-shadow:0 0 22px #111;
@@ -2859,10 +2410,7 @@ span.event_summary {
   float:left;
   width: 500px;
 }
-
 #quick_buttons {
   float:right;
   margin: -10px 0px 10px 0px;
 }
-
-
