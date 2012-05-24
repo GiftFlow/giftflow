@@ -59,7 +59,7 @@
 
 		</table>
 		
-		<input type='submit' value='Update Settings'>
+		<input type='submit' class="btn btn-primary" value='Update Settings'>
 		</form>
 
 	</div>
@@ -71,6 +71,5 @@
 <script type='text/javascript'>
 $(function(){
 	$("input#new_password").val('');
-	$("input:submit").button();
 });
 </script>
