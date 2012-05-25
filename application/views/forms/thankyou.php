@@ -1,5 +1,5 @@
 <div id ='thankyouwrapper'>
-<form name = 'thankyou' id='thankyouform' method='post' action=''>
+<form name = 'thankyou' id='thankyouform' method='post' action='thankyou'>
 	<p>
 		Thank you note for: <span id='reviewed' class='thank_title'></span>
 	</p>
