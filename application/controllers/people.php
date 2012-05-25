@@ -364,7 +364,7 @@ class People extends CI_Controller {
 		$this->data['giver'] = array();
 		$this->data['receiver'] = array();
 		
-		// Sort reviews by whether the user gave or recieved the gift
+		// Sort completed transactions  by whether the user gave or recieved the gift
 		foreach ($this->data['transactions'] as $key=>$val)
 		{
 			if($val->decider->id == $U->id)
@@ -684,11 +684,11 @@ class People extends CI_Controller {
 	 */
 	function thankyou() 
 	{
+		
 		$this->auth->bouncer('1');
 		$this->load->library('market');
 		if(!empty($_POST))
 		{
-			
 			$G = new Good();
 			$G->title = $_POST['thankyou_gift'];
 
@@ -697,10 +697,11 @@ class People extends CI_Controller {
 			
 			//to prevent the good from showing up on their profile		
 			$G->status ='disabled';
+			$G->user_id = $_POST['reviewed_id'];
 
 			if(!$G->save())
 			{
-				$this->output->set_output(0);
+				show_error('Error saving Good from thankyou note');
 			}
 			//Now populate parameters to send to market library
 			//note this structure is maintained to allow for multiple demands to one transaction
@@ -720,10 +721,6 @@ class People extends CI_Controller {
 			//create_transaction returns the transaction_id, unless there is an error, then it returns 0
 			$new_trans_id = $this->market->create_transaction($trans_options);
 
-			$string = var_dump($new_trans_id);
-			$this->output->set_output($string);
-			return $string;
-
 			if(!$new_trans_id > 0 )
 			{
 				show_error('Error creating transaction'.$new_trans_id);
@@ -735,35 +732,28 @@ class People extends CI_Controller {
 			{
 				show_error('Error saving transaction status');
 			}
+			
 
 			//create options array for new review
 			$rev_options = array (
 				'transaction_id' => $new_trans_id,
-				'message' => 'not sure what this is',
-				'review' => $_POST['body'],
-				'rating' => 'positive',
-				'reivewer_id' => $this->data['logged_in_user_id'],
+				'message' => '',
+				'body' => $_POST['body'],
+				'rating' => $_POST['rating_select'],
+				'reviewer_id' => $this->data['logged_in_user_id'],
 				'reviewed_id' => $_POST['reviewed_id']
 			);
 
-			$string = 'NEW TRANS ID ='.$new_trans_id;
-			foreach($rev_options as $key=>$val)
-			{
-				$string .= $key.'   '.$val.'    ';
-			}
-
-			$this->output->set_output($string);
-			return $string;
 
 			if(!$this->market->review($rev_options))
 			{
-				$this->output->set_output('0');
+				show_error('Error saving thankyou as review');
 			} else {
-				$this->output->set_output(1);
+				$this->output->set_output('Success, review saved!');
 			}
 
 		} else {
-			redirect('you');
+			$this->output->set_output('Error, no data returned');
 		}
 
 	}
@@ -780,7 +770,4 @@ class People extends CI_Controller {
 		$form = $this->load->view('forms/thankyou',$options);
 		return $form;
 	}
-
-
-
 }

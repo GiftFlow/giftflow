@@ -1,5 +1,5 @@
 <div id ='thankyouwrapper'>
-<form name = 'thankyou' id='thankyouform' method='post' action=''>
+<form name = 'thankyou' id='thankyouform' method='post' action='thankyou'>
 	<p>
 		Thank you note for: <span id='reviewed' class='thank_title'></span>
 	</p>
@@ -20,10 +20,10 @@
 		</select>
 	</p>
 	<p>
-	<label for='body'>Show your gratitude.</label>
+	<label for='body'>Write a thank you note:</label>
 	</p>
 	<p>
-		<textarea rows='5' class='big-border' name='body' id='body' value='' class='required'/>
+		<textarea rows='5' class='big-border' name='body' id='body' value='' class='required'/></textarea>
 	</p>
 	<!-- hidden fields -->
 	<input type='hidden' id='reviewed_id' name='reviewed_id' value=''/>
