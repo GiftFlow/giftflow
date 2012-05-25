@@ -283,6 +283,7 @@ if(!$active) { echo "DISABLED"; }
 		<a class='button jqModal' id='thankyou'>
 			Thank 
 		</a>
+		<span class='metadata' id='thanktext'></span>
 	</div>
 	<!-- modal dialog form opened up by thankyou button -->
 	<div id = 'thankyouDialog' class='jqmWindow'>
@@ -351,27 +352,27 @@ if(!$active) { echo "DISABLED"; }
 <script type='text/javascript'>
 $(function(){
 
+	var submit = function () {
+		$('#thanktext').text('Thank you sent. Waiting for approval from <?php echo $u->screen_name; ?>');
+		$('#thankyouDialog').jqmHide();
+		return true;
+	};
+
+	var options = {
+		dataType: 'json',
+		url: "<?php echo base_url().'people/thankyou';?>",
+		complete: submit
+	};
 
 	//Script for thankyou Modal dialog
-	var setFormData = function(field) {
+	var setFormData = function() {
 		$('.button').button();
 		$('#thankyouDialog').jqmAddClose('.closeClass');
 		$('#reviewed').val('<?php echo $u->screen_name; ?>');
 		$('#reviewed_id').val('<?php echo $u->id; ?>');
 		$('#reviewed_email').val('<?php echo $u->email; ?>');
-		$('#thankyouform').ajaxForm({
-				dataType: 'json',
-				url: "<?php echo base_url().'people/thankyou';?>",
-				success: function(data) {
-					if(data>0) {
-						$('#thankyouwrapper').html('Success. Thank you note sent!');
-					} else {
-						$('#errortext').text('Error sending note. Please try again');
-					}
-					setTimeout("$('#thankyouDialog').jqmHide()", 500);
-				}
-		});
-		
+		$('#thankyouform').ajaxForm(options);
+		return true;
 	};
 
 
