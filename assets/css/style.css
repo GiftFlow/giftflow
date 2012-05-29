@@ -2506,6 +2506,7 @@ a.gift_toolbar:hover{
 {
 	display:block;
 	float:right;
+	margin-top: -100px;
 }
 
 #welcome_header

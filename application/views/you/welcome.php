@@ -9,6 +9,13 @@
 		<div class='center'>
 
 			
+			<div id="skip_welcome">
+				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
+						<input type=submit class="button" value='Hide this page at log-in' style="height:25px; font-size:12px !important;"/>
+						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
+				</form>
+				</div>
+				
 			
 			<div id="welcome_three">
 		
@@ -69,12 +76,6 @@
 						
 						</ul> --->
 			</div><!-- close hyperlocal -->	
-			<div id="skip_welcome">
-				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
-						<input type=submit class="button" value='Hide this page at log-in' style="height:25px; font-size:12px !important;"/>
-						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
-				</form>
-				</div>
 				
 	</div>
 	</div>
