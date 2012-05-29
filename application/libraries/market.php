@@ -86,6 +86,7 @@ class Market
 	*	@param string $options['demands'][0]['type']
 	*	@param string $options['note']
 	*	@param int $options['decider_id']
+	*	@param strin $options['hook']
 	*	@return boolean
 	*/
 	public function create_transaction($options)
@@ -115,7 +116,6 @@ class Market
 			$Good = $Good_search->get(array(
 				"good_id"=>$val['good_id']
 			));
-
 
 			//Set message passed in demand
 			if(!empty($val['note']) && empty($this->note))
@@ -186,16 +186,15 @@ class Market
 				return FALSE;
 			}
 		}
-		
-		// Load fully formed transaction factory result of new transaction
-		$TS = new Transaction_search;
-		$hook_data = (object) array(
-			"transaction"=> $TS->get(array(
-				"transaction_id"=>$Transaction->id,
-				"include_messages" => FALSE			
-				)),
-			"note" => $this->note
-		);
+			// Load fully formed transaction factory result of new transaction
+			$TS = new Transaction_search;
+			$hook_data = (object) array(
+				"transaction"=> $TS->get(array(
+					"transaction_id"=>$Transaction->id,
+					"include_messages" => FALSE			
+					)),
+				"note" => $this->note
+			);
 
 		$E = new Event_logger();
 		$E->transaction_new('transaction_new',$hook_data);
@@ -416,6 +415,7 @@ class Market
 	*	@param string $options['rating']		Rating of review
 	*	@param int $options['reviewer_id']		Reviewer ID
 	*	@param object $options['transaction_data']	Data of transaction
+	*	@param string $options['hook']			which hook should be called review/thankyou
 	*	@return boolean
 	*/
 	public function review($options)

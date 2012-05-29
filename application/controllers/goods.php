@@ -613,11 +613,11 @@ class Goods extends CI_Controller {
 					"user_id" => $this->data["logged_in_user_id"],
 					"good_id" => $_POST['good_id'],
 					"type" => $_POST['type'],
-					"hook" => 'hook',
 					"note" => $_POST['note']
 				)
 			),
-			"decider_id" => $_POST['decider_id']
+			"decider_id" => $_POST['decider_id'],
+			'hook' => 'transaction_new'
 		);
 		
 		// Make request, function returns the transaction id

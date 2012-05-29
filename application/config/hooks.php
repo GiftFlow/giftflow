@@ -90,6 +90,13 @@ $hook['contact_giftflow'][] = array(
 	'filepath' => 'libraries'
 );
 
+$hook['thankyou'][] = array(
+	'class'    => 'Notify',
+	'function' => 'thankyou',
+	'filename' => 'notify.php',
+	'filepath' => 'libraries'
+);
+
 /*
 *	PHP Quick Profiler Hooks
 */
