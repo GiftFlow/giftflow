@@ -84,6 +84,7 @@ class Market
 	*	@param string $options['demands'][0]['type']
 	*	@param string $options['note']
 	*	@param int $options['decider_id']
+	*	@param strin $options['hook']
 	*	@return boolean
 	*/
 	public function create_transaction($options)
@@ -103,6 +104,7 @@ class Market
 		{
 			$this->Decider = new User($options['decider_id']);
 		}		
+
 		
 		//iterate through the demands, saving each one in $this->Demands
 		foreach($options['demands'] as $key=>$val)
@@ -113,7 +115,6 @@ class Market
 			$Good = $Good_search->get(array(
 				"good_id"=>$val['good_id']
 			));
-
 
 			//Set message passed in demand
 			if(!empty($val['note']) && empty($this->note))
@@ -181,24 +182,26 @@ class Market
 				)))
 			{
 				show_error("Error saving conversation.");
-				return FALSE;
 			}
 		}
-		
-		// Load fully formed transaction factory result of new transaction
-		$TS = new Transaction_search;
-		$hook_data = (object) array(
-			"transaction"=> $TS->get(array(
-				"transaction_id"=>$Transaction->id,
-				"include_messages" => FALSE			
-				)),
-			"note" => $this->note
-		);
+			// Load fully formed transaction factory result of new transaction
+			$TS = new Transaction_search;
+			$hook_data = (object) array(
+				"transaction"=> $TS->get(array(
+					"transaction_id"=>$Transaction->id,
+					"include_messages" => FALSE			
+					)),
+				"note" => $this->note
+			);
 
-		// Hook: `transaction_new`
- 		$this->CI->hooks->call('transaction_new', $hook_data);
 
-		return TRUE;
+			// Hook: `transaction_new` OR 'thankyou'
+			if($options['hook'] != 'thankyou')
+			{
+				$this->CI->hooks->call($options['hook'], $hook_data);
+			}
+
+			return $Transaction->id;
 	}
 	
 	
@@ -403,6 +406,7 @@ class Market
 	*	@param string $options['rating']		Rating of review
 	*	@param int $options['reviewer_id']		Reviewer ID
 	*	@param object $options['transaction_data']	Data of transaction
+	*	@param string $options['hook']			which hook should be called review/thankyou
 	*	@return boolean
 	*/
 	public function review($options)
@@ -472,8 +476,8 @@ class Market
 		}
 		
 		
-		// Hook: `transaction_reviewed`
-		$this->CI->hooks->call("review_new", $hook_data);
+		// Hook: 'transaction_reviewed' or 'thankyou'
+		$this->CI->hooks->call($options['hook'], $hook_data);
 
 		// Attempt to change status to completed
 		$this->complete(array(

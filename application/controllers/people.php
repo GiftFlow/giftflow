@@ -712,10 +712,11 @@ class People extends CI_Controller {
 						"good_id" => $G->id,
 						"type" => "take",
 						"note" => $_POST['body'],
-						'hook' => 'hook'
 					)
 				),
-				"decider_id" => $_POST['reviewed_id']
+				"decider_id" => $_POST['reviewed_id'],
+				'hook' => 'thankyou'
+
 			);
 
 			//create_transaction returns the transaction_id, unless there is an error, then it returns 0
@@ -741,7 +742,8 @@ class People extends CI_Controller {
 				'body' => $_POST['body'],
 				'rating' => $_POST['rating_select'],
 				'reviewer_id' => $this->data['logged_in_user_id'],
-				'reviewed_id' => $_POST['reviewed_id']
+				'reviewed_id' => $_POST['reviewed_id'],
+				'hook' => 'thankyou'
 			);
 
 
@@ -771,3 +773,4 @@ class People extends CI_Controller {
 		return $form;
 	}
 }
+

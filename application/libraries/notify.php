@@ -258,5 +258,28 @@ class Notify
 		$A->send();
 	
 	}
+
+	/**
+	 * When a user 'thanks' another, this function sends the recipient an email with
+	 * the text of the thank and 'approve/decline' buttons
+	 * The buttons then call the thank controller which validates/disables the thankyou
+	 */
+	function thankyou($params, $data)
+	{
+		$A = new Alert();
+
+		$A->parseables = array(
+			'subject' => 'Someone wants to thank you',
+			'message' => $data->transaction->reviews[0]->body,
+			'rating' => $data->transaction->reviews[0]->rating,
+			'reviewed_screen_name' => $data->reviewed->screen_name,
+			'reviewer_screen_name' => $data->reviewer->screen_name,
+			'gift' => $data->transaction->demands[0]->good->title
+		);
+
+		$A->template_name = 'thankyou';
+		$A->to = 'info@giftflow.org';
+		$A->send();
+	}
 	
 }
