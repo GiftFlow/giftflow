@@ -76,7 +76,19 @@ $(function(){
             $('#do_not_show').ajaxForm(function() {
             	$('#do_not_show').hide();
             });
-        });	
+        }); 
+	
+	$("ul.gray_toolbar li a").click(function(){
+		$("ul.gray_toolbar li a").removeClass("active");
+		$(this).addClass('active');
+		ul.empty();
+		$.post("<?php echo site_url('ajax/nearby_flow'); ?>", { type: $(this).attr('id'), limit: 5 }, function(data){
+			$.each(data.results, function( key, val){
+				ul.append($(val.html));
+			});
+		}, 'json');
+	});
+	
 });
 	
 	

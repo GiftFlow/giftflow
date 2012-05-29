@@ -266,6 +266,40 @@ ul.sidebar_menu.filters li ul li{
   font-weight:bold;
 
 }
+
+.top_filters{
+	margin: 0 0 20px -5px;
+}
+
+.top_filters #order_by_label, .top_filters select{
+	float: left;
+}
+.top_filters #order_by_label {
+	color: #555;
+	margin-right: 8px;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
 /*
 *	jQ Modal
 */
