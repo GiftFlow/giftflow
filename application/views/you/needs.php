@@ -7,7 +7,7 @@
 	
 		<!--<img src='<?php echo base_url(); ?>assets/images/headings/your_needs.png' style='margin-top: 30px;' />-->
 		
-		<a href="<?php echo site_url('you/needs/add');?>" class="button">Add a Need</a>
+		<a href="<?php echo site_url('you/needs/add');?>" class="button btn">Add a Need</a>
 
 		<?php if(!empty($goods)) { ?>
 			<table id='goods' class='sortable'>
@@ -52,8 +52,6 @@
 
 <script type='text/javascript'>
 $(function(){
-
-	$(".button").button();
 
 	var table = $("#goods").dataTable( {
 			"bJQueryUI": true,

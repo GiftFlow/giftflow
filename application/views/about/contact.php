@@ -42,8 +42,8 @@
 						</td>
 					</tr>
 			</table>
-			<input type="submit" name="submit" class="button" value="Submit">
-			<input type="reset" name="reset" class="button" value="Reset">
+			<input type="submit" name="submit" class="button btn" value="Submit">
+			<input type="reset" name="reset" class="button btn" value="Reset">
 		</form>
 			
 		
@@ -52,7 +52,7 @@
 
 <script type='text/javascript'>
 $(function(){
-	$('.button').button();
+
 });
 </script>
 	

@@ -13,7 +13,7 @@ body {
 	width: 960px;
 	margin: 0 auto;
 	padding: 0;
-	display:block;
+	display:block !important;
 }
 #header {
 	padding: 6px 0 4px 0;
@@ -729,20 +729,9 @@ table.form td.field {
 	width: 400px;
 	padding: 20px 0px 20px 20px;
 }
-table.form td.field input[type=text], table.form textarea, table.form td.field input[type=password], input[type=text].big-border, input[type=password].big-border, textarea.big-border {
-	border: 4px solid #ddd;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	font-size: 18px;
-	padding: 7px 7px 6px;
-	font-family:'helvetica neue', helvetica, arial;
-	width: 100%;
-}
+
 table.form td.field input[type=text],input[type=text].big-border{
 	letter-spacing: -.5px;
-}
-table.form td.field input[type=text]:focus, table.form textarea:focus, table.form td.field input[type=password]:focus, input[type=text].big-border:focus, input[type=password].big-border:focus, textarea.big-border:focus {
-	border: 4px solid #7FCC74;
 }
 table.form td.field input[type=text].error, table.form textarea.error, table.form td.field input[type=password].error {
 	border: 4px solid red;
@@ -1553,29 +1542,8 @@ li p.nicebigtext{
 	font-weight: 300;
 }
 
-
-#register input[type=text], #register input[type=password], #register textarea,
-#login input[type=text], #login input[type=password], #login textarea{
-	border: 4px solid #ddd;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	font-size: 18px;
-	padding: 7px 7px 6px;
-	font-family:'helvetica neue', helvetica, arial;
-	width: 95%;
-	letter-spacing: -.5px;
-}
-#register input[type=text].error, #register input[type=password].error, #register textarea.error,
-#login input[type=text].error, #login input[type=password].error, #login textarea.error {
-	border: 4px solid #FF6A6A;
-}
 #register label.error, #login label.error{
 	color: #FF6A6A;
-}
-select#profile_type {
-  width:200px;
-  font-size:18px;
-  padding: 5px 5px 5px 5px;
 }
 
 input#terms_box {

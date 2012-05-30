@@ -406,7 +406,6 @@ $(function(){
 		$("#"+$(this).attr("rel")).show();
 	});
 	$("a#already_following").button({ icons: { primary: 'ui-icon-check' } } );
-	$("a.button").button();
 	$(".give_button").button();
 
 
