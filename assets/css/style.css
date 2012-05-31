@@ -848,6 +848,10 @@ ul.results_list.grid li a.result_image img{
 	margin: 6px auto auto 6px;
 }
 
+ul.results_list .title_need {
+	color:#C72E92;
+}
+
 /* generated here: http://www.preloaders.net/en/popular */
 .results_loading img {
 	margin: 50px auto;
@@ -1089,6 +1093,10 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 #your_locations ul li a:hover, #your_locations ul li a.active{
 	background: #EEE;
 }
+.profile_action {
+	float:left;
+}
+
 #profile_left{
 	width: 667px;
 	display: block;
