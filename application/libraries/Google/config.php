@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+$this->CI->config->load('account',TRUE);
+$config = $this->config->config['account']
 
 global $apiConfig;
 $apiConfig = array(
@@ -25,9 +27,9 @@ $apiConfig = array(
     'application_name' => 'GiftFlow',
 
     // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
-    'oauth2_client_id' => '602716459863.apps.googleusercontent.com',
-    'oauth2_client_secret' => 'KpSDdgP8szxf1uKMlZsfQIXg',
-    'oauth2_redirect_uri' => 'http://www.giftflow.org/account/link/google/2',
+    'oauth2_client_id' => $config['oauth2_client_id'],
+    'oauth2_client_secret' => $config['oauth2_client_secret'],
+	'oauth2_redirect_uri' => $config['oauth2_redirect_uri'],
 
     // The developer key, you get this at https://code.google.com/apis/console
     'developer_key' => '',
