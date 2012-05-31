@@ -404,44 +404,6 @@ class Member extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	function fakebook()
-	{
-		die('here');
-	}
-
-
-	function facebook($data)
-	{
-		//$user = $this->facebook->getUser();
-		
-		//$accessToken = $this->facebook->getAccessToken();
-		
-
-		if($user) {
-		//	$user_info = $this->facebook->api('me?fields=id,name,first_name,last_name&access_token='.$accessToken);
-		//	var_dump($user_info);
-		}
-		echo('herere');
-
-
-
-	}
-		// the necessary data to the Auth class.
-//		else
-//		{
-//			$access = $key1.'='.$val1;
-//			if(!empty($key2)&&!empty($val2))
-//			{
-//				$access .= $key2.'='.$val2;
-//			}
-//			$facebook_data = json_decode(file_get_contents("https://graph.facebook.com/me?".$access));
-//			
-//			if($key1=="access_token")
-//			{
-//				$facebook_data->token = $val1;
-//			}
-//			
-//			$this->auth->facebook($facebook_data);
 
 	function terms()
 	{
