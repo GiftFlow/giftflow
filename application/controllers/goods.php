@@ -322,8 +322,8 @@ class Goods extends CI_Controller {
 			$data = array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => base_url($pho->url),
-				"thumb_url" => base_url($pho->thumb_url),
+				"url" => site_url().$pho->url,
+				"thumb_url" => site_url().$pho->thumb_url,
 				"default" => FALSE
 			);
 			$photos[] = $data;
@@ -416,8 +416,13 @@ class Goods extends CI_Controller {
 		
 		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
 		
-		// Page Title
-		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
+		$this->data['breadcrumbs'][] = array (
+			"title"=>$this->G->title,
+			"href"=>site_url($this->G->type."s/".$this->G->id)
+		);
+		$this->data['breadcrumbs'][] = array(
+			"title"=>"Edit"
+		);
 		
 		// Load Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
