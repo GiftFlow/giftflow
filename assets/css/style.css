@@ -7,7 +7,8 @@ body {
 	font-family: 'helvetica neue', helvetica, arial, sans-serif;
 	margin: 0;
 	padding: 0;
-	background: black;
+	/*background-image: url('../images/background-whitey.jpg');*/
+	background-image: url('../images/background-noise.jpg');
 }
 .wrapper{
 	width: 960px;
@@ -16,11 +17,11 @@ body {
 	display:block !important;
 }
 #header {
-	padding: 6px 0 4px 0;
-	background: #65B15B url('../images/header-bg.png') repeat-x;
+	padding: 9px 0 7px 0;
+	background: #65B15B url('../images/solid_topnav_bg.png') repeat-x;
 }
 #main {
-	background:white;
+	/*background:white;*/
 	padding: 20px 0 50px 0;
 	min-height: 488px;
 }
@@ -93,7 +94,7 @@ a#logo {
 }
 a#logo img{
 	border: none;
-  width:90%;
+  width:120px;
 }
 #session {
 	float:right;
@@ -804,7 +805,7 @@ ul.results_list{
 	clear: left;
 }
 .right_content ul.results_list, ul.transactions, .right_content ul.goods_list{
-	margin-left: -30px;
+	margin: 30px -30px 0;
 }
 .right_content ul.transactions.goods_list li {
 	padding-left: 30px;
@@ -1254,18 +1255,23 @@ li p.nicebigtext{
 	
 /* #about_menu styled via .sidebar_menu */
 .right_content{
-	border-left: 1px solid #ddd;
+	/*border-left: 1px solid #ddd;*/
 	float: right;
 	display: block;
 	margin-top: 0px;
-	padding: 0px 0px 0px 30px;
-	width: 710px;
+	padding: 30px;
+	width: 700px;
 	min-height: 300px;
+	background: #FFF;
+	box-shadow: 2px 2px 5px #CCC;
 }
 .left_content{
 	float:left;
 	width:160px;
 	padding-left:20px;
+}
+ul.sidebar_menu{
+	margin: 0;
 }
 
 #register label.error, #login label.error{
