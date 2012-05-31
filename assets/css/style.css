@@ -1448,6 +1448,9 @@ ul#you_menu li:hover ul, ul#you_menu:hover li ul{
 ul#you_menu li:hover ul li{
 	float: none;
 }
+ul#you_menu li:hover ul li a{
+	border-radius: 0px;
+}
 ul#you_menu li:hover ul {
   margin: -8px 0px 0px 0px;
 }
@@ -1485,6 +1488,7 @@ ul.breadcrumbs{
 	font-size: 18px;
 	margin-bottom: 30px;
 	height: 20px;
+	display: block;
 }
 ul.breadcrumbs li{
 	float: left;
