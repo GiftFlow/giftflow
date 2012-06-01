@@ -360,7 +360,7 @@ $(function(){
 
 	var options = {
 		dataType: 'json',
-		url: "<?php echo base_url().'people/thankyou';?>",
+		url: "<?php echo base_url().'thankyou/create';?>",
 		complete: submit
 	};
 
@@ -377,7 +377,7 @@ $(function(){
 
 
 	$('#thankyouDialog').jqm({
-		ajax:"<?php echo base_url().'people/thankyouform'; ?>",
+		ajax:"<?php echo base_url().'thankyou/form'; ?>",
 		trigger:'a#thankyou',
 		onLoad: setFormData
 	});
