@@ -452,7 +452,7 @@ class You extends CI_Controller {
 					"body"=>$this->input->post('body'),
 					"rating"=>$this->input->post('rating'),
 					"reviewer_id"=>$this->data['logged_in_user_id'],
-					'hook' => 'review'
+					'hook' => 'review_new'
 				));
 				
 				if($reviewed)

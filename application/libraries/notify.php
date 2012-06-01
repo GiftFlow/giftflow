@@ -297,12 +297,13 @@ class Notify
 		$A = new Alert();
 
 		$A->parseables = array(
-			'subject' => 'Someone wants to thank you',
-			'message' => $data->transaction->reviews[0]->body,
-			'rating' => $data->transaction->reviews[0]->rating,
-			'reviewed_screen_name' => $data->reviewed->screen_name,
-			'reviewer_screen_name' => $data->reviewer->screen_name,
-			'gift' => $data->transaction->demands[0]->good->title
+			'subject' => $data['reviewer_screen_name'].' wants to thank you',
+			'body' => $data['body'],
+			'rating' => $data['rating'],
+			'reviewed_screen_name' => $data['reviewed_screen_name'],
+			'reviewer_screen_name' => $data['reviewer_screen_name'],
+			'gift' => $data['gift'],
+			'secret' => $data['secret']
 		);
 
 		$A->template_name = 'thankyou';
