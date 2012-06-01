@@ -538,8 +538,8 @@ class Market
 			))
 		);
 		
-		// Hook: `transaction_reviewed`
-		$this->CI->hooks->call("transaction_completed", $hook_data);
+		$E = new Event_logger();
+		$E->basic('transaction_completed',$hook_data);
 		
 		return TRUE;
 	}
@@ -581,8 +581,13 @@ class Market
 			"conversation"=>$Conversation
 		);
 		
-		// Hook: `transaction_message`
-		$this->CI->hooks->call("transaction_message", $hook_data);
+		$E = new Event_logger();
+		$E->transaction_message('transaction_message',$hook_data);
+
+		$N = new Notify();
+		$N->alert_transaction_message('transaction_message',$hook_data);
+
+		$this->updated('transaction_message',$hook_data);
 		
 		return TRUE;
 	}

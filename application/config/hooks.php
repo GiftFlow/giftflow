@@ -44,25 +44,6 @@ $hook['following_new'][] = array(
 	'filepath' => 'libraries'
 );
 
-	'function' => 'transaction_message',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_message'][] = array(
-	'class'    => 'Market',
-	'function' => 'updated',
-	'filename' => 'market.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_message'][] = array(
-	'class'    => 'Notify',
-	'function' => 'alert_transaction_message',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
 $hook['transaction_viewed'][] = array(
 	'class'    => 'Notify',
 	'function' => 'transaction_viewed',
@@ -70,12 +51,6 @@ $hook['transaction_viewed'][] = array(
 	'filepath' => 'libraries'
 );
 
-$hook['transaction_completed'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_completed',
-	'filename' => 'Event_logger.php',
-	'filepath' => 'libraries'
-);
 
 $hook['user_registration_manual'][] = array(
 	'class'    => 'Notify',
