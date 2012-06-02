@@ -29,9 +29,4 @@ class Secret extends DataMapperExtension {
 		$this->CI =& get_instance();
 	}
 
-	function _check_code($item, $code)
-	{
-		//to Do validate code itself
-		return TRUE;
-	}
 }
