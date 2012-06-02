@@ -310,5 +310,20 @@ class Notify
 		$A->to = 'info@giftflow.org';
 		$A->send();
 	}
+
+	function thankYouResponse($params, $data)
+	{
+		$A = new Alert();
+		$A->parseables = array(
+			'subject' => $data['subject'],
+			'reviewed_screen_name' => $data['reviewed_screen_name'],
+			'reviewer_screen_name' => $data['reviewer_screen_name'],
+			'reviewed_id' => $data['reviewed_id'],
+			'news' => $data['news']
+		);	
+		$A->template_name = 'thankYouResponse';
+		$A->to = 'info@giftflow.org';
+		$A->send();
+	}
 	
 }

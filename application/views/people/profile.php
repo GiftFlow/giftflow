@@ -353,7 +353,7 @@ if(!$active) { echo "DISABLED"; }
 $(function(){
 
 	var submit = function () {
-		$('#thanktext').text('Thank you sent. Waiting for approval from <?php echo $u->screen_name; ?>');
+		$('#thanktext').text('Thank sent. Waiting for approval from <?php echo $u->screen_name; ?>');
 		$('#thankyouDialog').jqmHide();
 		return true;
 	};

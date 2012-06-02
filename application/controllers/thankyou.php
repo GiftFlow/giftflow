@@ -169,41 +169,82 @@ class Thankyou extends CI_Controller {
 	}
 
 
-	//Function takes incoming URL from users email
-	function accept($code)
+	//Function takes incoming URL from users email, sets transaction status based on which link they click
+	function decide()
 	{
-		if(isset($code))
+
+		$decision = $this->data['segment'][3];
+
+		if($decision != 'yes' && $decision != 'no')
+		{
+			show_error('thankyou::decide Error parsing URL, decision unclear');
+		}
+
+		$code = $this->data['segment'][4];
+
+
+		if(isset($code) && isset($decision))
 		{
 			$S = new Secret();
 			$S->where('code',$code)->get();
-			if($S->count() == 1)
+
+			if($S->exists())
 			{
 				$T = new Transaction($S->transaction_id);
-				$T->status = 'completed';
+
+				if($decision == 'yes')
+				{
+					$status = 'completed';
+					$news = 'has accepted your Thanks';
+				} else {
+					$status = 'cancelled';
+					$news = 'has declined your Thanks';
+				}
+						
+
+				$T->status = $status;
+
 				if(!$T->save())
 				{
-					show_error('Error saving thankyou accept');
+					show_error('thankyou::decide Error saving thankyou accept');
 				}
 
 				$S->code = NULL;
 				if(!$S->save())
 				{
-					show_error('Error saving old secret');
+					show_error('thankyou::decide Error saving old secret');
 				}
-				print_r('major success!');
-				//$N->thankyou_approved();
+
+
+				//Assemble data to send email back to original sender of the thanks, informing them 
+				//of the recipient's decision
+				$U = new User($S->sender_id);
+				$R = new User($S->recipient_id);
+				
+				$email_data = array(
+					'reviewer_screen_name' => $U->screen_name,
+					'reviewed_screen_name' => $R->screen_name,
+					'reviewed_id' => $R->id,
+					'subject' => $R->screen_name.' '.$news,
+					'email' => $S->email,
+					'news'=> $news
+				);
+
+				$this->load->library('Notify');
+				$N = new Notify();
+
+				$N->thankYouResponse('thankyouResponse',$email_data);
+
+				$this->auth->manual_login($R, FALSE);
+				redirect('people/'.$R->id);
+					
 				
 			} else {
-				show_error('Problem finding secret');
+				show_error('thankyou::decide Problem finding secret code');
 			}
 		} else {
 			show_error('Thankyou::accept code missing');
 		}
-	}
-
-	function decline($code)
-	{
-		//Do stuff here to hide the thank you
 	}
 
 
