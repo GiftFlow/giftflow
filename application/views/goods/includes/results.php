@@ -1,7 +1,6 @@
 <?php if(!empty($results)) { ?>
 
 	<?php if(!$row) { ?>
-		<!-- Results List  PLEASE LEAVE THE ID HERE IT IS FOR ajax::giftflow on VIEWS/YOU/INDEX -->
 		<ul id="goods_includes_results" class='results_list goods <?php if($mini){ echo "mini"; } elseif($grid){ echo "grid clearfix"; } ?>'>
 	<?php } ?>
 	

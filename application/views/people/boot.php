@@ -1,5 +1,5 @@
 
-<div class = 'row-fluid'>
+<div class = 'row-fluid' id='profile_header'>
 	<div  class='span6'>
 		
 		<a href="<?php echo current_url();?>" class="user_image left medium">
@@ -15,11 +15,11 @@
 						
 			<?php } ?>
 			<?php echo $u->total_followers; ?> 
-				Followers
+				Followers,
+			<?php echo $u->type; ?>
 		</p>
 	</div>
 	<div id='profile_buttons' class='span6'>
-		<span class='label'><?php echo $u->type; ?></span>
 		<a class = 'profile_action btn'>Follow</a>
 		<a class ='profile_action btn'>Thank</a>
 	</div> <!-- close profile_buttons -->
@@ -44,7 +44,7 @@
 				)); ?>
 				
 			<?php } else { ?>
-				<p>This user does not have any gifts to give at the moment.</p>
+				<p>This user does not have any gifts listed.</p>
 			<?php } ?>
 
 		<h2> Needs</h2>	
@@ -56,7 +56,7 @@
 				)); ?>
 				
 			<?php } else { ?>
-				<p>This user does not have any gifts to give at the moment.</p>
+				<p>This user does not have any needs listed.</p>
 			<?php } ?>
 		
 			
