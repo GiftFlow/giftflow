@@ -337,10 +337,21 @@ class People extends CI_Controller {
 		// Load user's gift
 		$this->load->library('Search/Good_search');
 		$G = new Good_search;
-		$this->data['gifts'] = $G->find( array("user_id" => $U->id, "count_transactions" => FALSE, "type"=>"gift"));
+		$this->data['gifts'] = $G->find( array(
+			"user_id" => $U->id, 
+			"count_transactions" => FALSE, 
+			"type"=>"gift",
+			"status" => 'active'
+		
+		));
 		
 		// Load user's needs
-		$this->data['needs'] = $G->find( array("user_id" => $U->id, "count_transactions" => FALSE, "type"=>"need"));
+		$this->data['needs'] = $G->find( array(
+			"user_id" => $U->id, 
+			"count_transactions" => FALSE, 
+			"type"=>"need",
+			"status" => 'active'	
+		));
 		
 		// Generate stats about the user
 		$U->stats();
