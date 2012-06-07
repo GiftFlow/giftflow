@@ -148,7 +148,7 @@ CREATE  TABLE IF NOT EXISTS `locations` (
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX (`user_id`),
-  INDEX (`latitude` ASC, `longitude` ASC),
+  INDEX latlng (`latitude` ASC, `longitude` ASC),
   INDEX (`address`),
   CONSTRAINT `locations_users`
     FOREIGN KEY (`user_id` )
