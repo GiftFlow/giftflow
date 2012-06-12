@@ -68,6 +68,7 @@ class Goods extends CI_Controller {
 		$this->load->helper('elements');
 		$this->hooks =& load_class('Hooks');		
 		$this->load->library('Search/Good_search');
+		$this->load->library('Event_logger');
 	
 		
 		// Set some class-wide variables
@@ -234,7 +235,8 @@ class Goods extends CI_Controller {
 					"good_id" => $this->G->id,
 					"user_id" => $U->id
 					);
-				$this->hooks->call('good_new', $hook_data);
+				$E = new Event_logger();
+				$E->basic('good_new',$hook_data);
 
 				// Set flashdata
 				$flash = ($this->G->type == 'gift') ? 'Gift Saved!' : 'Need Saved!';
@@ -692,7 +694,8 @@ class Goods extends CI_Controller {
 			"good_id" => $this->G->id,
 			"user_id" => $U->id
 			);
-		$this->hooks->call('good_edited', $hook_data);
+		$E = new Event_logger();
+		$E->basic('good_edited',$hook_data);
 
 		// Set flashdata
 		$this->session->set_flashdata('success','Changes saved successfully.');
@@ -738,8 +741,6 @@ class Goods extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('success', $this->G->title." was deleted successfully."); 
-				// Hook: 'good_deleted'
-				//$this->hooks->call('good_deleted', $this);
 				
 				redirect("you/".$this->G->type."s");
 			}

@@ -16,21 +16,6 @@ $hook['user_new'][] = array(
 	'filename' => 'event_logger.php',
 	'filepath' => 'libraries'
 );
-
-$hook['good_new'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'good_new',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['good_edited'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'good_edited',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
 $hook['follower_new'][] = array(
 	'class'    => 'Event_logger',
 	'function' => 'follower_new',
