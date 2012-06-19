@@ -220,6 +220,29 @@ class You extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 	
+	function watches()
+	{
+		$this->load->library('datamapper');
+		$this->load->model('watch');
+
+		// Execute tag search
+		$this->data['watches'] = $this->watch->get_mine($this->data['logged_in_user_id']);
+	
+		// Set view variables
+		$this->data['title'] = "My Watches";
+		
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		
+		// show the form for adding new watches
+		$this->data['form'] = $this->load->view('you/includes/add_watch_form',$this->data,TRUE);
+
+		// Load views
+		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header',$this->data);
+		$this->load->view('you/watches', $this->data);
+		$this->load->view('footer', $this->data);
+	}
+
 	public function transactions( $id = NULL )
 	{
 		// If ID provided, load individual transaction
@@ -636,5 +659,5 @@ class You extends CI_Controller {
 			$this->load->view('footer', $this->data);
 		}
 
-	}
+	}	
 }

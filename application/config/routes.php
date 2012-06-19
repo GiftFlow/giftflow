@@ -52,6 +52,7 @@ $route['profile/:num'] = 'people/profile/$1';
 $route['people/:num'] = 'people/profile/$1';
 $route['you/profile'] = 'people/profile';
 $route['gifts/:num'] = "goods/view";
+$route['watches/:num/delete'] = "watches/delete/:num";
 $route['gifts/:num/:any'] = "goods/view";
 $route['needs/:num'] = 'goods/view';
 $route['needs/:num/:any'] = 'goods/view';

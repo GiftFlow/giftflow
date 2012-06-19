@@ -108,7 +108,11 @@ class Location extends DataMapperExtension {
 		$this->CI->geo->geocode($address, $this);
 	}
 	
-	
+	/**
+	 * Validation function
+	 * @param type $field
+	 * @return boolean 
+	 */
 	function _geocode_location($field)
 	{
 		if (empty($this->{$field}))
@@ -130,6 +134,11 @@ class Location extends DataMapperExtension {
 		}
 	}
 
+	/**
+	 * Validation function
+	 * @param type $field
+	 * @return boolean 
+	 */
 	function _duplicate_test($field)
 	{
 		$D = new Location();
