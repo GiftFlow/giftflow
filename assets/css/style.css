@@ -1297,6 +1297,9 @@ ul#locations_list{
 	width: 450px;
 	float: left;
 }
+ul#locations_list li{
+	display: block;
+}
 ul.list_menu li{
 	padding: 12px 10px;
 	border-bottom: 1px solid #ccc;
@@ -1837,6 +1840,13 @@ ul#linked_accounts li{
 
 ul#linked_accounts li.active{
 	background-image: url('../images/status_green.png');
+}
+ul#linked_accounts li{
+	height: 28px;
+}
+ul#linked_accounts li span {
+	display: inline-block;
+	margin-top: 5px;
 }
 .fluster_marker{
 	background: url("../images/cluster_ring_padded_medium.png") no-repeat scroll 50% 50% transparent !important;

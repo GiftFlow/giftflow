@@ -25,30 +25,35 @@
 							<?php echo $val['address'];?>
 						</span>
 					</div>
-					<div class='list_controls control_right' >
-						<a href="#" class="button left options secondary" style='height: 2.2em;'></a>
-						<ul class='tooltip_menu' >
-							<?php if(!$val['default']) { ?>
-								<li>
-									<a href="<?php echo site_url('account/locations/'.$val['id'].'/default/'); ?>" >
-										<span class='ui-icon ui-icon-star'></span>
-										Make Default Location
-									</a>
-								</li>
-							<?php } ?>
+					
+					<div class="btn-group css_right list_controls">
+					  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog"></i>
+						<span class="caret"></span>
+					  </button>
+					 
+					  <ul class="dropdown-menu">
+						<?php if(!$val['default']) { ?>
 							<li>
-								<a href="<?php echo site_url('account/locations/'.$val['id'].'/edit'); ?>" class='edit'>
-									<span class='ui-icon ui-icon-pencil'></span>
-									Rename
+								<a href="<?php echo site_url('account/locations/'.$val['id'].'/default/'); ?>" >
+									<i class='icon-star'></i>
+									Make Default Location
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>" >
-									<span class='ui-icon ui-icon-trash'></span>
-									Delete
-								</a>
-							</li>
-						</ul>
+						<?php } ?>
+						<li>
+							<a href="<?php echo site_url('account/locations/'.$val['id'].'/edit'); ?>" class='edit'>
+								<i class='icon-pencil'></i>
+								Rename
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li><a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>">
+							<i class='icon-trash'></i>
+							Delete
+						</a></li>
+						<!-- dropdown menu links -->
+					  </ul>
 					</div>
 				</li>
 			<?php } ?>
@@ -62,8 +67,10 @@
 		
 		 <div class="module bottom">
             <form method="post" id="add_form" name="add_location" action="<?php echo site_url('account/locations/add'); ?>">
+            	<div class="input-append">
                 <input type="text" name="location" class="required" />
                 <input type="submit" class="btn" value="Add" id="add_location"/>
+                </div>
             </form>
         </div> 
 	</div>
