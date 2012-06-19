@@ -7,14 +7,28 @@
 		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="button btn">Add a <?php echo ucfirst($type); ?></a>
 		<?php if(!empty($goods)) { ?>
 			<ul class ="transactions goods_list list_menu float_right">
-				<?php 
-					foreach($goods as $val) 
-					{ ?>
+				<?php foreach($goods as $val) { ?>
 					<?php 
 						if($val->status !='disabled')
 						{?>
 							<li class="clearfix">
-								<div class='list_controls' >
+								<div class="btn-group css_right">
+								  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+								  	<i class="icon-cog"></i>
+								  	<span class="caret"></span>
+								  </button>
+								  
+									
+								 
+								  <ul class="dropdown-menu">
+								  	<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit');?>">Edit</a></li>
+									<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/photo_add');?>">Add Photo</a></li>
+									<li class="divider"></li>
+									<li><a href="<?php echo site_url('gifts/'.$val->id.'/disable'); ?>">Delete</a></li>
+									<!-- dropdown menu links -->
+								  </ul>
+								</div>
+								<!--<div class='list_controls' >
 									<a href="#" class="button btn left options secondary" style='height: 2.2em;'></a>
 									<ul class='tooltip_menu'>
 										<li>
@@ -37,7 +51,8 @@
 											</a>
 										</li>
 									</ul>
-								</div>
+								</div>-->
+								
 								<div id='edit_location' class='jqmWindow'>
 								</div>					
 								<a href="#" class="user_image medium left">
@@ -62,6 +77,10 @@
 								</span>
                 <div class='addthis'></div>
 						</li>
+						
+						
+						
+
 					<?php } ?>
 				<?php } ?>
 				</ul>
