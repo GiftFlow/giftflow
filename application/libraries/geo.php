@@ -90,6 +90,36 @@ class Geo
 	{
 		Console::logSpeed("Geo::geocode()");
 		
+		
+		// first query our database. if not found there, query google
+		$this->CI->load->library('datamapper');
+		$L = new Location();
+		$L->where('address', $address)->get();
+		
+		if ($L->exists()) {
+			
+			if(!is_object($object))
+			{
+				$object = new stdClass;
+			}
+
+			// Shortcut to the part of $data we're interested in
+			$object->address = $L->address;
+			$object->latitude = $L->latitude;
+			$object->longitude = $L->longitude;
+			//		$object->street_address = $L->street_address;	
+			//		$object->street_address .= " ".$val->long_name;
+
+			$object->city = $L->city;
+			$object->postal_code = $L->postal_code;
+			$object->state = $L->state;
+			$object->country = $L->country;
+			return $object;			
+		}
+		
+		
+		// query google
+		
 		// Build URL
 		$data = array ( 
 			"address" => $address, 
@@ -106,7 +136,7 @@ class Geo
 		// If result invalid, exit
 		if($data->status != "OK" || empty($data->results[0]))
 		{
-			return FALSE;
+			return FALSE;	// TODO: remove false returns
 		}
 		
 		// Else start parsing

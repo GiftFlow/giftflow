@@ -59,17 +59,18 @@
 			</div>
 						
 			<!-- Buttons -->
-			<div class='clear' style='display: block; padding: 20px 0px;'>
+			<div class='clearfix' style="display: block; margin: 20px 0px;">
 				<input type='hidden' value='edit' name='method' />
 				<input type='hidden' value='<?php echo $G->id; ?>' name='good_id' />
-				<input type='submit' value='' class='blue' /> 
 				
-				<a id="cancel_edit" class='button secondary' href="<?php echo site_url('gifts/'.$G->id); ?>">Cancel</a>
+				<div class="btn-group css_left">
+					<input type='submit' value='Save Changes' class='btn btn-primary' />
+					<a id="cancel_edit" class="btn" href="<?php echo site_url('gifts/'.$G->id); ?>">Cancel</a>
+				</div>
 				
-				<a id="delete_gift" class='button css_right' href="<?php echo site_url('gifts/'.$G->id.'/disable'); ?>">Delete</a>
+				<a id="delete_gift" class='btn btn-danger css_right' href="<?php echo site_url('gifts/'.$G->id.'/disable'); ?>">Delete</a>
 			
 			</div>
-			<div class='clear'></div>
 			</form>
 		</div>		
 	</div>
@@ -87,13 +88,16 @@
 		<!-- Rich Tag Editor -->
 		<p id='tag_editor' style='display: none;'>
 
-			<input type='text' name='tag_editor_input' class="big-border" id='tag_editor_input' value='' />
+			<div class="input-append">
+				<input type='text' name='tag_editor_input' class="big-border" id='tag_editor_input' value='' placeholder="input tag here" />
+				<button id='add_this_tag' class='btn'>
+					<i class="icon-plus"></i>
+				</button>
+			</div>
 			
 			<input type='hidden' id='tag_list' name='tags' value='<?php echo implode($G->tags,","); ?>' />
 			
-			<a href="#" id='add_this_tag' class='button'>
-				<span class='ui-icon ui-icon-circle-plus'></span>
-			</a>
+			
 			
 			<ul class='tag_cloud'>
 			</ul>
@@ -114,10 +118,6 @@
 <script type='text/javascript'>
 var tags = [];
 $(function(){
-	
-	// Style buttons
-	$('.button').button();
-	$(".buttonset").buttonset();
 	
 	// Confirm delete
 	$(".edit_dialog #delete").click(function(){ 
@@ -190,9 +190,14 @@ $(function(){
 		tags.push(tag);	
 		$("#tag_editor_input").val('');
 		$("#tag_list").val(tags);
-		$("ul.tag_cloud").append("<li><a class='tag'>"+tag+"<\/a> <a href='#' class='delete_tag'><\/a><\/li>");
-		$("ul.tag_cloud li:last a.delete_tag").button({icons:{primary: 'ui-icon-trash'}, text: false});
-		$.post("<?php echo site_url("ajax/add_tag"); ?>", { new_tag: tag, good_id: <?php echo $G->id;?> }, function(data) {console.log(data);}, 'json');
+		$("ul.tag_cloud").append("<li><a class='tag'>"+tag+"<\/a> <a href='#' class='delete_tag btn'><i class='icon-trash'><\/i><\/a><\/li>");
+		$.post("<?php echo site_url("ajax/add_tag"); ?>", { 
+				new_tag: tag, 
+				good_id: <?php echo $G->id;?> 
+			}, function(data) {
+				console.log(data);
+			}, 'json'
+		);
 
 	}
 	
@@ -217,13 +222,9 @@ $(function(){
 	/*
 	* Ignore request
 	*/ 
-	
-	$("input:submit").button();
-	
+		
 	$("#delete_gift").click(function(){
-		var answer = confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');
-		if(answer) return true;
-		else return false;
+		return confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');
 	});
 	
 });

@@ -14,7 +14,6 @@
 <!-- eof div.two_panels -->
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
 	$('form').validate();
 	GF.Tags.initialize($("input#tags"));
 });

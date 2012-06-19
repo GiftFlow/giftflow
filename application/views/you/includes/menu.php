@@ -23,6 +23,11 @@
 			Your Needs
 		</a>
 	</li>
+	<li <?php if($segment[2]=='watches'){ echo  "class='active'"; } ?>>
+		<a href='<?php echo site_url('you/watches');?>' > 
+			Your Watches
+		</a>
+	</li>
 	<li <?php if($segment[2]=='transactions'){ echo  "class='active'"; } else if($trans_check) { echo "id='inbox_new'"; } ?>>
 		<a href='<?php echo site_url('you/transactions');?>'> 
       Your Inbox<?php if($trans_check) { echo "(".$new_trans.")"; }?>

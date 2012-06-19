@@ -27,12 +27,12 @@
 				
 
 				<div class="clearfix metadata-bottom">
-					<p class="left label">Status</p>
+					<p class="left meta-label">Status</p>
 					<p class="left field bold"><?php echo ucfirst($transaction->status);?></p>
 				</div>
 				<?php if($transaction->status!="declined" && $transaction->status!="cancelled" && $transaction->status!="completed") { ?>
 				<div class="clearfix metadata-bottom">
-					<p class="left label">What's Next</p>
+					<p class="left meta-label">What's Next</p>
 					<div class="left field">
 						<?php if($transaction->status=="pending"){ ?>
 							<?php if($demander){ ?>
@@ -40,15 +40,17 @@
 								
 								<form method="post" id="cancel_transaction">
 									<input type="hidden" name="form_type" value="transaction_cancel" />
-									<input type="submit" class="button" value="Cancel" />
+									<input type="submit" class="button btn btn-large btn-warning" value="Cancel" style="margin-top: 10px;" />
 								</form>
 
 							<?php } else { ?>
 							
 								<form method='post' id='decide_transaction'>
 									<input type='hidden' name='form_type' value='decide_transaction'/>
-									<input type="submit" class="left button" name='decision' value="Accept" />
-									<input type="submit" class="left button" name='decision' value="Decline" />
+									<div class="btn-group">
+									<input type="submit" class="left button btn btn-large btn-success" name='decision' value="Accept" />
+									<input type="submit" class="left button btn btn-large btn-danger" name='decision' value="Decline" />
+									</div>
 								</form>
 							<?php } ?>
 						<?php } elseif($transaction->status=="active"){ ?>
@@ -57,7 +59,7 @@
 							<?php } else { ?>
 								<p>It's go time! Arrange a meeting to complete the transaction in person and then write a review when you're done.</p>
 								<a href="#" class="left button" id="write_message">Write Message</a>
-								<a href="#" id="write_review" class="left button">Write Review</a>
+								<a href="#" id="write_review" class="left button btn">Write Review</a>
 							<?php } ?>
 						<?php } ?>
 					</div>
@@ -109,7 +111,7 @@
 									<input id="r2" type="radio" value="decline" name="decision">Decline<BR />
 								</fieldset> -->
 							<?php } ?>	
-						<input type="submit" value="Send" class="button" />
+						<input type="submit" value="Send" class="button btn" />
 					</form>
 				</li>
 			</ul>
@@ -131,7 +133,7 @@
 						<input id="r5" type="radio" value="negative" name="rating">Negative<BR />
 					</fieldset>
 					<div class="css_right">
-						<input type="submit" value="Submit Review" class="button clearfix"/>
+						<input type="submit" value="Submit Review" class="button btn clearfix"/>
 						<a href="#" class="hide_modal">Cancel</a>
 					</div>
 				</form>
@@ -184,11 +186,11 @@
 				
 					<?php if ($transaction->status == "pending" && $transaction->decider->id == $logged_in_user_id ) { ?>
 						
-						<a href="#" class="button">Accept Offer</a>
+						<a href="#" class="button btn">Accept Offer</a>
 						
 					<?php } elseif($transaction->status == "active") { ?>
 					
-						<a href="#" class="button complete-transaction">Complete</a>
+						<a href="#" class="button btn complete-transaction">Complete</a>
 					
 					<?php } elseif($transaction->status=="pending" && $transaction_role == "demander"){ ?>
 	
@@ -255,7 +257,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$(".button").button();
 	$("table tr:even").addClass("odd");
 	$("table tr:odd").addClass("even");
 	

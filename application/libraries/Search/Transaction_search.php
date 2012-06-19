@@ -247,8 +247,10 @@ class Transaction_search extends Search
 		if($options->include_events)
 		{
 			// @todo load events
-			$result = $this->CI->db->from('events_view')
-				->where_in('transaction_id', $transaction_id_list)
+			$result = $this->CI->db->from('events AS E ')
+				->select('E.*, ET.title AS event_type')
+				->where_in('E.transaction_id', $transaction_id_list)
+				->join('event_types AS ET ','E.event_type_id=ET.id')
 				->get()
 				->result();
 			

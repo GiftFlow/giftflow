@@ -13,7 +13,7 @@
           <input id ='locate_input' type="text" value="" name="location" />
         </form>
     </span>
-    <a class='button' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>" id='add_button'>Add <?php echo ucfirst($args['type']); ?></a>
+    <a class='button btn' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>" id='add_button'>Add <?php echo ucfirst($args['type']); ?></a>
 
 		<!-- Search Results -->
 		<ul class='results_list'>
@@ -209,10 +209,6 @@ $(function(){
 		$('#search_bar').show();
 	});
 	
-	
-		
-		
-	$('.button').button();
 });
 		
 </script>

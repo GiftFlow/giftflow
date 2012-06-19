@@ -19,23 +19,23 @@
 		</p>
 	</td>
 	<td></td>
-	<td style='width: 500px;'>
+	<td class="span6">
 		<form action="<?php echo site_url('member/login'); ?>" method="post">
 			<p>
 				<label>Email Address</label>
 			</p>
 			<p>
-				<input type="text" name='email' class='required email' id='email' value='' />
+				<input type="text" name='email' class='required email span6' id='email' value='' />
 			</p>
 			<p>
 				<label>Password</label>
 			</p>
 			<p>
-				<input type='password' name='password' class='required' id='password' value='' />
+				<input type='password' name='password' class='required span6' id='password' value='' />
 			</p>
 			<p>
 				<input type='hidden' name='redirect' value="<?php if(!empty($redirect)) echo $redirect; ?>" />
-				<input type='submit' class='submit' value="Login Now" />
+				<input type='submit' class='btn btn-primary btn-large' value="Login Now" />
 			</p>
 		</form>
 		<p style='font-size: .8em;'>No account? <a href="<?php echo site_url('register'); ?>">Click here to sign up.</a></p>
@@ -46,7 +46,6 @@
 </div>
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
 	$("#login form").validate();
 });
 </script>

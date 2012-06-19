@@ -7,14 +7,9 @@
 	
 		<!-- Search Form Module -->
 		<div class='search_module clearfix'>
-			<form name='find_people' id="find_people" action="" method='post'>
-			
-				<p class='css_left'>
-					<input type='text' class='big-border' id="keyword" name='keyword' value='' />
-				</p>
-				<p class='css_left'>
-					<input class='button' type='button' id="find" value='Find' />
-				</p>
+			<form name='find_people' id="find_people" class="well form-search" action="" method='post'>
+				<input type='text' class='search-query' id="keyword" name='keyword' value='' />
+				<input class='btn btn-primary' type='button' id="find" value='Find' />
 			</form>
 		</div>
 		<!-- eof Search Form Module -->
@@ -35,8 +30,8 @@
 <script>
 $(function(){
 
+	// NB: follow button listener function located in footer view
 
-	//$("#find_people").ajaxForm();
 	var ul = $('#results_list');
 
   var send = function send_form() {
@@ -67,16 +62,5 @@ $(function(){
   });
 
 
-
-	$(".follow").click(function(){ 
-		var id = $(this).attr('rel');
-		$.post("<?php echo site_url('people/follow/'); ?>/"+id);
-		$(this).after("<div style='float: right;'><span style='float: left; margin-right: 8px; margin-top: 1px;' class='ui-icon ui-icon-check'><\/span><span style='font-size: .9em; color: #666;'>Following<\/span><\/div>");
-		$(this).remove();
-		return false;
-	});
-
-	$(".button").button();
-	$(".follow").button( { icons: { primary: 'ui-icon-plusthick'}   } );
 });
 </script>

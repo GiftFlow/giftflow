@@ -1,17 +1,19 @@
 <ul id='find_sidebar' class='sidebar_menu filters'>
 	<li>
-			<span class="filter_title">
+		<span class="filter_title">
 		  Search by Keyword
-      </span>
+      	</span>
 
 			<form name='find_goods' id="find_goods" action="" method='post'>
 			
-				<p class='css_left'>
-					<input type='text' class='' id="q" name='q' value='' />
-				</p>
-				<p class='css_left'>
-					<input class='button_lil' type='submit' id="find" value='Find' />
-				</p>
+			<div>
+				<div class='css_left'>
+					<input type='text' class='' style='width: 110px;' id="q" name='q' value='<?php echo $args["q"];?>' />
+				</div>
+				<div class='css_left'>
+					<input class='btn' type='submit' id="find" value='Find' />
+				</div>
+			</div>
 				
 			</form>
 

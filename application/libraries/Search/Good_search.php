@@ -423,15 +423,13 @@ class Good_search extends Search
 			D.type AS demand_type, 
 			DU.id AS demander_id,
 			DU.screen_name AS demander_screen_name,
-			G.good_id, 
-			G.good_title, 
+			D.good_id, 
 			T.id AS transaction_id,
 			T.status AS transaction_status,
 			T.created AS transaction_created')
 			->from('demands AS D ')
 			->join('transactions AS T ','T.id=D.transaction_id')
 			->join('transactions_users AS TU ','T.id=TU.transaction_id')
-			->join('goods_view AS G ','G.good_id=D.good_id')
 			->join('users AS DU ','D.user_id=DU.id')
 			->where('D.good_id',$this->good_id)
 			->where_in('T.status',$status)

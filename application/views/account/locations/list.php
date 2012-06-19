@@ -17,38 +17,41 @@
 							<?php echo $val['title'];?>
 						</span>
 						<?php if($val['default']){ ?>
-							<span id='default'>
-								Default
-							</span>
+							<span class="label label-success">Default</span>
 						<?php } ?>
 						<span id='city_state'>
 							<?php echo $val['address'];?>
 						</span>
 					</div>
-					<div class='list_controls control_right' >
-						<a href="#" class="button left options secondary" style='height: 2.2em;'></a>
-						<ul class='tooltip_menu' >
-							<?php if(!$val['default']) { ?>
-								<li>
-									<a href="<?php echo site_url('account/locations/'.$val['id'].'/default/'); ?>" >
-										<span class='ui-icon ui-icon-star'></span>
-										Make Default Location
-									</a>
-								</li>
-							<?php } ?>
+					
+					<div class="btn-group css_right list_controls">
+					  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog"></i>
+						<span class="caret"></span>
+					  </button>
+					 
+					  <ul class="dropdown-menu">
+						<?php if(!$val['default']) { ?>
 							<li>
-								<a href="<?php echo site_url('account/locations/'.$val['id'].'/edit'); ?>" class='edit'>
-									<span class='ui-icon ui-icon-pencil'></span>
-									Rename
+								<a href="<?php echo site_url('account/locations/'.$val['id'].'/default/'); ?>" >
+									<i class='icon-star'></i>
+									Make Default Location
 								</a>
 							</li>
-							<li>
-								<a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>" >
-									<span class='ui-icon ui-icon-trash'></span>
-									Delete
-								</a>
-							</li>
-						</ul>
+						<?php } ?>
+						<li>
+							<a href="<?php echo site_url('account/locations/'.$val['id'].'/edit'); ?>" class='edit'>
+								<i class='icon-pencil'></i>
+								Rename
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li><a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>">
+							<i class='icon-trash'></i>
+							Delete
+						</a></li>
+						<!-- dropdown menu links -->
+					  </ul>
 					</div>
 				</li>
 			<?php } ?>
@@ -62,8 +65,10 @@
 		
 		 <div class="module bottom">
             <form method="post" id="add_form" name="add_location" action="<?php echo site_url('account/locations/add'); ?>">
+            	<div class="input-append">
                 <input type="text" name="location" class="required" />
-                <input type="submit" value="Add" id="add_location"/>
+                <input type="submit" class="btn" value="Add" id="add_location"/>
+                </div>
             </form>
         </div> 
 	</div>
@@ -74,40 +79,13 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("#add_form").button();
 	$('#add_form').validate();
-	$(".button.options").button({
-		icons: {
-			primary: 'ui-icon-gear',
-			secondary: 'ui-icon-triangle-1-s'
-		}, 
-		text:false
-	}).click(function(){
-		close_menu();
-		$(this).toggleClass('clicked');
-		$(this).addClass('ui-state-focus');
-		$(this).siblings(".tooltip_menu").toggle();
-		$('body').bind('click', function(e){
-    		if($(e.target).closest('ul.tooltip_menu').length == 0){
-				// click happened outside of menu, hide any visible menu items
-				close_menu();
-    		}
-		});
-		return false;
-	});
-	
-	function close_menu(){
-		$('ul.tooltip_menu').hide();
-		$(".button.options").removeClass('clicked');
-	}
 
 	$("#edit_location").jqm({ 	
 		ajax: '@href', 
 		trigger: '.edit', 
 		onLoad: function(){
 			$('#edit_location').jqmAddClose('#close_this'); 
-			$("input:submit").button();
-			$("button").button();
 		} 
 	});
 });

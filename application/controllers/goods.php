@@ -160,8 +160,6 @@ class Goods extends CI_Controller {
 	* called from you::add_gift form
 	* @toDo add validation to check for empty fields (server and client side)
 	*/
-	
-	
 	function add()
 	{
 		$this->auth->bouncer(1);
@@ -182,10 +180,9 @@ class Goods extends CI_Controller {
 			}
 			
 			foreach($full_location as $key=>$val)
-				{
+			{
 					$L->$key = $val;
-				}
-			
+			}
 			
 			$L->user_id = $this->data['logged_in_user_id'];
 			$L->validate();
@@ -197,7 +194,6 @@ class Goods extends CI_Controller {
 			{
 					echo $L->error->string;
 			}
-			
 			
 			// Create Good object
 			$this->G = new Good();
@@ -237,6 +233,17 @@ class Goods extends CI_Controller {
 					);
 				$E = new Event_logger();
 				$E->basic('good_new',$hook_data);
+        
+				// scan the watch list to see if anyone should get notified
+				
+				$this->load->model('watch');
+				$watches = $this->watch->match($U->id, $this->G->title, $this->G->description);
+				
+				$this->load->library('notify');
+				
+				foreach ($watches as $thiswatch) {
+					$this->notify->alert_user_watch_match($thiswatch, $this->G);
+				}
 
 				// Set flashdata
 				$flash = ($this->G->type == 'gift') ? 'Gift Saved!' : 'Need Saved!';
@@ -251,7 +258,6 @@ class Goods extends CI_Controller {
 		}
 		show_error("Good didn't save properly.");
 		return FALSE;
-		
 	}
 	/**
 	*	Main "View Gift" or "View Need" page
@@ -741,6 +747,8 @@ class Goods extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('success', $this->G->title." was deleted successfully."); 
+				// Hook: 'good_deleted'
+				//$this->hooks->call('good_deleted', $this);
 				
 				redirect("you/".$this->G->type."s");
 			}

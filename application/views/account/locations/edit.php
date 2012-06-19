@@ -3,5 +3,8 @@
 	<p><label>Title</label>
 	<input type='text' name='title' value='<?php echo $L->title; ?>' />
 	</p>
-	<p><input type='submit' value='Save' /><button class='secondary' id='close_this'>Cancel</button></p>
+	<p>
+		<input type='submit' value='Save' />
+		<button class='secondary' id='close_this'>Cancel</button>
+	</p>
 </form>

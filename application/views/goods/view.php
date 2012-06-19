@@ -262,16 +262,13 @@
 </div>
 
 <div id="more_photos">
-<?php //foreach($photos as $row) { echo "<img src='".$row['thumb_url']."'/>"; } ?>
+<?php 
+//foreach($photos as $row) { echo "<img src='".$row['thumb_url']."'/>"; } 
+?>
 
 </div>
 
-<div id='request_gift' class='jqmWindow'>
-</div>
-
-<script type='text/javascript'>
-	var tags = new Array();
-	
+<script type='text/javascript'>	
 $(function(){
 		
 	
@@ -312,51 +309,5 @@ $(function(){
 		$("#give_request_form").delay(100).slideDown("slow");
 		return false;
 	});
-	
-	$("#request_gift").jqm({ 	
-		ajax: "<?php echo site_url('gifts/'.$G->id.'/request/ajax'); ?>", 
-		trigger: '#request_this_gift',
-		onLoad: function(){
-			$(".buttonset").buttonset();
-			$("#request_gift").jqmAddClose("#cancel_request");
-		}
-	});
-
-	$(".button").button();
-	$(".buttonset").buttonset();
-
-	$(".ignore_request").live('click', function(){ 
-		var div = $(this).parent().parent().parent();
-	
-		$.post("<?php echo site_url('ajax/request'); ?>", 
-			{ type: 'ignore', 'request_id': $(this).attr('rel') }, 
-			function ( data ) {
-				div.hide().delay(500);
-				$.notifyBar( { html: data, cls: 'success', delay: 4000, animationSpeed: 'slow'});
-			}, 'html'
-		);
-		return false;
-	});
-	$("a.accept_request").live("click", function(){
-		var div = $(this).parent();
-		var divdiv = $(this).parent().parent();
-		$.post("<?php echo site_url('ajax/request'); ?>", { type: 'accept', 'request_id': $(this).attr('rel') }, function (data) {
-			div.hide();
-			divdiv.append(data);
-		}, 'html');
-		return false;
-	});
-	$("a#view_requests").live("click", function(){
-		var div = $(this).parent().parent();
-		$.post("<?php echo site_url('gifts/'.$G->id.'/requests'); ?>", { ajax: 'TRUE' }, 
-			function(data){ 
-				div.html(data);
-				$(".button").button();
-			},
-			'html'
-		);
-		return false;
-	});
-	
 });
 </script>
