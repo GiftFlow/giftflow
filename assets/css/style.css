@@ -93,7 +93,7 @@ a#logo {
 }
 a#logo img{
 	border: none;
-  width:90%;
+  width: 110px;
 }
 #session {
 	float:right;
@@ -171,12 +171,15 @@ ul#nav li a:active{
 }
 
 /* Sidebar Menu */
+ul.sidebar_menu, ul.sidebar_menu select, ul.sidebar_menu input[type=text]{
+	width: 168px;
+}
 ul.sidebar_menu {
 	display:block;
 	float:left;
 	list-style:none;
 	padding: 0;
-	width: 168px;
+	margin: 0;
 }
 ul.sidebar_menu li{
 	margin-bottom: 12px;
