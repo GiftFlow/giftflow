@@ -17,9 +17,7 @@
 							<?php echo $val['title'];?>
 						</span>
 						<?php if($val['default']){ ?>
-							<span id='default'>
-								Default
-							</span>
+							<span class="label label-success">Default</span>
 						<?php } ?>
 						<span id='city_state'>
 							<?php echo $val['address'];?>

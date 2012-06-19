@@ -58,9 +58,7 @@
 							<?php echo $val['caption']; ?>
 						</span>
 						<?php if($val['default']){ print_r($val['default']);?>
-							<span id='default'>
-								Default
-							</span>
+							<span class="label label-success">Default</span>
 						<?php } ?>
 						
 						
