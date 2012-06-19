@@ -168,34 +168,38 @@ if(isset($css))
 
 		<!-- Main Menu -->
 		<ul id='nav'>
-			<li>
+			
 				<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<a href="<?php echo site_url(); if($segment==false || $segment[1]=="you") echo '" class="active'; ?>">
+				<li <?php if($segment==false || $segment[1]=="you") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url();?>"">
 					You
 				</a>
+				</li>
 				<?php } else { ?>
-				<a href="<?php echo site_url(); if($segment==false) echo '" class="active'; ?>">
+				<li <?php if($segment==false) echo 'class="active"'; ?>>
+				<a href="<?php echo site_url();?>">
 					Home
 				</a>
+				</li>
 				<?php } ?>
-			</li>
-			<li>
-				<a href="<?php echo site_url('find/gifts/'); if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active'; ?>">
+
+			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('find/gifts/');?>">
 					Gifts
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('find/needs/'); if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('find/needs/');?>">
 					Needs
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('people'); if($segment[1]=="people") echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="people") echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('people');?>">
 					People
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('about'); if($segment[1]=="about") echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url('about');?>">
 					About
 				</a>
 			</li>
