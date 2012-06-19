@@ -20,8 +20,8 @@
 		
 		<p class ='nicebigtext'>Log in now and start giving</p>
 		<div class='landing_panel'>
-			<a class='button' href='<?php echo site_url('register'); ?>'>Sign Up Now</a>
-			<a class='button secondary' href='<?php echo site_url('about/tour'); ?>'>Take The Tour</a>
+			<a class='btn btn-primary btn-large' href='<?php echo site_url('register'); ?>'>Sign Up Now</a>
+			<a class='btn btn-large' href='<?php echo site_url('about/tour'); ?>'>Take The Tour</a>
 			<p id='one'>GiftFlow is a non-profit. Please <a href='about/donate'>Donate Here</a></p>
 			<p>Welcome to our new Beta version! </p>
 		</div>

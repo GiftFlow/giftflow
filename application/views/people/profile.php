@@ -262,15 +262,16 @@ if(!$active) { echo "DISABLED"; }
 <div class='profile_item'>
 	<?php if($u->id!=$logged_in_user_id) { ?>
 		<?php if(isset($is_following)&&$is_following) { ?>
-			<a class='button' id='already_following'>
+			<a class='btn btn-large disabled btn-primary' id='already_following'>
 				Following
 			</a>
 			<br />
-			<a href='<?php echo site_url('people/'.$u->id.'/unfollow'); ?>'>
+			<a href='<?php echo site_url('people/unfollow/'.$u->id); ?>'>
 				Unfollow
 			</a> 
 		<?php } else { ?>
-			<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='button' id='follow_this'>
+			<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='btn btn-primary btn-large' id='follow_this'>
+				<i class="icon-plus icon-white"></i>
 				Follow
 			</a>
 		<?php } ?>
@@ -362,7 +363,6 @@ $(function(){
 		$(".profile_pane").hide();
 		$("#"+$(this).attr("rel")).show();
 	});
-	$("a#already_following").button({ icons: { primary: 'ui-icon-check' } } );
 	$(".give_button").button();
 
 

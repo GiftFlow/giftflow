@@ -5,6 +5,8 @@
 	
 	
 	<div class='right_content'>
+		<h3>Watch a Keyword</h3>
+
 		<?php echo $form; ?>
 		
 		<h3>Keywords you are currently watching</h3>
@@ -55,7 +57,6 @@
 $(function(){
 	
 
-	$("input:submit").button();
 //	$('form').validate();
 
 
@@ -66,7 +67,6 @@ $(function(){
 		
 
 //	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
-	$(".button").button();
 	
 	$(".button.options").button({
 		icons: {

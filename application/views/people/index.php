@@ -6,11 +6,11 @@
 		
 		<div class="top_filters clearfix">
     
-    <div id='options'>
-      <a class='type button' id='individual'>Individuals</a>
-      <a class='type button' id='nonprofit'>Non-Profits</a>
-      <a class='type button' id='business'>Businesses</a>
-    </div> 
+    <div class="btn-group" id='options'>
+      <a class='type btn btn-large' id='individual'>Individuals</a>
+      <a class='type btn btn-large' id='nonprofit'>Non-Profits</a>
+      <a class='type btn btn-large' id='business'>Businesses</a>
+    </div>
 
 		</div><!-- close top_filters clearfix-->
   <div class='search_results'>
@@ -146,17 +146,13 @@ $(function(){
 	$(".follow").click(function(){ 
 		var id = $(this).attr('rel');
 		$.post("<?php echo site_url('people/follow/'); ?>/"+id);
-		$(this).after("<div style='float: right;'><span style='float: left; margin-right: 8px; margin-top: 1px;' class='ui-icon ui-icon-check'><\/span><span style='font-size: .9em; color: #666;'>Following<\/span><\/div>");
+		$(this).after("<div class='css_right'><i class='icon-ok'></i>  Following</div>");
 		$(this).remove();
 		return false;
 	});
 
-  $('#options').buttonset();
-	$(".follow").button( { icons: { primary: 'ui-icon-plusthick'}   } );
 	$("#community_sources").buttonTabs();
   
-	$("a#already_following").button({ icons: { primary: 'ui-icon-check' } } );
-	
 	function paginate(){
 		$("ul.simplePagerNav").remove();
 		$("ul.results_list").quickPager({ pageSize: 20});
