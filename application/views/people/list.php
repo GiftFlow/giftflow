@@ -30,12 +30,10 @@ $(function(){
 	$(".follow").click(function(){ 
 		var id = $(this).attr('rel');
 		$.post("<?php echo site_url('people/follow/'); ?>/"+id);
-		$(this).after("<div style='float: right;'><span style='float: left; margin-right: 8px; margin-top: 1px;' class='ui-icon ui-icon-check'><\/span><span style='font-size: .9em; color: #666;'>Following<\/span><\/div>");
+		$(this).after("<div class='css_right'><i class='icon-ok'></i>Following</div>");
 		$(this).remove();
 		return false;
 	});
-	$(".button").button();
-	$(".follow").button( { icons: { primary: 'ui-icon-plusthick'}   } );
 	$("#community_sources").buttonTabs();
 });
 </script>

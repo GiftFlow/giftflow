@@ -52,14 +52,14 @@
 				
 				<!-- Follow / Following Button -->
 				<?php if(isset($val->am_following) && $val->am_following){ ?>
-					<div class="css_right">
-						<span style='margin-right: 8px; margin-top: 1px;' class='css_left ui-icon ui-icon-check'></span>
-						<span style='font-size: .9em; color: #666;'>Following</span>
+					<div class='css_right'>
+						<i class='icon-ok'></i> Following
 					</div>
 				<?php } else { ?>
-					<a class='follow css_right button' href='#' rel='<?php echo $val->id; ?>'>
+					<button class="btn follow css_right" rel="<?php echo $val->id; ?>">
+						<i class="icon-plus"></i>
 						Follow
-					</a>
+					</button>
 				<?php } ?>
 				
 			</li>
