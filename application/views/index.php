@@ -13,10 +13,6 @@
 			</div>
 </div>
 <div id='landing_right'>
-		<div class='landing_panel' id='holiday' >
-			<p class='nicebigtext'>Welcome to our holiday campaign:<br /> <span class='green'>Give New Haven!</span></p>
-			<p>Check back in soon to hear about the gifts and needs of participating businesses and non-profits in the New Haven area.</p>
-		</div>
 		
 		<p class ='nicebigtext'>Log in now and start giving</p>
 		<div class='landing_panel'>
