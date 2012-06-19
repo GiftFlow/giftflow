@@ -8,7 +8,7 @@ body {
 	margin: 0;
 	padding: 0;
 	/*background-image: url('../images/background-whitey.jpg');*/
-	background-image: url('../images/background-noise.jpg');
+	background-image: url('../images/dark_bg_noise.png');
 }
 .wrapper{
 	width: 960px;
@@ -21,7 +21,7 @@ body {
 	background: #65B15B url('../images/solid_topnav_bg.png') repeat-x;
 }
 #main {
-	/*background:white;*/
+	background-image: url('../images/background-noise.jpg');
 	padding: 20px 0 50px 0;
 	min-height: 488px;
 }
@@ -30,6 +30,7 @@ body {
 	clear:both;
 	color: #fff;
 	font-size: 0.8em;
+	border-top: 2px solid #666;
 }
 p{
 	font-weight: 300;
