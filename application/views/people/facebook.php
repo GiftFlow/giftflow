@@ -16,13 +16,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$(".follow").click(function(){ 
-		var id = $(this).attr('rel');
-		$.post("<?php echo site_url('people/follow/'); ?>/"+id);
-		$(this).after("<div style='float: right;'><span style='float: left; margin-right: 8px; margin-top: 1px;' class='ui-icon ui-icon-check'><\/span><span style='font-size: .9em; color: #666;'>Following<\/span><\/div>");
-		$(this).remove();
-		return false;
-	});
-	$(".follow").button( { icons: { primary: 'ui-icon-plusthick'}   } );
+	// NB: follow button listener function located in footer view
 });
 </script>

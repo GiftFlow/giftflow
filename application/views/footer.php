@@ -30,6 +30,21 @@
 
 <script type="text/javascript">
 $(function(){
+	
+	<?php /**
+	*	Follow user button click listener
+	*	Used extensively in the people section. Included here to make it easier
+	*	to maintain.
+	*	@todo move to external javascript file that only loads in people section
+	*/ ?>
+	$(".follow").live("click",function(){ 
+		var id = $(this).attr('rel');
+		$.post("<?php echo site_url('people/follow/'); ?>/"+id);
+		$(this).after("<div class='css_right'><i class='icon-ok'></i>  Following</div>");
+		$(this).remove();
+		return false;
+	});
+
 
 	$("ul.results_list li, ul.transactions li").live("click",function(){
 		window.location.href = $(this).find("a.title").attr("href");
