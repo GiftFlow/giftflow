@@ -8,7 +8,7 @@
 			
 			<div>
 				<div class='css_left'>
-					<input type='text' class='' style='width: 110px;' id="q" name='q' value='' />
+					<input type='text' class='' style='width: 110px;' id="q" name='q' value='<?php echo $args["q"];?>' />
 				</div>
 				<div class='css_left'>
 					<input class='btn' type='submit' id="find" value='Find' />
