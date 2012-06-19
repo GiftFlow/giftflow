@@ -27,12 +27,12 @@
 				
 
 				<div class="clearfix metadata-bottom">
-					<p class="left label">Status</p>
+					<p class="left meta-label">Status</p>
 					<p class="left field bold"><?php echo ucfirst($transaction->status);?></p>
 				</div>
 				<?php if($transaction->status!="declined" && $transaction->status!="cancelled" && $transaction->status!="completed") { ?>
 				<div class="clearfix metadata-bottom">
-					<p class="left label">What's Next</p>
+					<p class="left meta-label">What's Next</p>
 					<div class="left field">
 						<?php if($transaction->status=="pending"){ ?>
 							<?php if($demander){ ?>
@@ -40,15 +40,17 @@
 								
 								<form method="post" id="cancel_transaction">
 									<input type="hidden" name="form_type" value="transaction_cancel" />
-									<input type="submit" class="button btn" value="Cancel" />
+									<input type="submit" class="button btn btn-large btn-warning" value="Cancel" style="margin-top: 10px;" />
 								</form>
 
 							<?php } else { ?>
 							
 								<form method='post' id='decide_transaction'>
 									<input type='hidden' name='form_type' value='decide_transaction'/>
-									<input type="submit" class="left button btn" name='decision' value="Accept" />
-									<input type="submit" class="left button btn" name='decision' value="Decline" />
+									<div class="btn-group">
+									<input type="submit" class="left button btn btn-large btn-success" name='decision' value="Accept" />
+									<input type="submit" class="left button btn btn-large btn-danger" name='decision' value="Decline" />
+									</div>
 								</form>
 							<?php } ?>
 						<?php } elseif($transaction->status=="active"){ ?>
