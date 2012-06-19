@@ -80,30 +80,6 @@
 <script type='text/javascript'>
 $(function(){
 	$('#add_form').validate();
-	$(".button.options").button({
-		icons: {
-			primary: 'ui-icon-gear',
-			secondary: 'ui-icon-triangle-1-s'
-		}, 
-		text:false
-	}).click(function(){
-		close_menu();
-		$(this).toggleClass('clicked');
-		$(this).addClass('ui-state-focus');
-		$(this).siblings(".tooltip_menu").toggle();
-		$('body').bind('click', function(e){
-    		if($(e.target).closest('ul.tooltip_menu').length == 0){
-				// click happened outside of menu, hide any visible menu items
-				close_menu();
-    		}
-		});
-		return false;
-	});
-	
-	function close_menu(){
-		$('ul.tooltip_menu').hide();
-		$(".button.options").removeClass('clicked');
-	}
 
 	$("#edit_location").jqm({ 	
 		ajax: '@href', 

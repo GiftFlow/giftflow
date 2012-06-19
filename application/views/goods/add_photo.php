@@ -33,25 +33,31 @@
 		<?php if(!empty($photos)) { ?>
 			<?php foreach($photos as $key=>$val) { ?>
 				<li id='<?php echo $val['id']; ?>' class='clearfix'>
-					<div class='list_controls control_right'>
-						<a href="#" class="button left options secondary" style='height: 2.2em;'></a>
-						<ul class='tooltip_menu'>
-							<?php if(!$val['default']) { ?>
-								<li>
-									<a href="<?php echo site_url($G->type.'s/'.$G->id.'/photo_default/'.$val['id']); ?>" >
-										<span class='ui-icon ui-icon-star'></span>
-										Make Default Photo
-									</a>
-								</li>
-							<?php } ?>
+					
+					<!-- Options Dropdown Menu -->
+					<div class="btn-group css_right">
+					  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog"></i>
+						<span class="caret"></span>
+					  </button>
+					 
+					  <ul class="dropdown-menu">
+						<?php if(!$val['default']) { ?>
 							<li>
-								<a href="<?php echo site_url($G->type.'s/'.$G->id.'/photo_delete/'.$val['id']); ?> " >
-									<span class='ui-icon ui-icon-trash'></span>
-									Delete
+								<a href="<?php echo site_url($G->type.'s/'.$G->id.'/photo_default/'.$val['id']); ?>" >
+									<i class="icon-star"></i>
+									Make Default Photo
 								</a>
 							</li>
-						</ul>
+						<?php } ?>
+						<li class="divider"></li>
+						<li><a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>">
+							<i class='icon-trash'></i>
+							Delete
+						</a></li>
+					  </ul>
 					</div>
+					
 					<div class="list_content">
 						<img src="<?php echo $val['thumb_url']; ?>"/>
 						<span id='address'>
@@ -80,32 +86,6 @@ $(function(){
 	// Style buttons
 	$('.button').button();
 	$(".buttonset").buttonset();
-	
-	$(".button.options").button({
-		icons: {
-			primary: 'ui-icon-gear',
-			secondary: 'ui-icon-triangle-1-s'
-		}, 
-		text:false
-	}).click(function(){
-		close_menu();
-		$(this).toggleClass('clicked');
-		$(this).addClass('ui-state-focus');
-		$(this).siblings(".tooltip_menu").toggle();
-		$('body').bind('click', function(e){
-    		if($(e.target).closest('ul.tooltip_menu').length == 0){
-				// click happened outside of menu, hide any visible menu items
-				close_menu();
-    		}
-		});
-		return false;
-	});
-	
-	function close_menu(){
-		$('ul.tooltip_menu').hide();
-		$(".button.options").removeClass('clicked');
-	}
-
 	$("input:submit").button();
 });
 

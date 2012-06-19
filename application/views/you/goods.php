@@ -28,30 +28,6 @@
 									<!-- dropdown menu links -->
 								  </ul>
 								</div>
-								<!--<div class='list_controls' >
-									<a href="#" class="button btn left options secondary" style='height: 2.2em;'></a>
-									<ul class='tooltip_menu'>
-										<li>
-											<a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit');?>" >
-											<span class='ui-icon ui-icon-star'></span>
-											Edit
-											</a>
-										</li>
-										<li>
-											<a href="<?php echo site_url($val->type.'s/'.$val->id.'/photo_add');?>" >
-											<span class='ui-icon ui-icon-star'></span>
-											Add Photo
-											</a>
-										</li>
-										<li>
-										
-											<a href="<?php echo site_url('gifts/'.$val->id.'/disable'); ?>" id="delete_gift" >
-											<span class='ui-icon ui-icon-trash'></span>
-											Delete
-											</a>
-										</li>
-									</ul>
-								</div>-->
 								
 								<div id='edit_location' class='jqmWindow'>
 								</div>					
@@ -108,31 +84,6 @@ $(function(){
 
 	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
 	
-	$(".button.options").button({
-		icons: {
-			primary: 'ui-icon-gear',
-			secondary: 'ui-icon-triangle-1-s'
-		}, 
-		text:false
-	}).click(function(){
-		close_menu();
-		$(this).toggleClass('clicked');
-		$(this).addClass('ui-state-focus');
-		$(this).siblings(".tooltip_menu").toggle();
-		$('body').bind('click', function(e){
-    		if($(e.target).closest('ul.tooltip_menu').length == 0){
-				// click happened outside of menu, hide any visible menu items
-				close_menu();
-    		}
-		});
-		return false;
-	});
-	
-	function close_menu(){
-		$('ul.tooltip_menu').hide();
-		$(".button.options").removeClass('clicked');
-	}
-
 	$("#edit_location").jqm({ 	
 		ajax: '@href', 
 		trigger: '.edit', 
