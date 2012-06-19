@@ -226,7 +226,7 @@ if(!$active) { echo "DISABLED"; }
 		<input type="hidden" name="decider_id" value="<?php echo $this->uri->segment(2); ?>" />
 		<textarea name="reason"></textarea>
 		<br />
-		<p><input style="float:left;" type="submit" value="Send" class="give_button" /></p>
+		<p><input style="float:left;" type="submit" value="Send" class="btn btn-large" /></p>
 		<br />
 		
 			<?php if(!empty($potential_gifts)) {
@@ -363,7 +363,6 @@ $(function(){
 		$(".profile_pane").hide();
 		$("#"+$(this).attr("rel")).show();
 	});
-	$(".give_button").button();
 
 
 	var show = <?php echo $show_gallery; ?>;

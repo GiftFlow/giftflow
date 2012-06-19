@@ -2175,55 +2175,6 @@ ul.transactions li .updated{
 	margin: 5px 8px 0 0;
 	font-size: 12px;
 }
-ul.tooltip_menu{
-	display: none;
-	list-style: none;
-	width: 150px;
-	background: white;
-	padding: 0;
-	margin: 2.2em 0 0 0;
-	position: absolute;
-	border: 1px solid #333;
-	-moz-border-radius: 4px;
-	float: right;
-	filter:alpha(opacity=100) !important;
-	-moz-opacity:1 !important;
-	opacity: 1 !important;
-	z-index: 500;
-	padding: 10px 0px;
-}
-ul.list_menu li ul.tooltip_menu li,ul#locations_list li ul.tooltip_menu li:hover{
-	background: none;
-	padding: 0 !important;
-	margin: 0;
-	border-bottom: 0px;
-}
-ul.list_menu li ul.tooltip_menu li a{
-	display: block;
-	padding: 5px 10px;
-	border-bottom: 0px;
-	font-size: .8em;
-}
-ul.list_menu li ul.tooltip_menu li a:hover{
-	background: #555;
-	color: white;
-}
-ul.list_menu li ul.tooltip_menu li a .ui-icon{
-	margin-right: 10px;
-	float: left;
-}
-ul.list_menu li ul.tooltip_menu li a:hover .ui-icon{
-	background-image: url("green/images/ui-icons_ffffff_256x240.png");
-}
-ul.list_menu li .list_controls .options.clicked{
-	opacity: 1;
-	filter:alpha(opacity=100) !important;
-	-moz-opacity:1 !important;
-	background: url('green/images/secondary_hover.png') 50% 50% repeat-x #979797;
-}
-ul.list_menu li .list_controls .options.clicked .ui-icon{
-	background-image: url("green/images/ui-icons_454545_256x240.png");
-}
 
 #more_photos{
 	padding-top:20px;

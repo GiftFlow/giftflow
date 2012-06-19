@@ -15,7 +15,7 @@
 				<input type="text" name='email' class='required email' id='email' value='' />
 			</p>
 
-				<input type='submit' class='submit' value="Reset My Password" />
+				<input type='submit' class='btn-primary btn' value="Reset My Password" />
 			</p>
 		</form>
 	</td>
@@ -24,7 +24,6 @@
 </div>
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
 	$("#new_password").validate();
 	$("p.alert_error").css('margin-bottom', '0px');
 	

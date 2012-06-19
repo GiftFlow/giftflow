@@ -769,52 +769,6 @@ class Account extends CI_Controller {
 		$this->hooks->call('userdata_updated');
 		redirect('account/photos');
 	}
-	
-	/**
-	*	@deprecated
-	*	from old version, code not maintained
-	*/
-	protected function _photos_edit( $id, $param = NULL )
-	{
-		if(!empty($_POST))
-		{
-			$P = new Photo($_POST['photo_id']);
-			$P->caption = $_POST['caption'];
-			$P->save();
-			if(!empty($_POST['default'])&&$_POST['default']==true)
-			{
-				$this->U->save_default_photo($P);
-			}
-			$this->session->set_flashdata('success', 'Photo edited successfully!');
-			redirect('account/photos/'.$id.'/edit');
-		}
-		else
-		{
-			if( $param == "delete" )
-			{
-				$P = new Photo($id);
-				$P->delete();
-				
-				$this->session->set_flashdata('success', 'Photo deleted!');
-				redirect('account/photos');
-			}
-			else
-			{
-				$this->U->default_photo->get();
-				if($this->U->default_photo->id==$id)
-				{
-					$this->data['default'] = TRUE;
-				}
-				$this->data['photo'] = new Photo($id);
-				$this->data['title'] = "Edit Photo";
-				$this->load->view('header', $this->data);
-				$this->data['active_link'] = 'photos';
-				$this->load->view('account/menu', $this->data);
-				$this->load->view('account/photos/edit', $this->data);
-				$this->load->view('footer', $this->data);
-			}
-		}
-	}
 
 	function _process_settings()
 	{

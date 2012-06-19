@@ -41,6 +41,8 @@
 
 <script type='text/javascript'>
 $(function(){
+	
+	// NB: follow button listener function located in footer view
 
     //Namespace wrapper
     var GF = {
@@ -48,10 +50,6 @@ $(function(){
       Data: {},
       Ajax: {}
     };
-
-    //Write preloaded data
-    
-
 
     GF.Params = (function() {
 
@@ -140,16 +138,6 @@ $(function(){
         GF.Params.set("type",$(this).attr('id'));
         GF.Ajax.request();
     });
-
-
-
-	$(".follow").click(function(){ 
-		var id = $(this).attr('rel');
-		$.post("<?php echo site_url('people/follow/'); ?>/"+id);
-		$(this).after("<div class='css_right'><i class='icon-ok'></i>  Following</div>");
-		$(this).remove();
-		return false;
-	});
 
 	$("#community_sources").buttonTabs();
   

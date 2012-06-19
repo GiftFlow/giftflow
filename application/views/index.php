@@ -26,7 +26,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("input:submit, a.button").button();
 	
 	var video = $('#video');
 	var thumb = $('#video_thumb');

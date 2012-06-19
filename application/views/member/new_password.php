@@ -28,8 +28,7 @@
 			</p>
 
 			<p>
-
-				<input type='submit' class='submit' value="Reset Password" />
+				<input type='submit' class='btn btn-primary' value="Reset Password" />
 			</p>
 		</form>
 	</td>
@@ -38,7 +37,7 @@
 </div>
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
+
 	$("#new_password").validate({
 		rules: { 
 			confirm_password: {
