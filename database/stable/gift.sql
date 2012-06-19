@@ -554,7 +554,7 @@ CREATE  TABLE IF NOT EXISTS `terms` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8, 
-COMMENT = 'The `terms` data model stores alert templates and notifications' ;
+COMMENT = '`terms` stores alert templates and notifications' ;
 
 -- CREATE UNIQUE INDEX `name` ON `terms` (`name` ASC) ;
 
