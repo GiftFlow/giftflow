@@ -12,25 +12,23 @@
 						if($val->status !='disabled')
 						{?>
 							<li class="clearfix">
+							
+								<!-- Options Dropdown Menu -->
 								<div class="btn-group css_right">
 								  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
 								  	<i class="icon-cog"></i>
 								  	<span class="caret"></span>
 								  </button>
-								  
-									
 								 
 								  <ul class="dropdown-menu">
 								  	<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit');?>">Edit</a></li>
 									<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/photo_add');?>">Add Photo</a></li>
 									<li class="divider"></li>
 									<li><a href="<?php echo site_url('gifts/'.$val->id.'/disable'); ?>">Delete</a></li>
-									<!-- dropdown menu links -->
 								  </ul>
 								</div>
+								<!-- eof Options Dropdown Menu -->
 								
-								<div id='edit_location' class='jqmWindow'>
-								</div>					
 								<a href="#" class="user_image medium left">
 									<img class='thumb_image' src="<?php if(isset($val->photo->thumb_url)) { echo $val->photo->thumb_url; } else { echo $val->default_photo->url; }?>" />		
 								</a>
@@ -84,19 +82,8 @@ $(function(){
 
 	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
 	
-	$("#edit_location").jqm({ 	
-		ajax: '@href', 
-		trigger: '.edit', 
-		onLoad: function(){
-			$('#edit_location').jqmAddClose('#close_this'); 
-			$("button").button();
-		} 
-	});
-	
 	$("#delete_gift").click(function(){
-		var answer = confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');
-		if(answer) return true;
-		else return false;
+		return confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');
 	});
 	
   //Renders unique addthis buttons for every row!
@@ -118,8 +105,7 @@ $(function(){
         description: $.trim(mydescription)+'...',
         image: $.trim(myimage)
     };
-//    console.log(addcon);
-  //  addthis.button('.addthis', addcon, addshare); 
+
   });
 
 });

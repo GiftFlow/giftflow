@@ -49,10 +49,6 @@ $(function(){
       Ajax: {}
     };
 
-    //Write preloaded data
-    
-
-
     GF.Params = (function() {
 
       var api = {};

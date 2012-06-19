@@ -36,7 +36,6 @@
 $(function(){
 
 
-	//$("#find_people").ajaxForm();
 	var ul = $('#results_list');
 
   var send = function send_form() {
