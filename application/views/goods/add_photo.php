@@ -18,7 +18,7 @@
 					<input type="hidden" name="method" value="_add_photo"/>
 					<input type="hidden" name="good_id" value="<?php echo $G->id; ?>"/>
 				</div>
-				<input type='submit' name="Submit" value='' class='blue' /> 
+				<input type='submit' name="Submit" value='Upload' class='btn btn-primary' /> 
 				</form>
 				<p> Maximum allowed size is 200KB</p>
 			</div>
@@ -79,14 +79,3 @@
 	</div>
 
 <div class="bottom"></div>
-
-<script type='text/javascript'>
-$(function(){
-	
-	// Style buttons
-	$('.button').button();
-	$(".buttonset").buttonset();
-	$("input:submit").button();
-});
-
-</script>

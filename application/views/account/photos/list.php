@@ -32,14 +32,14 @@
 						<?php }?>
 							
 					<p>
-						<label>
+						<label class="radio">
 							<input type='radio' <?php if(empty($U->default_photo_id)){ echo "checked='checked'"; } ?> name='source' value='giftflow' />
 							Default Icon
 						</label>
 					</p>
 					
 					<p>
-						<label>
+						<label class="radio">
 							<input type='radio' name='source' value='facebook' <?php if(!$facebook_connected){ echo "disabled='disabled' "; } else if($U->photo_source=="facebook"){ echo "checked='checked' "; } ?>/>
 							Facebook Profile Photo<?php if(!$facebook_connected){?>(<a href="<?php echo site_url('account/link/facebook');?>">Click here to connect with your Facebook profile</a>)<?php } ?>
 							
@@ -47,14 +47,14 @@
 					</p>
 					
 					<p>
-						<label style='color: #ccc;'>
+						<label style='color: #ccc;' class="radio">
 							<input type='radio' name='source' value='twitter' disabled='disabled' />
 							Coming Soon: Use Twitter Profile Photo
 						</label>
 					</p>
 					
 					<p>
-						<label style='color: #ccc;'>
+						<label style='color: #ccc;' class="radio">
 							<input type='radio' name='source' value='gravatar' disabled='disabled' />
 							Coming Soon: Use Gravatar
 						</label>
@@ -62,7 +62,7 @@
 					
 					<p>
 						<input type="hidden" name="form_type" value="choose" />
-						<input type='submit' class="button btn" value='Save' />
+						<input type='submit' class="button btn btn-primary" value='Save' />
 					</p>
 				</form>
 		</div>
@@ -78,7 +78,7 @@
 					<input type="text" name="caption"/>
 					<input type="hidden" name="form_type" value="photo_upload"/>
 					<p>
-					<input type="submit" value="Upload"/>
+					<input type="submit" class="btn btn-primary" value="Upload"/>
 					</p>
 				</form>
 			<?php } else { ?>
@@ -95,14 +95,11 @@
 
 <script type='text/javascript'>
 $(function(){
-	$(".button").button();
-	$("#add_new_photo").button();
-	
-		$("ul.gray_toolbar li a").click(function(){
-			$("ul.gray_toolbar li a").removeClass("active");
-			$(this).addClass('active');
-			$(".gift_pane").hide();
-			$("#"+$(this).attr("rel")).show();
-		});
+	$("ul.gray_toolbar li a").click(function(){
+		$("ul.gray_toolbar li a").removeClass("active");
+		$(this).addClass('active');
+		$(".gift_pane").hide();
+		$("#"+$(this).attr("rel")).show();
+	});
 });
 </script>
