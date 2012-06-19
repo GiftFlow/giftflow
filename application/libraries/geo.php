@@ -90,15 +90,18 @@ class Geo
 	{
 		Console::logSpeed("Geo::geocode()");
 		
-		// first query our database. if not found there, query google
 		
+		// first query our database. if not found there, query google
+		$this->CI->load->library('datamapper');
 		$L = new Location();
 		$L->where('address', $address)->get();
 		
 		if ($L->exists()) {
 			
 			if(!is_object($object))
+			{
 				$object = new stdClass;
+			}
 
 			// Shortcut to the part of $data we're interested in
 			$object->address = $L->address;
