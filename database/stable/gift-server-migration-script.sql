@@ -518,16 +518,28 @@ ALTER TABLE users MODIFY COLUMN type ENUM('individual','nonprofit', 'business');
 
 -- ---------------------------------------------------------------------------
 -- v2.5 to 2.6
--- 2011-09-02 to 2012-06-05
--- @todo Document changes made my Jono, such as new watches table ------------------------------------------------------------------------------
+-- 2011-11-02 to 2012-06-02
+-- New watches table
+-- By Jono
+------------------------------------------------------------------------------
 
-----
----- ADD CHANGES HERE!
-----
+CREATE TABLE IF NOT EXISTS `watches` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) UNSIGNED NOT NULL,
+	`keyword` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `watches_users`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `users` (`id`)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 -- ---------------------------------------------------------------------------
 -- v2.6 to 2.7
--- ???? to 2012-06-21
+-- 2012-06-02 to 2012-06-21
 -- Sessions table changes required for codeigniter upgrade
 -- ---------------------------------------------------------------------------
 
