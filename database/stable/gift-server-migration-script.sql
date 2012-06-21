@@ -516,6 +516,24 @@ DROP TABLE `message_deliveries`;
 -- ---------------------------------------------------------------------------
 ALTER TABLE users MODIFY COLUMN type ENUM('individual','nonprofit', 'business');
 
+-- ---------------------------------------------------------------------------
+-- v2.5 to 2.6
+-- 2011-09-02 to 2012-06-05
+-- @todo Document changes made my Jono, such as new watches table ------------------------------------------------------------------------------
+
+----
+---- ADD CHANGES HERE!
+----
+
+-- ---------------------------------------------------------------------------
+-- v2.6 to 2.7
+-- ???? to 2012-06-21
+-- Sessions table changes required for codeigniter upgrade
+-- ---------------------------------------------------------------------------
+
+CREATE INDEX last_activity_idx ON ci_sessions(last_activity);
+ALTER TABLE ci_sessions CHANGE ip_address ip_address varchar(45) default '0' NOT NULL;
+ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
