@@ -179,6 +179,7 @@
 	color:#FFF;
 }
 .pQp .main td, pre{
+	background: none !important;
 	font-family:Monaco, "Consolas", "Lucida Console", "Courier New", monospace;
 	font-size:11px;
 }

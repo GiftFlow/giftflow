@@ -53,7 +53,7 @@ class DMZ_RowIndex {
 	 * @param	DataMapper $object THe DataMapper object.
 	 * @param	DataMapper|array|int $id The ID or object to look for.
 	 * @param	array $leave_select A list of items to leave in the selection array, overriding the automatic removal.
-	 * @param	<type> $distinct_on If TRUE, use DISTINCT ON (not all DBs support this)
+	 * @param	bool $distinct_on If TRUE, use DISTINCT ON (not all DBs support this)
 	 * @return	array Returns an array of row indices.
 	 */
 	public function row_indices($object, $ids, $leave_select = array(), $distinct_on = FALSE) {
@@ -68,6 +68,9 @@ class DMZ_RowIndex {
 			} else {
 				$new_ids[] = intval($id);
 			}
+		}
+		if(!is_array($leave_select)) {
+			$leave_select = array();
 		}
 		// duplicate to ensure the query isn't wiped out
 		$object = $object->get_clone(TRUE);
@@ -113,6 +116,9 @@ class DMZ_RowIndex {
 				}
 			}
 		}
+
+		// in case the user wants to know
+		$object->rowindex_total_rows = $query->num_rows();
 
 		// return results
 		return $row_indices;
