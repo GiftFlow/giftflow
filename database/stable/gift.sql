@@ -1,3 +1,9 @@
+-- -----------------------------------------------------
+-- GiftFlow Database v2.6
+-- Last Modified: 06-02-2012
+-- See Change Log at /database/stable/gift-server-migration-script.sql
+-- -----------------------------------------------------
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
@@ -58,10 +64,6 @@ AUTO_INCREMENT = 83
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'The `photos` data model stores information about photos for ' ;
 
--- CREATE INDEX `user_id` ON `photos` (`user_id` ASC) ;
-
--- CREATE INDEX `photos_ibfk_2` ON `photos` (`good_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `users`
@@ -118,16 +120,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 532
 DEFAULT CHARACTER SET = utf8;
 
--- CREATE INDEX `locations_users_fk` ON `users` (`default_location_id` ASC) ;
-
--- CREATE INDEX `photos_users` ON `users` (`default_photo_id` ASC) ;
-
--- CREATE INDEX `user_screen_name` ON `users` (`screen_name` ASC) ;
-
--- CREATE INDEX `user_first_name` ON `users` (`first_name` ASC) ;
-
--- CREATE INDEX `user_last_name` ON `users` (`last_name` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `locations`
@@ -160,11 +152,6 @@ AUTO_INCREMENT = 241
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'The `locations` data model stores place information for both' ;
 
--- CREATE INDEX `location_user_id` ON `locations` (`user_id` ASC) ;
-
--- CREATE INDEX `locations_users` ON `locations` (`user_id` ASC) ;
-
--- CREATE INDEX `location_latlng` ON `locations` (`latitude` ASC, `longitude` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -215,18 +202,6 @@ AUTO_INCREMENT = 358
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'The `goods` data object is an abstraction which represents b' ;
 
--- CREATE INDEX `good_location_id` ON `goods` (`location_id` ASC) ;
-
--- CREATE INDEX `good_user_id` ON `goods` (`user_id` ASC) ;
-
--- CREATE INDEX `good_default_photo_id` ON `goods` (`default_photo_id` ASC) ;
-
--- CREATE INDEX `good_category_id` ON `goods` (`category_id` ASC) ;
-
--- CREATE INDEX `good_type` ON `goods` (`type` ASC) ;
-
--- CREATE INDEX `good_title` ON `goods` (`title` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `transactions`
@@ -273,12 +248,6 @@ CREATE  TABLE IF NOT EXISTS `demands` (
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
--- CREATE INDEX `demand_user_id` ON `demands` (`user_id` ASC) ;
-
--- CREATE INDEX `demand_transaction_id` ON `demands` (`transaction_id` ASC) ;
-
--- CREATE INDEX `demand_good_id` ON `demands` (`good_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -337,12 +306,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Single messages, connected via thread or transaction' ;
 
--- CREATE INDEX `message_thread_id` ON `messages` (`thread_id` ASC) ;
-
--- CREATE INDEX `message_user_id` ON `messages` (`user_id` ASC) ;
-
--- CREATE INDEX `message_transaction_id` ON `messages` (`transaction_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `events`
@@ -382,14 +345,6 @@ CREATE  TABLE IF NOT EXISTS `events` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
--- CREATE INDEX `notifications_ibfk_1` ON `events` (`event_type_id` ASC) ;
-
--- CREATE INDEX `event_user_id` ON `events` (`user_id` ASC) ;
-
--- CREATE INDEX `notifications_ibfk_3` ON `events` (`message_id` ASC) ;
-
--- CREATE INDEX `notifications_ibfk_4` ON `events` (`transaction_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `followings_users`
@@ -415,10 +370,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 118
 DEFAULT CHARACTER SET = utf8;
 
--- CREATE INDEX `following_id` ON `followings_users` (`following_id` ASC) ;
-
--- CREATE INDEX `following_user_id` ON `followings_users` (`user_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `tags`
@@ -433,8 +384,6 @@ CREATE  TABLE IF NOT EXISTS `tags` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 483
 DEFAULT CHARACTER SET = utf8;
-
--- CREATE INDEX `tag_name` ON `tags` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -462,10 +411,6 @@ AUTO_INCREMENT = 837
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Relates `goods` with `tags`' ;
 
--- CREATE INDEX `goods_tag_good_id` ON `goods_tags` (`good_id` ASC) ;
-
--- CREATE INDEX `goods_tag_tag_id` ON `goods_tags` (`tag_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `notifications`
@@ -483,11 +428,6 @@ CREATE  TABLE IF NOT EXISTS `notifications` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
--- CREATE INDEX `notification_users` ON `notifications` (`user_id` ASC) ;
-
--- CREATE INDEX `notification_events` ON `notifications` (`event_id` ASC) ;
-
-
 -- -----------------------------------------------------
 -- Table `redirects`
 -- -----------------------------------------------------
@@ -500,7 +440,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 1227
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Stores redirects so user can be sent to place they were inte' ;
-
 
 -- -----------------------------------------------------
 -- Table `reviews`
@@ -531,12 +470,6 @@ CREATE  TABLE IF NOT EXISTS `reviews` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
--- CREATE INDEX `reviews_users_infk_1` ON `reviews` (`reviewer_id` ASC) ;
-
--- CREATE INDEX `reviews_users_infk_2` ON `reviews` (`reviewed_id` ASC) ;
-
--- CREATE INDEX `reviews_transactions_infk_1` ON `reviews` (`transaction_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `terms`
@@ -555,8 +488,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = '`terms` stores alert templates and notifications' ;
-
--- CREATE UNIQUE INDEX `name` ON `terms` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -583,12 +514,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Join table relating `threads` to `users`, a many-to-many rel' ;
 
--- CREATE INDEX `thread_id` ON `threads_users` (`thread_id` ASC) ;
-
--- CREATE INDEX `recipient_id` ON `threads_users` (`user_id` ASC) ;
-
--- CREATE INDEX `user_id` ON `threads_users` (`user_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `transactions_users`
@@ -609,11 +534,6 @@ CREATE TABLE IF NOT EXISTS `transactions_users` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
--- CREATE INDEX `transactions_users_infk_1` ON `transactions_users` (`user_id` ASC) ;
-
--- CREATE INDEX `transactions_users_infk_2` ON `transactions_users` (`transaction_id` ASC) ;
-
-
 -- -----------------------------------------------------
 -- Table `user_openids`
 -- -----------------------------------------------------
@@ -632,8 +552,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = utf8
 ROW_FORMAT = COMPACT;
-
--- CREATE INDEX `user_id` ON `user_openids` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -654,8 +572,6 @@ CREATE  TABLE IF NOT EXISTS `user_settings` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 458
 DEFAULT CHARACTER SET = utf8;
-
--- CREATE INDEX `user_id` ON `user_settings` (`user_id` ASC) ;
 
 CREATE TABLE IF NOT EXISTS `watches` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,

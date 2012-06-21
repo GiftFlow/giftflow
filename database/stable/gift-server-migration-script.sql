@@ -516,6 +516,26 @@ DROP TABLE `message_deliveries`;
 -- ---------------------------------------------------------------------------
 ALTER TABLE users MODIFY COLUMN type ENUM('individual','nonprofit', 'business');
 
+-- ---------------------------------------------------------------------------
+-- v2.5 to 2.6
+-- 2011-11-02 to 2012-06-02
+-- New watches table
+-- By Jono
+------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `watches` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) UNSIGNED NOT NULL,
+	`keyword` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `watches_users`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `users` (`id`)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
