@@ -330,9 +330,12 @@ class Good_search extends Search
 		//		$this->CI->db->join("locations AS L ","G.location_id = L.id");
 		//		$this->_geosearch_clauses($options->location);
 		//	}
-						
-			$queries[$query_type] = $this->CI->db->_compile_select();
-			$this->CI->db->_reset_select();
+			
+			// NB! get_compiled_select() manually added to end of core active 
+			// record  library. The source code was taken directly from the 
+			// codeigniter development branch
+			
+			$queries[$query_type] = $this->CI->db->get_compiled_select();
 		}
 		
 		// Set field to order by
