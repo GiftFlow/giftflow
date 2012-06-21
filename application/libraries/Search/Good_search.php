@@ -294,9 +294,10 @@ class Good_search extends Search
 			if($query_type=="keyword")
 			{
 				//Notice the extra bracket added before G.title - used to group the like or_like clauses 
-				$this->CI->db->like('(G.title',$options->keyword);
-				$this->CI->db->or_like("G.description",$options->keyword);
-				$this->CI->db->bracket('close','like'); //bracket closed  custom method in DB_active_Rec (at bottom)
+				$this->CI->db->where(sprintf("( G.title LIKE '%s' OR 
+												G.description LIKE '%s')",
+												$options->keyword,
+												$options->keyword));
 			}
 			elseif($query_type=="tag")
 			{

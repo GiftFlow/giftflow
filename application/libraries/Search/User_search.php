@@ -115,13 +115,16 @@ class User_search extends Search
 		// Filter text fields by WHERE LIKE
 		if(!empty($options->keyword))
 		{
-				$this->CI->db->like('(U.first_name',$options->keyword);
-				$this->CI->db->or_like("U.last_name",$options->keyword);
-				$this->CI->db->or_like("U.screen_name",$options->keyword);
-				$this->CI->db->or_like("U.bio",$options->keyword);
-				$this->CI->db->or_like("U.email",$options->keyword);
-				$this->CI->db->or_like("U.occupation",$options->keyword);
-				$this->CI->db->bracket('close','like'); //bracket closed  custom method in DB_active_Rec (at bottom)
+			$where_clause = sprintf("(	U.first_name LIKE '%s' OR 
+										U.last_name LIKE '%s' OR
+										U.screen_name LIKE '%s' OR
+										U.bio LIKE '%s' OR
+										U.email LIKE '%s' OR
+										U.occupation LIKE '%s')",
+										$options->keyword, $options->keyword,
+										$options->keyword, $options->keyword,
+										$options->keyword, $options->keyword);
+			$this->CI->db->where($where_clause);
 		}	
     if(!empty($options->type))
     {
