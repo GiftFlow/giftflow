@@ -193,8 +193,7 @@ class Transaction_search extends Search
 		// Find Users by using the User_search library and then passing to the 
 		// factory
 		$users = $User_search->find(array(
-			"transaction_id"=>$transaction_id_list,
-			"limit"=>NULL
+			"transaction_id"=>$transaction_id_list
 		));
 		$Factory->set_users($users);
 		
@@ -210,8 +209,7 @@ class Transaction_search extends Search
 		// using the Good_search library and then passing to the factory
 		$good_id_list = $Factory->get_ids("goods");
 		$goods = $Good_search->find(array(
-			"good_id"=>$good_id_list,
-			"limit"=>NULL
+			"good_id"=>$good_id_list
 		));
 		$Factory->set_goods($goods);
 		
