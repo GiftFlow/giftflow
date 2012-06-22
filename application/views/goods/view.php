@@ -57,7 +57,8 @@
 				<span class='key'>Tags</span>
 				<span class='value'>
 					<?php foreach($G->tags as $tag) { ?>
-						<a href="<?php echo UI::tag_url($tag);?>" class='tag'>
+						<a href="<?php echo UI::tag_url($tag,$G->type);?>" class='btn tag'>
+							<i class="icon-tag"></i>
 							<?php echo $tag; ?>
 						</a>
 					<?php } ?>

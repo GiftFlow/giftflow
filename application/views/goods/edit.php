@@ -190,7 +190,7 @@ $(function(){
 		tags.push(tag);	
 		$("#tag_editor_input").val('');
 		$("#tag_list").val(tags);
-		$("ul.tag_cloud").append("<li><a class='tag'>"+tag+"<\/a> <a href='#' class='delete_tag btn'><i class='icon-trash'><\/i><\/a><\/li>");
+		$("ul.tag_cloud").append("<li><div class='btn-group'><a class='btn tag'><i class='icon-tag'></i>"+tag+"<\/a> <a href='#' class='delete_tag btn'><i class='icon-trash'><\/i><\/a></div><\/li>");
 		$.post("<?php echo site_url("ajax/add_tag"); ?>", { 
 				new_tag: tag, 
 				good_id: <?php echo $G->id;?> 

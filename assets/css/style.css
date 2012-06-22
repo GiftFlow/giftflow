@@ -639,24 +639,6 @@ a.go_back{
 	display: block;
 }
 
-a.tag{
-	height: 1.6em;
-	margin-right: 6px;
-	margin-bottom: 5px;
-	background: #333;
-	color: #fff;
-	display: inline-block;
-	font-weight: normal;
-	position: relative;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	font-size: 13px;
-	border: none;
-	padding: .2em .9em 0em;
-}
-a.tag:hover{
-	background: #666;
-}
 .search label {
 	color: #aaa;
 }
@@ -1741,12 +1723,14 @@ ul.tag_cloud li{
 	-webkit-border-radius: 5px;
 	-moz-border-radius:5px;
 }
-ul.tag_cloud li a.delete_tag{
-	width: 1.5em;
-	height: 1.1em;
-	margin-bottom: -3px;
-	float: right;
+a.tag{
+	margin-bottom: 5px;
 }
+a.tag i{
+	opacity: 0.2;
+	margin: 2px 4px 0 0;
+}
+
 #tag_editor_input{
 	width: 155px;
 }

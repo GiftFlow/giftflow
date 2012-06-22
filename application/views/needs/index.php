@@ -44,7 +44,7 @@
 		<!-- Tags -->
 				<?php foreach($tags as $key=>$obj){?>
 					<?php if($key<25){ ?>
-						<a rel='<?php echo $key;?>' href='<?php echo UI::tag_url($obj->tag,"needs");?>' class='tag'>
+						<a rel='<?php echo $key;?>' href='<?php echo UI::tag_url($obj->tag,"needs");?>' class='btn tag'>
 							<?php echo $obj->tag;?>
 						</a>
 					<?php } ?>
