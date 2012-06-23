@@ -1,3 +1,4 @@
+</div>
 <script type='text/javascript'>
 	function deleteTag_old(id, name, count) {
 	  var answer = confirm("Are you sure you want to delete tag '" + name + "'? If you do, it will be removed from the "+ count +" goods that use it.");

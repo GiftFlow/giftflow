@@ -19,6 +19,9 @@
 				<a href="http://www.twitter.com/giftflow">Twitter</a>
 			</li>
 			<li>
+				<a href="http://www.github.com/GiftFlow/GiftFlow">GitHub</a>
+			</li>
+			<li>
 				<a href="<?php echo site_url('about/press'); ?>">Press</a>
 			</li>
 			<li>
