@@ -8,7 +8,7 @@
 		</a>
 	</li>
 	
-	<li <?php if(!$welcome && $segment[1]=="you" && (empty($segment[2])) || $segment[2]=='index'){ echo  "class='active'"; } ?>>
+	<li <?php if($segment[1]=="you" && !$welcome  && (empty($segment[2])) || $segment[2]=='index'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you');?>'> 
 			Activity Feed
 		</a>

@@ -53,6 +53,41 @@
 			<p class="help-block">e.g city or zip code</p>
     	</div>
     </div>
+    
+    <?php if(!$add){ ?>
+    <div class="control-group">
+    	<label class="control-label" >Photos</label>
+    	<div class="controls">
+    	
+    	
+			<a href="<?php echo site_url($G->type."s/".$G->id."/photos");?>" class="btn clearfix edit-photos">
+				<?php foreach($photos as $key=>$photo){ ?>
+					<img src="<?php echo $photo->thumb_url;?>" alt="<?php echo $photo->caption;?>" title="<?php echo $photo->caption;?>" class="css_left" />
+				<?php } ?>
+					
+				<div class="css_left" style="margin: 17px 0 0 10px;">
+					Add / Edit Photos
+					<i class="icon-chevron-right"></i>
+				</div>
+			</a>
+
+			<ul class="thumbnails mini-photos-list" style="display: none;">
+				<li>
+					<div class="thumbnail clearfix">
+					<?php foreach($photos as $key=>$photo){ ?>
+						<img src="<?php echo $photo->thumb_url;?>" alt="<?php echo $photo->caption;?>" title="<?php echo $photo->caption;?>" class="css_left" />
+					<?php } ?>
+					<a href="#" id="edit-photos" class="btn css_left">
+						Edit Photos
+						<i class="icon-chevron-right"></i>
+					</a>
+					</div>
+				</li>
+			</ul>
+
+    	</div>
+    </div>
+    <?php } ?>
 
     
     <!-- Submit Button -->
@@ -74,6 +109,10 @@
 
 <script type="text/javascript">
 $(function(){
+	$("#edit-photos").click(function(){
+		$(".mini-photos-list").hide();
+		$(".photos-list").fadeIn();
+	});
 	$("#add_good_form").validate({
 		highlight: function(label) { 
 			$(label).closest('.control-group') 		

@@ -139,7 +139,7 @@
 				Edit Info
 			</a>
 			
-			<a href="<?php echo site_url($G->type."s/".$G->id."/photo_add");?>" id="toolbar_edit_gift" class="gift_toolbar">
+			<a href="<?php echo site_url($G->type."s/".$G->id."/photos");?>" id="toolbar_edit_gift" class="gift_toolbar">
 				<span class='ui-icon ui-icon-image left'></span>
 				Add Photos!
 			</a>

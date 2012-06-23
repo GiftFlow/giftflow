@@ -22,7 +22,7 @@
 								 
 								  <ul class="dropdown-menu">
 								  	<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit');?>">Edit</a></li>
-									<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/photo_add');?>">Add Photo</a></li>
+									<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/photos');?>">Add Photo</a></li>
 									<li class="divider"></li>
 									<li><a href="<?php echo site_url('gifts/'.$val->id.'/disable'); ?>">Delete</a></li>
 								  </ul>
