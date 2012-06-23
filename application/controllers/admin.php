@@ -26,8 +26,9 @@ class Admin extends CI_Controller {
 	{
 		$this->data['title'] = "Admin | Control Panel";		
 		$this->load->view('header', $this->data);
+		$this->load->view('admin/includes/header', $this->data);
 		$this->load->view('admin/index', $this->data);
-		$this->load->view('admin/admin_javascript', $this->data);
+		$this->load->view('admin/includes/footer', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -43,9 +44,9 @@ class Admin extends CI_Controller {
 		$this->data['css'][] = 'datatables.css';
 		$this->data['css'][] = 'impromptu.css';
 		$this->load->view('header', $this->data);
-		$this->load->view('admin/index', $this->data);
+		$this->load->view('admin/includes/header', $this->data);
 		$this->load->view('admin/users', $this->data);
-		$this->load->view('admin/admin_javascript', $this->data);
+		$this->load->view('admin/includes/footer', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -60,9 +61,9 @@ class Admin extends CI_Controller {
 		$this->data['css'][] = 'datatables.css';
 		$this->data['css'][] = 'impromptu.css';
 		$this->load->view('header', $this->data);
-		$this->load->view('admin/index', $this->data);
+		$this->load->view('admin/includes/header', $this->data);
 		$this->load->view('admin/tags', $this->data);
-		$this->load->view('admin/admin_javascript', $this->data);
+		$this->load->view('admin/includes/footer', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -89,9 +90,9 @@ class Admin extends CI_Controller {
 		$this->data['js'][] = 'jquery-datatables.php';
 		$this->data['css'][] = 'datatables.css';
 		$this->load->view('header', $this->data);
-		$this->load->view('admin/index', $this->data);
+		$this->load->view('admin/includes/header', $this->data);
 		$this->load->view('admin/goods', $this->data);
-		$this->load->view('admin/admin_javascript', $this->data);
+		$this->load->view('admin/includes/footer', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 
@@ -106,9 +107,9 @@ class Admin extends CI_Controller {
 		$this->data['css'][] = 'datatables.css';
 		$this->data['css'][] = 'impromptu.css';
 		$this->load->view('header', $this->data);
-		$this->load->view('admin/index', $this->data);
+		$this->load->view('admin/includes/header', $this->data);
 		$this->load->view('admin/alert_templates', $this->data);
-		$this->load->view('admin/admin_javascript', $this->data);
+		$this->load->view('admin/includes/footer', $this->data);
 		$this->load->view('footer', $this->data);
 
 	}

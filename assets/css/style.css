@@ -2373,3 +2373,8 @@ span.event_summary {
 	padding: 0 !important;
 	border-bottom: none !important;
 }
+
+.admin-wrapper{
+	padding: 15px;
+	background: white;
+}
