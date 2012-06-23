@@ -22,57 +22,45 @@
 	<td></td>
 	<td class="span6"><?php echo form_errors(); ?>
 	<form name='register' id='register' method="post">
-		<p>
+		<div class="control-group">
 			<label for="email">Email Address</label>
-		</p>
-		<p>
 			<input maxlength="255" size="30" class="email span6 required" type="text" name="email" id="email" value="" />
-		</p>
-		<p>
+		</div>
+		<div class="control-group">
 			<label for="screen_name">Name</label>
-		</p>
-		<p>
 			<input maxlength="75" size="30" class="required span6" type="text" name="screen_name" id="screen_name" value=""/>
-		</p>
-		<p>
+		</div>
+		<div class="control-group">
 			<label for="zipcode">Zip Code</label>
-		</p>
-		<p>
 			<input maxlength="20" class="span6" size="10" type="text" name="zipcode" id="zipcode" value=""/>
-		</p>
-		<p>
+		</div>
+		<div class="control-group">			
 			<label for="profile_type">Profile Type</label>
-		</p>
-		<p>
-      <select name="profile_type" id="profile_type" class="span6" />
-          <option value='individual'>Individual</option>
-          <option value='nonprofit'>Non-Profit</option>
-          <option value='business'>Business</option>
-       </select>
-		</p>
-		<p>
+			<select name="profile_type" id="profile_type" class="span6" />
+			    <option value='individual'>Individual</option>
+			    <option value='nonprofit'>Non-Profit</option>
+			    <option value='business'>Business</option>
+			 </select>
+		</div>
+		<div class="control-group">
 			<label for="password">Password</label>
-		</p>
-		<p>
 			<input maxlength="45" size="30" class="span6 required" type="password" name="password" id="password" value="" />			
-		</p>
-		<p>
+		</div>
+		<div class="control-group">
 			<label for="confirm_password">Confirm Password</label>
-		</p>
-		<p>
 			<input maxlength="45" size="30" class="required span6" type="password" name="confirm_password" id="confirm_password" value="" />
-		</p>
-		<p>
+		</div>
+		<div class="control-group">
 			<label for="captcha">Type the two words that appear below</label>
-			<?php echo $recaptcha; ?>		
-		</p>
-		<p id='service'>
-		<input type='checkbox' checked='checked' id='terms_box' class='required span6' name='terms'/>I agree to the 
-		<a href="<?php echo site_url('member/terms'); ?>">Terms of Service </a>
-		</p>
-		<p>
+			<?php echo $recaptcha; ?>	
+		</div>	
+		<div class="control-group" id='service'>
+		<label class="checkbox"><input type='checkbox' checked='checked' id='terms_box' class='required span6' name='terms'/>I agree to the 
+		<a href="<?php echo site_url('member/terms'); ?>">Terms of Service </a></label>
+		</div>
+		<div class="control-group">
 			<input type="submit" class="btn btn-primary btn-large" value="Sign Up" />
-		</p>
+		</div>
 	</form>
 </td>
 </tr></table>
@@ -90,7 +78,13 @@ $(function(){
 			confirm_password: {
 				equalTo: "Passwords Must Match"
 			}
-		}
+		},
+		highlight: function(label) {
+			$(label).closest('.control-group').addClass('error').removeClass('success');
+	  	},
+	  	success: function(label) {
+		  	label.hide().closest('.control-group').addClass('success');
+	  	}
 	});
 	$("p.alert_error").css('margin-bottom', '0px');
 	

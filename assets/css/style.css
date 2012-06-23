@@ -2378,3 +2378,7 @@ span.event_summary {
 	padding: 15px;
 	background: white;
 }
+
+.control-group.error .controls label{
+	color: #B94A48;
+}

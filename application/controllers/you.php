@@ -596,6 +596,10 @@ class You extends CI_Controller {
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
+		// Load form validation plugin
+		$this->data['js'][] = 'jquery-validate.php';
+
+		
 		// Load Views
 		$this->load->view('header', $this->data);
 		$this->load->view('you/transaction', $this->data);	

@@ -124,11 +124,15 @@
 					<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
 					<h3>Review This Transaction</h3>
 					<p><!--@todo improve language-->Please include a short description of the transaction and relevant details like who gave what to whom, whether or not the other user was nice, etc. Reviews will be published simultaneously.</p>
-					<textarea name="body" rows="6"></textarea>
-					<fieldset>
+					<div class='control-group'>
+						<textarea name="body" rows="6" class="required"></textarea>
+						<label for="body" class="error" style="display: none;">Please write a description for your review.</label>
+					</div>
+					<fieldset class="required">
+						<div class='control-group'>
 						<legend>Rate</legend>
 						<label class="radio css_left" style="margin-right: 10px;">
-							<input id="r3" type="radio" value="positive" name="rating">
+							<input id="r3" type="radio" class="required" value="positive" name="rating">
 							Positive
 						</label>
 						<label class="radio css_left" style="margin-right: 10px;">
@@ -136,9 +140,11 @@
 							Neutral
 						</label>
 						<label class="radio css_left">
-							<input id="r5" type="radio" value="negative" name="rating">
+							<input class="required" id="r5" type="radio" value="negative" name="rating">
 							Negative
 						</label>
+						<label for="rating" style="clear: left; display: none;" class="error">Please rate the transaction.</label>
+						</div>
 					</fieldset>
 					<div class="css_right">
 						<input type="submit" value="Submit Review" class="btn-primary btn clearfix"/>
@@ -267,7 +273,14 @@
 $(function(){
 	$("table tr:even").addClass("odd");
 	$("table tr:odd").addClass("even");
-	
+	$("form#review").validate({
+		highlight: function(label) {
+			$(label).closest('.control-group').addClass('error').removeClass('success');
+	  	},
+	  	success: function(label) {
+		  	label.hide().closest('.control-group').addClass('success');
+	  	}
+	});
 	$(".review").jqm({ 	
 		trigger: '#write_review'
 	});
