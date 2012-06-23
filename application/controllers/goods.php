@@ -370,19 +370,13 @@ class Goods extends CI_Controller {
 		// Display editing form
 
 		Console::logSpeed('Load edit gift view...');
-					
+		
+		// Load User
 		$this->load->library('datamapper');
 		$this->data['U'] = new User($this->session->userdata('user_id'));
 		$this->data['U']->location->get();
-
-		// Title
-		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
-		$this->data['categories'] = $this->db->order_by("name","ASC")
-			->get("categories")
-			->result();
-		
-		// Breadcrumbs
+		/*// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
 			"title"=>ucfirst($this->G->type)."s", 
 			"href"=>site_url($this->G->type."s")
@@ -394,13 +388,43 @@ class Goods extends CI_Controller {
 		);
 		$this->data['breadcrumbs'][] = array(
 			"title"=>"Edit"
-		);
+		);*/
+		
+		// hack, because this variable is used by the you menu and isn't
+		// defined in the scope of the goods controller.
+		$this->data['welcome'] = FALSE;
+		
+		// Tells view to display editing mode, not adding mode
+		$this->data['add'] = FALSE;
+		
+		// Load categories
+		$this->data['categories'] = $this->db->order_by("name","ASC")
+			->get("categories")
+			->result();
+		
+		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
+		
+		// Page Title
+		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
+		
+		// Load Menu
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['js'][] = 'jquery-validate.php';
+		$this->data['js'][] = 'GF.Tags.js';
 		
 		// Load views
-		$this->load->view('header', $this->data);
-		$this->load->view('goods/edit', $this->data);
-		$this->load->view("footer", $this->data);
-
+		if($this->data['is_ajax'])
+		{
+			$this->load->view('you/includes/add_good_form', $this->data);
+		}
+		else
+		{
+			$this->data['form'] = $this->load->view('you/includes/add_good_form',$this->data,TRUE);
+			$this->load->view('header', $this->data);
+			$this->load->view('you/includes/header',$this->data);
+			$this->load->view('you/add_good', $this->data);
+			$this->load->view('footer', $this->data);
+		}
 	}
 	
 	/**
@@ -673,6 +697,12 @@ class Goods extends CI_Controller {
 		if(!empty($_POST['tags']))
 		{
 			$New_Tags = explode(",", $_POST['tags']);
+
+			// Trim tags
+			foreach($New_Tags as $key=>$val){
+				$New_Tags[$key] = trim($val);
+			}
+			
 			// Load and delete existing tags
 			$Old_Tags = $this->G->tag->get();
 			foreach($Old_Tags->all as $Old_Tag)

@@ -12,27 +12,6 @@ class You extends CI_Controller {
 		$this->data = $this->util->parse_globals($options = array('geocode_ip' => TRUE));
 		$this->auth->bouncer(1);
 		$this->data['welcome'] = FALSE;
-     //See if user has active or pending transactions
-    //If so, light up the Your Inbox menu option
-    $this->data['trans_check'] = FALSE;
-		$this->load->library('Search/Transaction_search');
-		$TS = new Transaction_search;
-		
-		// Compile Search Options
-		$options = array(
-			"user_id"=>$this->data['logged_in_user_id'],
-			"transaction_status"=>array(
-				"active",
-				"pending"
-			),
-			"limit"=>200
-		);
-		$trans_checker = $TS->find($options);
-	  if(count($trans_checker) > 0)
-    {
-      $this->data['trans_check'] = TRUE;
-      $this->data['new_trans'] = count($trans_checker);
-    }  
 		
 	}
 
@@ -635,7 +614,7 @@ class You extends CI_Controller {
 	public function add_good()
 	{
 		$type = !empty($_GET['type']) ? $_GET['type'] : "gift";
-		
+		$this->data['add']=TRUE;
 		$this->data['categories'] = $this->db->order_by("name","ASC")
 			->get("categories")
 			->result();
@@ -662,6 +641,5 @@ class You extends CI_Controller {
 			$this->load->view('you/add_good', $this->data);
 			$this->load->view('footer', $this->data);
 		}
-
 	}	
 }

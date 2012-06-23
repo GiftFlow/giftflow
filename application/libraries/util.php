@@ -108,6 +108,29 @@ class Util
 					$globals['userdata']['location']->$field = $this->CI->session->userdata('location_'.$field);
 				}
 			}
+			
+			//See if user has active or pending transactions
+			//If so, light up the Your Inbox menu option
+			$globals['transactions_active'] = FALSE;
+			
+			// Run a transactions search
+			$this->CI->load->library('Search/Transaction_search');
+			$TS = new Transaction_search;
+			$active_search = $TS->find(array(
+				"user_id"=>$globals['logged_in_user_id'],
+				"transaction_status"=>array(
+					"active",
+					"pending"
+				),
+				"limit"=>200
+			));
+			
+			// If found, store count
+			if(count($active_search) > 0)
+			{
+				$globals['transactions_active'] = TRUE;
+				$globals['transactions_active_count'] = count($active_search);
+			}
 		}
 		else
 		{
