@@ -1994,7 +1994,7 @@ a.gift_toolbar:hover{
 #transaction-messages .message .body{
 	font-size: 14px;
 }
-.transaction-main .history, .transaction-main h3.messages_title{
+.transaction-main .reviews, .transaction-main .history, .transaction-main h3.messages_title{
 	padding-left: 62px;
 }
 .transaction-main h3, .transaction-main .history ul li{

@@ -48,8 +48,8 @@
 								<form method='post' id='decide_transaction'>
 									<input type='hidden' name='form_type' value='decide_transaction'/>
 									<div class="btn-group">
-									<input type="submit" class="left button btn btn-large btn-success" name='decision' value="Accept" />
-									<input type="submit" class="left button btn btn-large btn-danger" name='decision' value="Decline" />
+									<input type="submit" class="left btn btn-large btn-success" name='decision' value="Accept" />
+									<input type="submit" class="left btn btn-large btn-danger" name='decision' value="Decline" />
 									</div>
 								</form>
 							<?php } ?>
@@ -58,8 +58,8 @@
 								Wait For Other User To Write A Review
 							<?php } else { ?>
 								<p>It's go time! Arrange a meeting to complete the transaction in person and then write a review when you're done.</p>
-								<a href="#" class="left button" id="write_message">Write Message</a>
-								<a href="#" id="write_review" class="left button btn">Write Review</a>
+								<a href="#" class="left btn" id="write_message">Write Message</a>
+								<a href="#" id="write_review" class="left btn btn">Write Review</a>
 							<?php } ?>
 						<?php } ?>
 					</div>
@@ -79,7 +79,6 @@
 					<a href="#" class="user_image medium css_left">
 						<img src="<?php if(isset($author->photo->id)) { echo $author->photo->thumb_url; } else { echo $author->default_photo->thumb_url; }?>" alt="<?php echo $author->screen_name;?>" />
 					</a>					
-					<?php echo $author->screen_name; ?>
 					<div class="text clearfix css_left">
 						
 						<a href="<?php echo site_url('people/'.$M->user_id);?>" class="metadata-author clearfix">
@@ -128,12 +127,21 @@
 					<textarea name="body" rows="6"></textarea>
 					<fieldset>
 						<legend>Rate</legend>
-						<input id="r3" type="radio" value="positive" name="rating">Positive &nbsp
-						<input id="r4" type="radio" value="neutral" name="rating">Neutral &nbsp
-						<input id="r5" type="radio" value="negative" name="rating">Negative<BR />
+						<label class="radio css_left" style="margin-right: 10px;">
+							<input id="r3" type="radio" value="positive" name="rating">
+							Positive
+						</label>
+						<label class="radio css_left" style="margin-right: 10px;">
+							<input id="r4" type="radio" value="neutral" name="rating">	
+							Neutral
+						</label>
+						<label class="radio css_left">
+							<input id="r5" type="radio" value="negative" name="rating">
+							Negative
+						</label>
 					</fieldset>
 					<div class="css_right">
-						<input type="submit" value="Submit Review" class="button btn clearfix"/>
+						<input type="submit" value="Submit Review" class="btn-primary btn clearfix"/>
 						<a href="#" class="hide_modal">Cancel</a>
 					</div>
 				</form>
