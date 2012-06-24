@@ -7,9 +7,17 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
+	
+		<div id="locations-list">
+            <form class="well" method="post" id="add_form" name="add_location" action="<?php echo site_url('account/locations/add'); ?>">
+            	<div class="input-append">
+                <input placeholder="Add a Location" type="text" name="location" class="required" />
+                <input type="submit" class="btn" value="Add" id="add_location"/>
+                </div>
+            </form>
 
 		<?php if(!empty($locations)) { ?>
-			<ul id='locations_list' class='list list_menu'>
+			<ul class='list list_menu'>
 			<?php foreach($locations as $key=>$val){ ?>
 				<li id='<?php echo $val['id']; ?>' class='clearfix'>
 					<div class='list_content'>
@@ -56,21 +64,16 @@
 				</li>
 			<?php } ?>
 			</ul>
-			<img id='locations_map' src='http://maps.google.com/maps/api/staticmap?sensor=false&size=230x230&markers=color:blue<?php foreach($locations as $key=>$val) { echo '|'.$val['latitude'].','.$val['longitude']; } ?>' />
+			</div> 
+
+			<img id='locations_map' class='css_right' src='http://maps.google.com/maps/api/staticmap?sensor=false&size=230x230&markers=color:blue<?php foreach($locations as $key=>$val) { echo '|'.$val['latitude'].','.$val['longitude']; } ?>' />
 			<div id='edit_location' class='jqmWindow'>
 			</div>
 		<?php } else { ?>
 			<p>You do not yet have any locations.</p>
 		<?php } ?>
 		
-		 <div class="module bottom">
-            <form method="post" id="add_form" name="add_location" action="<?php echo site_url('account/locations/add'); ?>">
-            	<div class="input-append">
-                <input type="text" name="location" class="required" />
-                <input type="submit" class="btn" value="Add" id="add_location"/>
-                </div>
-            </form>
-        </div> 
+		 
 	</div>
 	<!-- eof div.right_content -->
 	
