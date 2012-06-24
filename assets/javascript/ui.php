@@ -23,12 +23,6 @@ include('./includes/jquery-ui-position.php');
 // UI Autocomplete
 include('./includes/jquery-ui-autocomplete.php');
 
-// UI Tabs
-include('./includes/jquery-ui-tabs.php');
-
-// UI Buttons
-include('./includes/jquery-ui-buttons.php');
-
 // Form
 include('./includes/jquery-form.php');
 
@@ -49,7 +43,4 @@ include('./includes/pager.php');
 
 // buttonTabs
 include('./includes/buttontabs.php');
-
-// back button & query (bbq)
-include('./includes/bbq.php');
 ?>

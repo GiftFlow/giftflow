@@ -38,7 +38,7 @@ if(isset($css))
 {
 	foreach($css as $val)
 	{
-		echo '<link rel="stylesheet" href="'.base_url().'assets/css/'.$val.'" />';
+		echo '<link rel="stylesheet" href="'.base_url('assets/css/'.$val).'" />';
 	}
 }
 ?>
@@ -73,7 +73,7 @@ if(isset($css))
 
 <?php if(isset($js)){ foreach($js as $val){ ?>
 	<!-- Custom JavaScript Files -->
-	<script type="text/javascript" src="<?php echo base_url().'assets/javascript/'.$val;?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/javascript/'.$val);?>"></script>
 <?php } } ?>
 
 <?php if(!empty($addthis) && $addthis == TRUE){ ?>
@@ -100,7 +100,6 @@ if(isset($css))
 						<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>' id='you'>
 							<?php if(!empty($userdata['photo_thumb_url'])){ echo "<img src='".$userdata['photo_thumb_url']."' id='you_img'  />"; }  ?>
 							<span style='float: left; '>Profile</span>
-							<!--<span class='ui-icon ui-icon-triangle-1-s left' style="background-image: url('<?php echo base_url(); ?>assets/css/green/images/ui-icons_ffffff_256x240.png'); margin-left: 10px;"></span>-->
 							<div style='clear: both;'>
 							</div>
 						</a>

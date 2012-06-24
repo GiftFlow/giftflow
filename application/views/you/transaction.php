@@ -102,7 +102,7 @@
 						<input type="hidden" name="transaction_id" value="<?php echo $transaction->id; ?>" />
 						<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
 						<label>Send a Message</label>
-						<textarea name="body" id="message_body"></textarea>
+						<textarea rows="5" name="body" id="message_body"></textarea>
 							<?php if ($transaction->status == "pending" && !$demander) { ?>
 							<!--	<fieldset>
 									<legend>Do you agree to participate in this transaction?</legend>
@@ -110,7 +110,7 @@
 									<input id="r2" type="radio" value="decline" name="decision">Decline<BR />
 								</fieldset> -->
 							<?php } ?>	
-						<input type="submit" value="Send" class="button btn" />
+						<input type="submit" value="Send" class="button btn btn-primary" />
 					</form>
 				</li>
 			</ul>

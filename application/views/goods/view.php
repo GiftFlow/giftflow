@@ -104,7 +104,7 @@
 						<input type="hidden" name="type" value="take">
 						<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 						<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />
-						<input type="submit" class="blue" value="Request This Gift" />
+						<input type="submit" class="btn btn-primary" value="Request This Gift" />
 					</form>
 				</div>
 			<?php } 
@@ -123,7 +123,7 @@
 					<input type="hidden" name="type" value="give">
 					<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 					<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />
-					<input type="submit" class="blue" value="Offer to Give" />
+					<input type="submit" class="btn btn-primary" value="Offer to Give" />
 				</form>
 			</div>
 			<?php }?>
@@ -132,26 +132,28 @@
 	
 	<div class='alt_bottom'>
 	
+		<div class="css_right" style="margin: 5px 5px 0 0;">
 		<?php if($is_owner){ ?>
 		
 			<!-- Edit Gift Buttons -->
-			<a href="<?php echo site_url($G->type."s/".$G->id."/edit");?>" id="toolbar_edit_gift" class="gift_toolbar">
-				<span class='ui-icon ui-icon-pencil left'></span>
+			<a href="<?php echo site_url($G->type."s/".$G->id."/edit");?>" id="toolbar_edit_gift" class="btn">
+				<i class="icon-pencil"></i>
 				Edit Info
 			</a>
 			
-			<a href="<?php echo site_url($G->type."s/".$G->id."/photos");?>" id="toolbar_edit_gift" class="gift_toolbar">
-				<span class='ui-icon ui-icon-image left'></span>
-				Add Photos!
+			<a href="<?php echo site_url($G->type."s/".$G->id."/photos");?>" id="toolbar_edit_gift" class="btn">
+				<i class="icon-camera"></i>
+				Add Photos
 			</a>
 		
 		<?php } ?>
 		<?php if(!empty($photos)) { ?>
-			<a  id="show_photos" class="gift_toolbar" >
-				<span class='ui-icon ui-icon-image left'></span>
+			<a  id="show_photos" class="btn" >
+				<i class="icon-camera"></i>
 				See more photos
 			</a>
 		<?php } ?>
+		</div>
 		
 			
 	
