@@ -38,7 +38,7 @@ if(isset($css))
 {
 	foreach($css as $val)
 	{
-		echo '<link rel="stylesheet" href="'.base_url().'assets/css/'.$val.'" />';
+		echo '<link rel="stylesheet" href="'.base_url('assets/css/'.$val).'" />';
 	}
 }
 ?>
@@ -73,7 +73,7 @@ if(isset($css))
 
 <?php if(isset($js)){ foreach($js as $val){ ?>
 	<!-- Custom JavaScript Files -->
-	<script type="text/javascript" src="<?php echo base_url().'assets/javascript/'.$val;?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/javascript/'.$val);?>"></script>
 <?php } } ?>
 
 <?php if(!empty($addthis) && $addthis == TRUE){ ?>
