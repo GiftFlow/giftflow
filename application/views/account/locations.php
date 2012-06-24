@@ -47,12 +47,12 @@
 								</a>
 							</li>
 						<?php } ?>
-						<li>
+						<!--<li>
 							<a href="<?php echo site_url('account/locations/'.$val['id'].'/edit'); ?>" class='edit'>
 								<i class='icon-pencil'></i>
 								Rename
 							</a>
-						</li>
+						</li>-->
 						<li class="divider"></li>
 						<li><a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>">
 							<i class='icon-trash'></i>
