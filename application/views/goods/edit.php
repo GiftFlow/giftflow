@@ -1,3 +1,12 @@
+<?php
+/******************************
+*	DEPRECATED!
+*	USE `you/add_good.php` and 
+*	`you/includes/add_good_form.php`
+*	instead!
+*/
+?>
+
 <!-- Main Module -->
 <form name='edit_good' method='post'>
 <div class="gift_module" id="view_gift">

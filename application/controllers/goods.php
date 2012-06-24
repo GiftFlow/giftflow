@@ -370,44 +370,79 @@ class Goods extends CI_Controller {
 		// Display editing form
 
 		Console::logSpeed('Load edit gift view...');
-					
+		
+		// Load User
 		$this->load->library('datamapper');
 		$this->data['U'] = new User($this->session->userdata('user_id'));
 		$this->data['U']->location->get();
-
-		// Title
-		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
+		//load datamapper object of Good
+		$G_dmz = new Good();
+		$G_dmz->get_where(array('id' => $this->G->id)); 
+		$G_dmz->default_photo->get();
+		$G_dmz->photos->get();
+		
+		// Add category image to the photos array
+		$this->data['photos'][] = (object) array(
+			"id"=>NULL,
+			"caption"=>"Category Icon",
+			"url"=> base_url()."assets/images/categories/".$this->G->category->id.".png",
+			"thumb_url"=> base_url()."assets/images/categories/".$this->G->category->id.".png",
+			"default"=>($G_dmz->default_photo->id==NULL)
+		);
+			
+		// add other images to the photos array
+		foreach($G_dmz->photos->all as $pho)
+		{
+			$data = (object) array (
+				"id" => $pho->id,
+				"caption" => $pho->caption,
+				"url" => site_url().$pho->url,
+				"thumb_url" => site_url().$pho->thumb_url,
+				"default" => ($G_dmz->default_photo->id == $pho->id)
+			);
+			
+			$this->data['photos'][] = $data;
+		}
+		
+		// Tells view to display editing mode, not adding mode
+		$this->data['add'] = FALSE;
+		
+		// Load categories
 		$this->data['categories'] = $this->db->order_by("name","ASC")
 			->get("categories")
 			->result();
 		
-		// Breadcrumbs
-		$this->data['breadcrumbs'][] = array(
-			"title"=>ucfirst($this->G->type)."s", 
-			"href"=>site_url($this->G->type."s")
-		);
+		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
 		
-		$this->data['breadcrumbs'][] = array (
-			"title"=>$this->G->title,
-			"href"=>site_url($this->G->type."s/".$this->G->id)
-		);
-		$this->data['breadcrumbs'][] = array(
-			"title"=>"Edit"
-		);
+		// Page Title
+		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
+		
+		// Load Menu
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['js'][] = 'jquery-validate.php';
+		$this->data['js'][] = 'GF.Tags.js';
 		
 		// Load views
-		$this->load->view('header', $this->data);
-		$this->load->view('goods/edit', $this->data);
-		$this->load->view("footer", $this->data);
-
+		if($this->data['is_ajax'])
+		{
+			$this->load->view('you/includes/add_good_form', $this->data);
+		}
+		else
+		{
+			$this->data['form'] = $this->load->view('you/includes/add_good_form',$this->data,TRUE);
+			$this->load->view('header', $this->data);
+			$this->load->view('you/includes/header',$this->data);
+			$this->load->view('you/add_good', $this->data);
+			$this->load->view('footer', $this->data);
+		}
 	}
 	
 	/**
 	* User uploads a photo of the good
 	*
 	*/
-	function _photo_add()
+	function _photos()
 	{
 		      
 		$this->auth->bouncer(1);
@@ -418,7 +453,30 @@ class Goods extends CI_Controller {
 		$G_dmz->get_where(array('id' => $this->G->id)); 
 		$G_dmz->default_photo->get();
 		$G_dmz->photos->get();
+
+		// Add category image to the photos array
+		$this->data['photos'][] = (object) array(
+			"id"=>NULL,
+			"caption"=>"Category Icon",
+			"url"=> base_url()."assets/images/categories/".$this->G->category->id.".png",
+			"thumb_url"=> base_url()."assets/images/categories/".$this->G->category->id.".png",
+			"default"=>($G_dmz->default_photo==NULL || $G_dmz->default_photo->id==NULL)
+		);
+					
+		// Add other images to the photos array
+		foreach($G_dmz->photos->all as $pho)
+		{
+			$data = (object) array (
+				"id" => $pho->id,
+				"caption" => $pho->caption,
+				"url" => site_url().$pho->url,
+				"thumb_url" => site_url().$pho->thumb_url,
+				"default" => ($G_dmz->default_photo->id == $pho->id)
+			);
 			
+			$this->data['photos'][] = $data;
+		}
+
 			
 		//Save Photo
 			if(!empty($_FILES))
@@ -435,7 +493,7 @@ class Goods extends CI_Controller {
 				{					
 					$error = $this->upload->display_errors();
 					$this->session->set_flashdata('success', $error);
-					redirect($this->G->type.'s/'.$this->G->id."/photo_add");
+					redirect($this->G->type.'s/'.$this->G->id."/photos");
 				}
 				$data = $this->upload->data();
 				
@@ -463,53 +521,24 @@ class Goods extends CI_Controller {
 				if(!$G_dmz->save($this->P))
 				{
 					$this->session->set_flashdata('error', $G_dmz->error->string);
-					redirect($this->G->type.'s/'.$this->G->id."/photo_add");
+					redirect($this->G->type.'s/'.$this->G->id."/photos");
 				}
 				
-				redirect($this->G->type.'s/'.$this->G->id."/photo_add");
-			}
-			
-			
-		foreach($G_dmz->photos->all as $pho)
-		{
-			$data = array (
-				"id" => $pho->id,
-				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
-				"default" => FALSE
-			);
-		
-			// if($G_dmz->default_photo->id == $pho->id)
-// 			{
-// 				$data['default'] = TRUE;
-// 			}
-			$this->data['photos'][] = $data;
-			
-		}
-		
+				redirect($this->G->type.'s/'.$this->G->id."/photos");
+			}		
 				
 		$this->data['G'] = $this->G;
+		
 		// Title
-		$this->data['title'] = "Upload a Photo for ".$this->G->title;
+		$this->data['title'] = "Manage Photos | ".$this->G->title;
 		
-		// Breadcrumbs
-		$this->data['breadcrumbs'][] = array(
-			"title"=>ucfirst($this->G->type)."s", 
-			"href"=>site_url($this->G->type."s")
-		);
-		
-		$this->data['breadcrumbs'][] = array (
-			"title"=>$this->G->title,
-			"href"=>site_url($this->G->type."s/".$this->G->id)
-		);
-		$this->data['breadcrumbs'][] = array(
-			"title"=>"Upload a Photo"
-		);
+		// Load Menu
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
 		// Load views
 		$this->load->view('header', $this->data);
-		$this->load->view('goods/add_photo', $this->data);
+		$this->load->view('you/includes/header',$this->data);
+		$this->load->view('goods/photos', $this->data);
 		$this->load->view("footer", $this->data);	
 	
 	}
@@ -532,7 +561,7 @@ class Goods extends CI_Controller {
 		$P->delete();
 		$G->delete($P);
 		
-		redirect($G->type.'s/'.$G->id.'/photo_add');
+		redirect($G->type.'s/'.$G->id.'/photos');
 	
 	}
 	
@@ -559,7 +588,7 @@ class Goods extends CI_Controller {
 		
 		$G->save_default_photo($P);
 		
-		redirect($G->type.'s/'.$G->id.'/photo_add');
+		redirect($G->type.'s/'.$G->id.'/photos');
 		
 	
 	}
@@ -673,6 +702,12 @@ class Goods extends CI_Controller {
 		if(!empty($_POST['tags']))
 		{
 			$New_Tags = explode(",", $_POST['tags']);
+
+			// Trim tags
+			foreach($New_Tags as $key=>$val){
+				$New_Tags[$key] = trim($val);
+			}
+			
 			// Load and delete existing tags
 			$Old_Tags = $this->G->tag->get();
 			foreach($Old_Tags->all as $Old_Tag)

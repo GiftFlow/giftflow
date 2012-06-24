@@ -23,6 +23,10 @@ class Photo extends DataMapperExtension {
 		"default_user"=>array(	
 			"class"=>"user", 
 			"other_field"=>"default_photo"
+		),
+		"default_good"=>array(
+			"class"=>"good",
+			"other_field"=>"default_photo"
 		)
 	);
 	

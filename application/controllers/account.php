@@ -21,7 +21,7 @@ class Account extends CI_Controller {
 		//to prevent welcome page from opening when editing account
 		$this->data['welcome'] = FALSE;
     //for Inbox new transaction flag
-    $this->data['trans_check'] = FALSE;
+    $this->data['transactions_active'] = FALSE;
 		
 	}
 

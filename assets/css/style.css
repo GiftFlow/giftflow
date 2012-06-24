@@ -1993,7 +1993,7 @@ a.gift_toolbar:hover{
 #transaction-messages .message .body{
 	font-size: 14px;
 }
-.transaction-main .history, .transaction-main h3.messages_title{
+.transaction-main .reviews, .transaction-main .history, .transaction-main h3.messages_title{
 	padding-left: 62px;
 }
 .transaction-main h3, .transaction-main .history ul li{
@@ -2376,4 +2376,18 @@ span.event_summary {
 .admin-wrapper{
 	padding: 15px;
 	background: white;
+}
+
+.control-group.error .controls label{
+	color: #B94A48;
+}
+a.btn.edit-photos img{
+	max-width: 45px;
+	margin: 5px;
+}
+ul.thumbnails.photos-list li img {
+	max-height: 150px;
+}
+ul.thumbnails.photos-list li p.caption {
+	margin-top: 10px;
 }

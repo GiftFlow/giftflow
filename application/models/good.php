@@ -28,7 +28,8 @@ class Good extends DataMapperExtension {
 	var $has_one = array(
 		"user",
 		"default_photo"=> array (
-			'class' => 'photo'
+			'class' => 'photo',
+			'other_field'=>'default_good'
 		),
 		"location"
 		);

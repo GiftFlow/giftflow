@@ -8,17 +8,17 @@
 		</a>
 	</li>
 	
-	<li <?php if(!$welcome && $segment[1]=="you" && (empty($segment[2])) || $segment[2]=='index'){ echo  "class='active'"; } ?>>
+	<li <?php if($segment[1]=="you" && !$welcome  && (empty($segment[2])) || $segment[2]=='index'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you');?>'> 
 			Activity Feed
 		</a>
 	</li>
-	<li <?php if($segment[2]=='gifts'){ echo  "class='active'"; } ?>>
+	<li <?php if($segment[2]=='gifts'||($segment[1]=="gifts"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/gifts');?>'> 
 			Your Gifts
 		</a>
 	</li>
-	<li <?php if($segment[2]=='needs'){ echo  "class='active'"; } ?>>
+	<li <?php if($segment[2]=='needs'||($segment[1]=="needs"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/needs');?>' > 
 			Your Needs
 		</a>
@@ -28,9 +28,9 @@
 			Your Watches
 		</a>
 	</li>
-	<li <?php if($segment[2]=='transactions'){ echo  "class='active'"; } else if($trans_check) { echo "id='inbox_new'"; } ?>>
+	<li <?php if($segment[2]=='transactions'){ echo  "class='active'"; } else if($transactions_active) { echo "id='inbox_new'"; } ?>>
 		<a href='<?php echo site_url('you/transactions');?>'> 
-      Your Inbox<?php if($trans_check) { echo "(".$new_trans.")"; }?>
+      Your Inbox<?php if($transactions_active) { echo "(".$transactions_active_count.")"; }?>
 		</a>
 		<ul>
 			<li>

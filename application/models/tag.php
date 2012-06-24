@@ -27,7 +27,9 @@ class Tag extends DataMapperExtension {
 	var $validation = array(
 		'name' => array(
 			'rules' => array(
-				'required'
+				'required',
+				'trim',
+				'unique'
 			),
 			'label' => 'Tag'
 		),
