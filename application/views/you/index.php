@@ -79,9 +79,6 @@ $(function(){
 	
 	// define the fluster object
 	var fluster;
-	
-	// define location of gift icon
-	var giftIcon = '<?php echo base_url(); ?>assets/images/icon_gift.png';
    		 
 	// Write preloaded data
 	// @todo make this reusable by storing in a view; it's used in find/index

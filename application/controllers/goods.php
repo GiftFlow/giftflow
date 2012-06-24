@@ -458,8 +458,8 @@ class Goods extends CI_Controller {
 		$this->data['photos'][] = (object) array(
 			"id"=>NULL,
 			"caption"=>"Category Icon",
-			"url"=> base_url()."assets/images/categories/".$this->G->category->id.".png",
-			"thumb_url"=> base_url()."assets/images/categories/".$this->G->category->id.".png",
+			"url"=> base_url("assets/images/categories/".$this->G->category->id.".png"),
+			"thumb_url"=> base_url("assets/images/categories/".$this->G->category->id.".png"),
 			"default"=>($G_dmz->default_photo==NULL || $G_dmz->default_photo->id==NULL)
 		);
 					
