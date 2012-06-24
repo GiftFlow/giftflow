@@ -657,7 +657,7 @@ class Account extends CI_Controller {
 		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->parser->parse('account/photo', $this->data);
+		$this->parser->parse('account/photos', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
