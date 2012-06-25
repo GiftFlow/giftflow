@@ -155,9 +155,22 @@ class Util
 		// ( loading their values from the URI library often throws an error
 		// if you try to do this)
 		$globals['segment'][1] = $this->CI->uri->segment(1);
-		$globals['segment'][2] = $this->CI->uri->segment(2);
-		$globals['segment'][3] = $this->CI->uri->segment(3);
-		$globals['segment'][4] = $this->CI->uri->segment(4);
+		
+		// If language switching in place, store segment 2 as segment 1, etc
+		$languages = array("en","es","fr","de","it","nl","sv","no","da","fi","is","ru","et","lv","pl","pt","ja");
+		if(in_array($globals['segment'][1],$languages))
+		{
+			$globals['segment'][1] = $this->CI->uri->segment(2);
+			$globals['segment'][2] = $this->CI->uri->segment(3);
+			$globals['segment'][3] = $this->CI->uri->segment(4);
+			$globals['segment'][4] = $this->CI->uri->segment(5);
+		}
+		else
+		{
+			$globals['segment'][2] = $this->CI->uri->segment(3);
+			$globals['segment'][3] = $this->CI->uri->segment(4);
+			$globals['segment'][4] = $this->CI->uri->segment(5);
+		}
 		
 		// Set Default Facebook Open Graph Tags
 		$globals['open_graph_tags'] = array(

@@ -61,16 +61,17 @@ class Needs extends CI_Controller {
 		$this->load->helper('elements');
 		$this->hooks =& load_class('Hooks');		
 		$this->load->library('Search/Good_search');
-		
-		// Set some class-wide variables
-		$this->good_id = $this->uri->segment(2);
-		$this->method = $this->uri->segment(3);
-		$this->param = $this->uri->segment(4);
-		
+				
 		$this->util->config();
 		$this->data = $this->util->parse_globals(array(
 			"geocode_ip"=>TRUE
 		));
+
+		// Set some class-wide variables
+		$this->good_id = $this->data["segment"][2];
+		$this->method = $this->data["segment"][3];
+		$this->param = $this->data["segment"][4];
+
 	}
 	
 	/**

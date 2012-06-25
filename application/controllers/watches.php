@@ -69,7 +69,7 @@ class Watches extends CI_Controller {
 		
 		$this->load->model('watch');
 		
-		$W = new Watch($this->uri->segment(2));
+		$W = new Watch($this->data["segment"][2]);
 		
 		$this->load->library('datamapper');
 		

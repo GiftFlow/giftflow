@@ -223,7 +223,7 @@ if(!$active) { echo "DISABLED"; }
 		<p>Add a message</p>
 		<form method="post" action="<?php echo site_url('people/profile');?>">
 		<input type="hidden" name="type" value="give">
-		<input type="hidden" name="decider_id" value="<?php echo $this->uri->segment(2); ?>" />
+		<input type="hidden" name="decider_id" value="<?php echo $segment[2]; ?>" />
 		<textarea name="reason"></textarea>
 		<br />
 		<p><input style="float:left;" type="submit" value="Send" class="btn btn-large" /></p>

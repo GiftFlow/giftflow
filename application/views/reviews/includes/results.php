@@ -8,7 +8,7 @@
 				<!-- Title --> 
 				<?php foreach ($R->users as $val) 
 					{
-						if($val->id != $this->uri->segment(2))
+						if($val->id != $segment[2])
 						{ ?>
 							<a class="title small" href="<?php echo site_url('people/'.$val->id);?>" id='title'>
 							<?php echo $val->screen_name; ?></a>
@@ -18,7 +18,7 @@
 			
 				<?php foreach ($R->reviews as $val) 
 				{
-					if($val->reviewed_id == $this->uri->segment(2))
+					if($val->reviewed_id == $segment[2])
 					{ ?>
 						<p>Rating: <a class="<?php echo $val->rating;?>"><?php echo $val->rating; ?></a></p>
 						<div id="snippet">
