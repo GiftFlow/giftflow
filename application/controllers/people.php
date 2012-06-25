@@ -320,8 +320,8 @@ class People extends CI_Controller {
 			$data = array (
 					"id" => $val->id,
 					"caption" => $val->caption,
-					"url" => site_url().$val->url,
-					"thumb_url" => site_url().$val->thumb_url,
+					"url" => base_url($val->url),
+					"thumb_url" => base_url($val->thumb_url),
 					"default" => FALSE
 				);
 			$this->data['photos'][] = $data;

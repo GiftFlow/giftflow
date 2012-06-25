@@ -321,8 +321,8 @@ class Goods extends CI_Controller {
 			$data = array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
+				"url" => base_url($pho->url),
+				"thumb_url" => base_url($pho->thumb_url),
 				"default" => FALSE
 			);
 			$photos[] = $data;
@@ -397,8 +397,8 @@ class Goods extends CI_Controller {
 			$data = (object) array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
+				"url" => base_url($pho->url),
+				"thumb_url" => base_url($pho->thumb_url),
 				"default" => ($G_dmz->default_photo->id == $pho->id)
 			);
 			
@@ -469,8 +469,8 @@ class Goods extends CI_Controller {
 			$data = (object) array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
+				"url" => base_url($pho->url),
+				"thumb_url" => base_url($pho->thumb_url),
 				"default" => ($G_dmz->default_photo->id == $pho->id)
 			);
 			

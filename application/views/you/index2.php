@@ -5,8 +5,8 @@
 	
 	<div class='right_content'>
      <span style='float:right;'>
-     <a class='button btn' href='<?php echo site_url()."you/add_good/?type=gift";?>'> Add a Gift</a>
-     <a class='button btn' href='<?php echo site_url()."you/add_good/?type=need"; ?>'> Add a Need</a>
+     <a class='button btn' href='<?php echo site_url("you/add_good/?type=gift");?>'> Add a Gift</a>
+     <a class='button btn' href='<?php echo site_url("you/add_good/?type=need"); ?>'> Add a Need</a>
       </span>
     <div class='events'>
 

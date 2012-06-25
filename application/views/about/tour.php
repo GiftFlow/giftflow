@@ -32,7 +32,7 @@
 </div>
   </body>
 </html>
-<script type='text/javascript' src='<?php echo site_url()."assets/javascript/plax.js";?>'></script>
+<script type='text/javascript' src='<?php echo base_url("assets/javascript/plax.js");?>'></script>
 <script type='text/javascript'>
 
   $(document).ready(function() {
