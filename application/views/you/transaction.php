@@ -69,7 +69,7 @@
 			</div>
 
 		<div class='transaction-main'>
-			<h3 class="messages_title">Messages</h3>
+			<h3 class="messages_title"><?php echo lang("transaction_messages_section_title");?></h3>
 									
 			<ul id="transaction-messages">
 			<?php foreach($transaction->messages as $key=>$M) { ?>
@@ -101,7 +101,7 @@
 						<input type="hidden" name="form_type" value="transaction_message" />
 						<input type="hidden" name="transaction_id" value="<?php echo $transaction->id; ?>" />
 						<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
-						<label>Send a Message</label>
+						<label><?php echo lang("transaction_messages_instructions");?></label>
 						<textarea rows="5" name="body" id="message_body"></textarea>
 							<?php if ($transaction->status == "pending" && !$demander) { ?>
 							<!--	<fieldset>
@@ -173,10 +173,10 @@
 			
 			<!-- History -->
 			<div class="history">
-				<h3>History</h3>
+				<h3><?php echo lang('transaction_history_section_title');?></h3>
 				<ul>
 				<?php foreach($transaction->events as $event) { ?>
-					<li><?php echo lang("history_".$event->event_type);?>
+					<li><?php echo lang("transaction_history_".$event->event_type);?>
 						by <?php echo $event->user_screen_name;?>
 						on <?php echo user_date($event->created,"F jS Y g:ia"); ?>
 					</li>

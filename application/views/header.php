@@ -99,7 +99,7 @@ if(isset($css))
 					<li>
 						<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>' id='you'>
 							<?php if(!empty($userdata['photo_thumb_url'])){ echo "<img src='".$userdata['photo_thumb_url']."' id='you_img'  />"; }  ?>
-							<span style='float: left; '>Profile</span>
+							<span style='float: left; '><?php echo lang("nav_profile");?></span>
 							<div style='clear: both;'>
 							</div>
 						</a>
@@ -135,7 +135,7 @@ if(isset($css))
 							</li>
 							<li>
 								<a href='<?php echo site_url('logout'); ?>'>
-									Log Out
+									<?php echo lang("nav_logout");?>
 								</a>
 							</li>
 						</ul>
@@ -148,12 +148,12 @@ if(isset($css))
 				<ul id='you_menu'>
 					<li>
 						<a href='<?php echo site_url('login'); ?>' id='login'>
-							Login
+							<?php echo lang("nav_login");?>
 						</a>
 					</li>
 					<li>
 						<a href='<?php echo site_url('register'); ?>' id='signup'>
-							Sign Up
+							<?php echo lang("nav_signup");?>
 						</a>
 					</li>
 					<li>
@@ -170,32 +170,32 @@ if(isset($css))
 			<li>
 				<?php if(!empty($logged_in)&&$logged_in){ ?>
 				<a href="<?php echo site_url(); if($segment==false || $segment[1]=="you") echo '" class="active'; ?>">
-					You
+					<?php echo lang("nav_you");?>
 				</a>
 				<?php } else { ?>
 				<a href="<?php echo site_url(); if($segment==false) echo '" class="active'; ?>">
-					Home
+					<?php echo lang("nav_home");?>
 				</a>
 				<?php } ?>
 			</li>
 			<li>
 				<a href="<?php echo site_url('find/gifts/'); if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active'; ?>">
-					Gifts
+					<?php echo lang("nav_gifts");?>
 				</a>
 			</li>
 			<li>
 				<a href="<?php echo site_url('find/needs/'); if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active'; ?>">
-					Needs
+					<?php echo lang("nav_needs");?>
 				</a>
 			</li>
 			<li>
 				<a href="<?php echo site_url('people'); if($segment[1]=="people") echo '" class="active'; ?>">
-					People
+					<?php echo lang("nav_people");?>
 				</a>
 			</li>
 			<li>
 				<a href="<?php echo site_url('about'); if($segment[1]=="about") echo '" class="active'; ?>">
-					About
+					<?php echo lang("nav_about");?>
 				</a>
 			</li>
 		</ul>
