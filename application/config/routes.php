@@ -43,38 +43,53 @@
 $route['default_controller'] = "root";
 $route['scaffolding_trigger'] = "";
 
-// Custom routes
-$route['login'] = 'member/login';
-$route['login/(:num)'] = 'member/login/$1';
-$route['register'] = 'member/register';
-$route['logout'] = 'member/logout';
-$route['profile/:num'] = 'people/profile/$1';
-$route['people/:num'] = 'people/profile/$1';
-$route['you/profile'] = 'people/profile';
-$route['gifts/:num'] = "goods/view";
-$route['watches/:num/delete'] = "watches/delete/:num";
-$route['gifts/:num/:any'] = "goods/view";
-$route['needs/:num'] = 'goods/view';
-$route['needs/:num/:any'] = 'goods/view';
-$route['tag/(:any)'] = "find/index/$1";
-$route['find/(:any)'] = 'find/index/$1';
-$route['find/(:any)/(:any)'] = 'find/index/$1/$2';
-$route['you/gifts/add'] = 'you/add_good/gift';
-$route['you/needs/add'] = 'you/add_good/need';
-$route['occupynewhaven'] = 'people/profile/1127';
-$route['giftflow'] = 'people/profile/482';
-$route['newhavenreads'] = 'people/profile/1277';
-$route['GNHHA'] = 'people/profile/1322';
-$route['DevilsGear'] = 'people/profile/1326';
-$route['DESK'] = 'people/profile/1329';
-$route['brucafe'] = 'people/profile/1384';
-$route['miyassushi'] = 'people/profile/1383';
+
+/**
+*	i18n Routing
+*	Full language list: 'en|es|fr|de|it|nl|sv|no|da|fi|is|ru|et|lv|pl|pt|ja'
+*	Currently supported languages: 'en|es|fr|de|it|nl'
+*/ 
+
+// example: '/en/about' -> use controller 'about'
+
+// '/en' and '/fr' -> use default controller
+$route['^(en|es|fr|de|it|nl)$'] = $route['default_controller'];
+
+/**
+*	Custom routes
+*/
+$route['^(en|es|fr|de|it|nl)/login'] = 'member/login';
+$route['(en|es|fr|de|it|nl)/login/(:num)'] = 'member/login/$1';
+$route['(en|es|fr|de|it|nl)/register'] = 'member/register';
+$route['(en|es|fr|de|it|nl)/logout'] = 'member/logout';
+$route['(en|es|fr|de|it|nl)/profile/:num'] = 'people/profile/$1';
+$route['(en|es|fr|de|it|nl)/people/:num'] = 'people/profile/$1';
+$route['(en|es|fr|de|it|nl)/you/profile'] = 'people/profile';
+$route['(en|es|fr|de|it|nl)/gifts/:num'] = "goods/view";
+$route['(en|es|fr|de|it|nl)/watches/:num/delete'] = "watches/delete/:num";
+$route['(en|es|fr|de|it|nl)/gifts/:num/:any'] = "goods/view";
+$route['(en|es|fr|de|it|nl)/needs/:num'] = 'goods/view';
+$route['(en|es|fr|de|it|nl)/needs/:num/:any'] = 'goods/view';
+$route['(en|es|fr|de|it|nl)/tag/(:any)'] = "find/index/$1";
+$route['(en|es|fr|de|it|nl)/find/(:any)'] = 'find/index/$1';
+$route['(en|es|fr|de|it|nl)/find/(:any)/(:any)'] = 'find/index/$1/$2';
+$route['(en|es|fr|de|it|nl)/you/gifts/add'] = 'you/add_good/gift';
+$route['(en|es|fr|de|it|nl)/you/needs/add'] = 'you/add_good/need';
+$route['(en|es|fr|de|it|nl)/occupynewhaven'] = 'people/profile/1127';
+$route['(en|es|fr|de|it|nl)/giftflow'] = 'people/profile/482';
+$route['(en|es|fr|de|it|nl)/newhavenreads'] = 'people/profile/1277';
+$route['(en|es|fr|de|it|nl)/GNHHA'] = 'people/profile/1322';
+$route['(en|es|fr|de|it|nl)/DevilsGear'] = 'people/profile/1326';
+$route['(en|es|fr|de|it|nl)/DESK'] = 'people/profile/1329';
+$route['(en|es|fr|de|it|nl)/brucafe'] = 'people/profile/1384';
+$route['(en|es|fr|de|it|nl)/miyassushi'] = 'people/profile/1383';
+$route['(en|es|fr|de|it|nl)/lost'] = 'root/lost';
+$route['(en|es|fr|de|it|nl)/restricted'] = 'root/restricted';
+$route['(en|es|fr|de|it|nl)/donate'] = 'about/donate';
 
 
+// Catch-all route
+$route['^(en|es|fr|de|it|nl)/(.+)$'] = "$2";
 
-
-$route['lost'] = 'root/lost';
-$route['restricted'] = 'root/restricted';
-$route['donate'] = 'about/donate';
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */
