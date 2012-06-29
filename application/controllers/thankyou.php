@@ -76,11 +76,12 @@ class Thankyou extends CI_Controller {
 					array(
 						"user_id" => $this->data['logged_in_user_id'],
 						"good_id" => $this->G->id,
-						"type" => "take",
+						"type" => "thank",
 						"note" => $this->info['body'],
 					)
 				),
 				"decider_id" => $this->info['reviewed_id'],
+				'demander_id' => $this->data['logged_in_user_id'],
 				'hook' => 'thankyou'
 
 			);
@@ -259,6 +260,16 @@ class Thankyou extends CI_Controller {
 
 		$form = $this->load->view('forms/thankyou',$options);
 		return $form;
+	}
+
+	function thankthank()
+	{
+		// Title
+		$this->data['title'] = 'harhar';
+			// Load views
+		$this->load->view('header', $this->data);
+		$this->load->view('forms/thankyou', $this->data);
+		$this->load->view("footer", $this->data);
 	}
 }
 

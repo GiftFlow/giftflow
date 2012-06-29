@@ -20,7 +20,6 @@
 								$demander = FALSE;
 								$other_user = $val->demander;
 							}
-							//print_r($other_user);
 							?>
 						<li class="clearfix <?php if($val->unread) { echo "unread"; } ?>">
 						

@@ -267,7 +267,8 @@ if(!$active) { echo "DISABLED"; }
 				Following
 			</a>
 			<br />
-			<a href='<?php echo site_url('people/unfollow/'.$u->id); ?>'>
+			<a href='<?php echo site_url('people/unfollow/'.$u->id); ?>' class='btn btn-primary btn-large'>
+				<i class ='icon-plus icon-white'></i>
 				Unfollow
 			</a> 
 		<?php } else { ?>
@@ -280,7 +281,7 @@ if(!$active) { echo "DISABLED"; }
 	</div>
 	<!-- thank you button that triggers modal dialog form -->
 	<div class='profile_item'>
-		<a class='button jqModal' id='thankyou'>
+		<a class='btn btn-primary btn-large jqModal' id='thankyou'>
 			Thank 
 		</a>
 		<span class='metadata' id='thanktext'></span>
