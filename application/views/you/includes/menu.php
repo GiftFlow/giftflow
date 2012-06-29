@@ -32,23 +32,6 @@
 		<a href='<?php echo site_url('you/transactions');?>'> 
       Your Inbox<?php if($transactions_active) { echo "(".$transactions_active_count.")"; }?>
 		</a>
-		<ul>
-			<li>
-				<a href="<?php echo site_url("you/transactions/?direction=incoming");?>">
-					Incoming
-				</a>
-			</li>
-			<li>
-				<a href="<?php echo site_url("you/transactions/?direction=outgoing");?>">
-					Outgoing
-				</a>
-			</li>
-			<li>
-				<a href="<?php echo site_url("you/transactions/?status=completed");?>">
-					Reviews
-				</a>
-			</li>
-		</ul>
 	</li>
 	<li <?php if($segment[1]=='account'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('account');?>' > 

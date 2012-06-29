@@ -255,24 +255,6 @@ class You extends CI_Controller {
 			$options['transaction_status'] = $_GET['status'];
 		}
 		$this->data['transactions'] = $TS->find($options);
-
-	/*
-	 * Getting rid of sorting, gonna make the Inbox all one thang	
-		//Sort into "incoming" and "outgoing" arrays
-		if(!empty($this->data['transactions']) && ($this->input->get("direction")=="incoming" || $this->input->get("direction")=="outgoing"))
-		{
-			$sorted = array();
-			foreach($this->data['transactions'] as $key=>$val)
-			{
-				$is_outgoing = ($val->demander->id == $this->data['logged_in_user_id']);
-				if(($_GET['direction']=="outgoing" && $is_outgoing) || ($_GET['direction']=="incoming" && !$is_outgoing))
-				{
-					$sorted[] = $val;
-				}
-			}
-			$this->data["transactions"] = $sorted;
-		}
-	 */	
 		// Set view variables
 		$this->data['title'] = "Marketplace";
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
