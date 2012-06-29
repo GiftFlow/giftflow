@@ -5,8 +5,8 @@
 	
 	<div class='right_content'>
      <span id='quick_buttons'>
-     <a class='button btn' href='<?php echo site_url()."you/add_good/?type=gift";?>'> Add a Gift</a>
-     <a class='button btn' href='<?php echo site_url()."you/add_good/?type=need"; ?>'> Add a Need</a>
+     <a class='button btn' href='<?php echo site_url("you/add_good/?type=gift");?>'> Add a Gift</a>
+     <a class='button btn' href='<?php echo site_url("you/add_good/?type=need"); ?>'> Add a Need</a>
       </span>
 		<!-- GiftFlow module -->
 			<div id='dash_map'>
@@ -79,9 +79,6 @@ $(function(){
 	
 	// define the fluster object
 	var fluster;
-	
-	// define location of gift icon
-	var giftIcon = '<?php echo base_url(); ?>assets/images/icon_gift.png';
    		 
 	// Write preloaded data
 	// @todo make this reusable by storing in a view; it's used in find/index

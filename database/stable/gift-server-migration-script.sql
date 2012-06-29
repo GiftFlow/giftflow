@@ -516,6 +516,36 @@ DROP TABLE `message_deliveries`;
 -- ---------------------------------------------------------------------------
 ALTER TABLE users MODIFY COLUMN type ENUM('individual','nonprofit', 'business');
 
+-- ---------------------------------------------------------------------------
+-- v2.5 to 2.6
+-- 2011-11-02 to 2012-06-02
+-- New watches table
+-- By Jono
+------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `watches` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) UNSIGNED NOT NULL,
+	`keyword` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `watches_users`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `users` (`id`)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- ---------------------------------------------------------------------------
+-- v2.6 to 2.7
+-- 2012-06-02 to 2012-06-21
+-- Sessions table changes required for codeigniter upgrade
+-- ---------------------------------------------------------------------------
+
+CREATE INDEX last_activity_idx ON ci_sessions(last_activity);
+ALTER TABLE ci_sessions CHANGE ip_address ip_address varchar(45) default '0' NOT NULL;
+ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

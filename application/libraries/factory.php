@@ -68,15 +68,15 @@ class Factory
 				}
 				elseif($object == 'photo' && isset($row->photo_url))
 				{
-					$item->photo->url = site_url().$row->photo_url;
-					$item->photo->thumb_url = site_url().$row->photo_thumb_url;
+					$item->photo->url = base_url($row->photo_url);
+					$item->photo->thumb_url = base_url($row->photo_thumb_url);
 				}
 				elseif($object == 'user' && $key == 'photo_url' || $key == 'photo_thumb_url')
 				{
 					if(isset($row->user_photo_url))
 					{
-						$item->user->photo->url = site_url().$row->user_photo_url;
-						$item->user->photo->thumb_url = site_url().$row->user_photo_thumb_url;
+						$item->user->photo->url = base_url($row->user_photo_url);
+						$item->user->photo->thumb_url = base_url($row->user_photo_thumb_url);
 					}
 				}
 				else
@@ -97,7 +97,7 @@ class Factory
 			}
 			
 			//Tack on a default photo for the user
-			$item->user->default_photo->url = site_url()."assets/images/user.png";
+			$item->user->default_photo->url = base_url("assets/images/user.png");
 			// Add new object to $product array
 			$product[] = $item;
 		}

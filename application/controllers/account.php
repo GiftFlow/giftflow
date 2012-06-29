@@ -21,7 +21,7 @@ class Account extends CI_Controller {
 		//to prevent welcome page from opening when editing account
 		$this->data['welcome'] = FALSE;
     //for Inbox new transaction flag
-    $this->data['trans_check'] = FALSE;
+    $this->data['transactions_active'] = FALSE;
 		
 	}
 
@@ -491,7 +491,7 @@ class Account extends CI_Controller {
 		);
 		
 		$this->load->view('header', $this->data);
-		$this->parser->parse('account/locations/list', $this->data);
+		$this->parser->parse('account/locations', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -533,12 +533,6 @@ class Account extends CI_Controller {
 		{
 		$this->hooks->call('userdata_updated');
 		redirect('account/locations');
-			// $this->data['title'] = "Add A New Location";
-// 			$this->load->view('header', $this->data);
-// 			$this->data['active_link'] = 'profile';
-// 			$this->load->view('account/menu', $this->data);
-// 			$this->parser->parse('account/locations/add', $this->data);
-// 			$this->load->view('footer', $this->data);
 		}
 	}
 	
@@ -577,12 +571,6 @@ class Account extends CI_Controller {
 		{
 			$this->hooks->call('userdata_updated');
         	redirect('account/locations');
-            // $this->data['title'] = "Add A New Location";
-//             $this->load->view('header', $this->data);
-//             $this->data['active_link'] = 'profile';
-//             $this->load->view('account/menu', $this->data);
-//             $this->parser->parse('account/locations/add', $this->data);
-//             $this->load->view('footer', $this->data);
 		}
 	}
 	protected function _locations_delete( $id )
@@ -629,8 +617,8 @@ class Account extends CI_Controller {
 		
 		foreach($this->U->photos as $val)
 		{
-			$val->thumb_url = site_url().$val->thumb_url;
-			$val->url = site_url().$val->url;
+			$val->thumb_url = base_url($val->thumb_url);
+			$val->url = base_url($val->url);
 		}
 		
 		$this->data['num_photos'] = $this->U->photos->count();
@@ -669,7 +657,7 @@ class Account extends CI_Controller {
 		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->parser->parse('account/photos/list', $this->data);
+		$this->parser->parse('account/photos', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	

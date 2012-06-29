@@ -263,6 +263,7 @@ if(!$active) { echo "DISABLED"; }
 	<?php if($u->id!=$logged_in_user_id) { ?>
 		<?php if(isset($is_following)&&$is_following) { ?>
 			<a class='btn btn-large disabled btn-primary' id='already_following'>
+				<i class="icon-ok icon-white"></i>
 				Following
 			</a>
 			<br />

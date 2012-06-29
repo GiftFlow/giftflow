@@ -7,21 +7,17 @@
 
 		<!-- GiftFlow module -->
 		<div class='center'>
-
-			
-			
 			<div id="welcome_three">
-		
 				<div class="welcome_block" id="gifts" >
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
 					<p>What do you want to give? A helping hand? An expert opinion? Handmade jewerly? It's all up to you.</p>
-					<p><a href="<?php echo site_url('you/gifts/add');?>"  class="button btn">Add a Gift</a></p>
+					<p><a href="<?php echo site_url("you/add_good/?type=gift");?>"  class="button btn">Add a Gift</a></p>
 				</div>
 				
 				<div class="welcome_block" id="needs">
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
 				 <p>What do you need? Help in your garden? A pair of gloves? Don't be afraid to ask.</p>
-				 <p><a href="<?php echo site_url('you/needs/add');?>"  class="button btn">Add a Need</a></p>
+				 <p><a href="<?php echo site_url("you/add_good/?type=need");?>"  class="button btn">Add a Need</a></p>
 				</div>
 					
 				<div class="welcome_block" id="people">
@@ -46,35 +42,13 @@
 				<div id="location_added" style="display:none;">
 					<p>Great! Now your search results should be much more accurate</p>
 				</div>
-					<!--<h1>GiftFlow in your neighborhood</h1>
-						Check out what is going on in the GiftFlow community near you. If nothing comes up, then you better get to work!
-						<ul id='profile_toolbar_left' class='gray_toolbar'>
-									<li>
-										<a href='#' id='gift' >
-											Gifts
-										</a>
-									</li>
-									<li>
-										<a href='#' id='need' >
-											Needs
-										</a>
-									</li>
-									<li>
-										<a href='#' id='people'>
-											People
-										</a>
-									</li>
-						</ul>
-						<ul id="results">
-						
-						</ul> --->
 			</div><!-- close hyperlocal -->	
 			<div id="skip_welcome">
 				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
-						<input type=submit class="button btn" value='Hide this page at log-in' style="height:25px; font-size:12px !important;"/>
+						<input type=submit class="button btn css_right" value='Hide this page at log-in'/>
 						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
 				</form>
-				</div>
+			</div>
 				
 	</div>
 	</div>
@@ -102,19 +76,7 @@ $(function(){
             $('#do_not_show').ajaxForm(function() {
             	$('#do_not_show').hide();
             });
-        }); 
-	
-	$("ul.gray_toolbar li a").click(function(){
-		$("ul.gray_toolbar li a").removeClass("active");
-		$(this).addClass('active');
-		ul.empty();
-		$.post("<?php echo site_url('ajax/nearby_flow'); ?>", { type: $(this).attr('id'), limit: 5 }, function(data){
-			$.each(data.results, function( key, val){
-				ul.append($(val.html));
-			});
-		}, 'json');
-	});
-	
+        });	
 });
 	
 	
