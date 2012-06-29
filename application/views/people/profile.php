@@ -290,6 +290,7 @@ if(!$active) { echo "DISABLED"; }
 		Loading...
 	</div>
 <?php } ?>
+<?php } ?>
 
 <?php if(!empty($u->default_location->city)) { ?>
 	<div class='profile_item'>
