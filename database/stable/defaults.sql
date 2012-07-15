@@ -1,5 +1,6 @@
--- TRUNCATE TABLE `event_types`;
--- TRUNCATE TABLE `categories`;
+TRUNCATE TABLE `event_types`;
+TRUNCATE TABLE `categories`;
+TRUNCATE TABLE `terms`;
 
 INSERT INTO `event_types` (`id`, `title`) VALUES
 (1, 'transaction_new'),
@@ -46,7 +47,6 @@ INSERT INTO `terms` (`id`, `type`, `language`, `name`, `subject`, `body`) VALUES
 (17, 'alert_template', 'en', 'reset_password', '{{subject}}', 'Hello {{screen_name}},<br /><br />\r\nClick on the link below to reset your password: <br /><br />\r\n{{password_reset_link}}\r\n'),
 (18, 'alert_template', 'en', 'report_error', '{{subject}}', 'yo admin! \r\n\r\nSOUND THE ALARM - someone has encountered an error on giftflow\r\n\r\n{{message}} \r\n\r\nON this page: {{page}}\r\n\r\nhope u can figure this out quick\r\n-h'),
 (19, 'alert_template', 'en', 'contact_giftflow', '{{subject}}', 'What is up admin? {{name}} has sent you a message from outer space....<br /><br />\r\n\r\n{{message}}\r\n<br/>\r\nTheir email is {{email}}\r\n<br /><br />\r\nWhen you write them back, be sure to set your email to your @giftflow.org account'),
-(20, 'alert_template', 'en', 'watch_match', '{{subject}}', 'Hello {{recipient_name}}\r\n<br/><br/>\r\n A new item was posted that you may be interested in: <b>{{title}}</b><br/>Follow this link to see the posting: {{link}}');
-(19, 'alert_template', 'en', 'contact_giftflow', '{{subject}}', 'What is up admin? {{name}} has sent you a message from outer space....<br /><br />\r\n\r\n{{message}}\r\n<br/>\r\nTheir email is {{email}}\r\n<br /><br />\r\nWhen you write them back, be sure to set your email to your @giftflow.org account'),
-(20, 'alert_template', 'en', 'thankyou', '{{subject}}', 'Hello {{reviewed_screen_name}}, <br /><br />\r\n{{reviewer_screen_name}} has thanked you on GiftFlow for giving them: "{{gift}}".\r\n <br /><br />\r\nThey gave you a {{rating}} rating and wrote: <br /> <br /> {{body}}\r\n\r\n<br /><br /> Click the right link below if you would like the Thank you to be posted on your profile.<br />\r\n<a href=''http://www.giftflow.org/thankyou/decide/yes/{{secret}}''>Accept</a>\r\n\r\n<a href=''http://www.giftflow.org/thankyou/decide/no/{{secret}}''>Decline</a>'),
-(21, 'alert_template', 'en', 'thankyouResponse', '{{subject}}', 'Hello {{reviewer_screen_name}}!\r\n<br/><br/>\r\n{{reviewed_screen_name}} {{news}}.\r\n\r\nVisit their <a href=''http://www.giftflow.org/people/{{reviewed_id}}''>profile </a> to see your note under the Reviews section. \r\n\r\nKeep sharing your gratitude on GiftFlow!');
+(20, 'alert_template', 'en', 'watch_match', '{{subject}}', 'Hello {{recipient_name}}\r\n<br/><br/>\r\n A new item was posted that you may be interested in: <b>{{title}}</b><br/>Follow this link to see the posting: {{link}}'),
+(21, 'alert_template', 'en', 'thankyou', '{{subject}}', 'Hello {{reviewed_screen_name}}, <br /><br />\r\n{{reviewer_screen_name}} has thanked you on GiftFlow for giving them: "{{gift}}".\r\n <br /><br />\r\nThey gave you a {{rating}} rating and wrote: <br /> <br /> {{body}}\r\n\r\n<br /><br /> Click the right link below if you would like the Thank you to be posted on your profile.<br />\r\n<a href=''http://www.giftflow.org/thankyou/decide/yes/{{secret}}''>Accept</a>\r\n\r\n<a href=''http://www.giftflow.org/thankyou/decide/no/{{secret}}''>Decline</a>'),
+(22, 'alert_template', 'en', 'thankyouResponse', '{{subject}}', 'Hello {{reviewer_screen_name}}!\r\n<br/><br/>\r\n{{reviewed_screen_name}} {{news}}.\r\n\r\nVisit their <a href=''http://www.giftflow.org/people/{{reviewed_id}}''>profile </a> to see your note under the Reviews section. \r\n\r\nKeep sharing your gratitude on GiftFlow!');

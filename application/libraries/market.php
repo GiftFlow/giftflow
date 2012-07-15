@@ -513,12 +513,14 @@ class Market
 		$Transaction = new Transaction($options['transaction_id']);
 		
 		// Make sure that both reviews have been written
+		/*
 		if(!$Transaction->has_both_reviews())
 		{
 			// @todo handle error
 			return FALSE;
 		}
-	
+		 */
+
 		$Transaction->status = "completed";
 		
 		if(!$Transaction->save())

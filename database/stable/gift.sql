@@ -223,7 +223,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `demands` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  `type` ENUM('give','take','borrow','share','fulfill') NOT NULL ,
+  `type` ENUM('give','take','borrow','share','fulfill','thank') NOT NULL ,
   `transaction_id` INT(10) UNSIGNED NOT NULL ,
   `good_id` INT(10) UNSIGNED NOT NULL ,
   `user_id` INT(10) UNSIGNED NOT NULL ,
