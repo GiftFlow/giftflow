@@ -109,9 +109,9 @@ class Util
 				}
 			}
 			
-			//See if user has active or pending transactions
+			//See if user has active or pending messages in inbox
 			//If so, light up the Your Inbox menu option
-			$globals['transactions_active'] = FALSE;
+			$globals['inbox_active'] = FALSE;
 			
 			// Run a transactions search
 			$this->CI->load->library('Search/Transaction_search');
@@ -128,8 +128,8 @@ class Util
 			// If found, store count
 			if(count($active_search) > 0)
 			{
-				$globals['transactions_active'] = TRUE;
-				$globals['transactions_active_count'] = count($active_search);
+				$globals['inbox_active'] = TRUE;
+				$globals['inbox_active_count'] = count($active_search);
 			}
 		}
 		else

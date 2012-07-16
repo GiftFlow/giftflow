@@ -28,9 +28,9 @@
 			Your Watches
 		</a>
 	</li>
-	<li <?php if($segment[2]=='transactions'){ echo  "class='active'"; } else if($transactions_active) { echo "id='inbox_new'"; } ?>>
-		<a href='<?php echo site_url('you/transactions');?>'> 
-      Your Inbox<?php if($transactions_active) { echo "(".$transactions_active_count.")"; }?>
+	<li <?php if($segment[2]=='inbox'){ echo  "class='active'"; } else if($inbox_active) { echo "id='inbox_new'"; } ?>>
+		<a href='<?php echo site_url('you/inbox');?>'> 
+      Your Inbox<?php if($inbox_active) { echo "(".$inbox_active_count.")"; }?>
 		</a>
 	</li>
 	<li <?php if($segment[1]=='account'){ echo  "class='active'"; } ?>>

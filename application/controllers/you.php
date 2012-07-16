@@ -222,13 +222,11 @@ class You extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	public function transactions( $id = NULL )
+
+	//opens the Inbox 
+
+	public function inbox()
 	{
-		// If ID provided, load individual transaction
-		if(!empty($id))
-		{
-			return $this->_view_transaction($id);
-		}
 		
 		// Load Libraries
 		$this->load->library('Search/Transaction_search');
