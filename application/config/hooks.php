@@ -29,13 +29,6 @@ $hook['following_new'][] = array(
 	'filepath' => 'libraries'
 );
 
-$hook['transaction_viewed'][] = array(
-	'class'    => 'Notify',
-	'function' => 'transaction_viewed',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
 
 $hook['user_registration_manual'][] = array(
 	'class'    => 'Notify',

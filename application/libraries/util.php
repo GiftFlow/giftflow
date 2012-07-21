@@ -116,7 +116,7 @@ class Util
 			// Run a transactions search
 			$this->CI->load->library('Search/Transaction_search');
 			$TS = new Transaction_search;
-			$active_search = $TS->find(array(
+			$trans_search = $TS->find(array(
 				"user_id"=>$globals['logged_in_user_id'],
 				"transaction_status"=>array(
 					"active",
@@ -124,13 +124,22 @@ class Util
 				),
 				"limit"=>200
 			));
-			
+
+			//include thankyous in active inbox
+			$this->CI->load->library('Search/Thankyou_search');
+			$TY = new Thankyou_search();
+			$thank_search = $TY ->find(array(
+				'recipient_id' => $globals['logged_in_user_id'],
+				'status' => 'pending'
+			));
+
 			// If found, store count
-			if(count($active_search) > 0)
+			if(count($trans_search) > 0 || count($thank_search) > 0)
 			{
 				$globals['inbox_active'] = TRUE;
-				$globals['inbox_active_count'] = count($active_search);
+				$globals['inbox_active_count'] = count($trans_search) + count($thank_search);
 			}
+
 		}
 		else
 		{

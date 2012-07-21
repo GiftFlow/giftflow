@@ -30,7 +30,7 @@
 	</li>
 	<li <?php if($segment[2]=='inbox'){ echo  "class='active'"; } else if($inbox_active) { echo "id='inbox_new'"; } ?>>
 		<a href='<?php echo site_url('you/inbox');?>'> 
-      Your Inbox<?php if($inbox_active) { echo "(".$inbox_active_count.")"; }?>
+      Your Inbox<?php if($inbox_active) { echo " (".$inbox_active_count.")"; }?>
 		</a>
 	</li>
 	<li <?php if($segment[1]=='account'){ echo  "class='active'"; } ?>>

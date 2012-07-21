@@ -13,7 +13,7 @@
 					</a>
 					
 					<div class="metadata left">
-						<a href="<?php echo site_url('you/transactions/'.$transaction->id);?>" class="title">
+						<a href="<?php echo site_url('you/inbox/'.$transaction->id);?>" class="title">
 							Request <?php echo $demander ? "to":"from"; echo " ".$other_user->screen_name;?>
 						</a>
 						<span class="summary">
@@ -30,7 +30,7 @@
 					<p class="left meta-label">Status</p>
 					<p class="left field bold"><?php echo ucfirst($transaction->status);?></p>
 				</div>
-				<?php if($transaction->status!="declined" && $transaction->status!="cancelled" && $transaction->status!="completed") { ?>
+				<?php if($transaction->status!="declined" && $transaction->status!="cancelled") { ?>
 				<div class="clearfix metadata-bottom">
 					<p class="left meta-label">What's Next</p>
 					<div class="left field">
@@ -53,15 +53,13 @@
 									</div>
 								</form>
 							<?php } ?>
-						<?php } elseif($transaction->status=="active"){ ?>
-							<?php if($has_reviewed){ ?>
-								Wait For Other User To Write A Review
-							<?php } else { ?>
-								<p>It's go time! Arrange a meeting to complete the transaction in person and then write a review when you're done.</p>
-								<a href="#" class="left btn" id="write_message">Write Message</a>
-								<a href="#" id="write_review" class="left btn btn">Write Review</a>
+							<?php } elseif ($transaction->status == 'active') { ?>
+									<p>It's go time! Arrange a meeting to complete the transaction in person and then write a review when you're done.</p>
 							<?php } ?>
-						<?php } ?>
+							<?php if ($transaction->status == 'active' || $transaction->status =='completed') { ?>
+									<a href="#" class="left btn" id="write_message">Write Message</a>
+									<a href="#" id="write_review" class="left btn btn">Write Review</a>
+							<?php } ?>
 					</div>
 				</div>
 				<?php } ?>
@@ -97,7 +95,7 @@
 			<?php } ?>
 			
 				<li class="message clearfix">
-					<form action="<?php echo site_url('you/transactions/'.$transaction->id); ?>" id="transaction_reply" name="transaction_reply" method="post">
+					<form action="<?php echo site_url('you/view_transaction/'.$transaction->id); ?>" id="transaction_reply" name="transaction_reply" method="post">
 						<input type="hidden" name="form_type" value="transaction_message" />
 						<input type="hidden" name="transaction_id" value="<?php echo $transaction->id; ?>" />
 						<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
@@ -118,7 +116,7 @@
 			<!-- Review Form -->
 			<?php if($transaction->status == "active" && !$has_reviewed) { ?>
 			<div class='review jqmWindow'>
-				<form action="<?php echo site_url('you/transactions/'.$transaction->id); ?>" id="review" name="review" method="post">
+				<form action="<?php echo site_url('you/view_transaction/'.$transaction->id); ?>" id="review" name="review" method="post">
 					<input type ="hidden" name ="form_type" value="transaction_review_new" />
 					<input type="hidden" name="transaction_id" value="<?php echo $transaction->id; ?>" />
 					<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />

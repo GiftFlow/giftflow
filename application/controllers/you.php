@@ -12,6 +12,11 @@ class You extends CI_Controller {
 		$this->data = $this->util->parse_globals($options = array('geocode_ip' => TRUE));
 		$this->auth->bouncer(1);
 		$this->data['welcome'] = FALSE;
+		$this->load->library('Search/Review_search');
+		$this->load->library('Search/Transaction_search');
+		$this->load->library('Search/Good_search');
+		$this->load->library('Search/Thankyou_search');
+		$this->load->library('datamapper');
 		
 	}
 
@@ -23,7 +28,6 @@ class You extends CI_Controller {
 		Console::logSpeed('You::index()');
 		
 		// Load libraries
-		$this->load->library('Search/Good_search');
 		$GS = new Good_search();
 		
 		$options = array (
@@ -48,13 +52,13 @@ class You extends CI_Controller {
 		//Load event reader for activity feed
 		$this->load->library('event_reader');
 		$E = new Event_reader();
-    $options = array(
-      'event_type_id' => array(2,8),
-      'limit' => 100,
-      'location' => $this->data['userdata']['location']
-      );
+		$options = array(
+		  'event_type_id' => array(2,8),
+		  'limit' => 100,
+		  'location' => $this->data['userdata']['location']
+		);
 				
-    //Total hack job, rigging the event feed to show more completed transactions
+		//Total hack job, rigging the event feed to show more completed transactions
 		$unsorted_events = $E->get_events($options);	
 
 		// TODO: get_events should return an empty array instead of false
@@ -137,8 +141,6 @@ class You extends CI_Controller {
 	{
 		Console::logSpeed('You::gifts()');
 		
-		$this->load->library('Search/Good_search');
-
 		$G = new Good_search;
 		$this->data['goods'] = $G->find(array(
 			"user_id" => $this->data['logged_in_user_id'],
@@ -170,7 +172,6 @@ class You extends CI_Controller {
 	
 	public function needs()
 	{
-		$this->load->library('Search/Good_search');
 		$G = new Good_search;
 		
 		$this->data['goods'] = $G->find(array(
@@ -201,7 +202,6 @@ class You extends CI_Controller {
 	
 	function watches()
 	{
-		$this->load->library('datamapper');
 		$this->load->model('watch');
 
 		// Execute tag search
@@ -228,8 +228,16 @@ class You extends CI_Controller {
 	public function inbox()
 	{
 		
+		//Load Thankyou
+		$this->load->library('Search/Thankyou_search');
+		$TY = new Thankyou_search;
+		$this->data['thankyous'] = $TY->find(array(
+			'recipient_id'=>$this->data['logged_in_user_id']
+		));
+
+
+		//Load Transactions		
 		// Load Libraries
-		$this->load->library('Search/Transaction_search');
 		$TS = new Transaction_search;
 		
 		// Compile Search Options
@@ -252,9 +260,11 @@ class You extends CI_Controller {
 		{
 			$options['transaction_status'] = $_GET['status'];
 		}
+
 		$this->data['transactions'] = $TS->find($options);
+
 		// Set view variables
-		$this->data['title'] = "Marketplace";
+		$this->data['title'] = "Inbox";
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
 		// Breadcrumbs
@@ -264,7 +274,7 @@ class You extends CI_Controller {
 		);
 		
 		$this->data['breadcrumbs'][1] = array (
-			"title"=>"Marketplace"
+			"title"=>"Inbox"
 		);
 		
 		// Breadcrumbs for filtered results
@@ -272,39 +282,26 @@ class You extends CI_Controller {
 		// Filtering by good ID
 		if(!empty($_GET['good_id']))
 		{
-			$this->data['breadcrumbs'][1]['href'] = site_url('you/transactions');
+			$this->data['breadcrumbs'][1]['href'] = site_url('you/inbox');
 			
 			$this->data['breadcrumbs'][2] = array(
 				"title"=>"Good #".$_GET['good_id']
 			);
 		}
-		
-		// Filtering by direction
-		elseif(!empty($_GET['direction']))
-		{
-			$this->data['breadcrumbs'][1]['href'] = site_url('you/transactions');
 			
-			$this->data['breadcrumbs'][2] = array(
-				"title"=>ucfirst($_GET['direction'])." Transactions"
-			);
-		}
-		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->load->view('you/transactions', $this->data);	
+		$this->load->view('you/inbox', $this->data);	
 		$this->load->view('footer', $this->data);
 		
 	}
 
-	public function _view_transaction( $id )
+	public function view_transaction( $id )
 	{
-		Console::logSpeed("You::_view_transaction()");
+		Console::logSpeed("You::view_transaction()");
 		
 		// Loading libraries
-		$this->load->library('datamapper');
 		$this->load->library('Search/User_search');
-		$this->load->library('Search/Review_search');
-		$this->load->library('Search/Transaction_search');
 		$this->load->library('Messaging/Conversation');
 		$this->load->helper('form');
 		$this->load->helper('language');
@@ -396,7 +393,7 @@ class You extends CI_Controller {
 						$this->session->set_flashdata('success','Message Sent!');
 					}
 				}
-				redirect('you/transactions/'.$id);
+				redirect('you/view_transaction/'.$id);
 			}
 			
 			// Accept/Decline transaction, 
@@ -417,7 +414,7 @@ class You extends CI_Controller {
 
 					// Set success flashdata and refresh page
 					$this->session->set_flashdata('success','Transaction '.$decision.'d');
-					redirect('you/transactions/'.$id);
+					redirect('you/view_transaction/'.$id);
 				}
 				
 				else
@@ -440,7 +437,7 @@ class You extends CI_Controller {
 				if($reviewed)
 				{
 					$this->session->set_flashdata('success','Review Saved!');
-					redirect('you/transactions/'.$id);
+					redirect('you/view_transaction/'.$id);
 				}
 				else
 				{
@@ -467,7 +464,7 @@ class You extends CI_Controller {
 
 					// Set success flashdata and refresh page
 					$this->session->set_flashdata('success','Transaction cancelled!');
-					redirect('you/transactions/'.$id);
+					redirect('you/view_transaction/'.$id);
 				}
 				
 				else
@@ -530,15 +527,14 @@ class You extends CI_Controller {
 				}				
 			}
 		
-		// Hook: `transaction_viewed`
-		$hook_data = (object) array(
-			"user_id"=>$this->data['logged_in_user_id'],
-			"transaction_id"=>$id
-		);
-		$this->hooks->call('transaction_viewed', $hook_data);
-		
-		Console::logSpeed("You::_view_transaction(): transaction_viewed hook fired, preparing views");
-		
+		/**
+		*	Mark notifications as read
+		*	Note: handwritten SQL query used because the active record library
+		*	appears not to support the usage of JOIN clauses in UPDATE queries
+		*/
+		Console::logSpeed("Notify::transaction_viewed()");
+		$this->db->query("UPDATE `notifications` AS N JOIN events AS E ON N.event_id=E.id SET `N`.`enabled` = 0 WHERE `E`.`transaction_id` = ? AND `N`.`user_id` = ?",array($id, $this->data["logged_in_user_id"]));		
+
 		// Title
 		$this->data['title'] = "Transaction with ".$this->data['other_user']->screen_name;
 				
@@ -572,8 +568,6 @@ class You extends CI_Controller {
 	public function reviews($include)
 	{
 		//$include is a boolean for whether or not to include transactions in results
-		$this->load->library('Search/Review_search');
-		$this->load->library('Search/Transaction_search');
 		$R = new Review_search();
 		$options = array(
 			"transaction_id"=>'',
@@ -587,6 +581,64 @@ class You extends CI_Controller {
 		
 		$results = $R->find($options);
 		return $results;
+	}
+
+
+	public function view_thankyou($id)
+	{
+		//accept or decline thankyou
+		if(!empty($_POST)) {	
+			$thankyou_id = $this->input->post('thankyou_id');
+			$decision = $this->input->post('decision');
+
+			$T = new Thankyou($thankyou_id);
+
+			if($decision == 'Accept') {
+				$T->status = 'accepted';
+				$decided = 'accepted!';
+			} else {
+				$T->status = 'declined';
+				$decided = 'declined';
+			}
+
+			if(!$T->save())
+			{
+				show_error('Error saving thankyou status');
+			} else {
+				$this->session->set_flashdata('success','Thank You '.$decided);
+				redirect('you/inbox');
+			}
+		}
+				
+		$T = new Thankyou_search();
+		$thankyou = $T->find(array('id'=>$id));
+		$this->data['thankyou'] = $thankyou[0];
+
+
+		// Title
+		$this->data['title'] = "Thank you from ".$thankyou[0]->screen_name;
+				
+		// Breadcrumbs
+		$this->data['breadcrumbs'][] = array(
+			"title"=>"You", 
+			"href"=>site_url('you')
+		);
+		$this->data['breadcrumbs'][] = array (
+			"title"=>"Inbox",
+			"href" =>site_url('you/transactions')
+		);
+		$this->data['breadcrumbs'][] = array (
+			"title"=>'Thank You'
+		);
+				
+		// Menu
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		
+		$this->load->view('header',$this->data);
+		$this->load->view('you/thankyou',$this->data);
+		$this->load->view('footer',$this->data);
+
+
 	}
 	
 	/**
