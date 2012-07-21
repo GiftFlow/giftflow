@@ -31,7 +31,7 @@ body {
 	font-size: 0.8em;
 }
 p{
-	font-weight: 300;
+	font-weight: 400;
 }
 a {
 	color: #6cb6e2;
@@ -1754,7 +1754,7 @@ ul.transactions li img.status_icon, .transaction-summary img.status_icon{
 	margin: 28px 20px 0 15px;
 }
 .transaction-summary .metadata-bottom {
-	margin: 15px 0;
+	margin: 10px 0;
 	cursor: default;
 }
 .transaction-summary .metadata-bottom p{
@@ -1770,6 +1770,15 @@ ul.transactions li img.status_icon, .transaction-summary img.status_icon{
 .transaction-summary .metadata-bottom .field{
 	width: 400px;
 }
+.thank-text {
+	width:88px;
+	text-align: left;
+	font-size: 14px;
+}
+.thank-header	{
+	margin-bottom: 20px;
+}
+
 ul.transactions li .status, .transaction-summary .status{
 	text-align: center;
 	width: 70px;

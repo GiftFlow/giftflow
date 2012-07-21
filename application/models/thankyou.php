@@ -2,16 +2,6 @@
 
 class Thankyou extends DataMapperExtension {
 
-
-	//database fields
-	//thanker_id
-	//recipient_id
-	//gift_title
-	//body
-	//rating
-	//updated
-	//created
-
 	/**
 	 * Codeisniter super-object
 	 * @var object
