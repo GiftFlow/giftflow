@@ -180,10 +180,11 @@ class Transaction_search extends Search
 		$transactions = $this->CI->db->limit($options->limit)
 			->get()
 			->result();
+
 		if(empty($transactions))
 		{
 			// @todo handle empty results / throw error
-			return array();
+			return array('error'=> 'No transactions found');
 		}
 		$Factory->set_transactions($transactions);
 		
@@ -269,6 +270,7 @@ class Transaction_search extends Search
 			$Factory->set_unread($result);
 			
 		}
+
 		
 		// Compile final result object from its components
 		$result = $Factory->result();

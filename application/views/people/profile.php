@@ -28,6 +28,7 @@ if(!$active) { echo "DISABLED"; }
 	</div>
 </div>
 <div id='profile_left'>
+
 <ul id='profile_toolbar_left' class='gray_toolbar'>
 	
 	<!-- 
@@ -63,49 +64,6 @@ if(!$active) { echo "DISABLED"; }
 </ul>
 <div id='profile_left_content'>
 
-	
-<div id='overview' style = 'display:none;' class='profile_pane'>
-		
-		<h3 class="grid_title">Reviews (<?php echo count($giver)+count($receiver);?>)</h3>
-		<?php if(!empty($receiver)){ ?>
-		<?php } ?>
-		<h3 class="grid_title">Gifts (<?php echo !empty($gifts) ? count($gifts) : 0;?>)</h3>
-		<?php if(!empty($gifts)) { ?>
-		
-			<?php echo UI_Results::goods(array(
-				"results"=>array_slice($gifts,0,7),
-				"grid"=>TRUE
-			)); ?>
-			
-			<?php if(count($gifts)>7){ ?>
-				<a href="#" rel="active_goods" class="view_all">View All</a>
-			<?php } ?>
-			
-		<?php } else { ?>
-			<p>This user does not have any gifts to give at the moment.</p>
-		<?php } ?>
-		
-		
-		<br />
-		<h3 class="grid_title">Needs (<?php echo !empty($needs) ? count($needs) : 0;?>)</h3>
-
-		<?php if(!empty($needs)) { ?>
-		
-			<?php echo UI_Results::goods(array(
-				"results"=>array_slice($needs,0,7),
-				"grid"=>TRUE
-			)); ?>
-			
-			<?php if(count($needs)>7){ ?>
-				<a href="#" rel="active_goods" class="view_all">View All</a>
-			<?php } ?>
-			
-		<?php } else { ?>
-			<p>This user does not have any needs at the moment.</p>
-		<?php } ?>
-		
-	</div>
-
 
 <!-- Active Gifts and Needs -->
 	<div id='active_goods'  class='profile_pane active'>
@@ -138,59 +96,23 @@ if(!$active) { echo "DISABLED"; }
 		<?php } ?>
 		
 	</div>
-<!-- Gift History section -->
-	<div id='history' style='display: none;' class='profile_pane'>
-		<h3>Gifts Given</h3>
-		
-		<?php if(!empty($gifts_given)) { ?>
-		
-			<?php echo UI_Results::goods(array(
-				"results"=>$gifts_given
-			)); ?>
-			
-		<?php } else { ?>
-			<p>This user has not yet given any gifts.</p>
-		<?php } ?>
 
-		<h3>Gifts Received</h3>
-		
-		<?php if(!empty($gifts_received)) { ?>
-		
-			<?php echo UI_Results::goods(array(
-				"results"=>$gifts_received
-			)); ?>
-			
-		<?php } else { ?>
-			<p>This user has not yet received any gifts.</p>
-		<?php } ?>
-		
-	</div>
 <!-- Reviews Section -->
 	<div id='reviews' style='display: none;' class='profile_pane'>
-		<h3>Gifts Given</h3>
-			<?php if(!empty($giver)) 
+			<?php if(!empty($transactions)) 
 			{   
 				echo UI_Results::reviews(array(
-					"results"=>$giver
+					"results"=>$transactions
 				));
-			 } 
-			 else
-			 {?>
-				<p>This user has not yet given any gifts</p>
+			 } else { ?>
+				<p>This user has not yet received any reviews</p>
 			<?php } ?>
-	<br />
-	<br />
-		<h3>Gifts Received</h3>
-			<?php if(!empty($receiver)) 
-			{   	
-				echo UI_Results::reviews(array(
-					"results"=>$receiver
-				));
-			 } 
-			 else
-			 {?>
-				<p>This user has not yet received any gifts</p>
-			<?php } ?>
+
+		<?php if(!empty($thankyous)) {
+			echo UI_Results::thankyous(array(
+				'results'=>$thankyous
+			));
+		}?>
 	</div>
 	
 	<!-- Photos -->
@@ -222,7 +144,8 @@ if(!$active) { echo "DISABLED"; }
 		<h3>Offer a Gift to <?php echo $u->screen_name; ?> </h3>
 		<p>Add a message</p>
 		<form method="post" action="<?php echo site_url('people/profile');?>">
-		<input type="hidden" name="type" value="give">
+		<input type="hidden" name="type" value="give"/>
+		<input type='hidden' name='formtype' value='offer'/>
 		<input type="hidden" name="decider_id" value="<?php echo $this->uri->segment(2); ?>" />
 		<textarea name="reason"></textarea>
 		<br />
@@ -255,6 +178,37 @@ if(!$active) { echo "DISABLED"; }
 				<p><?php if(!empty($u->occupation)) { echo $u->occupation; }?>
 		 
 	</div>
+	<div id ='thankyouwrapper' class='profile_pane' style='display:none;'>
+		<form name = 'thankyou' id='thankyouform' method='post' action=''>
+			<p>
+			Make your gratitude public! Write a thank you note to go on <?php echo $u->screen_name; ?>'s profile.
+			</p>
+			<br/>
+			<p>
+			<label for='gift'>What did <?php echo $u->screen_name; ?> give you?</label>
+			</p>
+			<p>
+				<input type='text' class='big-border' maxlength ='100' name='thankyou_gift' id='thankyou_gift' value='' class='required'/>
+			</p>
+			<p>
+			<label for='body'>Write a thank you note. Be sure to describe your experience.</label>
+			</p>
+			<p>
+				<textarea rows='5' class='big-border' name='body' id='body' value='' class='required'/></textarea>
+			</p>
+			<!-- hidden fields -->
+			<input type='hidden' id='recipient_id' name='recipient_id' value='<?php echo $u->id; ?>'/>
+			<input type='hidden' id='recipient_email' name='recipient_email' value='<?php echo $u->email; ?>'/>
+			<input type='hidden' name='formtype' value='thankyou'/>
+			<p>
+				<input type='submit' class='button' value='Send'/>
+				<a class='button closeClass' style='margin-left:100px;' href='#'>Cancel</a>
+			</p>
+			<span id='errortext'></span>
+		</form>
+	</div>
+	<!-- close thankyou form -->
+
 </div>
 </div>
 <div id='profile_right'>
@@ -285,10 +239,6 @@ if(!$active) { echo "DISABLED"; }
 			Thank 
 		</a>
 		<span class='metadata' id='thanktext'></span>
-	</div>
-	<!-- modal dialog form opened up by thankyou button -->
-	<div id = 'thankyouDialog' class='jqmWindow'>
-		Loading...
 	</div>
 <?php } ?>
 <?php } ?>
@@ -351,40 +301,15 @@ if(!$active) { echo "DISABLED"; }
 </div>
 <?php } ?>
 </div>
+</div><!-- close wrapper -->
 <script type='text/javascript'>
 $(function(){
 
-	var submit = function () {
-		$('#thanktext').text('Thank sent. Waiting for approval from <?php echo $u->screen_name; ?>');
-		$('#thankyouDialog').jqmHide();
-		return true;
-	};
-
-	var options = {
-		dataType: 'json',
-		url: "<?php echo base_url().'thankyou/create';?>",
-		complete: submit
-	};
-
-	//Script for thankyou Modal dialog
-	var setFormData = function() {
-		$('.button').button();
-		$('#thankyouDialog').jqmAddClose('.closeClass');
-		$('#reviewed').val('<?php echo $u->screen_name; ?>');
-		$('#reviewed_id').val('<?php echo $u->id; ?>');
-		$('#reviewed_email').val('<?php echo $u->email; ?>');
-		$('#thankyouform').ajaxForm(options);
-		return true;
-	};
-
-
-	$('#thankyouDialog').jqm({
-		ajax:"<?php echo base_url().'thankyou/form'; ?>",
-		trigger:'a#thankyou',
-		onLoad: setFormData
+	$('#thankyou').click(function() {
+		$('.profile_pane').hide();
+		$('ul.gray_toolbar li a').removeClass('active');
+		$('#thankyouwrapper').show();
 	});
-	//end Thankyou Dialog
-
 
 	$('.follow').hide();
 	$(".thumb_grid a").tipTip({

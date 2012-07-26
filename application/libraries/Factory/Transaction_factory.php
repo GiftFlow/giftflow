@@ -420,7 +420,7 @@ class Transaction_factory {
 					case "thank":
 						$brief = "You thanked ".$decider_link." for ".$thing;
 					default:
-						$brief = "want to ".$type." your ".$thing." to ";
+						$brief = "would like to ".$type." your ".$thing." to ";
 				}
 				
 				if($demand->type != "fulfill" || $demand->type != 'thank')
