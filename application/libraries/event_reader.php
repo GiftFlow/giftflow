@@ -134,6 +134,10 @@ class Event_reader
 		$this->CI->load->library('Search/Good_search');
 		$this->CI->load->library('Search/Transaction_search');
     $this->CI->load->library('Search/Review_search');
+		$U = new User_search();
+		$G = new Good_search();
+		$R = new Review_search();
+		$T = new Transaction_search();
 		
 		//sort events by event_type
 		if(!empty($this->raw_results))
@@ -144,23 +148,21 @@ class Event_reader
 				switch($event->event_type_title)
 				{
 					case "user_new":
-						$U = new User_search();
 						$user = $U->get($options = array('user_id' => $event->event_user_id));
 						//append user object to user_new event
 						if(!empty($user))
 						{
 							$event->user = $user;
-              if(isset($user->location)) 
-              {
-                  $event->location = $user->location;
-              }
+							  if(isset($user->location)) 
+							  {
+								  $event->location = $user->location;
+							  }
 
 							$this->events[] = $event;
 						}
 						break;
 						
 					case "good_new":
-						$G = new Good_search();
 						$json_data = json_decode($event->event_data);
 						
 						if(!empty($json_data->good_id))
@@ -171,28 +173,26 @@ class Event_reader
 						if(!empty($good))
 						{
 							$event->good = $good;
-              $event->location = $good->location;
+							$event->location = $good->location;
 							$this->events[] = $event;
 						}
 						break;
 						
 					case "transaction_completed":
-						$T = new Transaction_search();
-            $R = new Review_search();
 
 						$json_data = json_decode($event->event_data);
 										
 						if(!empty($json_data->transaction->id))
 						{
-							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id));
-              $review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
+							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => FALSE));
+							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
 						}
 						//append transaction object to transaction event
 						if(!empty($trans))
 						{
 							$event->transaction = $trans;
-              $event->review = $review;
-              $event->location = $trans->demands[0]->good->location;
+							$event->review = $review;
+							$event->location = $trans->demands[0]->good->location;
 							$this->events[] = $event;
 						}
 						break;

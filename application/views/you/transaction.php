@@ -58,7 +58,9 @@
 							<?php } ?>
 							<?php if ($transaction->status == 'active' || $transaction->status =='completed') { ?>
 									<a href="#" class="left btn" id="write_message">Write Message</a>
-									<a href="#" id="write_review" class="left btn btn">Write Review</a>
+									<?php if(!$has_reviewed) { ?>
+										<a href="#" id="write_review" class="left btn btn">Write Review</a>
+									<?php } ?>
 							<?php } ?>
 					</div>
 				</div>

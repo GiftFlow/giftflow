@@ -210,20 +210,7 @@ class Notify
 		
 		$A->send();
 	}
-	
-	/**
-	*	Mark notifications as read
-	*	Note: handwritten SQL query used because the active record library
-	*	appears not to support the usage of JOIN clauses in UPDATE queries
-	*
-	*	$data object contains two properties: user_id and transaction_id.
-	*/
-	function transaction_viewed($params, $data)
-	{
-		Console::logSpeed("Notify::transaction_viewed()");
-		$this->CI->db->query("UPDATE `notifications` AS N JOIN events AS E ON N.event_id=E.id SET `N`.`enabled` = 0 WHERE `E`.`transaction_id` = ? AND `N`.`user_id` = ?", array($data->transaction_id, $data->user_id));		
-	}
-	
+
 	/** 
 	*	Email forgotten password code to user
 	*

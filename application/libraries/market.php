@@ -511,34 +511,35 @@ class Market
 		
 		// Load transaction
 		$Transaction = new Transaction($options['transaction_id']);
-		
-		// Make sure that both reviews have been written
-		/*
-		if(!$Transaction->has_both_reviews())
-		{
-			// @todo handle error
-			return FALSE;
-		}
-		 */
+	
+		/*Eliminated the has_both_reviews check 
+		 * changed it to a simple status check
+		 * This check is called from market::review in two different ways
+		 * One when a user writes another a review and the other when they write a thankyou
+		 * A thankyou creates a 'pending' transaction, so this test won't pass.
+		*/
 
-		$Transaction->status = "completed";
-		
-		if(!$Transaction->save())
+		if($Transaction->status = 'active')
 		{
-			//@todo handle error
-			return FALSE;
-		}
+			$Transaction->status = "completed";
 		
-		// Prep hook data
-		$TS = new Transaction_search;
-		$hook_data = (object) array(
-			"transaction"=> $TS->get(array(
-				"transaction_id"=>$Transaction->id
+			if(!$Transaction->save())
+			{
+				//@todo handle error
+				return FALSE;
+			}
+		
+			// Prep hook data
+			$TS = new Transaction_search;
+			$hook_data = (object) array(
+				"transaction"=> $TS->get(array(
+					"transaction_id"=>$Transaction->id
 			))
-		);
+			);
 		
-		$E = new Event_logger();
-		$E->basic('transaction_completed',$hook_data);
+			$E = new Event_logger();
+			$E->basic('transaction_completed',$hook_data);
+		}
 		
 		return TRUE;
 	}
