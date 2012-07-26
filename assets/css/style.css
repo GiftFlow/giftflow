@@ -1833,51 +1833,21 @@ ul.transactions li .updated{
 #slideshow .next{ background-position:right top;right:0;}
 #slideshow .next:hover{ background-position:right bottom;}
 
-
-#landing_left {
-	width:40%;
-	float:left;
-	padding: 15px 0 0 50px;
-  margin: 0 20px 0 0;
-}
-
-#landing_right {
-	width:40%;
-	float:right;
-	margin: 0;
-}
-.landing_panel {
-	width:300px:
-	float:right;
-}
-#landing_overlay {
-	 position: absolute; /* important */
-   top:262px;
-   left: 275px;
-   width: 75px;
-   font: 12px/12px;
-   padding: 2px 2px 2px 2px;
-   filter: alpha(opacity=70); /* here you can set the opacity of box with text */
-   -moz-opacity: 0.8; /* here you can set the opacity of box with text */
-   -khtml-opacity: 0.8; /* here you can set the opacity of box with text */
-   opacity: 0.8; /* here you can set the opacity of box with text */
-   background-color: #65b15b;
-   color: white;
-   z-index:1;
- 	 text-align:center;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	
-}
-#video_thumb {
-	margin: 22px 0px 0px 0px;
-}
 div#options a {
    width:150px;
 }
 img.people_header {
   width: 100px;
+}
+
+#home_header {
+	margin: 40px 0px 30px 0px;
+}
+#home_left {
+	padding: 0px 0px 0px 50px;
+}
+#home_right {
+	padding: 0px 50px 0px 30px;
 }
 
 .location_header {
