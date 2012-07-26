@@ -590,15 +590,23 @@ class You extends CI_Controller {
 		if(!empty($_POST)) {	
 			$thankyou_id = $this->input->post('thankyou_id');
 			$decision = $this->input->post('decision');
+			$decided = '';
 
 			$T = new Thankyou($thankyou_id);
 
-			if($decision == 'Accept') {
+			switch($decision) {
+			case 'Accept':
 				$T->status = 'accepted';
 				$decided = 'accepted!';
-			} else {
+				break;
+			case 'Decline':
 				$T->status = 'declined';
 				$decided = 'declined';
+				break;
+			case 'Edit':
+				$T->status = 'pending';
+				$decided = 'reset to pending';
+				break;
 			}
 
 			if(!$T->save())
@@ -606,7 +614,7 @@ class You extends CI_Controller {
 				show_error('Error saving thankyou status');
 			} else {
 				$this->session->set_flashdata('success','Thank You '.$decided);
-				redirect('you/inbox');
+				redirect('you/view_thankyou/'.$thankyou_id);
 			}
 		}
 				

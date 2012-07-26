@@ -233,25 +233,26 @@ class Factory
 	function thankyou($results) 
 	{
 		//set thanker's photo source
-		foreach($results as $user) {
+		foreach($results as $ty) {
 
-			if($user->photo_source=="giftflow")
+			if($ty->photo_source=="giftflow")
 			{
-				$user->default_photo->thumb_url = base_url()."assets/images/user.png";
-				$user->default_photo->url = base_url()."assets/images/user.png";
+				$ty->default_photo->thumb_url = base_url()."assets/images/user.png";
+				$ty->default_photo->url = base_url()."assets/images/user.png";
 				
-				if(isset($user->photo_id))
+				if(isset($ty->photo_id))
 				{
-					$user->default_photo->id = $user->photo_id;
-					$user->default_photo->url = base_url().$user->photo_url;
-					$user->default_photo->thumb_url = base_url().$user->photo_thumb_url;
+					$ty->default_photo->id = $ty->photo_id;
+					$ty->default_photo->url = base_url().$ty->photo_url;
+					$ty->default_photo->thumb_url = base_url().$ty->photo_thumb_url;
 				}
 			} 
-			elseif($user->photo_source == "facebook" && !empty( $user->facebook_id ))
+			elseif($ty->photo_source == "facebook" && !empty( $ty->facebook_id ))
 			{
-				$user->default_photo->thumb_url = "http://graph.facebook.com/".$user->facebook_id."/picture?type=square";
-				$user->default_photo->url = "http://graph.facebook.com/".$user->facebook_id."/picture?type=large";
+				$ty->default_photo->thumb_url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=square";
+				$ty->default_photo->url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=large";
 			}
+			$ty->summary = $ty->screen_name.' thanked '.$ty->recipient_screen_name.' for '.$ty->gift_title;
 		}
 		return $results;
 	}
