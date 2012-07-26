@@ -1,41 +1,30 @@
-<div id='dash_header' style='padding: 0px 0px 0px 100px;'> 
+<div class ='row-fluid'>
 
-<p class='nicebigtext'>
-	<span class='green'>Give</span> something away.
-	<span class='green'>&nbsp&nbspReceive</span> someone else's gift.
-	<span class='green'>&nbsp&nbspPay</span> it forward.
-	</p>
+	<div class='span12' id='home_header'> 
+
+		<p class='nicebigtext' style='text-align:center'>
+			<span class='green'>Give</span> something away.
+			<span class='green'>&nbsp&nbspReceive</span> someone else's gift.
+			<span class='green'>&nbsp&nbspPay</span> it forward.
+		</p>
+	</div>
 </div>
-<div id='landing_left' >
+<div class='row-fluid'>
+	<div class='span6' id='home_left' >
+				
+				<div id='video'>
+				<iframe width="400" height="225" src="http://www.youtube.com/embed/6iCfJ3AZtxU" frameborder="0" allowfullscreen></iframe>	
+				</div>
+	</div>
+	<div class='span6' id='home_right'>
 			
-			<div id='video'>
-				<object><param name="movie" value="http://www.youtube.com/v/0wLNXFeZbBU&hl=en_US&fs=1&rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/0wLNXFeZbBU&hl=en_US&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
-			</div>
-</div>
-<div id='landing_right'>
-		
-		<p class ='nicebigtext'>Log in now and start giving</p>
-		<div class='landing_panel'>
-			<a class='btn btn-primary btn-large' href='<?php echo site_url('register'); ?>'>Sign Up Now</a>
-			<a class='btn btn-large' href='<?php echo site_url('about/tour'); ?>'>Take The Tour</a>
-			<p id='one'>GiftFlow is a non-profit. Please <a href='about/donate'>Donate Here</a></p>
-			<p>Welcome to our new Beta version! </p>
-		</div>
-</div>
+			<p class ='nicebigtext'>Log in now and start giving</p>
+			<p>
+				<a class='btn btn-primary btn-large' href='<?php echo site_url('register'); ?>'>Sign Up Now</a>
+				<a class='btn btn-large' href='<?php echo site_url('login'); ?>'>Log In</a>
+			</p>
+				<p id='one'>GiftFlow is a non-profit. Please <a href='about/donate'>Donate Here</a></p>
+				<p>Welcome to our new Beta version! </p>
+	</div>
 
-
-<script type='text/javascript'>
-$(function(){
-	
-	var video = $('#video');
-	var thumb = $('#video_thumb');
-	var overlay = $('#landing_overlay');
-	
-	$('#video_thumb').click(function() {
-		video.fadeIn('slow');
-		overlay.fadeOut('fast');
-		thumb.fadeOut('fast');
-	});
-	
-});
-</script>
+</div>

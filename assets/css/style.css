@@ -266,40 +266,6 @@ ul.sidebar_menu.filters li ul li{
   font-weight:bold;
 
 }
-
-.top_filters{
-	margin: 0 0 20px -5px;
-}
-
-.top_filters #order_by_label, .top_filters select{
-	float: left;
-}
-.top_filters #order_by_label {
-	color: #555;
-	margin-right: 8px;
-}
-
-.clearfix:after {
-	content: ".";
-	display: block;
-	clear: both;
-	visibility: hidden;
-	line-height: 0;
-	height: 0;
-}
- 
-.clearfix {
-	display: inline-block;
-}
- 
-html[xmlns] .clearfix {
-	display: block;
-}
- 
-* html .clearfix {
-	height: 1%;
-}
-
 /*
 *	jQ Modal
 */
@@ -1523,25 +1489,6 @@ ul.simplePagerNav li.currentPage a{
 	cursor: default;
 	color: #fff;
 }
-
-.follow.ui-button .ui-button-text{
-	padding: 0.2em 0.7em 0.2em 2.4em;
-	font-size: 14px;
-}
-#thankyou {
-	width:278px;
-	font-size:14px;
-}
-input.ui-button, input.ui-button.ui-state-active, a.ui-button, a.ui-button.ui-state-active{
-	font-size: 16px !important;
-	text-shadow: #FFF 1px 1px;
-	font-weight: bolder;
-}
-
-#follow_this, #already_following{
-	width: 100%;
-}
-
 table.ui-widget{
 	width: 100%;
 }
@@ -1754,7 +1701,7 @@ ul.transactions li img.status_icon, .transaction-summary img.status_icon{
 	margin: 28px 20px 0 15px;
 }
 .transaction-summary .metadata-bottom {
-	margin: 10px 0;
+	margin: 15px 0;
 	cursor: default;
 }
 .transaction-summary .metadata-bottom p{
@@ -1895,51 +1842,21 @@ ul.transactions li .updated{
 #slideshow .next{ background-position:right top;right:0;}
 #slideshow .next:hover{ background-position:right bottom;}
 
-
-#landing_left {
-	width:40%;
-	float:left;
-	padding: 15px 0 0 50px;
-  margin: 0 20px 0 0;
-}
-
-#landing_right {
-	width:40%;
-	float:right;
-	margin: 0;
-}
-.landing_panel {
-	width:300px:
-	float:right;
-}
-#landing_overlay {
-	 position: absolute; /* important */
-   top:262px;
-   left: 275px;
-   width: 75px;
-   font: 12px/12px;
-   padding: 2px 2px 2px 2px;
-   filter: alpha(opacity=70); /* here you can set the opacity of box with text */
-   -moz-opacity: 0.8; /* here you can set the opacity of box with text */
-   -khtml-opacity: 0.8; /* here you can set the opacity of box with text */
-   opacity: 0.8; /* here you can set the opacity of box with text */
-   background-color: #65b15b;
-   color: white;
-   z-index:1;
- 	 text-align:center;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	
-}
-#video_thumb {
-	margin: 22px 0px 0px 0px;
-}
 div#options a {
    width:150px;
 }
 img.people_header {
   width: 100px;
+}
+
+#home_header {
+	margin: 40px 0px 30px 0px;
+}
+#home_left {
+	padding: 0px 0px 0px 50px;
+}
+#home_right {
+	padding: 0px 50px 0px 30px;
 }
 
 .location_header {
