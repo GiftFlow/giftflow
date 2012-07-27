@@ -123,7 +123,8 @@ class Event_reader
 		}
 		else
 		{
-			return false;
+			$empty_results = array();
+			return $empty_results;
 		}
 	
 	}
@@ -210,7 +211,8 @@ class Event_reader
 		else
 		{
 			//@todo error handling
-			return FALSE;
+			$this->events = array();
+			return $this->events;
 		}
 	
 	}
