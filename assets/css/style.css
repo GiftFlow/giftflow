@@ -677,7 +677,7 @@ ul.events_list li .metadata a{
 	color: #666;
 	font-weight: normal;
 }
-ul.events_list li a.result_image {
+ul.events_list li a.event_image {
 	background-image: url('../images/good_frame.png');
 	float: left;
 	height: 80px;
@@ -1856,7 +1856,11 @@ img.people_header {
 	padding: 0px 0px 0px 50px;
 }
 #home_right {
-	padding: 0px 50px 0px 30px;
+	padding: 0px 100px 0px 30px;
+	text-align:center;
+}
+#bottom {
+	margin-left: 120px;
 }
 
 .location_header {

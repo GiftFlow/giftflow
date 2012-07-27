@@ -82,8 +82,6 @@ if(isset($css))
 <?php } ?>
 </head>
 <body>
-<!-- hide_header is a flag set in giftflow/organize because to generate pages that people can print off into flyers, it looks better to not have the header appear --> 
-<?php if(!isset($hide_header)) { ?>
 <div id='header'>
 	<div class='wrapper clearfix'>
 		
@@ -201,7 +199,6 @@ if(isset($css))
 		</ul>
 	</div>		
 </div>
-<?php } ?>
 
 <!-- Main Wrapper -->
 <div id="main">
