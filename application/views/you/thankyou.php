@@ -9,12 +9,12 @@
 				
 				<div class="clearfix thank-header">
 					<a href="<?php echo site_url('people/'.$thankyou->thanker_id);?>" class="user_image medium left">
-						<img src="<?php echo $thankyou->default_photo->thumb_url;?>" alt="<?php echo $thankyou->thanker_screen_name;?>" />
+						<img src="<?php echo $thankyou->default_photo->thumb_url;?>" alt="<?php echo $thankyou->screen_name;?>" />
 					</a>
 					
 					<div class="metadata left">
 						<a href="<?php echo site_url('you/inbox/'.$thankyou->id);?>" class="title">
-							Thank you from  <?php echo $thankyou->thanker_screen_name; ?>
+							Thank you from  <?php echo $thankyou->screen_name; ?>
 						</a>
 						<span class="summary">
 							<?php echo ucfirst($thankyou->status); ?>		

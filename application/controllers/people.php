@@ -28,6 +28,7 @@ class People extends CI_Controller {
 		$this->load->library('Search/Thankyou_search');
 		$this->load->library('market');
 		$this->load->library('event_logger');
+		$this->load->library('notify');
 		
 		if(!empty($this->data['logged_in_user_id']))
 		{
@@ -501,6 +502,20 @@ class People extends CI_Controller {
 		} else {
 			// Set flashdata & redirect
 			$this->session->set_flashdata('success', 'Thank sent!');
+
+
+			//Get filled out thankyou object from thankyouSearch 
+			$newThank = new Thankyou_search();
+			
+			$hook_data = $newThank->get(array('id'=>$TY->id));
+
+			//record event and send notification
+			$E = new Event_logger();
+			$E->basic('thankyou', $hook_data);
+
+			$N = new Notify();
+			$N->thankyou('thankyou', $hook_data);
+
 			redirect('people/'.$form['recipient_id']);
 		}
 	}

@@ -284,33 +284,33 @@ class Notify
 		$A = new Alert();
 
 		$A->parseables = array(
-			'subject' => $data['reviewer_screen_name'].' wants to thank you',
-			'body' => $data['body'],
-			'rating' => $data['rating'],
-			'reviewed_screen_name' => $data['reviewed_screen_name'],
-			'reviewer_screen_name' => $data['reviewer_screen_name'],
-			'gift' => $data['gift'],
-			'secret' => $data['secret']
+			'subject' => $data->screen_name.' wants to thank you for '.$data->gift_title,
+			'body' => $data->body,
+			'gift_title' => $data->gift_title,
+			'recipient_screen_name' => $data->recipient_screen_name,
+			'screen_name' => $data->screen_name
 		);
 
 		$A->template_name = 'thankyou';
-		$A->to = 'info@giftflow.org';
+		$A->to = $data->recipient_email;
 		$A->send();
 	}
 
-	function thankYouResponse($params, $data)
+	function thankyou_updated($params, $data)
 	{
 		$A = new Alert();
+
 		$A->parseables = array(
-			'subject' => $data['subject'],
-			'reviewed_screen_name' => $data['reviewed_screen_name'],
-			'reviewer_screen_name' => $data['reviewer_screen_name'],
-			'reviewed_id' => $data['reviewed_id'],
-			'news' => $data['news']
-		);	
-		$A->template_name = 'thankYouResponse';
-		$A->to = 'info@giftflow.org';
+			'subject' => $data->recipient_screen_name.' has '.$data->decision.' your Thank.',
+			'body' => $data->body,
+			'gift_title' => $data->gift_title,
+			'screen_name' => $data->screen_name,
+			'recipient_screen_name' => $data->recipient_screen_name,
+			'link' => site_url('/you/view_thankyou/'.$data->id)
+		);
+		
+		$A->template_name = 'thankyou_updated';
+		$A->to = $data->email;
 		$A->send();
 	}
-	
 }

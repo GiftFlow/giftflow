@@ -597,7 +597,7 @@ class You extends CI_Controller {
 			switch($decision) {
 			case 'Accept':
 				$T->status = 'accepted';
-				$decided = 'accepted!';
+				$decided = 'accepted';
 				break;
 			case 'Decline':
 				$T->status = 'declined';
@@ -613,6 +613,21 @@ class You extends CI_Controller {
 			{
 				show_error('Error saving thankyou status');
 			} else {
+
+				//Nofity and log Event
+				$this->load->library('event_logger');
+				$this->load->library('notify');
+
+				$TY = new Thankyou_search();
+				$hook_data = $TY->get(array('id'=> $T->id));
+				$hook_data->decision = $decided;
+
+				$E = new Event_logger();
+				$N = new Notify();
+
+				$E->basic('thankyou_updated', $hook_data);
+				$N->thankyou_updated('thankyou_updated', $hook_data);
+					
 				$this->session->set_flashdata('success','Thank You '.$decided);
 				redirect('you/view_thankyou/'.$thankyou_id);
 			}

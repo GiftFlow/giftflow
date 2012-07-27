@@ -26,6 +26,20 @@ class Thankyou_search extends Search
 		$this->CI =& get_instance();
 	}
 
+	function get($params) {
+
+		$params['limit'] = 1;
+
+		$result = $this->find($params);
+
+		if(count($result) > 0)
+		{
+			return $result[0];
+		}
+	}
+
+
+
 
 	function find($params) {
 
@@ -41,6 +55,9 @@ class Thankyou_search extends Search
 
 		if(!empty($params['status'])) {
 			$this->CI->db->where_in('T.status',$params['status']);
+		}
+		if(!empty($params['limit'])) {
+			$this->CI->db->limit($params['limit']);
 		}
 
 		$result = $this->CI->db->get()->result();
@@ -59,10 +76,12 @@ class Thankyou_search extends Search
 			T.created AS created,
 			T.updated AS updated,
 			TU.screen_name AS screen_name,
+			TU.email AS email,
 			TU.photo_source AS photo_source,
 			TU.default_photo_id AS photo_id,
 			TU.facebook_id AS facebook_id,
 			U.screen_name AS recipient_screen_name,
+			U.email AS recipient_email,
 			L.city AS city,
 			L.state AS state,
 			P.id AS photo_id,
