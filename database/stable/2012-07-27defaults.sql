@@ -17,7 +17,8 @@ INSERT INTO `event_types` (`id`, `title`) VALUES
 (12, 'transaction_declined'),
 (13, 'hide_welcome'),
 (14, 'reset_password'),
-(15, 'new_password');
+(15, 'new_password'),
+(16, 'thankyou');
 
 INSERT INTO `categories` (`id`, `name`, `parent_category_id`) VALUES
 (1, 'Arts & Crafts', NULL),
