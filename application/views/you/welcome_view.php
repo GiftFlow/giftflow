@@ -38,18 +38,12 @@
 					<p>Great! Now your search results should be much more accurate</p>
 				</div>
 			</div><!-- close hyperlocal -->	
-			<div id="skip_welcome">
-				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
-						<input type=submit class="button btn css_right" value='Hide this page at log-in'/>
-						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
-				</form>
-			</div>
-				
+			
 	</div>
 
 
 <script type="text/javascript">
-/*
+
 $(function(){
 
 	var ul = $('#results');
@@ -86,6 +80,6 @@ $(function(){
 	
 	
 	
- */
+
 
 </script>

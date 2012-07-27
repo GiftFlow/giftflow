@@ -2,6 +2,7 @@
 	<!--<li style='margin-bottom: 22px;'>
 		<img alt="You" src="<?php echo base_url();?>assets/images/headings/you_menu.png">
 	</li>-->
+<!--
 	<li <?php if($segment[2] == 'welcome') { echo "class='active'"; } ?> >
 		<a href='<?php echo site_url('you/welcome/?welcome=show'); ?>'> 
 			Welcome
@@ -13,6 +14,7 @@
 			Activity Feed
 		</a>
 	</li>
+-->
 	<li <?php if($segment[2]=='gifts'||($segment[1]=="gifts"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/gifts');?>'> 
 			Your Gifts

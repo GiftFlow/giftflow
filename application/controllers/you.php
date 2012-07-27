@@ -78,6 +78,9 @@ class You extends CI_Controller {
 			}
 		}
 
+		//In case they have no transactions
+		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
+
 		// Set view variables
 		$this->data['title'] = "Your Dashboard";
 		$this->data['googlemaps'] = TRUE;
@@ -86,7 +89,7 @@ class You extends CI_Controller {
 		// Load Views
 		$this->load->view('header', $this->data);
 		$this->load->view('you/includes/header',$this->data);
-		$this->load->view('you/index2', $this->data);
+		$this->load->view('you/inbox', $this->data);
 		$this->load->view('footer', $this->data);
 		
 		Console::logSpeed('You::index(): done.');
@@ -262,6 +265,11 @@ class You extends CI_Controller {
 		}
 
 		$this->data['transactions'] = $TS->find($options);
+
+		if(empty($this->data['transactions']) && empty($this->data['thankyous'])) {
+			//In case they have no transactions
+			$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
+		}
 
 		// Set view variables
 		$this->data['title'] = "Inbox";

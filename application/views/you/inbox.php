@@ -7,8 +7,9 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
-
+		<?php if(!empty($thankyous) || !empty($transactions)) { ?>
 			<ul class='transactions'>
+		<?php } ?>
 		
 				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->
 				<?php if(!empty($thankyous)) { ?>
@@ -39,11 +40,10 @@
 					<?php } ?>
 				<?php } ?>
 
-
 				<?php if(!empty($transactions)) {	
 					foreach($transactions as $val) 
 					{
-						if($val->demander->id == $logged_in_user_id)
+						if($val->demander->id == $this->data['logged_in_user_id'])
 							{
 								$demander = TRUE;
 								$other_user = $val->decider;
@@ -85,9 +85,8 @@
 		<?php } else { ?>
 		
 			<!-- Empty State -->
-			<p>
-				No transactions found.
-			</p>
+			<p class='nicebigtext'> You don't have any messages! It's time to get with the flow.</p>
+			<?php echo $welcome_view; ?>
 		<?php } ?>
 
 	</div>

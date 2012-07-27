@@ -184,7 +184,7 @@ class Transaction_search extends Search
 		if(empty($transactions))
 		{
 			// @todo handle empty results / throw error
-			return array('error'=> 'No transactions found');
+			return array();
 		}
 		$Factory->set_transactions($transactions);
 		
