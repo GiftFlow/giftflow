@@ -26,6 +26,8 @@ class You extends CI_Controller {
 	function index()
 	{
 		Console::logSpeed('You::index()');
+
+		return $this->inbox();
 		
 		// Load libraries
 		$GS = new Good_search();

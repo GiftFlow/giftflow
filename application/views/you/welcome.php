@@ -1,4 +1,8 @@
-
+<div class='two_panels'>
+	<div class='left_content'>
+		<?php echo $menu; ?>
+	</div>
+	<div class='right_content'>
 
 		<!-- GiftFlow module -->
 		<div class='center'>
@@ -44,8 +48,9 @@
 						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
 				</form>
 			</div>
-				
+		</div>
 	</div>
+</div>
 
 
 <script type="text/javascript">

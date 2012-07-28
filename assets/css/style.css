@@ -109,12 +109,11 @@ a#logo img{
 	width: 100px;
 }
 #session a{
-	color: #fff;
-	font-size: .8em;
+	font-size: .9em;
 	text-decoration: none;
 }
 #session a:hover{
-	border-bottom: 1px solid #fff;
+	border-bottom: 1px solid #ccc;
 }
 #session img{
 	width: 35px;
@@ -1275,6 +1274,10 @@ ul#you_menu li:hover ul li a{
 ul#you_menu li:hover ul li a:hover{
 	background: #fafafa
 }
+#login_dropdown {
+	display:none;
+}
+
 #session img#you_img{
 	border: none;
 	width: 16px;

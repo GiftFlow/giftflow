@@ -50,6 +50,8 @@ if(isset($css))
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <?php } ?>
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap-dropdown.js"></script>
+
 
 <!-- Javascript UI Compilation -->
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/ui.php"></script>
@@ -93,61 +95,60 @@ if(isset($css))
 			
 			<?php if(!empty($logged_in)&&$logged_in){ ?>
 				<!-- Logged-in User You Menu -->
-				<ul id='you_menu'>
-					<li>
-						<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>' id='you'>
-							<?php if(!empty($userdata['photo_thumb_url'])){ echo "<img src='".$userdata['photo_thumb_url']."' id='you_img'  />"; }  ?>
-							<span style='float: left; '>Profile</span>
-							<div style='clear: both;'>
-							</div>
-						</a>
-						<ul id='you_dropdown'>
-							<!-- 
-<li>
-								<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>'>
-									View Profile
-								</a>
-							</li>
- -->
-							<li>
-								<a href='<?php echo site_url(''); ?>'>
-									Dashboard
-								</a>
-							</li>
-							<?php if ($this->auth->validate(100)) { ?>
-								<li>
-									<a href='<?php echo site_url('admin'); ?>'>
-										Admin Area
-									</a>
-								</li>
-							<?php } ?>
-							<li>
-								<a href='<?php echo site_url('account'); ?>'>
-									Settings
-								</a>
-							</li>
-							<li>
-								<a href='<?php echo site_url('donate'); ?>'>
-									Donate
-								</a>
-							</li>
-							<li>
-								<a href='<?php echo site_url('logout'); ?>'>
-									Log Out
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			
+				<div class='btn-group'>
+					
+				<a class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
+					<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
+						Profile
+				</a>
+					<button class='btn btn-success dropdown-toggle' data-toggle'dropdown'>
+						<span class='caret'></span>
+					</button>
+
+					<ul class='dropdown-menu'>
+						<li>
+							<a href='<?php echo site_url(''); ?>'>
+								Dashboard
+							</a>
+						</li>
+						<?php if ($this->auth->validate(100)) { ?>
+						<li>
+							<a href='<?php echo site_url('admin'); ?>'>
+								Admin Area
+							</a>
+						</li>
+						<?php } ?>
+						<li>
+							<a href='<?php echo site_url('account'); ?>'>
+								Settings
+							</a>
+						</li>
+						<li>
+							<a href='<?php echo site_url('logout'); ?>'>
+								Log Out
+							</a>
+						</li>
+					</ul>
+				</div><!-- close btn-group -->
+
 			<?php } else { ?>
-			
 				<!-- Anonymous User Links -->
-				<ul id='you_menu'>
-					<li>
-						<a href='<?php echo site_url('login'); ?>' id='login'>
+					<li id='login'>
+						<a href='#' id='login-trigger'>
 							Login
 						</a>
+							<div id='login_dropdown'>
+									<form>
+										<fieldset id='inputs'>
+											<input type="text" name='email' class='required email span6' id='email' value='' />
+											<input type='password' name='password' class='required span6' id='password' value='' />
+										</fieldset>
+										<fieldset id='actions'>
+											<input type='hidden' name='redirect' value="<?php if(!empty($redirect)) echo $redirect; ?>" />
+											<input type='submit' class='btn btn-primary btn-large' value="Login" />
+										</fieldset>
+									</form>
+							</div><!-- close dropLogin -->
 					</li>
 					<li>
 						<a href='<?php echo site_url('register'); ?>' id='signup'>
@@ -199,6 +200,12 @@ if(isset($css))
 		</ul>
 	</div>		
 </div>
+
+<!-- script for logIn dropdown -->
+<script type='text/javascript'>
+$('.dropdown-toggle').dropdown();
+</script>
+
 
 <!-- Main Wrapper -->
 <div id="main">

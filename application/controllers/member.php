@@ -32,7 +32,7 @@ class Member extends CI_Controller {
 	function index()
 	{
 		// redirect to profile
-		redirect('you/profile');
+		redirect('you/index');
 	}
 	
 	/**
@@ -81,7 +81,7 @@ class Member extends CI_Controller {
 				}
 				else
 				{
-					redirect('you/welcome');
+					redirect('you/inbox');
 				}
 			}
 		}
