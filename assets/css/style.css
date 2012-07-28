@@ -263,6 +263,40 @@ ul.sidebar_menu.filters li ul li{
 
 }
 
+.top_filters{
+	margin: 0 0 20px -5px;
+}
+
+.top_filters #order_by_label, .top_filters select{
+	float: left;
+}
+.top_filters #order_by_label {
+	color: #555;
+	margin-right: 8px;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
 /*
 notifyBar 
 */
@@ -1097,21 +1131,15 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 	float:left;
 }
 
-#profile_left{
-	width: 667px;
-	display: block;
-	float: left;
+ul.profile_column {
+	list-style:none;
 }
-#profile_right{
-	width: 29%;
-	float: right;
+ul.profile_column li.chunk {
+	margin: 0px 0px 30px 0px;
 }
-#profile_left_content{
-	padding: 0px 15px;
-}
-#profile_left_content h3{
-	margin-top: 0px;
-}
+
+
+
 h1#profile_name{
 	font-weight: bold;
 	letter-spacing: -.7px;
