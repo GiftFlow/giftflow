@@ -1128,17 +1128,32 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 	background: #EEE;
 }
 .profile_action {
-	float:left;
+	margin-bottom: 5px;
 }
-
-ul.profile_column {
-	list-style:none;
+.lineup {
+	width: 100%
+	height:auto;
+	margin-bottom:10px;
 }
-ul.profile_column li.chunk {
-	margin: 0px 0px 30px 0px;
+.profile_row{
+	padding-top 10px;
 }
-
-
+#profile_header {
+	margin-top: 20px;
+}
+.profile_column {
+	border-right: 1px solid #ccc;
+	margin-bottom: 20px;
+}
+#profile_bio {
+	border-bottom:1px solid #ccc;
+	margin-bottom: 20px;
+}
+.pTitle {
+	font-size: 20px;
+	text-shadow: 0 2px 0 #FFFFFF;
+	font-weight: bold;
+}
 
 h1#profile_name{
 	font-weight: bold;
