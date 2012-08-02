@@ -1149,6 +1149,9 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 	border-bottom:1px solid #ccc;
 	margin-bottom: 20px;
 }
+.request_message {
+	width: 250px;
+}
 .pTitle {
 	font-size: 20px;
 	text-shadow: 0 2px 0 #FFFFFF;

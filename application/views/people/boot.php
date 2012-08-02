@@ -60,11 +60,11 @@
 
 
 		<!-- GIFTS request form -->
-		<div class='profile_form' id='request_form' style='display:none'>
+		<div class='profile_form' id = 'request_form' style='display:none'>
 
 			<form  name='gift_request' method='post'>
 				<?php if(!empty($gifts)) { ?>
-				<span id='gift_form_top'>
+				<span class='top_form'>
 					<label for='gift_select'>Select a gift to request</label>
 					<select class='gift_select' name='gift_select'>
 							<?php foreach($gifts as $val) { ?>
@@ -74,27 +74,31 @@
 					<label for='select_message'>Include a message:</label>
 					<input type='text' size='10' name='select_message' id='gift_select_message'/>
 				</span>
-					
+
+				<div class='more_request gift_new' style='display:none;'>	
+				<?php } else { ?>
+					<div class='more_request'>
 				<?php } ?>
-					<div class='more_request' style='display:none;'>
-						<label for='gift_request'>Short title of your request:</label>
+						<label for='gift_request'>Name the gift you need:</label>
 						<input type='text' size='10' value='' name='gift_request' id='gift_request'/>
 						
 						<label for='request_message'>Include a descriptive message:</label>
-						<textarea rows='5'name='request_message' value='' id='request_message'></textarea>
+						<textarea rows='4' name='request_message' value='' class='request_message'></textarea>
 					
 					</div>
 					<input type='submit' value='Submit' class='btn btn-small'/>
 			</form>
-			<a href='#' class='more_form' id='gift_new'>Ask for something new.</a>
-			<a href='#' class='less_form' id='gift_back'>Cancel</a>
+			<?php if(!empty($gifts)) { ?>
+				<a href='#' class='more_form' id='gift_top_form'>Ask for something new.</a>
+				<a href='#' class='less_form'>Cancel</a>
+			<?php } ?>
 		</div><!-- close request_form -->
 	</div><!--close profile_gifts -->
 
 
 	<!-- NEEDS column -->
 	<div class='span4 profile_column' id='profile_needs'>
-			<div class='needs_list'>
+			<div class='list'>
 				<span class='pTitle'> Needs</span>	
 				<a class='btn profile_action' id='offer'>Offer</a>
 					<?php if(!empty($needs)) { ?>
@@ -111,9 +115,9 @@
 
 			<!-- NEEDS offer form -->
 			<div class='profile_form'  id='offer_form' style='display:none'>
-					<form  id='needs' method='post'>
-						<?php if(!empty($gifts)) { ?>
-						<span id='need_form_top'>
+					<form name='need_offer' method='post'>
+						<?php if(!empty($needs)) { ?>
+						<span class='top_form'>
 							<label for='gift_select'>Select a need to request</label>
 							<select class='gift_select' name='gift_select'>
 									<?php foreach($needs as $val) { ?>
@@ -124,19 +128,24 @@
 							<input type='text' size='10' name='select_message' id='gift_select_message'/>
 						</span>
 							
+							<div class='more_request need_new' style='display:none;'>
+						<?php } else {?>
+							<div class='more_request'>
 						<?php } ?>
-							<div id='more_request' style='display:none;'>
-								<label for='gift_request'>Short title of your request:</label>
+								<label for='gift_request'>Short title of your offer:</label>
 								<input type='text' size='10' value='' name='gift_request' id='gift_request'/>
 								
 								<label for='request_message'>Include a descriptive message:</label>
-								<textarea rows='5'name='request_message' value='' id='request_message'></textarea>
+								<textarea rows='5'name='request_message' value=''class='request_message'></textarea>
 							
 							</div>
 							<input type='submit' value='Submit' class='btn btn-small'/>
 					</form>
-				<a href='#' class='more_form' id='need_new'>Offer something new.</a>
-				<a href='#' class='less_form' id='need_back'>Cancel</a>
+			<?php if(!empty($needs)) { ?>
+				<a href='#' class='more_form' id='need_top_form'>Offer something new.</a>
+			<?php } ?>
+				<a href='#' class='less_form'>Cancel</a>
+
 			</div><!-- close request_form -->
 	</div><!-- close profile_needs-->
 
@@ -164,22 +173,36 @@
 
 <script type='text/javascript'>
 
+var more_form, top_form, column;
 
-/*
-$('#gift_new').click( function() {
-	$('#more_gift_request').show();
-	$(this).hide();
-	$('#gift_form_top').hide();
+$('.more_form').click(function() {
+
+	column.find('.top_form').hide();
+	column.find('.more_request').show();
+	
+	//$(this).hide();
+	//var top = $(this).attr('id');
+	//$('span.'+top).hide();
+
 });
 
- */
+$('.less_form').click(function() {
+	$('.profile_form').hide();
+});
 
 $('.profile_action').click(function() {
+	$('.top_form').show();
+	$('.more_request').hide();
+	$('.results_list').show();
+
+	column = $(this).closest('.profile_column');
+	list = column.children('.list');
+	list.children('ul.results_list').hide();
+
 	$('.profile_form').hide();
 	var which = '#'+$(this).attr('id')+'_form';
-	console.log(which);
 	$(which).show();
-	//$('#gift_back').show();
+	$('.more_form').show();
 });
 
 </script>
