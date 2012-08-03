@@ -94,75 +94,96 @@ if(isset($css))
 		<div id='session'>
 			
 			<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<!-- Logged-in User You Menu -->
-				<div class='btn-group'>
-					
-				<a class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
-					<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
-						Profile
-				</a>
-					<button class='btn btn-success dropdown-toggle' data-toggle'dropdown'>
-						<span class='caret'></span>
-					</button>
+			<ul id='boot_menu'>
+				<li class='dropdown'>
+					<!-- Logged-in User You Menu -->
+					<a class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
+						<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
+							Profile
+					</a>
+						<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+							<span class='caret'></span>
+						</button>
 
-					<ul class='dropdown-menu'>
-						<li>
-							<a href='<?php echo site_url(''); ?>'>
-								Dashboard
-							</a>
-						</li>
-						<?php if ($this->auth->validate(100)) { ?>
-						<li>
-							<a href='<?php echo site_url('admin'); ?>'>
-								Admin Area
-							</a>
-						</li>
-						<?php } ?>
-						<li>
-							<a href='<?php echo site_url('account'); ?>'>
-								Settings
-							</a>
-						</li>
-						<li>
+						<ul class='dropdown-menu'>
+							<li>
+								<a href='<?php echo site_url(''); ?>'>
+									Dashboard
+								</a>
+							</li>
+							<?php if ($this->auth->validate(100)) { ?>
+							<li>
+								<a href='<?php echo site_url('admin'); ?>'>
+									Admin Area
+								</a>
+							</li>
+							<?php } ?>
+							<li>
+								<a href='<?php echo site_url('account'); ?>'>
+									Settings
+								</a>
+							</li>
+							<li>
 							<a href='<?php echo site_url('logout'); ?>'>
 								Log Out
 							</a>
 						</li>
 					</ul>
-				</div><!-- close btn-group -->
+			</li>
+		</ul><!-- close boot_menu -->
 
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
-					<li id='login'>
-						<a href='#' id='login-trigger'>
+				<ul id='anonymous-menu' >
+					
+					<li class='dropdown'>
+						<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
 							Login
+							<b class='caret'></b>
 						</a>
-							<div id='login_dropdown'>
-									<form>
+						<ul class='dropdown-menu' id='login-form'>
+							<li>
+								<a href='#' style='background-color: transparent; !important'>
+									<form id='drop_login'>
 										<fieldset id='inputs'>
-											<input type="text" name='email' class='required email span6' id='email' value='' />
-											<input type='password' name='password' class='required span6' id='password' value='' />
+											<label for='email'>Email</label>
+											<input type="text" name='email' class='required email span3' id='email' value='' />
+											<label for='password'>Password</label>
+											<input type='password' name='password' class='required span3' id='password' value='' />
 										</fieldset>
 										<fieldset id='actions'>
 											<input type='hidden' name='redirect' value="<?php if(!empty($redirect)) echo $redirect; ?>" />
 											<input type='submit' class='btn btn-primary btn-large' value="Login" />
 										</fieldset>
+						
 									</form>
-							</div><!-- close dropLogin -->
+								</a>
+							</li>
+							<li>	
+								<a href="<?php echo $fbookUrl; ?>"  class='noborder' id='dropfbook'>
+									<img class='noborder' src='<?php echo site_url("assets/images/facebook_logo.jpeg");?>' style='border: 0; width:100px;' />
+								</a>
+							</li>
+							<li>
+								<a id='dropforgot' href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
+								</a>
+							</li>
+						</ul>
+
 					</li>
 					<li>
-						<a href='<?php echo site_url('register'); ?>' id='signup'>
+						<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success'>
 							Sign Up
 						</a>
 					</li>
 					<li>
-						<a href='<?php echo site_url('donate'); ?>' id='donate'>
+						<a href='<?php echo site_url("donate"); ?>' id='donate' class='btn btn-success'>
 							Donate
 						</a>
 					</li>
-				</ul>
+				</ul><!-- close anonymous menu -->
 			<?php } ?>
-		</div>
+		</div><!-- close session -->
 
 		<!-- Main Menu -->
 		<ul id='nav'>
@@ -204,6 +225,10 @@ if(isset($css))
 <!-- script for logIn dropdown -->
 <script type='text/javascript'>
 $('.dropdown-toggle').dropdown();
+$('#login-form').css('left', '-50px');
+$('.dropdown-menu').find('form').click(function (e) {
+	e.stopPropagation();
+});
 </script>
 
 
