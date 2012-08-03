@@ -2,24 +2,11 @@
 class Root extends CI_Controller {
 
 	var $data;
-	var $facebook;
-	
 	function __construct()
 	{
 		parent::__construct();
 		$this->util->config();
 		$this->data = $this->util->parse_globals();
-		$this->config->load('account', TRUE);
-		$fbook = $this->config->config['account'];
-
-		//load the facebook sdk
-		require_once('assets/facebook/facebook.php');
-		$config = array (	
-			"appId"=> $fbook['appId'],
-			"secret"=> $fbook['secret'],
-			"fileUpload"=>true
-		);
-		$this->facebook = new Facebook($config);
 	}
 
 
@@ -49,13 +36,6 @@ class Root extends CI_Controller {
 
 		$this->data['events'] = $E->get_events($options);
 				
-
-		$params = array(
-			'scope' => 'email, user_photos, publish_stream',
-			'redirect_uri' => 'http://mvp.giftflow.org/member/login'
-		);
-
-		$this->data['fbookUrl'] = $this->facebook->getLoginUrl($params);
 
 		$this->data['title'] = "Welcome";
 		$this->load->view('header', $this->data);

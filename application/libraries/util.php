@@ -65,8 +65,7 @@ class Util
 			$domain = $host[sizeof($host)-2] . "." . $host[sizeof($host) - 1];
 		}
 		$globals['localhost'] = $localhost;
-		
-		
+
 		// Set userdata
 		if($this->CI->session->userdata('user_id'))
 		{
@@ -143,6 +142,26 @@ class Util
 		}
 		else
 		{
+			$this->CI->config->load('account',TRUE);
+			$fbook = $this->CI->config->config['account'];
+
+			//load the facebook sdk
+			require_once('assets/facebook/facebook.php');
+			$config = array (	
+				"appId"=> $fbook['appId'],
+				"secret"=> $fbook['secret'],
+				"fileUpload"=>true
+			);
+
+			$this->facebook = new Facebook($config);
+
+			$params = array(
+				'scope' => 'email, user_photos, publish_stream',
+				'redirect_uri' => 'http://mvp.giftflow.org/member/login'
+			);
+
+			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
+
 			$globals['logged_in'] = FALSE;
 			$globals['userdata'] = array();
 		}
