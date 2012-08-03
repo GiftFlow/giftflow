@@ -1002,6 +1002,9 @@ ul#profile_toolbar_right li{
 	margin: 0px auto 10px;
 	font-size: 13px;
 }
+.profile_button {
+	width: 100%;
+}
 a#nonprofit_link{
 	background:none repeat scroll 0 0 #66CC33;
 	color:white;

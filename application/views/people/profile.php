@@ -201,8 +201,8 @@ if(!$active) { echo "DISABLED"; }
 			<input type='hidden' id='recipient_email' name='recipient_email' value='<?php echo $u->email; ?>'/>
 			<input type='hidden' name='formtype' value='thankyou'/>
 			<p>
-				<input type='submit' class='button' value='Send'/>
-				<a class='button closeClass' style='margin-left:100px;' href='#'>Cancel</a>
+				<input type='submit' class='btn btn-success' value='Send'/>
+				<a class='btn btn-danger' style='margin-left:100px;' href='#'>Cancel</a>
 			</p>
 			<span id='errortext'></span>
 		</form>
@@ -216,17 +216,17 @@ if(!$active) { echo "DISABLED"; }
 <div class='profile_item'>
 	<?php if($u->id!=$logged_in_user_id) { ?>
 		<?php if(isset($is_following)&&$is_following) { ?>
-			<a class='btn btn-large disabled btn-primary' id='already_following'>
+			<a class='btn btn-large disabled btn-primary profile_button' id='already_following'>
 				<i class="icon-ok icon-white"></i>
 				Following
 			</a>
 			<br />
-			<a href='<?php echo site_url('people/unfollow/'.$u->id); ?>' class='btn btn-primary btn-large'>
+			<a href='<?php echo site_url('people/unfollow/'.$u->id); ?>' class='btn btn-primary btn-large profile_button'>
 				<i class ='icon-plus icon-white'></i>
 				Unfollow
 			</a> 
 		<?php } else { ?>
-			<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='btn btn-primary btn-large' id='follow_this'>
+			<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='btn btn-primary btn-large profile_button' id='follow_this'>
 				<i class="icon-plus icon-white"></i>
 				Follow
 			</a>
@@ -235,7 +235,7 @@ if(!$active) { echo "DISABLED"; }
 	</div>
 	<!-- thank you button that triggers modal dialog form -->
 	<div class='profile_item'>
-		<a class='btn btn-primary btn-large jqModal' id='thankyou'>
+		<a class='btn btn-primary btn-large profile_button' id='thankyou'>
 			Thank 
 		</a>
 		<span class='metadata' id='thanktext'></span>
