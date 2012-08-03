@@ -144,7 +144,7 @@ if(isset($css))
 						<ul class='dropdown-menu' id='login-form'>
 							<li>
 								<a href='#' style='background-color: transparent; !important'>
-									<form id='drop_login'>
+								<form id='drop_login' action="<?php echo site_url('member/login'); ?>" method='post'>
 										<fieldset id='inputs'>
 											<label for='email'>Email</label>
 											<input type="text" name='email' class='required email span3' id='email' value='' />
@@ -152,7 +152,7 @@ if(isset($css))
 											<input type='password' name='password' class='required span3' id='password' value='' />
 										</fieldset>
 										<fieldset id='actions'>
-											<input type='hidden' name='redirect' value="<?php if(!empty($redirect)) echo $redirect; ?>" />
+											<input type='hidden' name='redirect' value="<?php echo current_url(); ?>" />
 											<input type='submit' class='btn btn-primary btn-large' value="Login" />
 										</fieldset>
 						

@@ -157,7 +157,7 @@ class Util
 
 			$params = array(
 				'scope' => 'email, user_photos, publish_stream',
-				'redirect_uri' => 'http://mvp.giftflow.org/member/login'
+				'redirect_uri' => current_url()
 			);
 
 			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
