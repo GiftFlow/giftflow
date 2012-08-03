@@ -252,7 +252,7 @@ class Factory
 				$ty->default_photo->thumb_url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=square";
 				$ty->default_photo->url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=large";
 			}
-			$ty->summary = $ty->screen_name.' thanked '.$ty->recipient_screen_name.' for '.$ty->gift_title;
+			$ty->summary = '<a href="'.site_url("people/".$ty->thanker_id).'">'.$ty->screen_name.'</a> thanked <a href="'.site_url("people/".$ty->recipient_id).'">'.$ty->recipient_screen_name.'</a> for "'.$ty->gift_title.'"';
 		}
 		return $results;
 	}

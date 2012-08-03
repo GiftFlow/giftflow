@@ -89,9 +89,9 @@
 				<?php echo($val->transaction->language->overview_summary); ?>
 			  </span> 
 	<!-- close trans_completed -->
-	<?php } ?>           
 
-	<?php if($val->event_type_id == 8) { ?>
+	<?php } else if($val->event_type_id == 8) { ?>
+
 		<!-- Open good_new -->		
 			<a class="result_image" href='<?php echo site_url($val->good->type.'s/'.$val->good->id); ?>'>
 				 <img src ="<?php if(isset($val->good->photo->thumb_url)) { echo $val->good->photo->thumb_url; } else { echo $val->good->default_photo->url; } ?>" />
@@ -124,13 +124,32 @@
 				</div>
 			<?php } ?>
     <!-- close good_new -->
-    <?php } ?>
+	<?php } else if($val->event_type_id = 16) { ?>
+	<!-- open thankyou -->
+			<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
+				 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
+			</a>
+				<span class = 'title'>
+					<?php echo $val->thank->summary;?>
+				</span>                  
+				<span class = 'metadata created'>
+					<?php echo user_date($val->event_created,"F jS Y"); ?>
+				</span>
+			<?php if(!$mini) { ?>
+				<div class='result_meta clearfix'> 
+					<span class='event_text'>
+					  <?php echo substr($val->thank->body, 0, 120)."..."; ?>
+					</span>
+				</div>
+			<?php } ?>
 
 
 	<!-- eof Result Row -->
 	</li>
-			
-<?php } ?>
+	<?php } ?>
+	<!-- close thankyou -->
+
+	<?php } ?>
 	<?php if(!$row) { ?>
 		</ul>
 		<!-- eof Results List -->

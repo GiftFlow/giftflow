@@ -22,34 +22,10 @@ class Event_reader
 //	List of event types with their event_type_ids
 // Class-wide variables created for those events considered relavant
 
-	// event_type_id = 1 for transaction_new
-
-	// 2 	transaction_completed
 	var $transaction_completed = array();
-
-	// 3 	transaction_message
-
-	// 4 	for user_new
 	var $user_new = array();
-	// 5 	transaction_cancelled
-
-	// 6 	transaction_activated
-
-	// 7 	review_new
-
-	//	8 	good_new
 	var $good_new = array();
 
-	//	9 	good_edited
-
-	//	10 	following_new
-	//	11 	follower_new
-	//	12 	transaction_declined
-	//	13 	hide_welcome
-	//	14 	reset_password
-	//	15 	new_password
-	//	16 	email
-	
 	
 	/*
 	*	variable for holding get_events() results
@@ -134,11 +110,14 @@ class Event_reader
 		$this->CI->load->library('Search/User_search');
 		$this->CI->load->library('Search/Good_search');
 		$this->CI->load->library('Search/Transaction_search');
-    $this->CI->load->library('Search/Review_search');
+		$this->CI->load->library('Search/Review_search');
+		$this->CI->load->library('Search/Thankyou_search');
+
 		$U = new User_search();
 		$G = new Good_search();
 		$R = new Review_search();
 		$T = new Transaction_search();
+		$TY = new Thankyou_search();
 		
 		//sort events by event_type
 		if(!empty($this->raw_results))
@@ -146,6 +125,8 @@ class Event_reader
 			
 			foreach($this->raw_results as $event)
 			{				
+				$json_data = json_decode($event->event_data);
+
 				switch($event->event_type_title)
 				{
 					case "user_new":
@@ -164,7 +145,6 @@ class Event_reader
 						break;
 						
 					case "good_new":
-						$json_data = json_decode($event->event_data);
 						
 						if(!empty($json_data->good_id))
 						{
@@ -180,8 +160,6 @@ class Event_reader
 						break;
 						
 					case "transaction_completed":
-
-						$json_data = json_decode($event->event_data);
 										
 						if(!empty($json_data->transaction->id))
 						{
@@ -196,6 +174,13 @@ class Event_reader
 							$event->location = $trans->demands[0]->good->location;
 							$this->events[] = $event;
 						}
+						break;
+
+					case "thankyou":
+
+						$event->thank = $TY->get(array('id' => $json_data->id));
+						$this->events[] = $event;
+
 						break;
 				}
 				

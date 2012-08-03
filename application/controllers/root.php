@@ -29,8 +29,8 @@ class Root extends CI_Controller {
 		$E = new Event_reader();
 
 		$options = array(
-		  'event_type_id' => array(2,8,4),
-		  'limit' => 100,
+		  'event_type_id' => array(2,8,4,16),
+		  'limit' => 8,
 		  'location' => $this->data['userdata']['location']
 		  );
 
