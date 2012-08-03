@@ -112,9 +112,6 @@ a#logo img{
 	font-size: .9em;
 	text-decoration: none;
 }
-#session a:hover{
-	border-bottom: 1px solid #ccc;
-}
 #session img{
 	width: 35px;
 	border: 3px solid white;
@@ -264,40 +261,6 @@ ul.sidebar_menu.filters li ul li{
   color:#6CB6E2;
   font-weight:bold;
 
-}
-/*
-*	jQ Modal
-*/
-
-.jqmWindow {
-    display: none;
-    position: fixed;
-    top: 17%;
-    left: 50%;
-    margin-left: -300px;
-    width: 600px;
-    background-color: #fff;
-    color: #333;
-    border: 10px solid #ccc;
-    padding: 12px 30px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-}
-
-.jqmOverlay { background-color: #000; opacity: .8 !important;}
-
-/* Background iframe styling for IE6. Prevents ActiveX bleed-through (< select > form elements, etc.) */
-* iframe.jqm {position:absolute;top:0;left:0;z-index:-1;
-	width: expression(this.parentNode.offsetWidth+'px');
-	height: expression(this.parentNode.offsetHeight+'px');
-}
-
-/* Fixed posistioning emulation for IE6
-     Star selector used to hide definition from browsers other than IE6
-     For valid CSS, use a conditional include instead */
-* html .jqmWindow {
-     position: absolute;
-     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
 }
 
 /*
@@ -1181,101 +1144,33 @@ ul.list_menu li #city_state{
 	border: 1px solid #ccc;
 	width: 40px;
 }
-ul#you_menu{
-	list-style: none;
+
+ul#boot_menu {
+	list-style:none;
 	margin: 10px 0 0;
-	padding: 0;
 }
-ul#you_menu li{
-	float: left;
+ul#anonymous-menu {
+	list-style:none;
+	margin: 10px 0 0;
 }
-ul#you_menu a{
-  	background: #7fd374;
-  	border: .5px solid #66aa5d;
-  	-moz-border-radius: 5px;
-  	-webkit-border-radius: 5px;
-	padding: 0.3em 0.5em 0.2em;
-	font-size: 15px;
-	display: block;
-	border-bottom: none;
+ul#anonymous-menu li {
+	display:block;
+	float:left;
 }
-ul#you_menu a#you{
-	width: 80px;
-	height: 20px;
+#dropfbook {
+	width: auto;
+	height: auto;
+	margin-top: 5px;
 }
-ul#you_menu a#signup:hover, ul#you_menu a#login:hover {
-	background: white;
-	color: #68cc68;
-}
-ul#you_menu a#donate:hover{
-	background: white;
-	color: #68cc68;
-}
-ul#you_menu a#login{
-	background: none;
-}
-
-ul#you_menu a:hover{
-	border-bottom: none;
-}
-ul#you_menu li:hover a#you{
-	background: white;
-	color: #68cc68;
-	-moz-border-radius: 5px 5px 0px 0px;
-	-webkit-border-radius: 5px 5px 0px 0px;
-}
-ul#you_menu li ul{
-	display: none;
-	position: absolute;
-	top: 42px;
-	left: auto;
-}
-ul#you_menu li:hover ul, ul#you_menu:hover li ul{
-	display: block;
-	background: white;
-	list-style: none;
-	padding: 5px 0px;
-	-moz-border-radius-bottomleft: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	-moz-border-radius-bottomright: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-webkit-border-top-left-radius: 5px;
-	border-left: 1px solid #aaa;
-	border-right: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	width: 120px;
-	margin-left: -26px;
-	z-index: 1000;
-	-moz-box-shadow: 0 3px 7px #CCCCCC;
-}
-ul#you_menu li:hover ul li{
-	float: none;
-}
-ul#you_menu li:hover ul li a{
-	border-radius: 0px;
-}
-ul#you_menu li:hover ul {
-  margin: -8px 0px 0px 0px;
-}
-
-ul#you_menu li:hover ul li a{
-	color: #000;
+#dropfbook:hover {
+	background-color:transparent;
 	border: none;
-	background: none;
-	padding: 10px;
-	display: block;
-	font-size: 13px;
-	font-family: arial;
-	border-bottom: 1px solid #eee;
-	width: 100px;
-	-moz-border-radius: 0px;
 }
-ul#you_menu li:hover ul li a:hover{
-	background: #fafafa
-}
-#login_dropdown {
-	display:none;
+#dropforgot {
+	font-size: .5em
+	color: #004099;
+	display:block;
+	margin-top: 10px;
 }
 
 #session img#you_img{
@@ -1921,10 +1816,6 @@ span.event_summary {
 #quick_buttons {
   float:right;
   margin: -10px 0 10px 0;
-}
-.dropdown-menu li{
-	padding: 0 !important;
-	border-bottom: none !important;
 }
 .admin-wrapper{
 	padding: 15px;
