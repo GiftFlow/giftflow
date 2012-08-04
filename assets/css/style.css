@@ -1834,6 +1834,21 @@ a#offer_gift_button.offered{
 button::-moz-focus-inner { border: 0; }
 input::-moz-focus-inner{ border: 0; }
 
+
+#home_header {
+	margin: 40px 0px 30px 0px;
+}
+#home_left {
+	padding: 0px 0px 0px 50px;
+}
+#home_right {
+	padding: 0px 100px 0px 30px;
+	text-align:center;
+}
+#bottom {
+	margin-left: 120px;
+}
+
 #social_iframe{
 	padding: 0;
 }
