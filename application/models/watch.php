@@ -45,28 +45,27 @@ class Watch extends DataMapperExtension {
 	/**
 	 * Get a list of watches that match an item
 	 * 
-	 * @param type $user_id The user to exclude from the watch search
-	 * @param type $title
-	 * @param type $description
+	 * @param type $Good object
+	 * @param type $good_location Location of the new good
 	 * @return type 
 	 */
-	function match($user_id, $title, $description) {
+	function match($Good, $good_location) {
 		
+		// find all watches wich matching keyword that belong a user in the same city as the good in question
+
 		$query = $this->CI->db
 			->select('*')
 			->from('watches AS W')
-			->join('users AS U', 'W.user_id=U.id')	// todo add location here
-			->where('W.user_id !=', $user_id)
+			->join('users AS U', 'W.user_id=U.id')
+			->join('locations as L', 'L.user_id = U.id')
+			->where('W.user_id !=', $Good->user_id)
+			->where('L.city', $good_location->city)
+			->where('L.state', $good_location->state)
 			->where('U.status', 'active')
+			->where('("' . $Good->title . '" LIKE concat("%",W.keyword,"%") OR "'. $Good->description .'" LIKE concat("%",W.keyword,"%"))', NULL, false)
 			->get();
 		
-		$results = array();
-		
-		foreach($query->result() as $row)
-			if (strpos($title,$row->keyword) !== false || strpos($description, $row->keyword) !== false) 
-				$results[] = $row;
-	
-		return $results;
+		return $query->result();
 	}
 	
 	/**

@@ -40,9 +40,9 @@ $config['openid_request_to'] = $config['openid_site_root'] . '/account/link/goog
 
 
     // OAuth2 Settings, you can get these keys at https://code.google.com/apis/console
-   $config['oauth2_client_id'] => '602716459863.apps.googleusercontent.com',
-   $config['oauth2_client_secret'] => 'KpSDdgP8szxf1uKMlZsfQIXg',
-   $config['oauth2_redirect_uri'] => 'http://www.giftflow.org/account/link/google/2',
+   $config['oauth2_client_id'] = '602716459863.apps.googleusercontent.com';
+   $config['oauth2_client_secret'] = 'KpSDdgP8szxf1uKMlZsfQIXg';
+   $config['oauth2_redirect_uri'] = 'http://www.giftflow.org/account/link/google/2';
 
 
 //Deprecated
