@@ -1176,6 +1176,104 @@ ul#anonymous-menu li {
 	margin-top: 10px;
 }
 
+
+ul.invite_grid li:hover{
+	background: #FFF;
+	border: 1px solid #66cc33;
+}
+ul.invite_grid li img{
+	float: left;
+	margin-right: 10px;
+	border: none;
+}
+ul.invite_grid li.selected{
+	width: 133px;
+	background: #DEFFD8;
+	border: 2px solid #66cc33;
+	height: 50px;
+}
+ul.invite_grid{
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+ul.invite_grid li  .ui-icon{
+	display: none;
+}
+ul.invite_grid li.selected .ui-icon{
+	display:block;
+	margin-top: 10px;
+	float:right;
+	margin-left:120px;
+	margin-top:38px;
+	position:absolute;
+	background: url("images/ui-icons_FFFFFF_256x240.png")
+}
+ul.invite_grid li .name{
+	color: #000;
+	font-size: 12px;
+	float: left;
+	border-bottom: none;
+	width: 68px;
+}
+ul.invite_grid.list li .name{
+	display: none;
+}
+ul.invite_grid.list li{
+	padding: 0;
+	border: none;
+	cursor: auto;
+	width: 50px;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+}
+ul.invite_grid li{
+	float: left;
+	width: 120px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #EEE;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	cursor: pointer;
+	padding: 10px;
+	width: 135px;
+	height: 52px;
+}
+ul#you_menu{
+	list-style: none;
+	margin: 10px 0px 0px 0px;
+	padding: 0;
+}
+ul#you_menu li{
+	float: left;
+}
+ul#you_menu a{
+  	background: #7fd374;
+  	border: .5px solid #66aa5d;
+  	-moz-border-radius: 5px;
+  	-webkit-border-radius: 5px;
+	padding: 0.3em 0.5em 0.2em;
+	font-size: 15px;
+	display: block;
+	border-bottom: none;
+}
+ul#you_menu a#you{
+	width: 80px;
+	height: 20px;
+}
+ul#you_menu a#signup:hover, ul#you_menu a#login:hover {
+	background: white;
+	color: #68cc68;
+}
+ul#you_menu a#donate:hover{
+	background: white;
+	color: #68cc68;
+}
+ul#you_menu a#login{
+	background: none;
+}
+
 #session img#you_img{
 	border: none;
 	width: 16px;
