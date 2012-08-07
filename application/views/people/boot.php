@@ -1,178 +1,168 @@
 
 <div class = 'row-fluid' id='profile_header'>
-	<div  class='span1'>
+
+	<div class='profile_column span6' id='profile_header_left'>
 		
-		<a href="<?php echo current_url();?>" class="user_image left medium">
-			<img src="<?php echo $profile_thumb; ?>" />
-		</a>	
-	</div>
-	<div class='span4'>
-		<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
+		<div id='profile_masthead'>
+
+			<a href="<?php echo current_url();?>" class="user_image left medium">
+				<img src="<?php echo $profile_thumb; ?>" />
+			</a>	
+			
+			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
+			<span class='metadata'>
 			<?php if(!empty($u->default_location)) { ?>
-			<p>
 							<?php if(!empty($u->default_lcoation->city)) { echo $u->default_location->city.','; } ?>
 							<?php if(!empty($u->default_location->state)) { echo $u->default_location->state; } ?>
-							<?php if(!empty($u->default_location->country)) { echo $u->default_location->country; } ?>
-			</p>
+							<?php if(!empty($u->default_location->country)) { echo $u->default_location->country.', '; } ?>
 			<?php } ?>
-			<p>
-				Member since 
-				<?php echo user_date($u->created,"F jS Y"); ?>
-			</p>
-			<?php //echo $u->type; ?>
-		</p>
-	</div>
-	<div class='span6' style='text-align:right;'>
+				<?php echo 'member since '.user_date($u->created,"F jS Y"); ?>
+				<?php //echo $u->type; ?>
+			</span>
 			<span class='metadata'>
-				13 Following, 30 Followers
+				<?php echo count($following).' Following';?>
+				<?php echo count($followers).' Followers';?>
+			
 			</span>
-			<a class='btn'>Follow</a>
-	</div>
-</div><!-- close profile-header -->
-<div class = 'row-fluid' id ='profile_bio'>
-	<div id='profile_info' class='span12'>
-		<p class='nicebigtext'>Bio</p>
-		<p><?php if(!empty($u->bio)) { echo $u->bio; } else { echo "This user has yet to fill out their Bio";} ?></p>
-		<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
-	</div> <!-- close profile info -->
-</div><!-- close vbio and info row -->
-
-<div class ='row-fluid'>
-	<div id='profile_gifts' class ='span4 profile_column'>
-		<div class='list'>
-			<span class='lineup'>
-					<span class='pTitle'>Gifts</span>
-					<a id='request' class='btn profile_action'>Request</a>
-			</span>
-					
-					<?php if(!empty($gifts)) { ?>
-					
-						<?php echo UI_Results::goods(array(
-							"results"=> $gifts,
-							'mini' => TRUE,
-							'border'=> FALSE
-						)); ?>
-						
-					<?php } else { ?>
-						<p>This user does not have any gifts listed.</p>
-					<?php } ?>
 		</div>
 
 
-		<!-- GIFTS request form -->
-		<div class='profile_form' id = 'request_form' style='display:none'>
+		<div id='profile_info'>
+			<p class='nicebigtext'>Bio</p>
+			<p><?php if(!empty($u->bio)) { echo $u->bio; } else { echo "This user has yet to fill out their Bio";} ?></p>
+			<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
+		</div> <!-- close profile info -->
 
-			<form  name='gift_request' method='post'>
-				<?php if(!empty($gifts)) { ?>
-				<span class='top_form'>
-					<label for='gift_select'>Select a gift to request</label>
-					<select class='gift_select' name='gift_select'>
-							<?php foreach($gifts as $val) { ?>
-								<option value="<?php echo $val->id; ?>"><?php echo substr($val->title,0,50); ?></option>
-							<?php } ?>
-					</select>
-					<label for='select_message'>Include a message:</label>
-					<input type='text' size='10' name='select_message' id='gift_select_message'/>
-				</span>
+	</div> <!-- close profile header left -->
 
-				<div class='more_request gift_new' style='display:none;'>	
+	<div id='profile_header_right' class='profile_column span6'><!-- open header right -->
+			<div class='btn-group'>
+				<a class='btn btn-action'>Follow</a>
+				<a id='thank_button' class='btn profile_action btn-success'>Thank</a>
+			</div>
+
+			<div id='profile_thank_form' style= 'display:none;' >
+				<form name = 'thankyou' id='thankyouform' method='post' action='thankyou'>
+					<p>
+						Thank you note for: <span id='reviewed' class='thank_title'></span>
+					</p>
+					<p>
+						<label for='gift'>What did they give you? (brief title)</label>
+					</p>
+					<p>
+						<input type='text' class='big-border' name='gift' id='thankyou_gift' value='' class='required'/>
+					</p>
+					<p>
+					<label for='body'>Be sure to describe the gift.</label>
+					</p>
+					<p>
+						<textarea rows='5' class='big-border required' name='body' id='body' value=''></textarea>
+					</p>
+					<!-- hidden fields -->
+					<input type='hidden' id='reviewed_id' name='reviewed_id' value=''/>
+					<input type='hidden' id='reviewed_email' name='reviewed_email' value=''/>
+					<p>
+						<input type='submit' class='btn' value='Send'/>
+						<a id='thank_cancel' class='btn' href='#'>Cancel</a>
+					</p>
+					<span id='errortext'></span>
+				</form>
+			</div>
+	</div><!-- close header right -->
+
+</div><!-- close header row -->
+
+
+<div class ='row-fluid'>
+
+<!-- Reviews and ThankYous Column -->
+	<div class='span6 profile_column' id='profile_reputation'>
+
+		<div id='profile_reviews' class='profile_chunk'>
+			<span class='pTitle'>Reviews</span>
+
+				<?php if(!empty($giver)) { ?>
+					<?php echo UI_Results::reviews(array(
+						'results'=>$giver
+					)); ?>
+
 				<?php } else { ?>
-					<div class='more_request'>
+						<p class='chunk_empty'>This user has not yet given or received any gifts through GiftFlow</p>
 				<?php } ?>
-						<label for='gift_request'>Name the gift you need:</label>
-						<input type='text' size='10' value='' name='gift_request' id='gift_request'/>
-						
-						<label for='request_message'>Include a descriptive message:</label>
-						<textarea rows='4' name='request_message' value='' class='request_message'></textarea>
-					
-					</div>
-					<input type='submit' value='Submit' class='btn btn-small'/>
-			</form>
+
+		</div><!--close reviews_list -->
+
+		<div id='profile_thanks' class='profile_chunk'>
+			<span class='pTitle'>Thanks</span>	
+
+			<?php if(!empty($thanks)) { ?>
+				<?php echo UI_Results::thanks(array(
+					'results' => $thanks
+				)); ?>
+				
+				<?php } else { ?>
+						<p class='chunk_empty'>This user has not yet received any thanks from others on GiftFlow</p>
+				<?php } ?>
+		</div><!-- close profile_thanks -->
+	</div> <!-- close profile_reputation-->
+
+<!--- Gifts and Needs Column -->
+
+	<div id='profile_goods' class ='span6 profile_column'>
+		<div id='profile_gifts' class='profile_chunk'>
+
 			<?php if(!empty($gifts)) { ?>
-				<a href='#' class='more_form' id='gift_top_form'>Ask for something new.</a>
-				<a href='#' class='less_form'>Cancel</a>
+
+				<span class='pTitle'>Gifts</span>
+
+				<?php echo UI_Results::goods(array(
+					"results"=> $gifts,
+					'mini' => TRUE,
+					'border'=> FALSE
+				)); ?>
+				
+			<?php } else { ?>
+				<span class='pEmpty'>Gifts</span>
+				<p class='chunk_empty'>This user does not have any gifts listed.</p>
 			<?php } ?>
-		</div><!-- close request_form -->
-	</div><!--close profile_gifts -->
+
+		</div><!--close profile_gifts -->
 
 
 	<!-- NEEDS column -->
-	<div class='span4 profile_column' id='profile_needs'>
-			<div class='list'>
-				<span class='pTitle'> Needs</span>	
-				<a class='btn profile_action' id='offer'>Offer</a>
-					<?php if(!empty($needs)) { ?>
-					
-						<?php echo UI_Results::goods(array(
-							"results"=> $needs,
-							'mini' => TRUE
-						)); ?>
-						
-					<?php } else { ?>
-						<p>This user does not have any needs listed.</p>
-					<?php } ?>
-			</div><!-- close needs_list -->
-
-			<!-- NEEDS offer form -->
-			<div class='profile_form'  id='offer_form' style='display:none'>
-					<form name='need_offer' method='post'>
-						<?php if(!empty($needs)) { ?>
-						<span class='top_form'>
-							<label for='gift_select'>Select a need to request</label>
-							<select class='gift_select' name='gift_select'>
-									<?php foreach($needs as $val) { ?>
-										<option value="<?php echo $val->id; ?>"><?php echo substr($val->title,0,50); ?></option>
-									<?php } ?>
-							</select>
-							<label for='select_message'>Include a message:</label>
-							<input type='text' size='10' name='select_message' id='gift_select_message'/>
-						</span>
-							
-							<div class='more_request need_new' style='display:none;'>
-						<?php } else {?>
-							<div class='more_request'>
-						<?php } ?>
-								<label for='gift_request'>Short title of your offer:</label>
-								<input type='text' size='10' value='' name='gift_request' id='gift_request'/>
-								
-								<label for='request_message'>Include a descriptive message:</label>
-								<textarea rows='5'name='request_message' value=''class='request_message'></textarea>
-							
-							</div>
-							<input type='submit' value='Submit' class='btn btn-small'/>
-					</form>
+		<div id='profile_needs' class='profile_chunk'>
+			<!--<a class='btn profile_action' id='offer'>Offer</a>-->
 			<?php if(!empty($needs)) { ?>
-				<a href='#' class='more_form' id='need_top_form'>Offer something new.</a>
+
+				<span class='pTitle'> Needs</span>	
+
+				<?php echo UI_Results::goods(array(
+					"results"=> $needs,
+					'mini' => TRUE
+				)); ?>
+					
+			<?php } else { ?>
+				<span class='pEmpty'> Needs</span>	
+				<p class='chunk_empty'>This user does not have any needs listed.</p>
 			<?php } ?>
-				<a href='#' class='less_form'>Cancel</a>
+		</div><!-- close profile_needs-->
 
-			</div><!-- close request_form -->
-	</div><!-- close profile_needs-->
+</div><!-- close profile_goods -->
 
-
-
-	<div class='span4' id='profile_reviews profile_row'>
-		<div class='thanks_list'>
-			<span class='pTitle'>Thanks & Reviews</span>
-				<a class='btn profile_action'>Thank</a>
-
-				<?php if(!empty($giver)) { ?>
-					<?php echo UI_Results::reviews(array('results'=>$giver)); ?>
-				<?php } else { ?>
-						<p>This user has not yet given any gifts</p>
-				<?php } ?>
-		</div><!--close reviews_list -->
-		<div class='thanks_form'>
-		
-
-		</div>
-	</div> <!-- close reviews -->
-	</div> <!-- close second row -->
-</div>
+</div><!-- close row-fluid -->
 
 
 <script type='text/javascript'>
 
+
+$('#thank_button').click( function() {
+	$('#profile_thank_form').show();
+});
+$('#thank_cancel').click( function() {
+	$('#profile_thank_form').hide();
+});
+
+/*
 var more_form, top_form, column;
 
 $('.more_form').click(function() {
@@ -204,5 +194,6 @@ $('.profile_action').click(function() {
 	$(which).show();
 	$('.more_form').show();
 });
+*/
 
 </script>

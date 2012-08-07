@@ -1127,9 +1127,56 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 #your_locations ul li a:hover, #your_locations ul li a.active{
 	background: #EEE;
 }
+
+#profile_header {
+	margin-bottom: 20px;
+}
 .profile_action {
 	margin-bottom: 5px;
 }
+#profile_info {
+	margin: 10px;
+}
+#nameandStuff {
+	padding: 0px 0px 0px 20px;
+}
+.profile_chunk {
+	min-height:25px;
+	padding: 10px 0px 10px 10px;
+	margin-bottom: 10px;
+	-webkit-background-clip: padding-box;
+	-webkit-background-origin: padding-box;
+	-webkit-background-size: auto;
+	-webkit-border-image: none;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 2px 5px 0px;
+	background-attachment: scroll;
+	background-clip: padding-box;
+	background-color: white;
+	background-image: none;
+	background-origin: padding-box;
+	background-size: auto;
+	border-bottom-color: rgba(0, 0, 0, 0.199219);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-color: rgba(0, 0, 0, 0.199219);
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-color: rgba(0, 0, 0, 0.199219);
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-color: rgba(0, 0, 0, 0.199219);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	box-shadow: rgba(0, 0, 0, 0.199219) 0px 2px 5px 0px;
+}
+p.chunk_empty {
+	margin-top: 8px;
+}
+
 .lineup {
 	width: 100%
 	height:auto;
@@ -1141,10 +1188,6 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 #profile_header {
 	margin-top: 20px;
 }
-.profile_column {
-	border-right: 1px solid #ccc;
-	margin-bottom: 20px;
-}
 #profile_bio {
 	border-bottom:1px solid #ccc;
 	margin-bottom: 20px;
@@ -1155,14 +1198,25 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 .pTitle {
 	font-size: 20px;
 	text-shadow: 0 2px 0 #FFFFFF;
-	font-weight: bold;
+	font-weight: 300;
+}
+.pEmpty {
+	color #666;
+	font-size: 20px;
+	text-shadow: 0 2px 0 #FFFFFF;
+	font-weight: 300;
+}
+
+#profile_masthead .metadata {
+	margin-left: 70px;
+	display:block;
 }
 
 h1#profile_name{
 	font-weight: bold;
 	letter-spacing: -.7px;
 	font-size: 30px;
-	margin: 0;
+	margin: 0px 0px 0px 70px;
 }
 h3.grid_title{
 	margin-bottom: 6px;
@@ -1422,14 +1476,37 @@ ul#boot_menu {
 ul#anonymous-menu {
 	list-style:none;
 	margin: 10px 0 0;
+}
+ul#anonymous-menu li {
+	display:block;
+	float:left;
+}
+#dropfbook {
+	width: auto;
+	height: auto;
+	margin-top: 5px;
+}
+#dropfbook:hover {
+	background-color:transparent;
+}
+#dropforgot {
+	font-size: .5em
+	color: #004099;
+}
 ul.invite_grid{
 	padding: 0px;
 	margin: 0px;
 	list-style: none;
 }
-ul#anonymous-menu li {
-	display:block;
-	float:left;
+ul.invite_grid li:hover{
+	background: #FFF;
+	border: 1px solid #66cc33;
+}
+ul.invite_grid li img{
+	float: left;
+	margin-right: 10px;
+	border: none;
+}
 ul.invite_grid li{
 	float: left;
 	width: 120px;
@@ -1443,24 +1520,6 @@ ul.invite_grid li{
 	width: 135px;
 	height: 52px;
 }
-#dropfbook {
-	width: auto;
-	height: auto;
-	margin-top: 5px;
-ul.invite_grid li:hover{
-	background: #FFF;
-	border: 1px solid #66cc33;
-}
-#dropfbook:hover {
-	background-color:transparent;
-ul.invite_grid li img{
-	float: left;
-	margin-right: 10px;
-	border: none;
-}
-#dropforgot {
-	font-size: .5em
-	color: #004099;
 ul.invite_grid li.selected{
 	width: 133px;
 	background: #DEFFD8;
