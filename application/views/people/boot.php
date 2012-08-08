@@ -24,6 +24,14 @@
 				<?php echo count($followers).' Followers';?>
 			
 			</span>
+
+			<div class='thumb_grid'>
+			<?php foreach($followers as $val) { ?>
+				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
+					<img src='<?php echo $val->default_photo->thumb_url;?>' />
+				</a>
+			 <?php } ?>
+			</div>
 		</div>
 
 
@@ -42,12 +50,9 @@
 			</div>
 
 			<div id='profile_thank_form' style= 'display:none;' >
-				<form name = 'thankyou' id='thankyouform' method='post' action='thankyou'>
+				<form name = 'thankyou' id='thankyouform' method='post'>
 					<p>
-						Thank you note for: <span id='reviewed' class='thank_title'></span>
-					</p>
-					<p>
-						<label for='gift'>What did they give you? (brief title)</label>
+					<label for='gift'>What did <?php echo $u->screen_name; ?> give you? (brief title)</label>
 					</p>
 					<p>
 						<input type='text' class='big-border' name='gift' id='thankyou_gift' value='' class='required'/>
@@ -59,8 +64,7 @@
 						<textarea rows='5' class='big-border required' name='body' id='body' value=''></textarea>
 					</p>
 					<!-- hidden fields -->
-					<input type='hidden' id='reviewed_id' name='reviewed_id' value=''/>
-					<input type='hidden' id='reviewed_email' name='reviewed_email' value=''/>
+					<input type='hidden' name='formtype' value='thankyou'/>
 					<p>
 						<input type='submit' class='btn' value='Send'/>
 						<a id='thank_cancel' class='btn' href='#'>Cancel</a>
