@@ -7,8 +7,8 @@ http://www.recaptcha.net
 */
 
 $config['recaptcha'] = array(
-   'public'=>'6Ldz9cESAAAAAGS_hODA4-aX0q2_Dt9rUZPPT0DB',
-   'private'=>'6Ldz9cESAAAAAJYWl2QpioakbaS8kt7mRHL95JHj',
+   'public'=>RECAPTCHA_PUBLIC_KEY,
+   'private'=>RECAPTCHA_PRIVATE_KEY,
    'RECAPTCHA_API_SERVER' =>'http://api.recaptcha.net',
    'RECAPTCHA_API_SECURE_SERVER'=>'https://api-secure.recaptcha.net',
    'RECAPTCHA_VERIFY_SERVER' =>'api-verify.recaptcha.net',

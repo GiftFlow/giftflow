@@ -38,8 +38,8 @@ $active_group = "default";
 $active_record = TRUE;
 
 $db['default']['hostname'] = "localhost";
-$db['default']['username'] = "root";
-$db['default']['password'] = "root";
+$db['default']['username'] = DB_USERNAME;
+$db['default']['password'] = DB_PASSWORD;
 $db['default']['database'] = "gift";
 $db['default']['dbdriver'] = "mysql";
 $db['default']['dbprefix'] = "";

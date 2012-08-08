@@ -22,7 +22,10 @@ for ($i = 0; $i < $Users_total; $i++)
 	$last = $surname[$y];
 	
 	$screen_name = $first . " " . $last;
-	$email = $first . $last . "@gondor.com";
+	if ($i == 0)
+		$email = "test@gondor.com";
+	else
+		$email = $first . $last . "@gondor.com";
 	$created = date('Y-m-d', strtotime('-' . mt_rand(500, 2000) . ' days'));
 	$updated = date('Y-m-d', strtotime('-' . mt_rand(0, 130) . ' days'));
 	$salt = "64f3735fbc544aefe51685131f5f3e24";
