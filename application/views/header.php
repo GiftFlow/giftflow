@@ -47,7 +47,7 @@ if(isset($css))
 <?php if($localhost) { ?>
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/jquery.js"></script>
 <?php } else { ?>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <?php } ?>
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap-dropdown.js"></script>
