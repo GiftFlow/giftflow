@@ -27,12 +27,12 @@
 				
 
 				<div class="clearfix metadata-bottom">
-					<p class="left label">Status</p>
+					<p class="left meta-label">Status</p>
 					<p class="left field bold"><?php echo ucfirst($transaction->status);?></p>
 				</div>
 				<?php if($transaction->status!="declined" && $transaction->status!="cancelled" && $transaction->status!="completed") { ?>
 				<div class="clearfix metadata-bottom">
-					<p class="left label">What's Next</p>
+					<p class="left meta-label">What's Next</p>
 					<div class="left field">
 						<?php if($transaction->status=="pending"){ ?>
 							<?php if($demander){ ?>
@@ -40,15 +40,17 @@
 								
 								<form method="post" id="cancel_transaction">
 									<input type="hidden" name="form_type" value="transaction_cancel" />
-									<input type="submit" class="button btn" value="Cancel" />
+									<input type="submit" class="button btn btn-large btn-warning" value="Cancel" style="margin-top: 10px;" />
 								</form>
 
 							<?php } else { ?>
 							
 								<form method='post' id='decide_transaction'>
 									<input type='hidden' name='form_type' value='decide_transaction'/>
-									<input type="submit" class="left button btn" name='decision' value="Accept" />
-									<input type="submit" class="left button btn" name='decision' value="Decline" />
+									<div class="btn-group">
+									<input type="submit" class="left btn btn-large btn-success" name='decision' value="Accept" />
+									<input type="submit" class="left btn btn-large btn-danger" name='decision' value="Decline" />
+									</div>
 								</form>
 							<?php } ?>
 						<?php } elseif($transaction->status=="active"){ ?>
@@ -56,8 +58,8 @@
 								Wait For Other User To Write A Review
 							<?php } else { ?>
 								<p>It's go time! Arrange a meeting to complete the transaction in person and then write a review when you're done.</p>
-								<a href="#" class="left button" id="write_message">Write Message</a>
-								<a href="#" id="write_review" class="left button btn">Write Review</a>
+								<a href="#" class="left btn" id="write_message">Write Message</a>
+								<a href="#" id="write_review" class="left btn btn">Write Review</a>
 							<?php } ?>
 						<?php } ?>
 					</div>
@@ -77,7 +79,6 @@
 					<a href="#" class="user_image medium css_left">
 						<img src="<?php if(isset($author->photo->id)) { echo $author->photo->thumb_url; } else { echo $author->default_photo->thumb_url; }?>" alt="<?php echo $author->screen_name;?>" />
 					</a>					
-					<?php echo $author->screen_name; ?>
 					<div class="text clearfix css_left">
 						
 						<a href="<?php echo site_url('people/'.$M->user_id);?>" class="metadata-author clearfix">
@@ -101,7 +102,7 @@
 						<input type="hidden" name="transaction_id" value="<?php echo $transaction->id; ?>" />
 						<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
 						<label>Send a Message</label>
-						<textarea name="body" id="message_body"></textarea>
+						<textarea rows="5" name="body" id="message_body"></textarea>
 							<?php if ($transaction->status == "pending" && !$demander) { ?>
 							<!--	<fieldset>
 									<legend>Do you agree to participate in this transaction?</legend>
@@ -109,7 +110,7 @@
 									<input id="r2" type="radio" value="decline" name="decision">Decline<BR />
 								</fieldset> -->
 							<?php } ?>	
-						<input type="submit" value="Send" class="button btn" />
+						<input type="submit" value="Send" class="button btn btn-primary" />
 					</form>
 				</li>
 			</ul>
@@ -123,15 +124,30 @@
 					<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
 					<h3>Review This Transaction</h3>
 					<p><!--@todo improve language-->Please include a short description of the transaction and relevant details like who gave what to whom, whether or not the other user was nice, etc. Reviews will be published simultaneously.</p>
-					<textarea name="body" rows="6"></textarea>
-					<fieldset>
+					<div class='control-group'>
+						<textarea name="body" rows="6" class="required"></textarea>
+						<label for="body" class="error" style="display: none;">Please write a description for your review.</label>
+					</div>
+					<fieldset class="required">
+						<div class='control-group'>
 						<legend>Rate</legend>
-						<input id="r3" type="radio" value="positive" name="rating">Positive &nbsp
-						<input id="r4" type="radio" value="neutral" name="rating">Neutral &nbsp
-						<input id="r5" type="radio" value="negative" name="rating">Negative<BR />
+						<label class="radio css_left" style="margin-right: 10px;">
+							<input id="r3" type="radio" class="required" value="positive" name="rating">
+							Positive
+						</label>
+						<label class="radio css_left" style="margin-right: 10px;">
+							<input id="r4" type="radio" value="neutral" name="rating">	
+							Neutral
+						</label>
+						<label class="radio css_left">
+							<input class="required" id="r5" type="radio" value="negative" name="rating">
+							Negative
+						</label>
+						<label for="rating" style="clear: left; display: none;" class="error">Please rate the transaction.</label>
+						</div>
 					</fieldset>
 					<div class="css_right">
-						<input type="submit" value="Submit Review" class="button btn clearfix"/>
+						<input type="submit" value="Submit Review" class="btn-primary btn clearfix"/>
 						<a href="#" class="hide_modal">Cancel</a>
 					</div>
 				</form>
@@ -257,7 +273,14 @@
 $(function(){
 	$("table tr:even").addClass("odd");
 	$("table tr:odd").addClass("even");
-	
+	$("form#review").validate({
+		highlight: function(label) {
+			$(label).closest('.control-group').addClass('error').removeClass('success');
+	  	},
+	  	success: function(label) {
+		  	label.hide().closest('.control-group').addClass('success');
+	  	}
+	});
 	$(".review").jqm({ 	
 		trigger: '#write_review'
 	});

@@ -57,7 +57,8 @@
 				<span class='key'>Tags</span>
 				<span class='value'>
 					<?php foreach($G->tags as $tag) { ?>
-						<a href="<?php echo UI::tag_url($tag);?>" class='tag'>
+						<a href="<?php echo UI::tag_url($tag,$G->type);?>" class='btn tag'>
+							<i class="icon-tag"></i>
 							<?php echo $tag; ?>
 						</a>
 					<?php } ?>
@@ -103,7 +104,7 @@
 						<input type="hidden" name="type" value="take">
 						<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 						<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />
-						<input type="submit" class="blue" value="Request This Gift" />
+						<input type="submit" class="btn btn-primary" value="Request This Gift" />
 					</form>
 				</div>
 			<?php } 
@@ -122,7 +123,7 @@
 					<input type="hidden" name="type" value="give">
 					<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 					<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />
-					<input type="submit" class="blue" value="Offer to Give" />
+					<input type="submit" class="btn btn-primary" value="Offer to Give" />
 				</form>
 			</div>
 			<?php }?>
@@ -131,26 +132,28 @@
 	
 	<div class='alt_bottom'>
 	
+		<div class="css_right" style="margin: 5px 5px 0 0;">
 		<?php if($is_owner){ ?>
 		
 			<!-- Edit Gift Buttons -->
-			<a href="<?php echo site_url($G->type."s/".$G->id."/edit");?>" id="toolbar_edit_gift" class="gift_toolbar">
-				<span class='ui-icon ui-icon-pencil left'></span>
+			<a href="<?php echo site_url($G->type."s/".$G->id."/edit");?>" id="toolbar_edit_gift" class="btn">
+				<i class="icon-pencil"></i>
 				Edit Info
 			</a>
 			
-			<a href="<?php echo site_url($G->type."s/".$G->id."/photo_add");?>" id="toolbar_edit_gift" class="gift_toolbar">
-				<span class='ui-icon ui-icon-image left'></span>
-				Add Photos!
+			<a href="<?php echo site_url($G->type."s/".$G->id."/photos");?>" id="toolbar_edit_gift" class="btn">
+				<i class="icon-camera"></i>
+				Add Photos
 			</a>
 		
 		<?php } ?>
 		<?php if(!empty($photos)) { ?>
-			<a  id="show_photos" class="gift_toolbar" >
-				<span class='ui-icon ui-icon-image left'></span>
+			<a  id="show_photos" class="btn" >
+				<i class="icon-camera"></i>
 				See more photos
 			</a>
 		<?php } ?>
+		</div>
 		
 			
 	
@@ -262,16 +265,13 @@
 </div>
 
 <div id="more_photos">
-<?php //foreach($photos as $row) { echo "<img src='".$row['thumb_url']."'/>"; } ?>
+<?php 
+//foreach($photos as $row) { echo "<img src='".$row['thumb_url']."'/>"; } 
+?>
 
 </div>
 
-<div id='request_gift' class='jqmWindow'>
-</div>
-
-<script type='text/javascript'>
-	var tags = new Array();
-	
+<script type='text/javascript'>	
 $(function(){
 		
 	
@@ -312,51 +312,5 @@ $(function(){
 		$("#give_request_form").delay(100).slideDown("slow");
 		return false;
 	});
-	
-	$("#request_gift").jqm({ 	
-		ajax: "<?php echo site_url('gifts/'.$G->id.'/request/ajax'); ?>", 
-		trigger: '#request_this_gift',
-		onLoad: function(){
-			$(".buttonset").buttonset();
-			$("#request_gift").jqmAddClose("#cancel_request");
-		}
-	});
-
-	$(".button").button();
-	$(".buttonset").buttonset();
-
-	$(".ignore_request").live('click', function(){ 
-		var div = $(this).parent().parent().parent();
-	
-		$.post("<?php echo site_url('ajax/request'); ?>", 
-			{ type: 'ignore', 'request_id': $(this).attr('rel') }, 
-			function ( data ) {
-				div.hide().delay(500);
-				$.notifyBar( { html: data, cls: 'success', delay: 4000, animationSpeed: 'slow'});
-			}, 'html'
-		);
-		return false;
-	});
-	$("a.accept_request").live("click", function(){
-		var div = $(this).parent();
-		var divdiv = $(this).parent().parent();
-		$.post("<?php echo site_url('ajax/request'); ?>", { type: 'accept', 'request_id': $(this).attr('rel') }, function (data) {
-			div.hide();
-			divdiv.append(data);
-		}, 'html');
-		return false;
-	});
-	$("a#view_requests").live("click", function(){
-		var div = $(this).parent().parent();
-		$.post("<?php echo site_url('gifts/'.$G->id.'/requests'); ?>", { ajax: 'TRUE' }, 
-			function(data){ 
-				div.html(data);
-				$(".button").button();
-			},
-			'html'
-		);
-		return false;
-	});
-	
 });
 </script>

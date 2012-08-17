@@ -74,7 +74,7 @@
 		</td>
 	</tr>
 	<tr class="buttons">
-		<td colspan="2"><input type="submit" value="Save" /></td>
+		<td colspan="2"><input class="btn btn-primary btn-large" type="submit" value="Save" /></td>
 	</tr>
 
 </table>
@@ -88,7 +88,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("input:submit").button();
 	//$('#type').fadeOut('fast');
 	$('#type option[value=<?php echo $U->type; ?>]').attr('selected', 'selected')
 

@@ -1,3 +1,9 @@
+-- -----------------------------------------------------
+-- GiftFlow Database v2.7
+-- Last Modified: 06-21-2012
+-- See Change Log at /database/stable/gift-server-migration-script.sql
+-- -----------------------------------------------------
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
@@ -20,11 +26,12 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `ci_sessions` (
   `session_id` VARCHAR(40) NOT NULL DEFAULT '0' ,
-  `ip_address` VARCHAR(16) NOT NULL DEFAULT '0' ,
-  `user_agent` VARCHAR(50) NOT NULL ,
+  `ip_address` VARCHAR(45) NOT NULL DEFAULT '0' ,
+  `user_agent` VARCHAR(120) NOT NULL ,
   `last_activity` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,
   `user_data` TEXT NOT NULL ,
-  PRIMARY KEY (`session_id`) )
+  PRIMARY KEY (`session_id`),
+  INDEX last_activity_idx (`last_activity`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Stores session information.' ;
@@ -42,6 +49,8 @@ CREATE  TABLE IF NOT EXISTS `photos` (
   `caption` VARCHAR(200) NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`user_id`),
+  INDEX (`good_id`),
   CONSTRAINT `photos_ibfk_1`
     FOREIGN KEY (`user_id` )
     REFERENCES `users` (`id` )
@@ -56,15 +65,11 @@ AUTO_INCREMENT = 83
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'The `photos` data model stores information about photos for ' ;
 
-CREATE INDEX `user_id` ON `photos` (`user_id` ASC) ;
-
-CREATE INDEX `photos_ibfk_2` ON `photos` (`good_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `users`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
   `role` ENUM('admin','user') NOT NULL DEFAULT 'user' ,
   `ip_address` CHAR(16) NOT NULL ,
@@ -98,6 +103,10 @@ CREATE  TABLE IF NOT EXISTS `users` (
   `updated` DATETIME NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`screen_name`),
+  INDEX (`first_name`),
+  INDEX (`last_name`),
+  INDEX (`default_location_id`),
   CONSTRAINT `locations_users_fk`
     FOREIGN KEY (`default_location_id` )
     REFERENCES `locations` (`id` )
@@ -111,16 +120,6 @@ CREATE  TABLE IF NOT EXISTS `users` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 532
 DEFAULT CHARACTER SET = utf8;
-
-CREATE INDEX `locations_users_fk` ON `users` (`default_location_id` ASC) ;
-
-CREATE INDEX `photos_users` ON `users` (`default_photo_id` ASC) ;
-
-CREATE INDEX `user_screen_name` ON `users` (`screen_name` ASC) ;
-
-CREATE INDEX `user_first_name` ON `users` (`first_name` ASC) ;
-
-CREATE INDEX `user_last_name` ON `users` (`last_name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -141,6 +140,9 @@ CREATE  TABLE IF NOT EXISTS `locations` (
   `updated` DATETIME NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`user_id`),
+  INDEX latlng (`latitude` ASC, `longitude` ASC),
+  INDEX (`address`),
   CONSTRAINT `locations_users`
     FOREIGN KEY (`user_id` )
     REFERENCES `users` (`id` )
@@ -151,11 +153,6 @@ AUTO_INCREMENT = 241
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'The `locations` data model stores place information for both' ;
 
-CREATE INDEX `user_id` ON `locations` (`user_id` ASC) ;
-
-CREATE INDEX `locations_users` ON `locations` (`user_id` ASC) ;
-
-CREATE INDEX `latlng` ON `locations` (`latitude` ASC, `longitude` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -176,6 +173,12 @@ CREATE  TABLE IF NOT EXISTS `goods` (
   `updated` DATETIME NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`location_id` ASC) ,
+  INDEX (`user_id` ASC) ,
+  INDEX (`default_photo_id` ASC) ,
+  INDEX (`category_id` ASC) ,
+  INDEX (`type` ASC) ,
+  INDEX (`title` ASC) ,
   CONSTRAINT `goods_ibfk_1`
     FOREIGN KEY (`location_id` )
     REFERENCES `locations` (`id` )
@@ -199,18 +202,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 358
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'The `goods` data object is an abstraction which represents b' ;
-
-CREATE INDEX `location_id` ON `goods` (`location_id` ASC) ;
-
-CREATE INDEX `user_id` ON `goods` (`user_id` ASC) ;
-
-CREATE INDEX `default_photo_id` ON `goods` (`default_photo_id` ASC) ;
-
-CREATE INDEX `category_id` ON `goods` (`category_id` ASC) ;
-
-CREATE INDEX `good_type` ON `goods` (`type` ASC) ;
-
-CREATE INDEX `good_title` ON `goods` (`title` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -239,6 +230,11 @@ CREATE  TABLE IF NOT EXISTS `demands` (
   `updated` DATETIME NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+
+  INDEX (`user_id` ASC),
+  INDEX (`transaction_id` ASC),
+  INDEX (`good_id` ASC),
+
   CONSTRAINT `demands_goods_ibfk_1`
     FOREIGN KEY (`good_id` )
     REFERENCES `goods` (`id` )
@@ -253,12 +249,6 @@ CREATE  TABLE IF NOT EXISTS `demands` (
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-CREATE INDEX `user_id` ON `demands` (`user_id` ASC) ;
-
-CREATE INDEX `transaction_id` ON `demands` (`transaction_id` ASC) ;
-
-CREATE INDEX `good_id` ON `demands` (`good_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -300,6 +290,9 @@ CREATE  TABLE IF NOT EXISTS `messages` (
   `body` VARCHAR(10000) NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`thread_id`),
+  INDEX (`user_id`),
+  INDEX (`transaction_id`),
   CONSTRAINT `messages_ibfk_1`
     FOREIGN KEY (`user_id` )
     REFERENCES `users` (`id` )
@@ -314,12 +307,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Single messages, connected via thread or transaction' ;
 
-CREATE INDEX `thread_id` ON `messages` (`thread_id` ASC) ;
-
-CREATE INDEX `user_id` ON `messages` (`user_id` ASC) ;
-
-CREATE INDEX `transaction_id` ON `messages` (`transaction_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `events`
@@ -333,6 +320,10 @@ CREATE  TABLE IF NOT EXISTS `events` (
   `message_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`user_id`),
+  INDEX (`event_type_id`),
+  INDEX (`message_id`),
+  INDEX (`transaction_id`),
   CONSTRAINT `notifications_ibfk_1`
     FOREIGN KEY (`event_type_id` )
     REFERENCES `event_types` (`id` )
@@ -355,14 +346,6 @@ CREATE  TABLE IF NOT EXISTS `events` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `notifications_ibfk_1` ON `events` (`event_type_id` ASC) ;
-
-CREATE INDEX `user_id` ON `events` (`user_id` ASC) ;
-
-CREATE INDEX `notifications_ibfk_3` ON `events` (`message_id` ASC) ;
-
-CREATE INDEX `notifications_ibfk_4` ON `events` (`transaction_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `followings_users`
@@ -372,6 +355,8 @@ CREATE  TABLE IF NOT EXISTS `followings_users` (
   `following_id` INT(10) UNSIGNED NOT NULL ,
   `user_id` INT(10) UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`following_id`),
+  INDEX (`user_id`),
   CONSTRAINT `followings_users_ibfk_1`
     FOREIGN KEY (`following_id` )
     REFERENCES `users` (`id` )
@@ -386,24 +371,20 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 118
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `following_id` ON `followings_users` (`following_id` ASC) ;
-
-CREATE INDEX `user_id` ON `followings_users` (`user_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `tags`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `tags` (
   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(100) NOT NULL ,
+  `name` VARCHAR(100) UNIQUE NOT NULL ,
   `count` INT(10) NOT NULL DEFAULT '0' ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`),
+	INDEX(`name`)
+ )
 ENGINE = InnoDB
 AUTO_INCREMENT = 483
 DEFAULT CHARACTER SET = utf8;
-
-CREATE UNIQUE INDEX `name` ON `tags` (`name` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -414,6 +395,8 @@ CREATE  TABLE IF NOT EXISTS `goods_tags` (
   `good_id` INT(10) UNSIGNED NOT NULL ,
   `tag_id` INT(10) UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX(`good_id`),
+  INDEX(`tag_id`),
   CONSTRAINT `goods_tags_ibfk_1`
     FOREIGN KEY (`good_id` )
     REFERENCES `goods` (`id` )
@@ -429,10 +412,6 @@ AUTO_INCREMENT = 837
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Relates `goods` with `tags`' ;
 
-CREATE INDEX `good_id` ON `goods_tags` (`good_id` ASC) ;
-
-CREATE INDEX `tag_id` ON `goods_tags` (`tag_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `notifications`
@@ -443,14 +422,12 @@ CREATE  TABLE IF NOT EXISTS `notifications` (
   `user_id` INT(11) NOT NULL ,
   `enabled` TINYINT(4) NOT NULL DEFAULT '1' ,
   `created` DATETIME NULL DEFAULT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`),
+  INDEX (`user_id`),
+  INDEX (`event_id`)
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `notifications_users` ON `notifications` (`user_id` ASC) ;
-
-CREATE INDEX `notifications_events` ON `notifications` (`event_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `redirects`
@@ -465,7 +442,6 @@ AUTO_INCREMENT = 1227
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Stores redirects so user can be sent to place they were inte' ;
 
-
 -- -----------------------------------------------------
 -- Table `reviews`
 -- -----------------------------------------------------
@@ -479,6 +455,9 @@ CREATE  TABLE IF NOT EXISTS `reviews` (
   `updated` DATETIME NOT NULL ,
   `created` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`reviewer_id`),
+  INDEX (`reviewed_id`),
+  INDEX (`transaction_id`),
   CONSTRAINT `reviews_ibfk_4`
     FOREIGN KEY (`transaction_id` )
     REFERENCES `transactions` (`id` ),
@@ -487,15 +466,10 @@ CREATE  TABLE IF NOT EXISTS `reviews` (
     REFERENCES `users` (`id` ),
   CONSTRAINT `reviews_ibfk_6`
     FOREIGN KEY (`reviewed_id` )
-    REFERENCES `users` (`id` ))
+    REFERENCES `users` (`id` )
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-CREATE INDEX `reviews_users_infk_1` ON `reviews` (`reviewer_id` ASC) ;
-
-CREATE INDEX `reviews_users_infk_2` ON `reviews` (`reviewed_id` ASC) ;
-
-CREATE INDEX `reviews_transactions_infk_1` ON `reviews` (`transaction_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -505,16 +479,16 @@ CREATE  TABLE IF NOT EXISTS `terms` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `type` ENUM('alert_template','language') NOT NULL COMMENT 'Acceptable values: \'alert_template\',\'language\'' ,
   `language` ENUM('en','es','fr','de','it','nl','sv','no','da','fi','is','ru','et','lv','pl','pt','ja') NOT NULL DEFAULT 'en' ,
-  `name` VARCHAR(255) NOT NULL ,
+  `name` VARCHAR(255) NOT NULL UNIQUE,
   `subject` VARCHAR(200) NOT NULL COMMENT 'title/subject of alert notifications' ,
   `body` TEXT NOT NULL ,
-  PRIMARY KEY (`id`) )
+  PRIMARY KEY (`id`),
+  INDEX(`name`)
+)
 ENGINE = InnoDB
 AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8, 
-COMMENT = 'The `terms` data model stores alert templates and notificati' ;
-
-CREATE UNIQUE INDEX `name` ON `terms` (`name` ASC) ;
+COMMENT = '`terms` stores alert templates and notifications' ;
 
 
 -- -----------------------------------------------------
@@ -525,6 +499,9 @@ CREATE  TABLE IF NOT EXISTS `threads_users` (
   `thread_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
   `user_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`thread_id`),
+  INDEX (`user_id`),
+  INDEX (`user_id`),
   CONSTRAINT `threads_users_ibfk_1`
     FOREIGN KEY (`thread_id` )
     REFERENCES `threads` (`id` )
@@ -538,21 +515,17 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8, 
 COMMENT = 'Join table relating `threads` to `users`, a many-to-many rel' ;
 
-CREATE INDEX `thread_id` ON `threads_users` (`thread_id` ASC) ;
-
-CREATE INDEX `recipient_id` ON `threads_users` (`user_id` ASC) ;
-
-CREATE INDEX `user_id` ON `threads_users` (`user_id` ASC) ;
-
 
 -- -----------------------------------------------------
 -- Table `transactions_users`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `transactions_users` (
+CREATE TABLE IF NOT EXISTS `transactions_users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT ,
   `transaction_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
   `user_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`user_id`),
+  INDEX (`transaction_id`),
   CONSTRAINT `transactions_users_ibfk_4`
     FOREIGN KEY (`transaction_id` )
     REFERENCES `transactions` (`id` ),
@@ -562,11 +535,6 @@ CREATE  TABLE IF NOT EXISTS `transactions_users` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `transactions_users_infk_1` ON `transactions_users` (`user_id` ASC) ;
-
-CREATE INDEX `transactions_users_infk_2` ON `transactions_users` (`transaction_id` ASC) ;
-
-
 -- -----------------------------------------------------
 -- Table `user_openids`
 -- -----------------------------------------------------
@@ -575,6 +543,7 @@ CREATE  TABLE IF NOT EXISTS `user_openids` (
   `openid` VARCHAR(240) NOT NULL ,
   `user_id` INT(10) UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`user_id`),
   CONSTRAINT `user_id`
     FOREIGN KEY (`user_id` )
     REFERENCES `users` (`id` )
@@ -584,8 +553,6 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = utf8
 ROW_FORMAT = COMPACT;
-
-CREATE INDEX `user_id` ON `user_openids` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -597,6 +564,7 @@ CREATE  TABLE IF NOT EXISTS `user_settings` (
   `notify_messages` INT(1) NOT NULL DEFAULT '1' ,
   `updated` DATETIME NOT NULL ,
   PRIMARY KEY (`id`) ,
+  INDEX (`user_id`),
   CONSTRAINT `user_settings_ibfk_1`
     FOREIGN KEY (`user_id` )
     REFERENCES `users` (`id` )
@@ -606,7 +574,18 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 458
 DEFAULT CHARACTER SET = utf8;
 
-CREATE INDEX `user_id` ON `user_settings` (`user_id` ASC) ;
+CREATE TABLE IF NOT EXISTS `watches` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`user_id` INT(10) UNSIGNED NOT NULL,
+	`keyword` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `watches_users`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `users` (`id`)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 

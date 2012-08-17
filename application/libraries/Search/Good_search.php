@@ -294,9 +294,10 @@ class Good_search extends Search
 			if($query_type=="keyword")
 			{
 				//Notice the extra bracket added before G.title - used to group the like or_like clauses 
-				$this->CI->db->like('(G.title',$options->keyword);
-				$this->CI->db->or_like("G.description",$options->keyword);
-				$this->CI->db->bracket('close','like'); //bracket closed  custom method in DB_active_Rec (at bottom)
+				$this->CI->db->where(sprintf("( G.title LIKE '%s' OR 
+												G.description LIKE '%s')",
+												$options->keyword,
+												$options->keyword));
 			}
 			elseif($query_type=="tag")
 			{
@@ -329,9 +330,12 @@ class Good_search extends Search
 		//		$this->CI->db->join("locations AS L ","G.location_id = L.id");
 		//		$this->_geosearch_clauses($options->location);
 		//	}
-						
-			$queries[$query_type] = $this->CI->db->_compile_select();
-			$this->CI->db->_reset_select();
+			
+			// NB! get_compiled_select() manually added to end of core active 
+			// record  library. The source code was taken directly from the 
+			// codeigniter development branch
+			
+			$queries[$query_type] = $this->CI->db->get_compiled_select();
 		}
 		
 		// Set field to order by
@@ -423,15 +427,13 @@ class Good_search extends Search
 			D.type AS demand_type, 
 			DU.id AS demander_id,
 			DU.screen_name AS demander_screen_name,
-			G.good_id, 
-			G.good_title, 
+			D.good_id, 
 			T.id AS transaction_id,
 			T.status AS transaction_status,
 			T.created AS transaction_created')
 			->from('demands AS D ')
 			->join('transactions AS T ','T.id=D.transaction_id')
 			->join('transactions_users AS TU ','T.id=TU.transaction_id')
-			->join('goods_view AS G ','G.good_id=D.good_id')
 			->join('users AS DU ','D.user_id=DU.id')
 			->where('D.good_id',$this->good_id)
 			->where_in('T.status',$status)

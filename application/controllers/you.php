@@ -12,27 +12,6 @@ class You extends CI_Controller {
 		$this->data = $this->util->parse_globals($options = array('geocode_ip' => TRUE));
 		$this->auth->bouncer(1);
 		$this->data['welcome'] = FALSE;
-     //See if user has active or pending transactions
-    //If so, light up the Your Inbox menu option
-    $this->data['trans_check'] = FALSE;
-		$this->load->library('Search/Transaction_search');
-		$TS = new Transaction_search;
-		
-		// Compile Search Options
-		$options = array(
-			"user_id"=>$this->data['logged_in_user_id'],
-			"transaction_status"=>array(
-				"active",
-				"pending"
-			),
-			"limit"=>200
-		);
-		$trans_checker = $TS->find($options);
-	  if(count($trans_checker) > 0)
-    {
-      $this->data['trans_check'] = TRUE;
-      $this->data['new_trans'] = count($trans_checker);
-    }  
 		
 	}
 
@@ -220,6 +199,29 @@ class You extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 	
+	function watches()
+	{
+		$this->load->library('datamapper');
+		$this->load->model('watch');
+
+		// Execute tag search
+		$this->data['watches'] = $this->watch->get_mine($this->data['logged_in_user_id']);
+	
+		// Set view variables
+		$this->data['title'] = "My Watches";
+		
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		
+		// show the form for adding new watches
+		$this->data['form'] = $this->load->view('you/includes/add_watch_form',$this->data,TRUE);
+
+		// Load views
+		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header',$this->data);
+		$this->load->view('you/watches', $this->data);
+		$this->load->view('footer', $this->data);
+	}
+
 	public function transactions( $id = NULL )
 	{
 		// If ID provided, load individual transaction
@@ -574,6 +576,10 @@ class You extends CI_Controller {
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
+		// Load form validation plugin
+		$this->data['js'][] = 'jquery-validate.php';
+
+		
 		// Load Views
 		$this->load->view('header', $this->data);
 		$this->load->view('you/transaction', $this->data);	
@@ -609,7 +615,7 @@ class You extends CI_Controller {
 	public function add_good()
 	{
 		$type = !empty($_GET['type']) ? $_GET['type'] : "gift";
-		
+		$this->data['add']=TRUE;
 		$this->data['categories'] = $this->db->order_by("name","ASC")
 			->get("categories")
 			->result();
@@ -636,6 +642,5 @@ class You extends CI_Controller {
 			$this->load->view('you/add_good', $this->data);
 			$this->load->view('footer', $this->data);
 		}
-
-	}
+	}	
 }

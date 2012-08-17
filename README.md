@@ -4,7 +4,9 @@ Giftflow is a web application where people can share resources, meet each others
 
 The source code for this project was released per request of the users. We put it here so people can deploy their own gift economy web site, and so that developers can continue to contribute and discuss the future of this application.
 
-If you are looking to contribute or need help setting up a development environment see the [Development Wiki](https://github.com/GiftFlow/giftflow/wiki/Development).
+If you would like to get involved please join the discussion in our [mailing list](https://github.com/GiftFlow/giftflow/wiki/Development).
+
+If you are looking to contribute or need help setting up a development environment, see the [Development Wiki](https://github.com/GiftFlow/giftflow/wiki/Development).
 
 
 ## Installation

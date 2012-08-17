@@ -193,8 +193,7 @@ class Transaction_search extends Search
 		// Find Users by using the User_search library and then passing to the 
 		// factory
 		$users = $User_search->find(array(
-			"transaction_id"=>$transaction_id_list,
-			"limit"=>NULL
+			"transaction_id"=>$transaction_id_list
 		));
 		$Factory->set_users($users);
 		
@@ -210,8 +209,7 @@ class Transaction_search extends Search
 		// using the Good_search library and then passing to the factory
 		$good_id_list = $Factory->get_ids("goods");
 		$goods = $Good_search->find(array(
-			"good_id"=>$good_id_list,
-			"limit"=>NULL
+			"good_id"=>$good_id_list
 		));
 		$Factory->set_goods($goods);
 		
@@ -247,8 +245,10 @@ class Transaction_search extends Search
 		if($options->include_events)
 		{
 			// @todo load events
-			$result = $this->CI->db->from('events_view')
-				->where_in('transaction_id', $transaction_id_list)
+			$result = $this->CI->db->from('events AS E ')
+				->select('E.*, ET.title AS event_type')
+				->where_in('E.transaction_id', $transaction_id_list)
+				->join('event_types AS ET ','E.event_type_id=ET.id')
 				->get()
 				->result();
 			

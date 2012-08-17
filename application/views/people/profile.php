@@ -226,7 +226,7 @@ if(!$active) { echo "DISABLED"; }
 		<input type="hidden" name="decider_id" value="<?php echo $this->uri->segment(2); ?>" />
 		<textarea name="reason"></textarea>
 		<br />
-		<p><input style="float:left;" type="submit" value="Send" class="give_button" /></p>
+		<p><input style="float:left;" type="submit" value="Send" class="btn btn-large" /></p>
 		<br />
 		
 			<?php if(!empty($potential_gifts)) {
@@ -259,35 +259,26 @@ if(!$active) { echo "DISABLED"; }
 </div>
 <div id='profile_right'>
 <?php if($logged_in) { ?>
-	<div class='profile_item'>
-		<?php if($u->id!=$logged_in_user_id) { ?>
-			<?php if(isset($is_following)&&$is_following) { ?>
-				<a class='button' id='already_following'>
-					Following
-				</a>
-				<br />
-				<a href='<?php echo site_url('people/'.$u->id.'/unfollow'); ?>'>
-					Unfollow
-				</a> 
-			<?php } else { ?>
-				<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='button' id='follow_this'>
+<div class='profile_item'>
+	<?php if($u->id!=$logged_in_user_id) { ?>
+		<?php if(isset($is_following)&&$is_following) { ?>
+			<a class='btn btn-large disabled btn-primary' id='already_following'>
+				<i class="icon-ok icon-white"></i>
+				Following
+			</a>
+			<br />
+			<a href='<?php echo site_url('people/unfollow/'.$u->id); ?>'>
+				Unfollow
+			</a> 
+		<?php } else { ?>
+			<a href='<?php echo site_url('people/follow/'.$u->id); ?>' class='btn btn-primary btn-large' id='follow_this'>
+				<i class="icon-plus icon-white"></i>
 				Follow
-				</a>
-			<?php } ?>
+			</a>
 		<?php } ?>
-		
-	</div>
-	<!-- thank you button that triggers modal dialog form -->
-	<div class='profile_item'>
-		<a class='button jqModal' id='thankyou'>
-			Thank 
-		</a>
-		<span class='metadata' id='thanktext'></span>
-	</div>
-	<!-- modal dialog form opened up by thankyou button -->
-	<div id = 'thankyouDialog' class='jqmWindow'>
-		Loading...
-	</div>
+	<?php } ?>
+	
+</div>
 <?php } ?>
 
 <?php if(!empty($u->default_location->city)) { ?>
@@ -405,8 +396,6 @@ $(function(){
 		$(".profile_pane").hide();
 		$("#"+$(this).attr("rel")).show();
 	});
-	$("a#already_following").button({ icons: { primary: 'ui-icon-check' } } );
-	$(".give_button").button();
 
 
 	var show = <?php echo $show_gallery; ?>;

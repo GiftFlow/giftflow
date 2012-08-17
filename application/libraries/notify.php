@@ -60,7 +60,7 @@ class Notify
 		$A->parseables = array(
 			'user_email' => $data->U->email, 
 			'activation_link' => site_url('member/activate/'.$data->U->activation_code),
-			'subject' => "Please confirm your account"
+			'subject' => "Please confirm your account",
 		);
 		
 		// Set template name
@@ -68,6 +68,34 @@ class Notify
 		
 		// Set recipient
 		$A->to = $data->U->email;
+      
+      	// send email
+		$A->send();
+	}
+	
+	/**
+	 * Sends message to user if a new posting matches one of their watches
+	 * 
+	 * @param type $watch
+	 * @param type $good 
+	 */
+	function alert_user_watch_match($watch, $good) {
+		
+		$A = new Alert();
+		
+      	// Map hook data onto email template parseables array
+		$A->parseables = array(
+			'subject' => "An item you may be interested was posted",
+			'link' => site_url('gifts/'.$good->id),
+			'title' => $good->title,
+			'recipient_name' => $watch->screen_name
+		);
+		
+		// Set template name
+		$A->template_name = 'watch_match';
+		
+		// Set recipient
+		$A->to = $watch->email;
       
       	// send email
 		$A->send();

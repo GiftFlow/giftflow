@@ -38,7 +38,7 @@ if(isset($css))
 {
 	foreach($css as $val)
 	{
-		echo '<link rel="stylesheet" href="'.base_url().'assets/css/'.$val.'" />';
+		echo '<link rel="stylesheet" href="'.base_url('assets/css/'.$val).'" />';
 	}
 }
 ?>
@@ -73,7 +73,7 @@ if(isset($css))
 
 <?php if(isset($js)){ foreach($js as $val){ ?>
 	<!-- Custom JavaScript Files -->
-	<script type="text/javascript" src="<?php echo base_url().'assets/javascript/'.$val;?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('assets/javascript/'.$val);?>"></script>
 <?php } } ?>
 
 <?php if(!empty($addthis) && $addthis == TRUE){ ?>
@@ -100,7 +100,6 @@ if(isset($css))
 						<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>' id='you'>
 							<?php if(!empty($userdata['photo_thumb_url'])){ echo "<img src='".$userdata['photo_thumb_url']."' id='you_img'  />"; }  ?>
 							<span style='float: left; '>Profile</span>
-							<!--<span class='ui-icon ui-icon-triangle-1-s left' style="background-image: url('<?php echo base_url(); ?>assets/css/green/images/ui-icons_ffffff_256x240.png'); margin-left: 10px;"></span>-->
 							<div style='clear: both;'>
 							</div>
 						</a>
@@ -168,34 +167,38 @@ if(isset($css))
 
 		<!-- Main Menu -->
 		<ul id='nav'>
-			<li>
+			
 				<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<a href="<?php echo site_url(); if($segment==false || $segment[1]=="you") echo '" class="active'; ?>">
+				<li <?php if($segment==false || $segment[1]=="you") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url();?>"">
 					You
 				</a>
+				</li>
 				<?php } else { ?>
-				<a href="<?php echo site_url(); if($segment==false) echo '" class="active'; ?>">
+				<li <?php if($segment==false) echo 'class="active"'; ?>>
+				<a href="<?php echo site_url();?>">
 					Home
 				</a>
+				</li>
 				<?php } ?>
-			</li>
-			<li>
-				<a href="<?php echo site_url('find/gifts/'); if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active'; ?>">
+
+			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('find/gifts/');?>">
 					Gifts
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('find/needs/'); if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('find/needs/');?>">
 					Needs
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('people'); if($segment[1]=="people") echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="people") echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('people');?>">
 					People
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('about'); if($segment[1]=="about") echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url('about');?>">
 					About
 				</a>
 			</li>

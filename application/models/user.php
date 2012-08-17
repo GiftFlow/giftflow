@@ -71,6 +71,7 @@ class User extends DataMapperExtension {
 		'user'=>array(
 			'other_field'=>'following'
 		),
+		'watch',
 		'user_openid'
 	);
 	

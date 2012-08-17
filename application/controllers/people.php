@@ -304,11 +304,11 @@ class People extends CI_Controller {
 		}
 		elseif($U->default_photo->exists())
 		{
-			$this->data['profile_thumb'] = base_url().$U->default_photo->thumb_url;
+			$this->data['profile_thumb'] = base_url($U->default_photo->thumb_url);
 		}
 		else
 		{
-			$this->data['profile_thumb'] = base_url()."assets/images/user.png";
+			$this->data['profile_thumb'] = base_url("assets/images/user.png");
 		}		
 		
 		$U->photos->get();
