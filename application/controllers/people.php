@@ -505,7 +505,7 @@ class People extends CI_Controller {
 
 		$TY->thanker_id = $this->data['logged_in_user_id'];
 		$TY->recipient_id = $form['recipient_id'];
-		$TY->gift_title = $form['thankyou_gift'];
+		$TY->gift_title = $form['gift'];
 		$TY->body = $form['body'];
 
 		if(!$TY->save()) {
