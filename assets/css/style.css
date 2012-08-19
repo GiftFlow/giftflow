@@ -1178,12 +1178,12 @@ p.chunk_empty {
 }
 
 .lineup {
-	width: 100%
+	width: 100%;
 	height:auto;
 	margin-bottom:10px;
 }
-.profile_row{
-	padding-top 10px;
+.profile_row {
+	padding-top: 10px;
 }
 #profile_header {
 	margin-top: 20px;
@@ -1201,7 +1201,7 @@ p.chunk_empty {
 	font-weight: 300;
 }
 .pEmpty {
-	color #666;
+	color: #666;
 	font-size: 20px;
 	text-shadow: 0 2px 0 #FFFFFF;
 	font-weight: 300;
@@ -1490,7 +1490,7 @@ ul#anonymous-menu li {
 	background-color:transparent;
 }
 #dropforgot {
-	font-size: .5em
+	font-size: .5em;
 	color: #004099;
 }
 ul.invite_grid{
@@ -2194,13 +2194,12 @@ ul#linked_accounts li span {
 	display:block;
 	width:100%;
 }
-#hyperlocal{
 
-#need_pic
-{
+#need_pic{
 	display:block;
 	margin: 23px 12px 0px 12px;
 }
+
 #hyperlocal
 {
 	width:100%;
@@ -2527,4 +2526,11 @@ span.event_summary {
 .thank_title {
 	font-weight:bold;
 	font-size: 16px;
+}
+.watchword {
+	padding: 11px 0px 0px 0px;
+	font-size: 15px;
+}
+.input-append {
+	padding: 5px;
 }

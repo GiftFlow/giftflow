@@ -278,7 +278,7 @@ class You extends CI_Controller {
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
 		// Breadcrumbs
-		$this->data['breadcrumbs'][0] = array(
+		/*$this->data['breadcrumbs'][0] = array(
 			"title"=>"You", 
 			"href"=>site_url('you')
 		);
@@ -298,9 +298,10 @@ class You extends CI_Controller {
 				"title"=>"Good #".$_GET['good_id']
 			);
 		}
-			
+		 */	
 		// Load Views
 		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header',$this->data);
 		$this->load->view('you/inbox', $this->data);	
 		$this->load->view('footer', $this->data);
 		
@@ -554,11 +555,12 @@ class You extends CI_Controller {
 			"href"=>site_url('you')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Transactions",
-			"href" =>site_url('you/transactions')
+			"title"=>"Inbox",
+			"href" =>site_url('you/inbox')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>$id
+			"title"=>$id,
+			'href' => site_url('you/view_transaction/'.$id)
 		);
 				
 		// Menu

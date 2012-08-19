@@ -24,7 +24,7 @@
 								<i class="icon-trash"></i>
 							  </a>
 								
-							<div class="metadata left">
+							<div class="metadata left watchword">
 								<?php echo $val->keyword; ?>
 							</div>
 								

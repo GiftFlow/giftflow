@@ -15,29 +15,30 @@
 		</a>
 	</li>
 -->
+
+	<li <?php if($segment[2]=='inbox'){ echo  "class='active'"; } else if($inbox_active) { echo "id='inbox_new'"; } ?>>
+		<a href='<?php echo site_url('you/inbox');?>'> 
+			Inbox<?php if($inbox_active) { echo " (".$inbox_active_count.")"; }?>
+		</a>
+	</li>
 	<li <?php if($segment[2]=='gifts'||($segment[1]=="gifts"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/gifts');?>'> 
-			Your Gifts
+			Gifts
 		</a>
 	</li>
 	<li <?php if($segment[2]=='needs'||($segment[1]=="needs"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/needs');?>' > 
-			Your Needs
+			Needs
 		</a>
 	</li>
 	<li <?php if($segment[2]=='watches'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/watches');?>' > 
-			Your Watches
-		</a>
-	</li>
-	<li <?php if($segment[2]=='inbox'){ echo  "class='active'"; } else if($inbox_active) { echo "id='inbox_new'"; } ?>>
-		<a href='<?php echo site_url('you/inbox');?>'> 
-      Your Inbox<?php if($inbox_active) { echo " (".$inbox_active_count.")"; }?>
+			Watches
 		</a>
 	</li>
 	<li <?php if($segment[1]=='account'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('account');?>' > 
-			Your Account
+			Account
 		</a>
 		<ul>
 			<li>
@@ -72,10 +73,5 @@
 			</li>
 			
 		</ul>
-	</li>
-	<li <?php if($segment[2]=='donate' || $segment[1]=="donate"){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('about/donate');?>' > 
-			Donate
-		</a>
 	</li>
 </ul>
