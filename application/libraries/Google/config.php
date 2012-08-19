@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 $this->CI->config->load('account',TRUE);
-$config = $this->config->config['account']
+$config = $this->config->config['account'];
 
 global $apiConfig;
 $apiConfig = array(

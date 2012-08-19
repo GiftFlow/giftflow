@@ -4,3 +4,4 @@ uploads/*.jpg
 uploads/thumb/*.jpg
 uploads/*.png
 uploads/thumb/*.png
+application/config/secrets.php

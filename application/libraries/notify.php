@@ -81,6 +81,8 @@ class Notify
 	 */
 	function alert_user_watch_match($watch, $good) {
 		
+		log_message('debug', "Sending watch notification email to user " . $watch->screen_name . " for item " . $good->title);
+		
 		$A = new Alert();
 		
       	// Map hook data onto email template parseables array
@@ -97,7 +99,7 @@ class Notify
 		// Set recipient
 		$A->to = $watch->email;
       
-      	// send email
+		// send email
 		$A->send();
 	}
 	

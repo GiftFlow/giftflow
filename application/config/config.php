@@ -11,8 +11,8 @@
 |	http://example.com/
 |
 */
-$config['base_url'] = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '').'://'.$_SERVER['HTTP_HOST'].str_replace('//','/',dirname($_SERVER['SCRIPT_NAME']).'/'); 
-$config['base_path'] = '/Applications/XAMPP/xamppfiles/htdocs/giftflow/'; // TODO: remove or set this dynamically
+$config['base_url'] = ''; // this is now automagically set in Config.php so we dont need to touch it
+$config['base_path'] = dirname(BASEPATH); // do we need to add a slash at the end?
 
 /*
 |--------------------------------------------------------------------------
@@ -174,7 +174,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 2;
 
 /*
 |--------------------------------------------------------------------------
@@ -218,7 +218,7 @@ $config['cache_path'] = '';
 | enabled you MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = "";
+$config['encryption_key'] = 'J,_K!Xkow5IJy3Wetl.p|4#bM|?IT{3{';
 
 /*
 |--------------------------------------------------------------------------

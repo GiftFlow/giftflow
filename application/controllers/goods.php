@@ -210,7 +210,6 @@ class Goods extends CI_Controller {
 			// some more relationships
 			if ( $this->G->save( array( $L, $U ) ) )
 			{
-				
 				// Save location object to user and gift
 				$U->save_location($L);
 				$U->default_location->get();
@@ -237,7 +236,7 @@ class Goods extends CI_Controller {
 				// scan the watch list to see if anyone should get notified
 				
 				$this->load->model('watch');
-				$watches = $this->watch->match($U->id, $this->G->title, $this->G->description);
+				$watches = $this->watch->match($this->G, $L);
 				
 				$this->load->library('notify');
 				
@@ -259,6 +258,7 @@ class Goods extends CI_Controller {
 		show_error("Good didn't save properly.");
 		return FALSE;
 	}
+	
 	/**
 	*	Main "View Gift" or "View Need" page
 	*/
