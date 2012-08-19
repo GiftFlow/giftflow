@@ -629,8 +629,8 @@ class Account extends CI_Controller {
 		
 		foreach($this->U->photos as $val)
 		{
-			$val->thumb_url = site_url().$val->thumb_url;
-			$val->url = site_url().$val->url;
+			$val->thumb_url = base_url($val->thumb_url);
+			$val->url = base_url($val->url);
 		}
 		
 		$this->data['num_photos'] = $this->U->photos->count();

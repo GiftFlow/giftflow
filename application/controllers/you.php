@@ -326,7 +326,7 @@ class You extends CI_Controller {
 		$this->load->library('Messaging/Conversation');
 		$this->load->helper('form');
 		$this->load->helper('language');
-		$this->lang->load("transactions","english");
+		$this->lang->load("transactions","en");
 		
 		// Load Transaction, User & Review Data
 		

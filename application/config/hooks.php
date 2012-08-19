@@ -16,21 +16,6 @@ $hook['user_new'][] = array(
 	'filename' => 'event_logger.php',
 	'filepath' => 'libraries'
 );
-
-$hook['good_new'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'good_new',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['good_edited'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'good_edited',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
 $hook['follower_new'][] = array(
 	'class'    => 'Event_logger',
 	'function' => 'follower_new',
@@ -44,115 +29,9 @@ $hook['following_new'][] = array(
 	'filepath' => 'libraries'
 );
 
-$hook['transaction_new'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_new',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_new'][] = array(
-	'class'    => 'Notify',
-	'function' => 'alert_transaction_new',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_new'][] = array(
-	'class'    => 'Market',
-	'function' => 'updated',
-	'filename' => 'market.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_activated'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_activated',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_activated'][] = array(
-	'class'    => 'notify',
-	'function' => 'alert_transaction_activated',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_declined'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_declined',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_declined'][] = array(
-	'class'    => 'Market',
-	'function' => 'updated',
-	'filename' => 'market.php',
-	'filepath' => 'libraries'
-);
-
-
-$hook['transaction_cancelled'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_cancelled',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_cancelled'][] = array(
-	'class'    => 'Market',
-	'function' => 'updated',
-	'filename' => 'market.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_message'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_message',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_message'][] = array(
-	'class'    => 'Market',
-	'function' => 'updated',
-	'filename' => 'market.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_message'][] = array(
-	'class'    => 'Notify',
-	'function' => 'alert_transaction_message',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
 $hook['transaction_viewed'][] = array(
 	'class'    => 'Notify',
 	'function' => 'transaction_viewed',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
-$hook['transaction_completed'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'transaction_completed',
-	'filename' => 'Event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['review_new'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'review_new',
-	'filename' => 'Event_logger.php',
-	'filepath' => 'libraries'
-);
-
-$hook['review_new'][] = array(
-	'class'    => 'Notify',
-	'function' => 'review_new',
 	'filename' => 'notify.php',
 	'filepath' => 'libraries'
 );

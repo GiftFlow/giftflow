@@ -71,6 +71,8 @@ class Market
 		$this->CI->load->library('datamapper');
 		$this->CI->load->library('Search/Good_search');
 		$this->CI->load->library('Search/Transaction_search');
+		$this->CI->load->library('event_logger');
+		$this->CI->load->library('notify');
 	}
 	
 	/**
@@ -84,7 +86,6 @@ class Market
 	*	@param string $options['demands'][0]['type']
 	*	@param string $options['note']
 	*	@param int $options['decider_id']
-	*	@param strin $options['hook']
 	*	@return boolean
 	*/
 	public function create_transaction($options)
@@ -104,7 +105,6 @@ class Market
 		{
 			$this->Decider = new User($options['decider_id']);
 		}		
-
 		
 		//iterate through the demands, saving each one in $this->Demands
 		foreach($options['demands'] as $key=>$val)
@@ -194,14 +194,15 @@ class Market
 				"note" => $this->note
 			);
 
+		$E = new Event_logger();
+		$E->transaction_new('transaction_new',$hook_data);
 
-			// Hook: `transaction_new` OR 'thankyou'
-			if($options['hook'] != 'thankyou')
-			{
-				$this->CI->hooks->call($options['hook'], $hook_data);
-			}
+		$N = new Notify();
+		$N->alert_transaction_new('transaction_new',$hook_data);
 
-			return $Transaction->id;
+		$this->updated('transaction_new',$hook_data);
+
+		return TRUE;
 	}
 	
 	
@@ -272,8 +273,9 @@ class Market
 			"message" => $options['message']
 		);
 		
-		// Hook: 'transaction_cancelled'
-		$this->CI->hooks->call('transaction_cancelled', $hook_data);
+		$E = new Event_logger();
+		$E->transaction_cancelled('transaction_cancelled',$hook_data);
+		$this->updated('transaction_cancelled',$hook_data);
 		
 		return TRUE;
 	}
@@ -341,8 +343,10 @@ class Market
 			"message" => $options['message']
 		);
 		
-		// Hook: 'transaction_declined'
-		$this->CI->hooks->call('transaction_declined', $hook_data);
+		
+		$E = new Event_logger();
+		$E->transaction_declined('transaction_declined',$hook_data);
+		$this->updated('transaction_declined',$hook_data);
 		
 		return TRUE;
 	}
@@ -391,8 +395,11 @@ class Market
 			"message" => $options['message']
 		);
 				
-		// Hook: 'demand_activated'
-		$this->CI->hooks->call("transaction_activated",$hook_data);
+		$E = new Event_logger();
+		$E->transaction_activated('transaction_activated',$hook_data);
+
+		$N = new Notify();
+		$N->alert_transaction_activated('transaction_activated',$hook_data);
 		
 		return TRUE;
 	}
@@ -406,7 +413,6 @@ class Market
 	*	@param string $options['rating']		Rating of review
 	*	@param int $options['reviewer_id']		Reviewer ID
 	*	@param object $options['transaction_data']	Data of transaction
-	*	@param string $options['hook']			which hook should be called review/thankyou
 	*	@return boolean
 	*/
 	public function review($options)
@@ -476,8 +482,11 @@ class Market
 		}
 		
 		
-		// Hook: 'transaction_reviewed' or 'thankyou'
-		$this->CI->hooks->call($options['hook'], $hook_data);
+		$E = new Event_logger();
+		$E->review_new('review_new',$hook_data);
+
+		$N = new Notify();
+		$N->review_new('review_new',$hook_data);
 
 		// Attempt to change status to completed
 		$this->complete(array(
@@ -523,8 +532,8 @@ class Market
 			))
 		);
 		
-		// Hook: `transaction_reviewed`
-		$this->CI->hooks->call("transaction_completed", $hook_data);
+		$E = new Event_logger();
+		$E->basic('transaction_completed',$hook_data);
 		
 		return TRUE;
 	}
@@ -566,8 +575,13 @@ class Market
 			"conversation"=>$Conversation
 		);
 		
-		// Hook: `transaction_message`
-		$this->CI->hooks->call("transaction_message", $hook_data);
+		$E = new Event_logger();
+		$E->transaction_message('transaction_message',$hook_data);
+
+		$N = new Notify();
+		$N->alert_transaction_message('transaction_message',$hook_data);
+
+		$this->updated('transaction_message',$hook_data);
 		
 		return TRUE;
 	}

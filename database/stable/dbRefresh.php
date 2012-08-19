@@ -20,14 +20,32 @@ $config = $db['default'];
 */
 function mysql_import_file2($filename) {
 
+	$p_width=50;
+	$p_done=0;
+	
 	$sql = explode(";\n", file_get_contents ($filename));
 	$n = count ($sql) - 1;
+	
+	if ($n < $p_width)
+		$p_width = $n-1;
+	
+	for ($p=0; $p<$p_width; $p++)
+		echo '=';
+	echo " commands: ". $n . "\n";
+	
 	for ($i = 0; $i < $n; $i++) {
 		$query = $sql[$i];
 
-		$result = mysql_query ($query)
+		mysql_query ($query)
 		or die ('Query failed: ' . $query .' MySQL error: ' . mysql_error());
+		
+		if ($p_width*$i/$n > $p_done) {
+			echo '>';
+			$p_done++;
+		}
+		
 	}
+	echo "\n";
 
 }
 

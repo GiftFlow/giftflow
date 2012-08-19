@@ -58,7 +58,7 @@
       </span> 
         <?php foreach($val->transaction->users as $user) { ?>
         <span class='trans_participant'>
-        <a class='result_image user_image medium' href = '<?php echo site_url()."people/".$user->id;?>'>
+        <a class='result_image user_image medium' href = '<?php echo site_url("people/".$user->id);?>'>
                 <img src='<?php if(isset($user->photo->url)) 
                 { echo $user->photo->thumb_url; } 
                 else { echo $user->default_photo->thumb_url; }?>'>
@@ -73,7 +73,7 @@
                         echo $review->rating;
                         echo "</span> rating. They wrote: \"";
                         echo substr($review->body, 0,50)."...\"";?>
-                        <a href='<?php echo site_url()."people/".$review->reviewer_id; ?>'>read more</a>
+                        <a href='<?php echo site_url("people/".$review->reviewer_id); ?>'>read more</a>
                       <?php } ?>
                     </span>
                  <?php } ?>

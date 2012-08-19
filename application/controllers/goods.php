@@ -68,6 +68,7 @@ class Goods extends CI_Controller {
 		$this->load->helper('elements');
 		$this->hooks =& load_class('Hooks');		
 		$this->load->library('Search/Good_search');
+		$this->load->library('Event_logger');
 	
 		
 		// Set some class-wide variables
@@ -209,7 +210,6 @@ class Goods extends CI_Controller {
 			// some more relationships
 			if ( $this->G->save( array( $L, $U ) ) )
 			{
-				
 				// Save location object to user and gift
 				$U->save_location($L);
 				$U->default_location->get();
@@ -230,12 +230,13 @@ class Goods extends CI_Controller {
 					"good_id" => $this->G->id,
 					"user_id" => $U->id
 					);
-				$this->hooks->call('good_new', $hook_data);
+				$E = new Event_logger();
+				$E->basic('good_new',$hook_data);
         
 				// scan the watch list to see if anyone should get notified
 				
 				$this->load->model('watch');
-				$watches = $this->watch->match($U->id, $this->G->title, $this->G->description);
+				$watches = $this->watch->match($this->G, $L);
 				
 				$this->load->library('notify');
 				
@@ -257,7 +258,7 @@ class Goods extends CI_Controller {
 		show_error("Good didn't save properly.");
 		return FALSE;
 	}
-  
+	
 	/**
 	*	Main "View Gift" or "View Need" page
 	*/
@@ -321,8 +322,8 @@ class Goods extends CI_Controller {
 			$data = array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
+				"url" => base_url($pho->url),
+				"thumb_url" => base_url($pho->thumb_url),
 				"default" => FALSE
 			);
 			$photos[] = $data;
@@ -397,8 +398,8 @@ class Goods extends CI_Controller {
 			$data = (object) array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
+				"url" => base_url($pho->url),
+				"thumb_url" => base_url($pho->thumb_url),
 				"default" => ($G_dmz->default_photo->id == $pho->id)
 			);
 			
@@ -469,8 +470,8 @@ class Goods extends CI_Controller {
 			$data = (object) array (
 				"id" => $pho->id,
 				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
+				"url" => base_url($pho->url),
+				"thumb_url" => base_url($pho->thumb_url),
 				"default" => ($G_dmz->default_photo->id == $pho->id)
 			);
 			
@@ -734,7 +735,8 @@ class Goods extends CI_Controller {
 			"good_id" => $this->G->id,
 			"user_id" => $U->id
 			);
-		$this->hooks->call('good_edited', $hook_data);
+		$E = new Event_logger();
+		$E->basic('good_edited',$hook_data);
 
 		// Set flashdata
 		$this->session->set_flashdata('success','Changes saved successfully.');
