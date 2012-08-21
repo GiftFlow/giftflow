@@ -305,11 +305,37 @@ if(!$active) { echo "DISABLED"; }
 <script type='text/javascript'>
 $(function(){
 
-	$('#thankyou').click(function() {
-		$('.profile_pane').hide();
-		$('ul.gray_toolbar li a').removeClass('active');
-		$('#thankyouwrapper').show();
+	var submit = function () {
+		$('#thanktext').text('Thank you sent. Waiting for approval from <?php echo $u->screen_name; ?>');
+		$('#thankyouDialog').jqmHide();
+		return true;
+	};
+
+	var options = {
+		dataType: 'json',
+		url: "<?php echo base_url().'people/thankyou';?>",
+		complete: submit
+	};
+
+	//Script for thankyou Modal dialog
+	var setFormData = function() {
+		$('.button').button();
+		$('#thankyouDialog').jqmAddClose('.closeClass');
+		$('#reviewed').html('<?php echo $u->screen_name; ?>');
+		$('#reviewed_id').val('<?php echo $u->id; ?>');
+		$('#reviewed_email').val('<?php echo $u->email; ?>');
+		$('#thankyouform').ajaxForm(options);
+		return true;
+	};
+
+
+	$('#thankyouDialog').jqm({
+		ajax:"<?php echo base_url().'people/thankyouform'; ?>",
+		trigger:'a#thankyou',
+		onLoad: setFormData
 	});
+	//end Thankyou Dialog
+
 
 	$('.follow').hide();
 	$(".thumb_grid a").tipTip({

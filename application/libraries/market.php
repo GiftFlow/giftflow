@@ -183,7 +183,6 @@ class Market
 				)))
 			{
 				show_error("Error saving conversation.");
-				return FALSE;
 			}
 		}
 			// Load fully formed transaction factory result of new transaction
