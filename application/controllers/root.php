@@ -30,7 +30,7 @@ class Root extends CI_Controller {
 
 		$options = array(
 		  'event_type_id' => array(2,8,4,16),
-		  'limit' => 8,
+		  'limit' => 100,
 		  'location' => $this->data['userdata']['location']
 		  );
 
