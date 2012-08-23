@@ -14,12 +14,14 @@
 		<div id = 'top'>
 			<div id='activity'>
 			<p class='nicebigtext'>Recent Activity</p>
+				<div id='home_feed'>
 				  <?php echo UI_Results::events(array(
 					'results' => (isset($events)) ? $events : array(),
 					'mini' => TRUE,
 					'row' => FALSE,
 					'activity' => TRUE
 				  )); ?>
+				</div>
 			</div>
 		</div>
 		<div id='bottom' style='display:none' >

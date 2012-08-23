@@ -1991,6 +1991,10 @@ input::-moz-focus-inner{ border: 0; }
 #bottom {
 	margin-left: 120px;
 }
+#home_feed {
+	height: 280px;
+	overflow:scroll;
+}
 
 #social_iframe{
 	padding: 0;
