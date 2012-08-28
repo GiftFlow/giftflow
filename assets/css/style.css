@@ -210,7 +210,7 @@ ul.sidebar_menu li a:hover{
 	color: #999;
 }
 ul.sidebar_menu li.active a{
-	color: #fff;
+	color: #fff !important;
 	background: #65b15b;
 	padding: 3px 7px;
 	text-decoration: none;
@@ -277,6 +277,11 @@ ul.sidebar_menu.filters li ul li{
 	margin: 0;
 	padding: 0;
 }
+#you_sidebar a {
+	color: #555;
+	font-weight: bold;
+}
+
 #inbox_new a {
   color:#6CB6E2;
   font-weight:bold;
@@ -2158,10 +2163,6 @@ ul#linked_accounts li span {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px 5px 0 5px;
 }
-#transaction-view .right_content{
-	width: 760px;
-	padding: 0px;
-}
 .transaction-overview-text{
 	margin: 5px 0 0 10px;
 	width: 360px;
@@ -2324,7 +2325,7 @@ ul.transactions{
 	list-style: none;
 	padding: 0;
 	border-top: 1px solid #CCC;
-	margin: 20px 0 0;
+	margin-top: -32px;
 }
 ul.transactions li, .transaction-summary{
 	padding: 10px;
@@ -2488,8 +2489,8 @@ ul.list_menu li .list_controls .options.clicked .ui-icon{
 	float:left;
 	margin: 5px 5px 5px 5px;
 }
-#add_good.jqmWindow{
-	top: 5%;
+#add_good{
+	margin: -7px 0px 50px 0px;
 }
 #current_category {
 	color: #555555;
@@ -2590,6 +2591,10 @@ img.people_header {
 .events {
   padding: 0 0 0 30px;
 }
+
+ul.events span.title {
+	margin-right:2px;
+}
 .event_created {
     font-size: 0.8em;
     color: #666666;
@@ -2643,6 +2648,12 @@ span.event_summary {
 .watchword {
 	padding: 11px 0px 0px 0px;
 	font-size: 15px;
+}
+#watch_list {
+	margin-top: 0px !important;
+}
+#watch_list li.section_header h3 {
+	color:#AAA;
 }
 a.btn.edit-photos img{
 	max-width: 45px;

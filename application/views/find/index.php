@@ -183,8 +183,8 @@ $(function(){
 	$("#location").tipTip({
 		defaultPosition: "right",
 		delay: 0,
-    fadein: 0,
-    keepAlive:'true'
+		fadein: 0,
+		keepAlive:'true'
 	});
 	
 	$("#location").click(function(){

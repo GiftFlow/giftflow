@@ -245,15 +245,4 @@ class Event_logger
 		$E->notify_user($data->reviewed->id);
 	}
 
-	/* 
-	 * saves thankyou event
-	 * Called from people/_thank
-	 * NOTE!! thankyou_id is saved as transaction_id
-	 */
-	function thankyou ($params, $data) {
-		$E = $this->basic('thankyou', $data);
-		$E->save();
-	}
-		
-
 }
