@@ -19,21 +19,7 @@
 				<?php echo 'member since '.user_date($u->created,"F jS Y"); ?>
 				<?php //echo $u->type; ?>
 			</span>
-			<span class='metadata'>
-				<?php echo count($following).' Following';?>
-				<?php echo count($followers).' Followers';?>
-			
-			</span>
-
-			<div class='thumb_grid'>
-			<?php foreach($followers as $val) { ?>
-				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
-					<img src='<?php echo $val->default_photo->thumb_url;?>' />
-				</a>
-			 <?php } ?>
-			</div>
 		</div>
-
 
 		<div id='profile_info'>
 			<p class='nicebigtext'>Bio</p>
@@ -45,8 +31,24 @@
 
 	<div id='profile_header_right' class='profile_column span6'><!-- open header right -->
 			<div class='btn-group'>
-				<a class='btn btn-action'>Follow</a>
+			<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-action'>Follow</a>
 				<a id='thank_button' class='btn profile_action btn-success'>Thank</a>
+			</div>
+
+			<div id='follow_deets'>
+				<span class='metadata'>
+					<?php echo count($following).' Following';?>
+					<?php echo count($followers).' Followers';?>
+				
+				</span>
+
+				<div class='thumb_grid'>
+				<?php foreach($followers as $val) { ?>
+					<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
+						<img src='<?php echo $val->default_photo->thumb_url;?>' />
+					</a>
+				 <?php } ?>
+				</div>
 			</div>
 
 			<div id='profile_thank_form' style= 'display:none;' >
@@ -162,10 +164,12 @@
 
 
 $('#thank_button').click( function() {
+	$('#follow_deets').hide();
 	$('#profile_thank_form').show();
 });
 $('#thank_cancel').click( function() {
 	$('#profile_thank_form').hide();
+	$('#follow_deets').show();
 });
 
 /*

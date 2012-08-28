@@ -1213,6 +1213,9 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 .profile_action {
 	margin-bottom: 5px;
 }
+#follow_deets{
+	margin-top: 15px;
+}
 #profile_info {
 	margin: 10px;
 }

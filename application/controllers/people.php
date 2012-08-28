@@ -431,6 +431,8 @@ class People extends CI_Controller {
 	*/
 	function follow( $user_id )
 	{
+		$this->auth->bouncer(1);
+
 		// Create User objects for both logged in user and user to follow
 		$U = new User($this->data['logged_in_user_id']);
 		$F = new User($user_id);
