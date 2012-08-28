@@ -61,6 +61,11 @@ class Member extends CI_Controller {
 		{
 			$this->U = $this->auth->login();
 			$this->data['redirect'] = $this->input->post('redirect');
+
+			if($this->data['redirect'] == site_url('member/login')) 
+			{
+				$this->data['redirect'] = site_url('you');
+			}
 			
 			// Check for errors
 			
