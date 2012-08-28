@@ -179,7 +179,12 @@ class Event_reader
 					case "thankyou":
 
 						$event->thank = $TY->get(array('id' => $json_data->id));
-						$this->events[] = $event;
+
+						//Only include thankyous with a current status of accepted
+						if($event->thank->status == 'accepted') 
+						{
+							$this->events[] = $event;
+						}
 
 						break;
 				}
