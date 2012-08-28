@@ -5,8 +5,8 @@
 	
 	<div class='right_content'>
 		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="button btn">Add a <?php echo ucfirst($type); ?></a>
-		<?php if(!empty($goods)) { ?>
-			<ul class ="transactions goods_list list_menu float_right">
+		<ul class ="transactions goods_list list_menu float_right">
+			<?php if(!empty($goods)) { ?>
 				<?php foreach($goods as $val) { ?>
 					<?php 
 						if($val->status !='disabled')
@@ -57,15 +57,14 @@
 
 					<?php } ?>
 				<?php } ?>
-				</ul>
 		<?php } else { ?>
 		
 			<!-- Empty State -->
-			<p>
+			<li>
 				No <?php echo $type.'s'; ?> found.
-			</p>
+			</li>
 		<?php } ?>
-		
+		</ul>
 	</div>
 	<!-- eof div.right_content -->
 	

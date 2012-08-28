@@ -2194,6 +2194,13 @@ ul#linked_accounts li span {
 	border-bottom: 1px solid #EEE;
 	list-style: none;
 }
+#transaction-messages li.section_header {
+	padding: 0px 0px 25px 35px;
+	margin: 0px 0px 5px 0px;
+	height:20px;
+	border-top: 1px solid #EEE;
+}
+
 #transaction-messages .message{
 	border-top: 1px solid #EEE;
 	padding: 15px 25px 15px 60px;
@@ -2221,8 +2228,23 @@ ul#linked_accounts li span {
 #transaction-messages .message .body{
 	font-size: 14px;
 }
+li.message div.text{
+	padding-left:10px;
+}
+li.message {
+	display:block;
+	margin-bottom:10px;
+}
+li.review{
+	border-bottom: 2px solid #EEE;
+}
+li#review {
+	padding-left:62px;
+}
 .transaction-main .reviews, .transaction-main .history, .transaction-main h3.messages_title{
-	padding-left: 62px;
+}
+#reviews_title {
+	padding-left:0px;
 }
 .transaction-main h3, .transaction-main .history ul li{
 	color: #AAA;

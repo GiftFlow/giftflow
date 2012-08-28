@@ -548,7 +548,7 @@ class You extends CI_Controller {
 
 		// Title
 		$this->data['title'] = "Transaction with ".$this->data['other_user']->screen_name;
-				
+	/*	
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
 			"title"=>"You", 
@@ -562,9 +562,10 @@ class You extends CI_Controller {
 			"title"=>$id,
 			'href' => site_url('you/view_transaction/'.$id)
 		);
-				
+	 */			
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['review_form'] = $this->load->view('you/includes/review_form', $this->data, TRUE);
 		
 		// Load form validation plugin
 		$this->data['js'][] = 'jquery-validate.php';
@@ -572,6 +573,7 @@ class You extends CI_Controller {
 		
 		// Load Views
 		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header', $this->data);
 		$this->load->view('you/transaction', $this->data);	
 		$this->load->view('footer', $this->data);
 		
