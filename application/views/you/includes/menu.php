@@ -23,33 +23,33 @@
 		<a href='<?php echo site_url('account');?>' > 
 			Account
 		</a>
-		<ul>
-			<li>
+		 <ul id='account_menu'>
+			<li <?php if($segment[2]=='profile'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/profile");?>">
 					Edit Profile
 				</a>
 			</li>
-			<li>
+			<li <?php if($segment[2]=='photos'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/photos");?>">
 					Photos
 				</a>
 			</li>
-			<li>
+			<li <?php if($segment[2]=='locations'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/locations");?>">
 					Locations
 				</a>
 			</li>
-			<li>
+			<li <?php if($segment[2]=='links'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/links");?>">
 					Linked Accounts
 				</a>
 			</li>
-			<li>
+			<li <?php if($segment[2]=='settings'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/settings");?>">
 					Settings
 				</a>
 			</li>
-			<li>
+			<li <?php if($segment[2]=='delete_user'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url('account/delete_user');?>" id='delete_user'>
 					Delete account
 				</a>

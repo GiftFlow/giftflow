@@ -29,7 +29,7 @@
 
 	</div> <!-- close profile header left -->
 
-	<div id='profile_header_right' class='profile_column span6'><!-- open header right -->
+	<div id='profile_header_right' class='profile_column span6 profile_chunk'><!-- open header right -->
 			<div class='btn-group'>
 			<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-action'>Follow</a>
 				<a id='thank_button' class='btn profile_action btn-success'>Thank</a>

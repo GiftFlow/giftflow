@@ -210,7 +210,7 @@ ul.sidebar_menu li a:hover{
 	color: #999;
 }
 ul.sidebar_menu li.active a{
-	color: #fff !important;
+	color: #fff;
 	background: #65b15b;
 	padding: 3px 7px;
 	text-decoration: none;
@@ -280,6 +280,16 @@ ul.sidebar_menu.filters li ul li{
 #you_sidebar a {
 	color: #555;
 	font-weight: bold;
+}
+ul#you_sidebar li.active a {
+	color: #EEE;
+}
+ul#you_sidebar ul#account_menu li a{
+	color: black;
+}
+ul#you_sidebar ul#account_menu li.active a {
+	background:#65B15B !important;
+	color: #FFF;
 }
 
 #inbox_new a {
@@ -1269,12 +1279,11 @@ p.chunk_empty {
 	height:auto;
 	margin-bottom:10px;
 }
+
 .profile_row {
 	padding-top: 10px;
 }
-#profile_header {
-	margin-top: 20px;
-}
+
 #profile_bio {
 	border-bottom:1px solid #ccc;
 	margin-bottom: 20px;
@@ -2109,6 +2118,10 @@ ul.simplePagerNav li.currentPage a{
 	width:246px;
 	font-size:14px;
 }
+#profile_thank_form {
+	width:90%;
+}
+
 input.ui-button, input.ui-button.ui-state-active, a.ui-button, a.ui-button.ui-state-active{
 	font-size: 16px !important;
 	text-shadow: #FFF 1px 1px;

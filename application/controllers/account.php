@@ -491,7 +491,8 @@ class Account extends CI_Controller {
 		);
 		
 		$this->load->view('header', $this->data);
-		$this->parser->parse('account/locations/list', $this->data);
+		//$this->parser->parse('account/locations/list', $this->data);
+		$this->load->view('account/locations');
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -669,7 +670,8 @@ class Account extends CI_Controller {
 		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->parser->parse('account/photos/list', $this->data);
+		//$this->parser->parse('account/photos/list', $this->data);
+		$this->load->view('account/photos', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
