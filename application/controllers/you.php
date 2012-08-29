@@ -685,6 +685,7 @@ class You extends CI_Controller {
 	*/
 	public function add_good()
 	{
+		$this->data['default_location'] = $this->data['userdata']['location']->address;
 		$type = !empty($_GET['type']) ? $_GET['type'] : "gift";
 		$this->data['add']=TRUE;
 		$this->data['categories'] = $this->db->order_by("name","ASC")

@@ -1225,6 +1225,9 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 #profile_header {
 	margin-bottom: 20px;
 }
+#profile_header_right {
+	margin-top: 20px;
+}
 .profile_action {
 	margin-bottom: 5px;
 }
