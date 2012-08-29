@@ -164,8 +164,8 @@ if(isset($css))
 									<img class='noborder' src='<?php echo site_url("assets/images/facebook_logo.jpeg");?>' style='border: 0; width:100px;' />
 								</a>
 							</li>
-							<li>
-								<a id='dropforgot' href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
+							<li id='dropforgot'>
+								<a href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
 								</a>
 							</li>
 						</ul>

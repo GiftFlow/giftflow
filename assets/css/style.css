@@ -707,6 +707,7 @@ table.form label.error{
 	color: red;
 	display: block;
 }
+
 table.form td.field p.note{
 	color: #aaa;
 	font-size: 12px;
@@ -1588,15 +1589,21 @@ ul#anonymous-menu li {
 #dropfbook {
 	width: auto;
 	height: auto;
-	margin-top: 5px;
 }
 #dropfbook:hover {
 	background-color:transparent;
 }
-#dropforgot {
-	font-size: .5em;
-	color: #004099;
+#dropforgot a {
+	font-size: 1em;
+	margin: 8px 0px 5px 0px;
+	color: #6cb6e2 !important;
+	font-weight:bold;
 }
+#dropforgot a:hover {
+	background: #FFF;
+	opacity: .8;
+}
+
 ul.invite_grid{
 	padding: 0px;
 	margin: 0px;
@@ -2683,5 +2690,8 @@ ul.thumbnails.photos-list li img {
 	max-height: 150px;
 }
 ul.thumbnails.photos-list li p.caption {
+	margin-top: 10px;
+}
+.good_buttons {
 	margin-top: 10px;
 }
