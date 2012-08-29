@@ -421,7 +421,7 @@ class People extends CI_Controller {
 		
 		// Load views
 		$this->load->view('header', $this->data);
-		$this->load->view('people/boot', $this->data);
+		$this->load->view('people/profile', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
