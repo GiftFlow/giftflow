@@ -106,13 +106,16 @@ Class User_factory {
 				}
 			}
 
-			if($options->include_photos) 
+			if(isset($options->include_photos)) 
 			{
-				//query database for extra photos
-				$user->photos = $this->CI->db->select('P.id, P.user_id, P.url, P.thumb_url, P.caption, P.created')
-						->from('photos AS P')
-						->where('P.user_id', $user->id)
-						->get()->result();
+				if($options->include_photos)
+				{
+					//query database for extra photos
+					$user->photos = $this->CI->db->select('P.id, P.user_id, P.url, P.thumb_url, P.caption, P.created')
+							->from('photos AS P')
+							->where('P.user_id', $user->id)
+							->get()->result();
+				}
 			}
 
 
