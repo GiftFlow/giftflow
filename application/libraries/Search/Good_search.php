@@ -70,6 +70,8 @@ class Good_search extends Search
 			$options
 		);	
 		
+		$options->good_id = $options->good_id[0];
+
 		// If keyword option set, reroute to find_by_keyword()
 		if(!empty($options->keyword))
 		{
@@ -238,6 +240,8 @@ class Good_search extends Search
 		
 		$options['limit'] = 1;
 		
+		print_r($options);
+		echo '################################';
 		$result = $this->find($options);
 
 		// Return only first item in this array

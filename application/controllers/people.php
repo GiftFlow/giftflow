@@ -283,63 +283,15 @@ class People extends CI_Controller {
 		
 
 		// Construct user object
-		$get_user = new User_search();
-		$U = $get_user->get(array('user_id' => $user_id, 'include_photos' => TRUE));
+		$Search = new User_search();
+		$Search->user_id = $user_id;
+		$U = $Search->get(array('user_id' => $user_id, 'include_photos' => TRUE));
+
+		$U_model = new User($user_id);
 
 		$this->data['profile_thumb'] = $U->default_photo->thumb_url;
 
-		/*
-		 *
-		// Fetch proper user
-		$U  ->where('id',$user_id)
-			->include_related('default_photo', '*', NULL, TRUE)
-			->get();
-			
-		
-		$this->data['active'] = ($U->status == 'disabled' ? FALSE : TRUE);
-
-		
-		$U->default_location->get();
-			
-		$U->default_photo->get();
-		
-		if($U->photo_source == 'facebook' && !empty($U->facebook_id))
-		{
-			$this->data['profile_thumb'] = "http://graph.facebook.com/".$U->facebook_id."/picture?type=square";
-		}
-		elseif($U->default_photo->exists())
-		{
-			$this->data['profile_thumb'] = base_url($U->default_photo->thumb_url);
-		}
-		else
-		{
-			$this->data['profile_thumb'] = base_url("assets/images/user.png");
-		}		
-		
-		$U->photos->get();
-		$show = ($U->photos->exists() ? true : false );
-		$this->data['show_gallery'] = json_encode($show);
-		$this->data['photos'] = NULL;
-
-		foreach($U->photos->all as $val)
-		{
-			$data = array (
-					"id" => $val->id,
-					"caption" => $val->caption,
-					"url" => base_url($val->url),
-					"thumb_url" => base_url($val->thumb_url),
-					"default" => FALSE
-				);
-			$this->data['photos'][] = $data;
-		}
-		
-		 */
-		// New User_search object
-		$Search = new User_search;
-		$Search->user_id = $U->id;
-		
 		// Load user's gift
-		$this->load->library('Search/Good_search');
 		$G = new Good_search;
 		$this->data['gifts'] = $G->find( array(
 			"user_id" => $U->id, 
@@ -358,7 +310,7 @@ class People extends CI_Controller {
 		));
 		
 		// Generate stats about the user
-	//	$U->stats();
+		$U_model->stats();
 
 		//Load user's thank yous - transactions without goods or demands
 		$R = new Review_search();
@@ -400,7 +352,7 @@ class People extends CI_Controller {
 		// If logged in, check to see if visitor is following this user
 		if(!empty($this->data['logged_in_user_id']))
 		{
-			$this->data['is_following'] = $U->is_followed_by($this->data['logged_in_user_id']);
+			$this->data['is_following'] = $U_model->is_followed_by($this->data['logged_in_user_id']);
 			
 			// Check to see if viewing your own profile (then you are NOT a 
 			// visitor, you're at home, looking in the mirror)
