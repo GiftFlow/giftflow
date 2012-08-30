@@ -15,10 +15,10 @@
 							
 								<!-- Options Dropdown Menu -->
 								<div class="btn-group css_right good_buttons">
-									<a class='btn'>Share</a>
-									<a class='btn'>Edit</a>
-									<a class='btn'>Add Photos</a>
-									<a class='btn'>Delete</a>
+									<a href='#' class='btn'>Share</a>
+									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit'); ?>" class='btn'>Edit</a>
+									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/photos'); ?>" class='btn'>Add Photos</a>
+									<a href="<?php echo site_url('gifts/'.$val->id.'/disable');?>" class='btn'>Delete</a>
 
 
 <!--								  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">

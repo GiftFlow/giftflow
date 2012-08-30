@@ -91,6 +91,11 @@ Class Good_factory {
 					$item->$object->$key = $val;
 				}
 				
+				if(isset($options->include_photos)) {
+					if($options->include_photos) {
+						$item->photos = $this->load_photos($item->id);
+					}
+				}				
 			}
 			
 			// Add new object to $product array
