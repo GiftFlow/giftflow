@@ -65,16 +65,6 @@ Class User_factory {
 				// Copy other properties to their child objects
 				elseif($object == "photo")
 				{
-					/*
-					//query database for extra photos
-					if($options->include_photos) 
-					{
-						$this->CI->db->select('P.id, P.user_id, P.url, P.thumb_url, P.caption, P.created')
-									->from('photos AS P')
-									->where('P.user_id');
-					}
-					*/
-
 					// @todo define default user photo via config file
 					if($user->photo_source=="giftflow")
 					{
@@ -111,10 +101,7 @@ Class User_factory {
 				if($options->include_photos)
 				{
 					//query database for extra photos
-					$user->photos = $this->CI->db->select('P.id, P.user_id, P.url, P.thumb_url, P.caption, P.created')
-							->from('photos AS P')
-							->where('P.user_id', $user->id)
-							->get()->result();
+					$user->photos = $this->load_photos($user->id);
 				}
 			}
 
@@ -135,6 +122,7 @@ Class User_factory {
 					->where('P.user_id', $user_id)
 					->get()
 					->result();
+		return $photos;
 	}
 }
 
