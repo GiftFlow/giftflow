@@ -218,10 +218,11 @@ class User_search extends Search
 			->get()
 			->result();
 
-		$object = Factory::user($result);
 		
 		Console::logSpeed("User_search::following(): done.");
-		return $object;
+		$F = new User_factory();
+		return $F->build_users($options, $result);
+
 	}
 	
 	/**
@@ -238,11 +239,10 @@ class User_search extends Search
 			->where('FU.following_id',$options['user_id'])
 			->get()
 			->result();
-
-		$object = Factory::user($result);
 		
 		Console::logSpeed("User_search::followers(): done.");
-		return $object;
+		$F = new User_factory();
+		return $F->build_users($options, $result);
 	}
 	
 	/**
