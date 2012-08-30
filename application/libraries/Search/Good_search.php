@@ -24,6 +24,7 @@ class Good_search extends Search
 	{
 		parent::__construct();
 		$this->CI =& get_instance();
+		$this->CI->load->library('Factory/Good_factory');
 	}
 	
 	/**
@@ -209,9 +210,9 @@ class Good_search extends Search
 						$result[$key]->transaction_count = count($Transactions);
 					}
 				}
-				
-				$raw_result = Factory::good($result);
-				return $raw_result;
+
+				$factory = new Good_factory();
+				return $factory->build_goods($options, $result);
 				
 			}
 			

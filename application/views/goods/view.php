@@ -15,7 +15,7 @@
 	<div class="top"></div>
 	<div class="middle">
 		<!-- Main Image-->
-		<img src="<?php if(isset($G->photo->thumb_url)) { echo $G->photo->thumb_url; } else { echo $G->default_photo->url; }?>" />		
+		<img src="<?php echo $G->default_photo->thumb_url; ?>" />		
 		<!-- Title, Description, Tags and More -->
 		<div class='right'>
 		
@@ -209,7 +209,7 @@
 		<div class="center">
 		
 			<!-- Image -->
-			<img src="<?php if(isset($G->user->photo->thumb_url)){ echo $G->user->photo->thumb_url; } else { echo $G->user->default_photo->url; }?>" alt="<?php echo $G->user->screen_name; ?>" />
+			<img src="<?php echo $G->user->default_photo->thumb_url; ?>" />
 			
 			<!-- Name -->
 			<a href="<?php echo site_url('people/'.$G->user->id);?>">

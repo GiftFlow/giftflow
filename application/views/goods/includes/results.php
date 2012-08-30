@@ -13,7 +13,7 @@
 				<?php if(!in_array("no_pic",$include)){ ?>
 				<!-- Image -->
 				<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
-					<img src="<?php if(isset($G->photo->thumb_url)) { echo $G->photo->thumb_url; } else { echo $G->default_photo->url;} ?>" />
+					<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
 				</a>
 				<?php } ?>
 				
@@ -35,7 +35,7 @@
 					
 				<!-- Image -->
 				<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image">
-					<img src="<?php if(isset($G->photo->thumb_url)) { echo $G->photo->thumb_url; } else { echo $G->default_photo->url;}?>" />
+					<img src="<?php echo $G->default_photo->thumb_url;?>" />
 				</a>
 				
 				<!-- Metadata -->
