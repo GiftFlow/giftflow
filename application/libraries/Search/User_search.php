@@ -22,6 +22,7 @@ class User_search extends Search
 	{
 		parent::__construct();
 		$this->CI =& get_instance();
+		$this->CI->load->library('Factory/User_factory');
 	}
 	
 	/**
@@ -38,7 +39,7 @@ class User_search extends Search
 	*	@param int $options['facebook_id'] 		Filter by Facebook ID
 	*	@param boolean $options['exclude_logged_in_user'] 	Excludes logged in user
 	*	@param boolean $options['following_stats']	If true, populates am_following and is_follower fields
-	*	@param float $options['location']		Filter by location object
+	*	@param float $optiorar'location']		Filter by location object
 	*	@param string $options['order_by']		Field name to order by
 	*	@param string $options['sort']			Sort order
 	*	@param int $options['offset']			Offset
@@ -71,8 +72,9 @@ class User_search extends Search
 			"limit"=>20,
 			"forgotten_password_code"=>NULL,
 			"include_forgotten_password_code" => FALSE,
+			'include_photos' => FALSE,
 			"keyword" => '',
-      "type" => ''
+			"type" => ''
 		);
 		$options = (object) array_merge(
 			//$default_like_options, 
@@ -126,10 +128,10 @@ class User_search extends Search
 										$options->keyword, $options->keyword);
 			$this->CI->db->where($where_clause);
 		}	
-    if(!empty($options->type))
-    {
-      $this->CI->db->where('U.type',$options->type);
-    }
+		if(!empty($options->type))
+		{
+		  $this->CI->db->where('U.type',$options->type);
+		}
 		
 		// Filter by location if lat/lng or un-geocoded address,
 		// only returning users who have a location
@@ -179,7 +181,8 @@ class User_search extends Search
 		
 		// Hydrate & return results
 		Console::logSpeed("User_search::find(): done.");
-		return Factory::user($result);
+		$UF = new User_factory();
+		return $UF->build_users($options,$result);
 	}
 	
 	/**

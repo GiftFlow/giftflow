@@ -150,7 +150,6 @@ class People extends CI_Controller {
 				// Search for matching users
 				if($friend_ids)
 				{
-					$this->load->library('Search/User_search');
 					$this->data['friends']['facebook'] = $this->user_search->find(array(
 						"facebook_id"=>$friend_ids,
 						"following_stats"=>TRUE,
@@ -167,7 +166,6 @@ class People extends CI_Controller {
 				$email_list = $this->google->contacts_email_list();
 				
 				// Search for matching users
-				$this->load->library('Search/User_search');
 				$this->data['friends']['google'] = $this->user_search->find(array(
 					"email"=>$email_list,
 					"following_stats"=>TRUE,
@@ -285,7 +283,13 @@ class People extends CI_Controller {
 		
 
 		// Construct user object
-		$U = new User();
+		$get_user = new User_search();
+		$U = $get_user->get(array('user_id' => $user_id, 'include_photos' => TRUE));
+
+		$this->data['profile_thumb'] = $U->default_photo->thumb_url;
+
+		/*
+		 *
 		// Fetch proper user
 		$U  ->where('id',$user_id)
 			->include_related('default_photo', '*', NULL, TRUE)
@@ -329,7 +333,7 @@ class People extends CI_Controller {
 			$this->data['photos'][] = $data;
 		}
 		
-
+		 */
 		// New User_search object
 		$Search = new User_search;
 		$Search->user_id = $U->id;
@@ -354,7 +358,7 @@ class People extends CI_Controller {
 		));
 		
 		// Generate stats about the user
-		$U->stats();
+	//	$U->stats();
 
 		//Load user's thank yous - transactions without goods or demands
 		$R = new Review_search();
@@ -548,7 +552,6 @@ class People extends CI_Controller {
 			$friend_ids = $this->facebook->friend_ids($this->U->id);
 			
 			// Search for matching users
-			$this->load->library('Search/User_search');
 			$this->data['friends'] = $this->user_search->find(array(
 				"facebook_id"=>$friend_ids,
 				"following_stats"=>TRUE,
@@ -592,7 +595,6 @@ class People extends CI_Controller {
 				$email_list = $this->openauth->google_contacts_emails();
 				
 				// Search for matching users
-				$this->load->library('Search/User_search');
 				$this->data['friends']['google'] = $this->user_search->find(array(
 					"email"=>$email_list,
 					"following_stats"=>TRUE,
