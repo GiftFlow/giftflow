@@ -1,6 +1,3 @@
-TRUNCATE TABLE `event_types`;
-TRUNCATE TABLE `categories`;
-TRUNCATE TABLE `terms`;
 
 INSERT INTO `event_types` (`id`, `title`) VALUES
 (1, 'transaction_new'),

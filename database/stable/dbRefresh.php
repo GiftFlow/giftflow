@@ -2,6 +2,7 @@
 
 define('BASEPATH', str_replace("\\", "/", realpath(dirname(__FILE__)))); 
 
+include_once('../../application/config/secrets.php');
 include_once('../../application/config/database.php');
 $config = $db['default'];
 
