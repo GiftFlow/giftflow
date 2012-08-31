@@ -18,7 +18,7 @@ Class Good_factory {
 
 	protected $CI;
 
-	function __construst()
+	function __construct()
 	{
 		$this->CI =& get_instance();
 	}
@@ -109,7 +109,7 @@ Class Good_factory {
 	function load_photos($good_id)
 	{
 		//query database for extra photos
-		$photos = $this->CI->db->select('P.id, P.good_id, P.url, P.thumb_url, P.caption, P.created')
+		$photos = $this->CI->db->select('P.id AS id, P.good_id AS good_id, P.url AS url, P.thumb_url AS thumb_url, P.caption AS caption, P.created AS created')
 					->from('photos AS P')
 					->where('P.good_id', $good_id)
 					->get()
