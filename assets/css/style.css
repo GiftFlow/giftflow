@@ -783,6 +783,18 @@ ul.results_list{
 .right_content ul.transactions.goods_list li {
 	padding-left: 30px;
 }
+.right_content ul.transactions.goods_list li a.result_image img {
+	max-height:66px;
+	margin: 6px auto auto 6px;
+}
+.right_content ul.transactions.goods_list li a.result_image {
+	background-image: url('../images/good_frame.png');
+	float: left;
+	height: 80px;
+	width: 80px;
+}
+
+
 ul.results_list li{
 	padding: 10px;
 	color: #000;
@@ -2422,7 +2434,7 @@ ul.transactions li .status, .transaction-summary .status{
 }
 ul.transactions li .metadata, .transaction-summary .metadata{
 	float: left;
-	width: 350px;
+	width: 40%;
 	margin-left: 20px;
 }
 ul.transactions li .metadata a.title, .transaction-summary .metadata a.title{
@@ -2700,4 +2712,9 @@ ul.thumbnails.photos-list li p.caption {
 }
 .good_buttons {
 	margin-top: 10px;
+	width:40%;
+	opacity: .5;
+}
+.good_buttons:hover {
+	opacity: 1 !important;
 }
