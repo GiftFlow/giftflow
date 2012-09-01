@@ -1,4 +1,4 @@
-
+<!-- profile is divided into two columns! -->
 <div class = 'row-fluid' id='profile_header'>
 
 	<div class='profile_column span6' id='profile_header_left'>
@@ -27,12 +27,44 @@
 			<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
 		</div> <!-- close profile info -->
 
-	</div> <!-- close profile header left -->
+		<div id='profile_reviews' class='profile_chunk'>
+			<span class='pTitle'>Reviews</span>
 
-	<div id='profile_header_right' class='profile_column span6 profile_chunk'><!-- open header right -->
+				<?php if(!empty($giver)) { ?>
+					<?php echo UI_Results::reviews(array(
+						'results'=>$giver
+					)); ?>
+
+				<?php } else { ?>
+						<p class='chunk_empty'>This user has not yet given or received any gifts through GiftFlow</p>
+				<?php } ?>
+
+		</div><!--close reviews_list -->
+
+		<div id='profile_thanks' class='profile_chunk'>
+			<span class='pTitle'>Thanks</span>	
+
+			<?php if(!empty($thanks)) { ?>
+				<?php echo UI_Results::thanks(array(
+					'results' => $thanks
+				)); ?>
+				
+				<?php } else { ?>
+						<p class='chunk_empty'>This user has not yet received any thanks from others on GiftFlow</p>
+				<?php } ?>
+		</div><!-- close profile_thanks -->
+	</div> <!-- close profile left -->
+
+
+	<div id='profile_header_right' class='profile_column span6'><!-- open right column -->
+		<div id='thankFollow' class='profile_chunk'>
 			<div class='btn-group'>
-			<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-action'>Follow</a>
-				<a id='thank_button' class='btn profile_action btn-success'>Thank</a>
+			<?php if(isset($logged_in_user_id)) { ?>
+				<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-action'>Follow</a>
+					<?php if($visitor) { ?>
+						<a id='thank_button' class='btn profile_action btn-success'>Thank</a>
+					<?php } ?>
+			<?php } ?>
 			</div>
 
 			<div id='follow_deets'>
@@ -76,78 +108,40 @@
 					<span id='errortext'></span>
 				</form>
 			</div>
-	</div><!-- close header right -->
+		</div>
 
-</div><!-- close header row -->
+			<!--- Gifts and Needs Column -->
+			<div id='profile_gifts' class='profile_chunk'>
 
+				<?php if(!empty($gifts)) { ?>
 
-<div class ='row-fluid'>
+					<span class='pTitle'>Gifts</span>
 
-<!-- Reviews and ThankYous Column -->
-	<div class='span6 profile_column' id='profile_reputation'>
-
-		<div id='profile_reviews' class='profile_chunk'>
-			<span class='pTitle'>Reviews</span>
-
-				<?php if(!empty($giver)) { ?>
-					<?php echo UI_Results::reviews(array(
-						'results'=>$giver
+					<?php echo UI_Results::goods(array(
+						"results"=> $gifts,
+						'mini' => TRUE,
+						'border'=> FALSE
 					)); ?>
-
+					
 				<?php } else { ?>
-						<p class='chunk_empty'>This user has not yet given or received any gifts through GiftFlow</p>
+					<span class='pEmpty'>Gifts</span>
+					<p class='chunk_empty'>This user does not have any gifts listed.</p>
 				<?php } ?>
 
-		</div><!--close reviews_list -->
-
-		<div id='profile_thanks' class='profile_chunk'>
-			<span class='pTitle'>Thanks</span>	
-
-			<?php if(!empty($thanks)) { ?>
-				<?php echo UI_Results::thanks(array(
-					'results' => $thanks
-				)); ?>
-				
-				<?php } else { ?>
-						<p class='chunk_empty'>This user has not yet received any thanks from others on GiftFlow</p>
-				<?php } ?>
-		</div><!-- close profile_thanks -->
-	</div> <!-- close profile_reputation-->
-
-<!--- Gifts and Needs Column -->
-
-	<div id='profile_goods' class ='span6 profile_column'>
-		<div id='profile_gifts' class='profile_chunk'>
-
-			<?php if(!empty($gifts)) { ?>
-
-				<span class='pTitle'>Gifts</span>
-
-				<?php echo UI_Results::goods(array(
-					"results"=> $gifts,
-					'mini' => TRUE,
-					'border'=> FALSE
-				)); ?>
-				
-			<?php } else { ?>
-				<span class='pEmpty'>Gifts</span>
-				<p class='chunk_empty'>This user does not have any gifts listed.</p>
-			<?php } ?>
-
-		</div><!--close profile_gifts -->
+			</div><!--close profile_gifts -->
 
 
-	<!-- NEEDS column -->
-		<div id='profile_needs' class='profile_chunk'>
-			<!--<a class='btn profile_action' id='offer'>Offer</a>-->
-			<?php if(!empty($needs)) { ?>
+			<!-- NEEDS column -->
+			<div id='profile_needs' class='profile_chunk'>
+				<!--<a class='btn profile_action' id='offer'>Offer</a>-->
+				<?php if(!empty($needs)) { ?>
 
-				<span class='pTitle'> Needs</span>	
+					<span class='pTitle'> Needs</span>	
 
-				<?php echo UI_Results::goods(array(
-					"results"=> $needs,
-					'mini' => TRUE
-				)); ?>
+					<?php echo UI_Results::goods(array(
+				"results"=> $needs,
+				'mini' => TRUE
+			)); ?>
 					
 			<?php } else { ?>
 				<span class='pEmpty'> Needs</span>	
@@ -155,9 +149,9 @@
 			<?php } ?>
 		</div><!-- close profile_needs-->
 
-</div><!-- close profile_goods -->
 
-</div><!-- close row-fluid -->
+	</div><!-- close row-fluid -->
+</div>
 
 
 <script type='text/javascript'>

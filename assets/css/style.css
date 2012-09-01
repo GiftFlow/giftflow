@@ -2131,6 +2131,12 @@ ul.simplePagerNav li.currentPage a{
 #profile_thank_form {
 	width:90%;
 }
+div.thankdata {
+	width: 70%;
+}
+a.thankimage {
+	width:20%;
+}
 
 input.ui-button, input.ui-button.ui-state-active, a.ui-button, a.ui-button.ui-state-active{
 	font-size: 16px !important;

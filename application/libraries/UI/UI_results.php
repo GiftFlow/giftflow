@@ -151,9 +151,9 @@ class UI_results
 
 	
 	}
-	function thankyous($options = array())
+	function thanks($options = array())
 	{
-		Console::logspeed("UI_Results::thankyous()");
+		Console::logspeed("UI_Results::thanks()");
 		$CI =& get_instance();
 
 		//Compile options
@@ -165,10 +165,10 @@ class UI_results
 		$options = array_merge($default_options, $options);
 
 		//Load View
-		$view = $CI->load->view('thankyous/includes/results', $options, TRUE);
+		$view = $CI->load->view('thanks/includes/results', $options, TRUE);
 
 		//Return HTML string
-		Console::logspeed("UI_Results::thankyous() done.");
+		Console::logspeed("UI_Results::thanks() done.");
 		return $view;	
 	
 	}

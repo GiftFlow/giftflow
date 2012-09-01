@@ -373,7 +373,7 @@ class People extends CI_Controller {
 
 		$T_y = new Thankyou_search();
 		$search_options = array('recipient_id' => $U->id);
-		$this->data['thankyous'] = $T_y->find($search_options);
+		$this->data['thanks'] = $T_y->find($search_options);
 
 		//Load gifts for "Give to" panel
 		if(!empty($this->data['logged_in_user_id']))
@@ -502,6 +502,12 @@ class People extends CI_Controller {
 
 		//ok lets try the new route. forget working it into the data structure.
 		$form = $this->input->post(NULL,TRUE);
+
+		if($form['recipient_id'] == $this->data['logged_in_user_id'])
+		{
+			$this->session->set_flashdata('error', 'You can not thank yourself!');
+			redirect('');
+		}
 
 		$TY = new Thankyou();
 
