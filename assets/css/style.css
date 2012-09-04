@@ -1248,7 +1248,10 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 	margin-top: 15px;
 }
 #profile_info {
-	margin: 10px;
+	margin: 10px 10px 10px 0px;
+}
+#profile_photos {
+	margin: 10px 10px 10px 0px;
 }
 #nameandStuff {
 	padding: 0px 0px 0px 20px;
@@ -2718,3 +2721,10 @@ ul.thumbnails.photos-list li p.caption {
 .good_buttons:hover {
 	opacity: 1 !important;
 }
+.photoMod img:hover {
+	opacity: .5;
+}
+a.photoMoid:hover {
+	text-decoration:none !important;
+}
+
