@@ -1845,6 +1845,9 @@ ul.breadcrumbs li a{
 	margin: 4px 7px 0px;
 	background-image: url('silver/images/ui-icons_888888_256x240.png');
 }
+#goods_photos {
+	margin-top: 200px;
+}
 .gift_module{
 	width: 610px;
 	float: left;
@@ -2727,4 +2730,5 @@ ul.thumbnails.photos-list li p.caption {
 a.photoMoid:hover {
 	text-decoration:none !important;
 }
+
 

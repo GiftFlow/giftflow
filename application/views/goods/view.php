@@ -6,8 +6,8 @@
 
 <?php 
 	if(!$active) { echo 'DISABLED'; }
-	
 ?>
+	
 	
 	
 <!-- Main Module -->
@@ -64,8 +64,7 @@
 					<?php } ?>
 				</span>
 			</p>
-			
-			<?php } ?>
+			<?php }?>
 			
 		<?php if(!$is_owner){ ?>
 			<?php if($is_gift){ ?>
@@ -80,8 +79,33 @@
 		
 			<?php }?>
 		<?php } ?>
-		
+		</div>	
+
+		<?php if(!empty($G->photos)) { ?>
+		<div id='goods_photos'  class='thumb_grid'>
+			<p class='nicebigtext'>More Photos</p>
+			<p>
+			<?php foreach($G->photos as $val) { ?>
+			<a class='photoMod' style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+					<img src='<?php echo site_url($val->thumb_url);?>' />
+				</a>
+			<?php } ?>
+			</p>
+			<!--<button class='btn' href='#photoModal' role='button' data-toggle='modal'>BUTTON</button>-->
+			<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
+				<div class='modal-header'>
+					<h3 id='photoModalLabel'>Photo of <?php echo $G->title; ?></h3>
+				</div>
+				<div class='modal-body'>
+					<img src='' id = 'modImage'/>
+				</div>
+				<div class='modal-footer'>
+					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+				</div>
+			</div>
 		</div>
+		<?php } ?>
+			
 		<div style='clear: both;'></div>
 	</div>
 	
@@ -146,12 +170,6 @@
 				Add Photos
 			</a>
 		
-		<?php } ?>
-		<?php if(!empty($photos)) { ?>
-			<a  id="show_photos" class="btn" >
-				<i class="icon-camera"></i>
-				See more photos
-			</a>
 		<?php } ?>
 		</div>
 		
@@ -274,29 +292,15 @@
 <script type='text/javascript'>	
 $(function(){
 		
-	
-	$('#show_photos').click(function() {
-		var photos = <?php if(!empty($photos)) { echo $photos; } else { echo "empty"; } ?>;
 
-		if(photos != 'empty' && $('#more_photos').children().length == 0)
-		{
-			for (var data in photos)
-			{		
-				var d = document.createElement("div");
-				text = document.createTextNode(photos[data].caption);
+$('#photoModal').modal({show:false});
 
-				var img = document.createElement("IMG");
-				img.src = photos[data].thumb_url;
+$('.photoMod').click(function() {
+	var imgUrl = $(this).attr('id');
+	console.log(imgUrl);
+	$('#modImage').attr('src',imgUrl);
+});
 
-				d.appendChild(img);
-				d.appendChild(text);
-
-				$('#more_photos').append(d);
-			}
-			$('#more_photos').addClass('photo_block');
-		}
-	});
-	
 	$("#request_gift_button.open").click(function(){
 		$(this).slideUp();
 		$(".gift_module .middle").addClass("shadow");

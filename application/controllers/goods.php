@@ -308,37 +308,7 @@ class Goods extends CI_Controller {
 				}
 			}
 		}
-		
-		
-		//load all photos of Good
-		$this->load->library('datamapper');
-		$G_dmz = new Good();
-		$G_dmz->get_where(array('id' => $this->G->id)); 
-		$G_dmz->photos->get();
-		
-		//Load photos
-		foreach($G_dmz->photos->all as $pho)
-		{
-			$data = array (
-				"id" => $pho->id,
-				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
-				"default" => FALSE
-			);
-			$photos[] = $data;
-		}
-		if(!empty($photos)) 
-		{
-			$this->data['photos'] = json_encode($photos);
-		}
-		else
-		{
-			$this->data['photos'] = NULL;
-		}
-
 			
-				
 		// Title
 		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
