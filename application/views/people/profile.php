@@ -27,6 +27,29 @@
 			<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
 		</div> <!-- close profile info -->
 
+		<div id='profile_photos' class='thumb_grid'>
+			<p class='nicebigtext'>Photos</p>
+			<p>
+			<?php foreach($u->photos as $val) { ?>
+			<a class='photoMod' style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+					<img src='<?php echo site_url($val->thumb_url);?>' />
+				</a>
+			<?php } ?>
+			</p>
+			<!--<button class='btn' href='#photoModal' role='button' data-toggle='modal'>BUTTON</button>-->
+			<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
+				<div class='modal-header'>
+					<h3 id='photoModalLabel'>Photo of <?php echo $u->screen_name; ?></h3>
+				</div>
+				<div class='modal-body'>
+					<img src='' id = 'modImage'/>
+				</div>
+				<div class='modal-footer'>
+					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+				</div>
+			</div>
+		</div>
+
 		<div id='profile_reviews' class='profile_chunk'>
 			<span class='pTitle'>Reviews</span>
 
@@ -155,7 +178,17 @@
 
 
 <script type='text/javascript'>
+$(function() {
 
+
+
+$('#photoModal').modal({show:false});
+
+$('.photoMod').click(function() {
+	var imgUrl = $(this).attr('id');
+	console.log(imgUrl);
+	$('#modImage').attr('src',imgUrl);
+});
 
 $('#thank_button').click( function() {
 	$('#follow_deets').hide();
@@ -166,38 +199,6 @@ $('#thank_cancel').click( function() {
 	$('#follow_deets').show();
 });
 
-/*
-var more_form, top_form, column;
-
-$('.more_form').click(function() {
-
-	column.find('.top_form').hide();
-	column.find('.more_request').show();
-	
-	//$(this).hide();
-	//var top = $(this).attr('id');
-	//$('span.'+top).hide();
-
 });
-
-$('.less_form').click(function() {
-	$('.profile_form').hide();
-});
-
-$('.profile_action').click(function() {
-	$('.top_form').show();
-	$('.more_request').hide();
-	$('.results_list').show();
-
-	column = $(this).closest('.profile_column');
-	list = column.children('.list');
-	list.children('ul.results_list').hide();
-
-	$('.profile_form').hide();
-	var which = '#'+$(this).attr('id')+'_form';
-	$(which).show();
-	$('.more_form').show();
-});
-*/
 
 </script>
