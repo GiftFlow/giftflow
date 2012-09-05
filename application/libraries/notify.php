@@ -127,7 +127,8 @@ class Notify
 			'decider_email' => $data->transaction->decider->email,
 			'summary' => strip_tags($data->transaction->language->decider_summary),
 			'subject' => strip_tags($data->transaction->language->decider_summary),
-			'note' => $data->note
+			'note' => $data->note,
+			'return_url' => $data->return_url
 		);
 	
 		

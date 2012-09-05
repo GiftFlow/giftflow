@@ -192,7 +192,8 @@ class Market
 					"transaction_id"=>$Transaction->id,
 					"include_messages" => FALSE			
 					)),
-				"note" => $this->note
+				"note" => $this->note,
+				'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 			);
 
 		$E = new Event_logger();
