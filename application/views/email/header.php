@@ -12,7 +12,7 @@
 	@theme page
 	*/
 		body,.backgroundTable{
-			/*@editable*/background-color:#FFFFCC;
+			/*@editable*/background-color:#FFF;
 		}
 	/*
 	@tab Page
@@ -30,7 +30,7 @@
 	@theme header
 	*/
 		.headerTop{
-			/*@editable*/background-color:#FFFFCC;
+			/*@editable*/background-color:#C4E8FD;
 			/*@editable*/border-top:0px none #000000;
 			/*@editable*/border-bottom:0px none #FFFFFF;
 			/*@editable*/text-align:center;
@@ -110,7 +110,7 @@
 			/*@editable*/line-height:150%;
 			/*@editable*/font-family:Verdana;
 			/*@editable*/background-color:#FFFFFF;
-			/*@editable*/padding:20px;
+			/*@editable*/padding:10px;
 			/*@editable*/border:0px none #FFFFFF;
 		}
 	/*
@@ -120,7 +120,7 @@
 	@theme footer
 	*/
 		.footerRow{
-			/*@editable*/background-color:#cccccc;
+			/*@editable*/background-color:#FFFFFF;
 			/*@editable*/border-top:0px none #FFFFFF;
 			/*@editable*/padding:20px;
 		}
@@ -143,7 +143,7 @@
 	@theme link
 	*/
 		a,a:link,a:visited{
-			/*@editable*/color:#800000;
+			/*@editable*/color:#6cb6e2;
 			/*@editable*/text-decoration:underline;
 			/*@editable*/font-weight:normal;
 		}
@@ -153,9 +153,9 @@
 	@tip Specify a color for your header hyperlinks.
 	@theme link_header
 	*/
-		.headerTop a{
-			/*@editable*/color:#663300;
-			/*@editable*/text-decoration:none;
+		a{
+			/*@editable*/color:#6cb6e2;
+			/*@editable*/text-decoration:underline;
 			/*@editable*/font-weight:normal;
 		}
 	/*
@@ -180,22 +180,32 @@
 <tr>
 <td valign="top" align="center">
 
-<table id="contentTable" cellspacing="0" cellpadding="0" width="600"><tr><td>
+<table id="contentTable" cellspacing="0" cellpadding="0" width="600">
+	<tr>
+		<td style='border: 20px solid #C4E8FD'>
+			<table width="600" cellpadding="0" cellspacing="0">
 
-<table width="600" cellpadding="0" cellspacing="0">
-<tr>
-<td class="headerTop" align="right"><div class="adminText" mc:edit="header">
-    
-</div></td>
-</tr>
- 
-<tr>
-<td class="headerBar"><div class="headerBarText"><img mc:edit="header_image" style="max-width: 600px;" mc:allowdesigner mc:allowtext src="http://www.GiftFlow.org/assets/images/giftflowlogo.png"></div></td>
-</tr>
+				<tr>
+					<td class="headerTop" align="right">
+						<div class="adminText" mc:edit="header">
+
+						</div>
+					</td>
+				</tr>
+				 
+				<tr>
+					<td class="headerBar">
+						<div class="headerBarText">
+							<img mc:edit="header_image" style="max-width: 600px;" mc:allowdesigner mc:allowtext src="http://www.GiftFlow.org/assets/images/giftflowlogo.png">
+						</div>
+					</td>
+				</tr>
 
 
-</table>
+			</table>
 
-<table width="600" cellpadding="20" cellspacing="0" class="bodyTable">
-<tr>
-<td valign="top" align="left" class="defaultText" mc:edit="main">
+			<table width="600" cellpadding="0" cellspacing="0" class="bodyTable">
+				<tr>
+					<td width='50' valign="top" align="left" class="defaultText" 
+						style='margin:auto; background-color:#BFEDB9; padding: 30px 10px 30px 10px;' >
+

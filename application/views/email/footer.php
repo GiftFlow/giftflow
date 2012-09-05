@@ -1,14 +1,18 @@
-<br />
-<br />
-Thanks. <br />
-The <a href="http://www.giftflow.org">GiftFlow</a> team
-</tr>
 
+
+					</td>
+ 				</tr>
+				<tr>
+					<td valign='top' align='left' class='defaultText'>
+							<span id='signature'>
+								Thank you from <a href="http://www.giftflow.org">GiftFlow</a>.
+							</span>
+					</td>
+				</tr>
 <tr>
 <td class="footerRow" align="left" valign="top">
 <div class="footerText" mc:edit="footer">
-Email not displaying correctly?
-    <a href="*|ARCHIVE|*" class="adminText">View it in your browser.</a>
+GiftFlow, 71 Orange st @theGrove, New Haven CT 06511
 </div>
 
 
