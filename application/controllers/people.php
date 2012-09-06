@@ -328,7 +328,7 @@ class People extends CI_Controller {
 		$this->data['transactions'] = $T_s->find($search_options);
 
 		$T_y = new Thankyou_search();
-		$search_options = array('recipient_id' => $U->id);
+		$search_options = array('recipient_id' => $U->id, 'status'=>'accepted');
 		$this->data['thanks'] = $T_y->find($search_options);
 
 		//Load gifts for "Give to" panel
@@ -471,6 +471,7 @@ class People extends CI_Controller {
 		$TY->recipient_id = $form['recipient_id'];
 		$TY->gift_title = $form['gift'];
 		$TY->body = $form['body'];
+		$Ty->status = 'pending';
 
 		if(!$TY->save()) {
 			show_error('Error saving Thankyou');
@@ -483,6 +484,7 @@ class People extends CI_Controller {
 			$newThank = new Thankyou_search();
 			
 			$hook_data = $newThank->get(array('id'=>$TY->id));
+			$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
 
 			//record event and send notification
 			$E = new Event_logger();
