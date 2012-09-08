@@ -1,33 +1,63 @@
 <!-- profile is divided into two columns! -->
 <div class = 'row-fluid' id='profile_header'>
 
-	<div class='profile_column span6' id='profile_header_left'>
-		
-		<div id='profile_masthead'>
+	<div class='profile_column span4' id='profile_masthead'>
 
 			<a href="<?php echo current_url();?>" class="user_image left medium">
 				<img src="<?php echo $profile_thumb; ?>" />
 			</a>	
 			
 			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
-			<span class='metadata'>
-			<?php if(!empty($u->default_location)) { ?>
-							<?php if(!empty($u->default_lcoation->city)) { echo $u->default_location->city.','; } ?>
-							<?php if(!empty($u->default_location->state)) { echo $u->default_location->state; } ?>
-							<?php if(!empty($u->default_location->country)) { echo $u->default_location->country.', '; } ?>
-			<?php } ?>
-				<?php echo 'member since '.user_date($u->created,"F jS Y"); ?>
-				<?php //echo $u->type; ?>
-			</span>
-		</div>
+	</div><!-- close profile_masthead -->
+	<div class='span4'></div>
+	<div class='span4'>	</div>
 
-		<div id='profile_info'>
+</div> <!-- close profile_header row -->
+<div class='row-fluid profile_chunk' id='profile_top' -->
+	<div class='span4'>
+			<div class='btn-group profile_actions'>
+				<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-small'>Follow</a>
+				<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>
+					<?php if($visitor) { ?>
+						<a href='#' id='thank_button' class='btn profile_action btn-small btn-success'>Thank</a>
+					<?php } ?>
+			</div>
+			<div id='follow_deets'>
+	
+					<?php if(!empty($u->location)) { ?>
+									<?php if(!empty($u->location->city)) { echo $u->location->city.','; } ?>
+									<?php if(!empty($u->location->state)) { echo $u->location->state; } ?>
+									<?php if(!empty($u->location->country)) { echo $u->location->country.', '; } ?>
+					<?php }  ?>
+				<p>
+						<?php echo 'Member since '.user_date($u->created,"F jS Y"); ?>
+						<?php //echo $u->type; ?>
+				</p>
+		
+
+				<span class='metadata'>
+					<?php echo count($following).' Following';?>
+					<?php echo count($followers).' Followers';?>
+				
+				</span>
+			</div>
+
+			<div class='thumb_grid'>
+			<?php foreach($followers as $val) { ?>
+				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
+				<img src='<?php echo $val->default_photo->thumb_url;?>' />
+				</a>
+			 <?php } ?>
+			</div>
+	</div>
+
+	<div class='span4'id='profile_info'>
 			<p class='nicebigtext'>Bio</p>
 			<p><?php if(!empty($u->bio)) { echo $u->bio; } else { echo "This user has yet to fill out their Bio";} ?></p>
 			<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
-		</div> <!-- close profile info -->
+	</div> <!-- close profile info -->
 
-		<div id='profile_photos' class='thumb_grid'>
+	<div id='profile_photos' class='span4 thumb_grid'>
 			<p class='nicebigtext'>Photos</p>
 			<p>
 			<?php foreach($u->photos as $val) { ?>
@@ -48,10 +78,66 @@
 					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
 				</div>
 			</div>
-		</div>
+	</div>
+</div><!--close header row -->
+<div class='row-fluid' id='buttonFormRow'>
+
+	<div class='span12'>
+			<div id='profile_thank_form' style= 'display:none;' >
+				<?php echo $thankform; ?>
+			</div>
+	</div>
+
+</div><!-- close formButtonRow -->
+<div class = 'row-fluid' id='profile_content'>
+	<div id='profile_content_left' class='profile_column span6'><!-- open left content column -->
+
+			<!--- Gifts and Needs Column -->
+			<div id='profile_gifts' class='profile_chunk'>
+
+				<?php if(!empty($gifts)) { ?>
+
+					<span class='nicebigtext'>Gifts</span>
+
+					<?php echo UI_Results::goods(array(
+						"results"=> $gifts,
+						'mini' => TRUE,
+						'border'=> FALSE
+					)); ?>
+					
+				<?php } else { ?>
+					<span class='nicebigtext'>Gifts</span>
+					<p class='chunk_empty'>This user does not have any gifts listed.</p>
+				<?php } ?>
+
+			</div><!--close profile_gifts -->
+
+
+			<!-- NEEDS column -->
+			<div id='profile_needs' class='profile_chunk'>
+				<!--<a class='btn profile_action' id='offer'>Offer</a>-->
+				<?php if(!empty($needs)) { ?>
+
+					<span class='nicebigtext'> Needs</span>	
+
+					<?php echo UI_Results::goods(array(
+				"results"=> $needs,
+				'mini' => TRUE
+			)); ?>
+					
+			<?php } else { ?>
+				<span class='nicebigtext'> Needs</span>	
+				<p class='chunk_empty'>This user does not have any needs listed.</p>
+			<?php } ?>
+			</div><!-- close profile_needs-->
+	</div><!-- close profile content left -->
+
+	<div id='profile_content_right' class='profile_column span6'><!-- open right content column -->
+
 
 		<div id='profile_reviews' class='profile_chunk'>
-			<span class='pTitle'>Reviews</span>
+			<span class='nicebigtext
+'>Reviews</span>
 
 				<?php if(!empty($giver)) { ?>
 					<?php echo UI_Results::reviews(array(
@@ -65,7 +151,7 @@
 		</div><!--close reviews_list -->
 
 		<div id='profile_thanks' class='profile_chunk'>
-			<span class='pTitle'>Thanks</span>	
+			<span class='nicebigtext'>Thanks</span>	
 
 			<?php if(!empty($thanks)) { ?>
 				<?php echo UI_Results::thanks(array(
@@ -76,105 +162,9 @@
 						<p class='chunk_empty'>This user has not yet received any thanks from others on GiftFlow</p>
 				<?php } ?>
 		</div><!-- close profile_thanks -->
-	</div> <!-- close profile left -->
 
-
-	<div id='profile_header_right' class='profile_column span6'><!-- open right column -->
-		<div id='thankFollow' class='profile_chunk'>
-			<div class='btn-group'>
-			<?php if(isset($logged_in_user_id)) { ?>
-				<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-action'>Follow</a>
-					<?php if($visitor) { ?>
-						<a id='thank_button' class='btn profile_action btn-success'>Thank</a>
-					<?php } ?>
-			<?php } ?>
-			</div>
-
-			<div id='follow_deets'>
-				<span class='metadata'>
-					<?php echo count($following).' Following';?>
-					<?php echo count($followers).' Followers';?>
-				
-				</span>
-
-				<div class='thumb_grid'>
-				<?php foreach($followers as $val) { ?>
-					<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
-						<img src='<?php echo $val->default_photo->thumb_url;?>' />
-					</a>
-				 <?php } ?>
-				</div>
-			</div>
-
-			<div id='profile_thank_form' style= 'display:none;' >
-				<form name = 'thankyou' id='thankyouform' method='post'>
-					<p>
-					<label for='gift'>What did <?php echo $u->screen_name; ?> give you? (brief title)</label>
-					</p>
-					<p>
-						<input type='text' class='big-border' name='gift' id='thankyou_gift' value='' class='required'/>
-					</p>
-					<p>
-					<label for='body'>Be sure to describe the gift.</label>
-					</p>
-					<p>
-						<textarea rows='5' class='big-border required' name='body' id='body' value=''></textarea>
-					</p>
-						<!-- hidden fields -->
-						<input type='hidden' id='recipient_id' name='recipient_id' value='<?php echo $u->id; ?>'/>
-						<input type='hidden' id='recipient_email' name='recipient_email' value='<?php echo $u->email; ?>'/>
-						<input type='hidden' name='formtype' value='thankyou'/>
-					<p>
-						<input type='submit' class='btn' value='Send'/>
-						<a id='thank_cancel' class='btn' href='#'>Cancel</a>
-					</p>
-					<span id='errortext'></span>
-				</form>
-			</div>
-		</div>
-
-			<!--- Gifts and Needs Column -->
-			<div id='profile_gifts' class='profile_chunk'>
-
-				<?php if(!empty($gifts)) { ?>
-
-					<span class='pTitle'>Gifts</span>
-
-					<?php echo UI_Results::goods(array(
-						"results"=> $gifts,
-						'mini' => TRUE,
-						'border'=> FALSE
-					)); ?>
-					
-				<?php } else { ?>
-					<span class='pEmpty'>Gifts</span>
-					<p class='chunk_empty'>This user does not have any gifts listed.</p>
-				<?php } ?>
-
-			</div><!--close profile_gifts -->
-
-
-			<!-- NEEDS column -->
-			<div id='profile_needs' class='profile_chunk'>
-				<!--<a class='btn profile_action' id='offer'>Offer</a>-->
-				<?php if(!empty($needs)) { ?>
-
-					<span class='pTitle'> Needs</span>	
-
-					<?php echo UI_Results::goods(array(
-				"results"=> $needs,
-				'mini' => TRUE
-			)); ?>
-					
-			<?php } else { ?>
-				<span class='pEmpty'> Needs</span>	
-				<p class='chunk_empty'>This user does not have any needs listed.</p>
-			<?php } ?>
-		</div><!-- close profile_needs-->
-
-
-	</div><!-- close row-fluid -->
-</div>
+	</div><!-- close content right -->
+</div><!-- close row fluid -->
 
 
 <script type='text/javascript'>

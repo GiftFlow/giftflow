@@ -368,12 +368,15 @@ class People extends CI_Controller {
 				);
 			$this->data['gift_circle_overlap'] = $Search->gift_circle_overlap($options);
 		}
-		
+
+
 		// Send User object to the view
 		$this->data['u'] = $U;
 		$this->data['title'] = $U->screen_name." | Profile";
 		$this->data['rss'] = '<link rel="alternate" type="application/rss+xml" title="'.$U->screen_name.'\'s Latest Gifts" href="'.site_url('rss/user/'.$user_id).'">
 		<link rel="alternate" type="application/rss+xml" title="'.$U->screen_name.'\'s Latest Needs" href="'.site_url('rss/user/'.$user_id.'/needs').'">';
+
+		$this->data['thankform'] = $this->load->view('forms/thankform', $this->data, TRUE);
 		
 		// Load views
 		$this->load->view('header', $this->data);
