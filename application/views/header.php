@@ -98,6 +98,7 @@ if(isset($css))
 			<ul id='boot_menu'>
 				<li class='dropdown'>
 					<!-- Logged-in User You Menu -->
+					<div class='btn-group'>
 					<a  class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
 						<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
 							Profile
@@ -130,6 +131,7 @@ if(isset($css))
 							</a>
 						</li>
 					</ul>
+				</div>
 			</li>
 		</ul><!-- close boot_menu -->
 
