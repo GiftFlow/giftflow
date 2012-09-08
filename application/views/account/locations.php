@@ -33,37 +33,16 @@
 					</div>
 					
 					<div class="btn-group css_right list_controls">
-					  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-cog"></i>
-						<span class="caret"></span>
-					  </button>
-					 
-					  <ul class="dropdown-menu">
 						<?php if(!$val['default']) { ?>
-							<li>
-								<a href="<?php echo site_url('account/locations/'.$val['id'].'/default/'); ?>" >
-									<i class='icon-star'></i>
-									Make Default Location
-								</a>
-							</li>
+								<a href="<?php echo site_url('account/locations/'.$val['id'].'/default/'); ?>" 
+								class ='btn-small btn'>Make Default</a> 
 						<?php } ?>
-						<!--<li>
-							<a href="<?php echo site_url('account/locations/'.$val['id'].'/edit'); ?>" class='edit'>
-								<i class='icon-pencil'></i>
-								Rename
-							</a>
-						</li>-->
-						<li class="divider"></li>
-						<li><a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>">
-							<i class='icon-trash'></i>
-							Delete
-						</a></li>
-						<!-- dropdown menu links -->
-					  </ul>
-					</div>
-				</li>
-			<?php } ?>
-			</ul>
+						<a href="<?php echo site_url('account/locations/'.$val['id'].'/delete/'); ?>"
+								class='btn-small btn'>Delete</a>
+
+						</li>
+					<?php } ?>
+				</ul>
 			</div> 
 
 			<img id='locations_map' class='css_right' src='http://maps.google.com/maps/api/staticmap?sensor=false&size=230x230&markers=color:blue<?php foreach($locations as $key=>$val) { echo '|'.$val['latitude'].','.$val['longitude']; } ?>' />
@@ -83,6 +62,9 @@
 <script type='text/javascript'>
 $(function(){
 	$('#add_form').validate();
+
+	$('.dropdown-toggle').dropdown();
+
 
 	$("#edit_location").jqm({ 	
 		ajax: '@href', 
