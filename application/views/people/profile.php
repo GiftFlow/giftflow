@@ -10,21 +10,22 @@
 			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
 	</div><!-- close profile_masthead -->
 	<div class='span4'></div>
-	<div class='span4'>	</div>
-
-</div> <!-- close profile_header row -->
-<div class='row-fluid profile_chunk' id='profile_top' -->
-	<div class='span4'>
-			<div class='btn-group profile_actions'>
+	<div class='span4'>	
+		<div class='btn-group profile_actions'>
 				<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-small'>Follow</a>
-				<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>
+				<!--<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>-->
 					<?php if($visitor) { ?>
 						<a href='#' id='thank_button' class='btn profile_action btn-small btn-success'>Thank</a>
 					<?php } ?>
 			</div>
-			<div id='follow_deets'>
-	
+	</div>
+
+</div> <!-- close profile_header row -->
+<div class='row-fluid' id='profile_top' -->
+	<div class='span4'>
+				<div id='follow_deets'>
 					<?php if(!empty($u->location)) { ?>
+								Location:
 									<?php if(!empty($u->location->city)) { echo $u->location->city.','; } ?>
 									<?php if(!empty($u->location->state)) { echo $u->location->state; } ?>
 									<?php if(!empty($u->location->country)) { echo $u->location->country.', '; } ?>
@@ -51,13 +52,13 @@
 			</div>
 	</div>
 
-	<div class='span4'id='profile_info'>
+	<div class='span4 profile_chunk'id='profile_info'>
 			<p class='nicebigtext'>Bio</p>
-			<p><?php if(!empty($u->bio)) { echo $u->bio; } else { echo "This user has yet to fill out their Bio";} ?></p>
+			<p><?php if(!empty($u->bio)) { echo $u->bio; } ?></p>
 			<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
 	</div> <!-- close profile info -->
 
-	<div id='profile_photos' class='span4 thumb_grid'>
+	<div id='profile_photos' class='span4 profile_chunk thumb_grid'>
 			<p class='nicebigtext'>Photos</p>
 			<p>
 			<?php foreach($u->photos as $val) { ?>
@@ -65,6 +66,7 @@
 					<img src='<?php echo site_url($val->thumb_url);?>' />
 				</a>
 			<?php } ?>
+			
 			</p>
 			<!--<button class='btn' href='#photoModal' role='button' data-toggle='modal'>BUTTON</button>-->
 			<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
@@ -145,7 +147,6 @@
 					)); ?>
 
 				<?php } else { ?>
-						<p class='chunk_empty'>This user has not yet given or received any gifts through GiftFlow</p>
 				<?php } ?>
 
 		</div><!--close reviews_list -->
@@ -159,7 +160,6 @@
 				)); ?>
 				
 				<?php } else { ?>
-						<p class='chunk_empty'>This user has not yet received any thanks from others on GiftFlow</p>
 				<?php } ?>
 		</div><!-- close profile_thanks -->
 
@@ -181,12 +181,12 @@ $('.photoMod').click(function() {
 });
 
 $('#thank_button').click( function() {
-	$('#follow_deets').hide();
+	$('#profile_top').hide();
 	$('#profile_thank_form').show();
 });
 $('#thank_cancel').click( function() {
 	$('#profile_thank_form').hide();
-	$('#follow_deets').show();
+	$('#profile_top').show();
 });
 
 });
