@@ -16,7 +16,16 @@ class About extends CI_Controller {
 	{
 		$this->data['title'] = "About";
 		$this->load->view('header', $this->data);
-		$this->load->view('about/index', $this->data);
+		$this->load->view('about/story', $this->data);
+		$this->load->view('footer', $this->data);
+	}
+	
+	
+	public function faq()
+	{
+		$this->data['title'] = "The Tour";
+		$this->load->view('header', $this->data);
+		$this->load->view('about/faq', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -33,14 +42,6 @@ class About extends CI_Controller {
 		$this->data['title'] = "Future";
 		$this->load->view('header', $this->data);
 		$this->load->view('about/future', $this->data);
-		$this->load->view('footer', $this->data);
-	}
-	
-	public function faq()
-	{
-		$this->data['title'] = "FAQ";
-		$this->load->view('header', $this->data);
-		$this->load->view('about/faq', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 	
@@ -67,14 +68,21 @@ class About extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	public function finances()
+	public function transparency()
 	{
-		$this->data['title'] = "Finances";
+		$this->data['title'] = "Transparency";
 		$this->load->view('header', $this->data);
-		$this->load->view('about/finances', $this->data);
+		$this->load->view('about/transparency', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 
+	public function thankyou()
+	{
+		$this->data['title'] = "Thank you";
+		$this->load->view('header', $this->data);
+		$this->load->view('about/thankyou', $this->data);
+		$this->load->view('footer', $this->data);
+	}
 	public function contact_giftflow()
 	{
 		if(!empty($_POST)) 

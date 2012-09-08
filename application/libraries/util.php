@@ -65,8 +65,7 @@ class Util
 			$domain = $host[sizeof($host)-2] . "." . $host[sizeof($host) - 1];
 		}
 		$globals['localhost'] = $localhost;
-		
-		
+
 		// Set userdata
 		if($this->CI->session->userdata('user_id'))
 		{
@@ -109,14 +108,14 @@ class Util
 				}
 			}
 			
-			//See if user has active or pending transactions
+			//See if user has active or pending messages in inbox
 			//If so, light up the Your Inbox menu option
-			$globals['transactions_active'] = FALSE;
+			$globals['inbox_active'] = FALSE;
 			
 			// Run a transactions search
 			$this->CI->load->library('Search/Transaction_search');
 			$TS = new Transaction_search;
-			$active_search = $TS->find(array(
+			$trans_search = $TS->find(array(
 				"user_id"=>$globals['logged_in_user_id'],
 				"transaction_status"=>array(
 					"active",
@@ -124,16 +123,45 @@ class Util
 				),
 				"limit"=>200
 			));
-			
+
+			//include thankyous in active inbox
+			$this->CI->load->library('Search/Thankyou_search');
+			$TY = new Thankyou_search();
+			$thank_search = $TY ->find(array(
+				'recipient_id' => $globals['logged_in_user_id'],
+				'status' => 'pending'
+			));
+
 			// If found, store count
-			if(count($active_search) > 0)
+			if(count($trans_search) > 0 || count($thank_search) > 0)
 			{
-				$globals['transactions_active'] = TRUE;
-				$globals['transactions_active_count'] = count($active_search);
+				$globals['inbox_active'] = TRUE;
+				$globals['inbox_active_count'] = count($trans_search) + count($thank_search);
 			}
+
 		}
 		else
 		{
+			$this->CI->config->load('account',TRUE);
+			$fbook = $this->CI->config->config['account'];
+
+			//load the facebook sdk
+			require_once('assets/facebook/facebook.php');
+			$config = array (	
+				"appId"=> $fbook['appId'],
+				"secret"=> $fbook['secret'],
+				"fileUpload"=>true
+			);
+
+			$this->facebook = new Facebook($config);
+
+			$params = array(
+				'scope' => 'email, user_photos, publish_stream',
+				'redirect_uri' => current_url()
+			);
+
+			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
+
 			$globals['logged_in'] = FALSE;
 			$globals['userdata'] = array();
 		}

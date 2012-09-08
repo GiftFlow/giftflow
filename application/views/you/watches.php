@@ -9,10 +9,12 @@
 
 		<?php echo $form; ?>
 		
-		<h3>Keywords you are currently watching</h3>
 		
 		<?php if(!empty($watches)) { ?>
-			<ul class ="transactions goods_list list_menu float_right">
+			<ul class ="transactions goods_list list_menu float_right" id='watch_list'>
+				<li class='section_header'>
+					<h3 class='messages_title'>Currently Watching</h3>
+				</li>
 				<?php 
 					foreach($watches as $val) 
 					{ ?>
@@ -24,8 +26,10 @@
 								<i class="icon-trash"></i>
 							  </a>
 								
-							<div class="metadata left">
-								<?php echo $val->keyword; ?>
+							<div class="metadata left watchword">
+								<a id='keyword' title='Click to Search' href='<?php echo site_url("find/".$val->keyword); ?>'>
+									<?php echo $val->keyword; ?>
+								</a>
 							</div>
 								
 						</li>
@@ -49,8 +53,11 @@
 <script type='text/javascript'>
 $(function(){
 
-	$(".delete_watch").click(function(){
-		return confirm('Are you sure you want to delete this watch?');
+	$('#keyword').tipTip({
+		defaultPosition: "right",
+		delay: 0,
+		fadein: 0,
+		keepAlive:'true'
 	});
 	
 });

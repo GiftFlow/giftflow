@@ -1,7 +1,6 @@
 <?php if(!empty($results)) { ?>
 
 	<?php if(!$row) { ?>
-		<!-- Results List  PLEASE LEAVE THE ID HERE IT IS FOR ajax::giftflow on VIEWS/YOU/INDEX -->
 		<ul id="goods_includes_results" class='results_list goods <?php if($mini){ echo "mini"; } elseif($grid){ echo "grid clearfix"; } ?>'>
 	<?php } ?>
 	
@@ -24,7 +23,9 @@
 					<!-- Title -->
 					
 					<a class="title" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+						<span class= "title_<?php echo $G->type; ?>">
 						<?php echo $G->title;?>
+						</span>
 					</a>
 			<?php }?>
 			<?php if(in_array("offer_links",$include)){ ?>
@@ -41,7 +42,11 @@
 				<div class='result_meta clearfix'>
 				
 					<!-- Title -->
-					<a class="title" href="#"><?php echo $G->title;?></a>
+					<a class="title" href="#">
+						<span class='title <?php echo $G->type; ?>'> 
+							<?php echo $G->title;?>
+						</span>
+					</a>
 					
 			<?php } ?>
 					

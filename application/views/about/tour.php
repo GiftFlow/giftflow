@@ -4,6 +4,11 @@
 <span class='stereo_tour'>
      many thanks to <a id='stereomedia' href='http://www.townofnewhaven.org'><img src='<?php echo base_url();?>assets/images/applegate/stereomedia.jpg'/></a>
 </span>-->
+<p> 
+<img style='width: 20px;' src='<?php echo base_url();?>assets/images/applegate/bluearrow1.png'/>
+Click on the blue arrows to find out more!
+</p>
+
  <div id='frame'>
     <img id='werks' src='<?php echo base_url();?>assets/images/applegate/howitwerks.png'/>
     <span class ='arrows'>
@@ -24,7 +29,6 @@
     </div>
   </div>
   <p id='credits'>
-    <a id='tour_link' href='<?php echo base_url();?>about'>Back to About</a>
      <span class='stereo_tour'>
        many thanks to <a id='stereomedia' href='http://www.townofnewhaven.org'><img src='<?php echo base_url();?>assets/images/applegate/stereomedia.jpg'/></a>
     </span>

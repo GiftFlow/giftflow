@@ -71,6 +71,8 @@ class Market
 		$this->CI->load->library('datamapper');
 		$this->CI->load->library('Search/Good_search');
 		$this->CI->load->library('Search/Transaction_search');
+		$this->CI->load->library('Event_logger');
+		$this->CI->load->library('Notify');
 	}
 	
 	/**
@@ -84,6 +86,7 @@ class Market
 	*	@param string $options['demands'][0]['type']
 	*	@param string $options['note']
 	*	@param int $options['decider_id']
+	*	@param strin $options['hook']
 	*	@return boolean
 	*/
 	public function create_transaction($options)
@@ -95,8 +98,7 @@ class Market
 		// Save Transaction
 		if(!$Transaction->save())
 		{
-			// @todo handle transaction saving error
-			return FALSE;
+			show_error('Error saving transaction');
 		}
 	
 		// Person not demanding Good. Passed in $options seperate from $demands
@@ -109,12 +111,12 @@ class Market
 		foreach($options['demands'] as $key=>$val)
 		{
 
-			// Good being requested
+			// Good being requested, include disabled goods!
 			$Good_search = new Good_search;
 			$Good = $Good_search->get(array(
 				"good_id"=>$val['good_id']
 			));
-			
+
 			//Set message passed in demand
 			if(!empty($val['note']) && empty($this->note))
 			{
@@ -147,7 +149,7 @@ class Market
 		// Before saving demands, validate that a Decider has been found
 		if(empty($this->Decider))
 		{
-			return FALSE;
+			show_error('Error finding Decider');
 		}
 		
 		// Save each Demand in $this->Demands array
@@ -155,8 +157,7 @@ class Market
 		{
 			if(!$val->save())
 			{
-				// @todo handle demand saving error
-				return FALSE;
+				show_error('Error saving demands array');
 			}
 		}
 	
@@ -164,14 +165,12 @@ class Market
 		// Creates 2 rows in transactions_users table
 		if(!$Transaction->save_user($this->Demander))
 		{
-			// @todo handle user saving error
-			return FALSE;
+			show_error('Error saving Demander to transaction');
 		}
 			
 		if(!$Transaction->save_user($this->Decider))
 		{
-			// @todo handle user saving error
-			return FALSE;
+			show_error('Error saving Decider to transaction');
 		}
 		if(!empty($this->note))
 		{
@@ -184,22 +183,25 @@ class Market
 				)))
 			{
 				show_error("Error saving conversation.");
-				return FALSE;
 			}
 		}
-		
-		// Load fully formed transaction factory result of new transaction
-		$TS = new Transaction_search;
-		$hook_data = (object) array(
-			"transaction"=> $TS->get(array(
-				"transaction_id"=>$Transaction->id,
-				"include_messages" => FALSE			
-				)),
-			"note" => $this->note
-		);
+			// Load fully formed transaction factory result of new transaction
+			$TS = new Transaction_search;
+			$hook_data = (object) array(
+				"transaction"=> $TS->get(array(
+					"transaction_id"=>$Transaction->id,
+					"include_messages" => FALSE			
+					)),
+				"note" => $this->note
+			);
 
-		// Hook: `transaction_new`
- 		$this->CI->hooks->call('transaction_new', $hook_data);
+		$E = new Event_logger();
+		$E->transaction_new('transaction_new',$hook_data);
+
+		$N = new Notify();
+		$N->alert_transaction_new('transaction_new',$hook_data);
+
+		$this->updated('transaction_new',$hook_data);
 
 		return TRUE;
 	}
@@ -272,8 +274,9 @@ class Market
 			"message" => $options['message']
 		);
 		
-		// Hook: 'transaction_cancelled'
-		$this->CI->hooks->call('transaction_cancelled', $hook_data);
+		$E = new Event_logger();
+		$E->transaction_cancelled('transaction_cancelled',$hook_data);
+		$this->updated('transaction_cancelled',$hook_data);
 		
 		return TRUE;
 	}
@@ -341,8 +344,10 @@ class Market
 			"message" => $options['message']
 		);
 		
-		// Hook: 'transaction_declined'
-		$this->CI->hooks->call('transaction_declined', $hook_data);
+		
+		$E = new Event_logger();
+		$E->transaction_declined('transaction_declined',$hook_data);
+		$this->updated('transaction_declined',$hook_data);
 		
 		return TRUE;
 	}
@@ -391,8 +396,11 @@ class Market
 			"message" => $options['message']
 		);
 				
-		// Hook: 'demand_activated'
-		$this->CI->hooks->call("transaction_activated",$hook_data);
+		$E = new Event_logger();
+		$E->transaction_activated('transaction_activated',$hook_data);
+
+		$N = new Notify();
+		$N->alert_transaction_activated('transaction_activated',$hook_data);
 		
 		return TRUE;
 	}
@@ -406,6 +414,7 @@ class Market
 	*	@param string $options['rating']		Rating of review
 	*	@param int $options['reviewer_id']		Reviewer ID
 	*	@param object $options['transaction_data']	Data of transaction
+	*	@param string $options['hook']			which hook should be called review/thankyou
 	*	@return boolean
 	*/
 	public function review($options)
@@ -475,8 +484,11 @@ class Market
 		}
 		
 		
-		// Hook: `transaction_reviewed`
-		$this->CI->hooks->call("review_new", $hook_data);
+		$E = new Event_logger();
+		$E->review_new('review_new',$hook_data);
+
+		$N = new Notify();
+		$N->review_new('review_new',$hook_data);
 
 		// Attempt to change status to completed
 		$this->complete(array(
@@ -498,32 +510,35 @@ class Market
 		
 		// Load transaction
 		$Transaction = new Transaction($options['transaction_id']);
-		
-		// Make sure that both reviews have been written
-		if(!$Transaction->has_both_reviews())
-		{
-			// @todo handle error
-			return FALSE;
-		}
 	
-		$Transaction->status = "completed";
-		
-		if(!$Transaction->save())
+		/*Eliminated the has_both_reviews check 
+		 * changed it to a simple status check
+		 * This check is called from market::review in two different ways
+		 * One when a user writes another a review and the other when they write a thankyou
+		 * A thankyou creates a 'pending' transaction, so this test won't pass.
+		*/
+
+		if($Transaction->status = 'active')
 		{
-			//@todo handle error
-			return FALSE;
-		}
+			$Transaction->status = "completed";
 		
-		// Prep hook data
-		$TS = new Transaction_search;
-		$hook_data = (object) array(
-			"transaction"=> $TS->get(array(
-				"transaction_id"=>$Transaction->id
+			if(!$Transaction->save())
+			{
+				//@todo handle error
+				return FALSE;
+			}
+		
+			// Prep hook data
+			$TS = new Transaction_search;
+			$hook_data = (object) array(
+				"transaction"=> $TS->get(array(
+					"transaction_id"=>$Transaction->id
 			))
-		);
+			);
 		
-		// Hook: `transaction_reviewed`
-		$this->CI->hooks->call("transaction_completed", $hook_data);
+			$E = new Event_logger();
+			$E->basic('transaction_completed',$hook_data);
+		}
 		
 		return TRUE;
 	}
@@ -565,8 +580,13 @@ class Market
 			"conversation"=>$Conversation
 		);
 		
-		// Hook: `transaction_message`
-		$this->CI->hooks->call("transaction_message", $hook_data);
+		$E = new Event_logger();
+		$E->transaction_message('transaction_message',$hook_data);
+
+		$N = new Notify();
+		$N->alert_transaction_message('transaction_message',$hook_data);
+
+		$this->updated('transaction_message',$hook_data);
 		
 		return TRUE;
 	}

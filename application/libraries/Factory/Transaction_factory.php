@@ -112,7 +112,6 @@ class Transaction_factory {
 			// Add Demand to its parent Transaction
 			$this->Transactions[$Demand->transaction_id]->demands[] = $this->Demands[$key];
 		}
-		
 		// Build Transactions
 		foreach($this->Transactions as $key=>$Transaction)
 		{
@@ -378,6 +377,9 @@ class Transaction_factory {
 					case "give":
 						$brief .= "has offered you ";
 						break;
+					case "thank":
+						$brief .= 'has thanked you for ';
+						break;
 					default:
 						$brief .= "wants to ".$type." your";
 				}
@@ -415,11 +417,13 @@ class Transaction_factory {
 					case "give":
 						$brief = "You offered to give ".$thing." to ";
 						break;
+					case "thank":
+						$brief = "You thanked ".$decider_link." for ".$thing;
 					default:
-						$brief = "want to ".$type." your ".$thing." to ";
+						$brief = "would like to ".$type." your ".$thing." to ";
 				}
 				
-				if($demand->type != "fulfill")
+				if($demand->type != "fulfill" || $demand->type != 'thank')
 				{
 					$brief .= $decider_link;
 				}
@@ -465,10 +469,12 @@ class Transaction_factory {
 					case "give":
 						$brief .= " gave ".$thing." to ";
 						break;
+					case 'thank':
+						$brief .= " thanked ".$decider_link." for ".$thing;
 					default:
 						$brief .= " want to ".$type." your ".$thing." to ";
 				}
-				if($demand->type != "fulfill")
+				if($demand->type != "fulfill" || $demand->type != 'thank')
 				{
 					$brief .= $decider_link;
 				}

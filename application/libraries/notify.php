@@ -81,6 +81,8 @@ class Notify
 	 */
 	function alert_user_watch_match($watch, $good) {
 		
+		log_message('debug', "Sending watch notification email to user " . $watch->screen_name . " for item " . $good->title);
+		
 		$A = new Alert();
 		
       	// Map hook data onto email template parseables array
@@ -97,7 +99,7 @@ class Notify
 		// Set recipient
 		$A->to = $watch->email;
       
-      	// send email
+		// send email
 		$A->send();
 	}
 	
@@ -210,20 +212,7 @@ class Notify
 		
 		$A->send();
 	}
-	
-	/**
-	*	Mark notifications as read
-	*	Note: handwritten SQL query used because the active record library
-	*	appears not to support the usage of JOIN clauses in UPDATE queries
-	*
-	*	$data object contains two properties: user_id and transaction_id.
-	*/
-	function transaction_viewed($params, $data)
-	{
-		Console::logSpeed("Notify::transaction_viewed()");
-		$this->CI->db->query("UPDATE `notifications` AS N JOIN events AS E ON N.event_id=E.id SET `N`.`enabled` = 0 WHERE `E`.`transaction_id` = ? AND `N`.`user_id` = ?", array($data->transaction_id, $data->user_id));		
-	}
-	
+
 	/** 
 	*	Email forgotten password code to user
 	*
@@ -286,5 +275,44 @@ class Notify
 		$A->send();
 	
 	}
-	
+
+	/**
+	 * When a user 'thanks' another, this function sends the recipient an email with
+	 * the text of the thank and 'approve/decline' buttons
+	 * The buttons then call the thank controller which validates/disables the thankyou
+	 */
+	function thankyou($params, $data)
+	{
+		$A = new Alert();
+
+		$A->parseables = array(
+			'subject' => $data->screen_name.' wants to thank you for '.$data->gift_title,
+			'body' => $data->body,
+			'gift_title' => $data->gift_title,
+			'recipient_screen_name' => $data->recipient_screen_name,
+			'screen_name' => $data->screen_name
+		);
+
+		$A->template_name = 'thankyou';
+		$A->to = $data->recipient_email;
+		$A->send();
+	}
+
+	function thankyou_updated($params, $data)
+	{
+		$A = new Alert();
+
+		$A->parseables = array(
+			'subject' => $data->recipient_screen_name.' has '.$data->decision.' your Thank.',
+			'body' => $data->body,
+			'gift_title' => $data->gift_title,
+			'screen_name' => $data->screen_name,
+			'recipient_screen_name' => $data->recipient_screen_name,
+			'link' => site_url('/you/view_thankyou/'.$data->id)
+		);
+		
+		$A->template_name = 'thankyou_updated';
+		$A->to = $data->email;
+		$A->send();
+	}
 }

@@ -24,6 +24,11 @@ class People extends CI_Controller {
 		$this->load->library('Search/User_search');
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/Transaction_search');
+		$this->load->library('Search/Review_search');
+		$this->load->library('Search/Thankyou_search');
+		$this->load->library('market');
+		$this->load->library('event_logger');
+		$this->load->library('notify');
 		
 		if(!empty($this->data['logged_in_user_id']))
 		{
@@ -39,7 +44,7 @@ class People extends CI_Controller {
       'exclude_logged_in_user'=>TRUE
     );
 
-		$newest_search = new User_search();
+    $newest_search = new User_search();
 		$this->data['results'] = $newest_search->find($newest_options);
 
 		$this->data['title'] = "People";	
@@ -217,7 +222,14 @@ class People extends CI_Controller {
 		
  		if(!empty($_POST))
  		{
- 			$this->_offer();
+			switch($_POST['formtype']) {
+			case 'offer':
+				$this->_offer();
+				break;
+			case 'thankyou':
+				$this->_thank();
+				break;
+			};
  		}
 		// Default behavior:
 		// Segment one == "people" and  segment two == user id and segment three == method
@@ -285,16 +297,6 @@ class People extends CI_Controller {
 		
 		$U->default_location->get();
 			
-		if($U->default_location->exists())
-		{
-			//echo $U->default_location->city;
-		}
-		else
-		{
-			//echo "nope";
-		}
-		
-			
 		$U->default_photo->get();
 		
 		if($U->photo_source == 'facebook' && !empty($U->facebook_id))
@@ -328,7 +330,6 @@ class People extends CI_Controller {
 		}
 		
 
-
 		// New User_search object
 		$Search = new User_search;
 		$Search->user_id = $U->id;
@@ -336,70 +337,48 @@ class People extends CI_Controller {
 		// Load user's gift
 		$this->load->library('Search/Good_search');
 		$G = new Good_search;
-		$this->data['gifts'] = $G->find( array("user_id" => $U->id, "count_transactions" => FALSE, "type"=>"gift"));
+		$this->data['gifts'] = $G->find( array(
+			"user_id" => $U->id, 
+			"count_transactions" => FALSE, 
+			"type"=>"gift",
+			"status" => 'active'
+		
+		));
 		
 		// Load user's needs
-		$this->data['needs'] = $G->find( array("user_id" => $U->id, "count_transactions" => FALSE, "type"=>"need"));
+		$this->data['needs'] = $G->find( array(
+			"user_id" => $U->id, 
+			"count_transactions" => FALSE, 
+			"type"=>"need",
+			"status" => 'active'	
+		));
 		
 		// Generate stats about the user
 		$U->stats();
-		
+
+		//Load user's thank yous - transactions without goods or demands
+		$R = new Review_search();
+		$review_options = array('user_id' => $U->id);
+		//to be appended to gifts_given list in view
+		$this->data['reviews'] = $R->find($review_options);
+
 		// Load user's completed Transactions - to get reviews
 		$T_s = new Transaction_search();
 		$search_options = array(
 			"user_id" => $U->id,
 			"transaction_status" => "completed",
+			"limit" => 20
 			);
 		$this->data['transactions'] = $T_s->find($search_options);
-		
-		// define blank arrays
-		$this->data['giver'] = array();
-		$this->data['receiver'] = array();
-		
-		// Sort reviews by whether the user gave or recieved the gift
-		foreach ($this->data['transactions'] as $key=>$val)
-		{
-			if($val->decider->id == $U->id)
-			{
-				foreach($val->demands as $demand)
-				{
-						if($demand->type == 'take' || $demand->type == 'borrow')
-						{
-							$this->data['giver'][] = $this->data['transactions'][$key];
-							$this->data['gifts_given'][] = $demand->good;
-						}
-						elseif($demand->type == 'give' || $demand->type == 'share')
-						{
-							$this->data['receiver'][] = $this->data['transactions'][$key];
-							$this->data['gifts_received'][] = $demand->good;
-						}
-				}
-			}
-			if($val->demander->id == $U->id)
-			{
-				foreach($val->demands as $demand)
-				{
-						if($demand->type == 'take' || $demand->type == 'borrow')
-						{
-							$this->data['receiver'][] = $this->data['transactions'][$key];
-							$this->data['gifts_received'][] = $demand->good;
-						}
-						elseif($demand->type == 'give' || $demand->type == 'share')
-						{
-							$this->data['giver'][] = $this->data['transactions'][$key];
-							$this->data['gifts_given'][] = $demand->good;
-						}
-				}
-			}
-		}
+
+		$T_y = new Thankyou_search();
+		$search_options = array('recipient_id' => $U->id);
+		$this->data['thanks'] = $T_y->find($search_options);
+
 		//Load gifts for "Give to" panel
 		if(!empty($this->data['logged_in_user_id']))
 		{
 			$this->data['potential_gifts'] = $G->find( array("user_id" => $this->data['logged_in_user_id'], "type"=>"gift"));
-		}
-		else
-		{
-			unset($this->data['potential_gifts']);
 		}
 		
 		// Get list of people this user is following
@@ -412,7 +391,6 @@ class People extends CI_Controller {
 			"user_id"=>$U->id
 		));
 		
-	
 		$this->data['visitor'] = TRUE;
 		
 		// If logged in, check to see if visitor is following this user
@@ -453,6 +431,8 @@ class People extends CI_Controller {
 	*/
 	function follow( $user_id )
 	{
+		$this->auth->bouncer(1);
+
 		// Create User objects for both logged in user and user to follow
 		$U = new User($this->data['logged_in_user_id']);
 		$F = new User($user_id);
@@ -465,11 +445,11 @@ class People extends CI_Controller {
 			"following_user_id"=>$user_id,
 			"follower_user_id"=>$this->data['logged_in_user_id']
 		);
-		
-	
-		// Hooks follower and following!
-		$this->hooks->call('follower_new', $hook_data);
-		$this->hooks->call('following_new', $hook_data);
+
+		$E = new Event_logger();
+		$E->follower_new('follower_new', $hook_data);
+		$E->following_new('following_new',$hook_data);
+
 
 		if( $this->data['is_ajax'] )
 		{
@@ -507,6 +487,55 @@ class People extends CI_Controller {
 		{
 			$this->session->set_flashdata('success', 'No longer following '.$F->screen_name.'.');
 			redirect('people/'.$user_id);
+		}
+	}
+
+
+	/** 
+	 * The thank you function is for the Thank you button on the user profile
+	 * The idea is to enable users to write quick reviews for one another without
+	 * needing to go through the whole transaction process
+	 */
+	function _thank()
+	{
+		$this->auth->bouncer('1');
+
+		//ok lets try the new route. forget working it into the data structure.
+		$form = $this->input->post(NULL,TRUE);
+
+		if($form['recipient_id'] == $this->data['logged_in_user_id'])
+		{
+			$this->session->set_flashdata('error', 'You can not thank yourself!');
+			redirect('');
+		}
+
+		$TY = new Thankyou();
+
+		$TY->thanker_id = $this->data['logged_in_user_id'];
+		$TY->recipient_id = $form['recipient_id'];
+		$TY->gift_title = $form['gift'];
+		$TY->body = $form['body'];
+
+		if(!$TY->save()) {
+			show_error('Error saving Thankyou');
+		} else {
+			// Set flashdata & redirect
+			$this->session->set_flashdata('success', 'Thank sent!');
+
+
+			//Get filled out thankyou object from thankyouSearch 
+			$newThank = new Thankyou_search();
+			
+			$hook_data = $newThank->get(array('id'=>$TY->id));
+
+			//record event and send notification
+			$E = new Event_logger();
+			$E->basic('thankyou', $hook_data);
+
+			$N = new Notify();
+			$N->thankyou('thankyou', $hook_data);
+
+			redirect('people/'.$form['recipient_id']);
 		}
 	}
 
@@ -636,7 +665,6 @@ class People extends CI_Controller {
 			redirect('people/'.$_POST['decider_id']);
 		}
 
- 		$this->load->library('market');
 				
 		// Arguments to send to Market::create_transaction()
 		$options = array(
@@ -663,6 +691,7 @@ class People extends CI_Controller {
 		// Set flashdata & redirect
 			$this->session->set_flashdata('success', 'Offer sent!');
 			redirect('people/'.$_POST['decider_id']);
-		
+	
 	}
 }
+

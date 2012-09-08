@@ -18,7 +18,7 @@ class Geo
 	*	@todo move to config file
 	*	@var string
 	*/
-	var $ipinfodb_api_key = "897fa95906c6c0f4bef881463cb60b254d23c778565f37308116ae5f010c5f7d";	// Enter your IPInfoDB.com API key here
+	var $ipinfodb_api_key = IPINFODB_API_KEY;
 	
 	/**
 	*	Default search radius in miles

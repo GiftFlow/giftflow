@@ -167,8 +167,6 @@ class Ajax extends CI_Controller {
 	
 	}
 	
-	
-	
 	/**
 	*	Searches for tags that match the user's input and returns the most
 	*	popular matches. Used in the good creation and editing process.
@@ -185,7 +183,7 @@ class Ajax extends CI_Controller {
 				->from('goods_tags AS gt ')
 				->join('goods AS g ', 'g.id=gt.good_id')
 				->join('tags AS t ', 't.id = gt.tag_id')
-				->where('g.type','gift')
+		//		->where('g.type','gift')
 				->like('t.name',$keyword, 'after')
 				->group_by('t.name')
 				->limit(10)
@@ -196,6 +194,7 @@ class Ajax extends CI_Controller {
 		
 		echo json_encode($result);
 	}
+
 	
 	public function add_tag()
 	{

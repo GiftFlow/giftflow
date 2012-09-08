@@ -32,7 +32,7 @@ class Member extends CI_Controller {
 	function index()
 	{
 		// redirect to profile
-		redirect('you/profile');
+		redirect('you/index');
 	}
 	
 	/**
@@ -42,6 +42,7 @@ class Member extends CI_Controller {
 	function login( $redirect = FALSE )
 	{
 
+		//check if user is facebook authorized
 		$user = $this->facebook->getUser();
 		//facebook authorized
 		if($user > 0)
@@ -59,6 +60,12 @@ class Member extends CI_Controller {
 		else if(!empty($_POST))
 		{
 			$this->U = $this->auth->login();
+			$this->data['redirect'] = $this->input->post('redirect');
+
+			if($this->data['redirect'] == site_url('member/login')) 
+			{
+				$this->data['redirect'] = site_url('you');
+			}
 			
 			// Check for errors
 			
@@ -66,7 +73,7 @@ class Member extends CI_Controller {
 			if(count($this->U->error->all) > 0)
 			{
 				$this->session->set_flashdata('error', $this->U->error->string);
-				redirect('login');
+				$this->_login_form();
 			}
 			// No errors. Proceed.
 			else
@@ -75,13 +82,19 @@ class Member extends CI_Controller {
 				//-hans - unclear what this bit does
 				if($this->input->post('redirect'))
 				{
+					/*
 					$q = $this->db->where('id', $this->input->post('redirect'))->get('redirects',1);
 					$r = $q->row();
 					redirect($r->url);
+					 */
+					//Changing from database redirect system to a simple url segment redirect
+					
+					redirect($this->data['redirect']);
+
 				}
 				else
 				{
-					redirect('you/welcome');
+					redirect('you/inbox');
 				}
 			}
 		}
@@ -89,7 +102,6 @@ class Member extends CI_Controller {
 		// If no form data, render login form
 		else
 		{
-			$this->data['redirect'] = $redirect;
 			$this->_login_form();
 		}
 	}
@@ -404,44 +416,6 @@ class Member extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	function fakebook()
-	{
-		die('here');
-	}
-
-
-	function facebook($data)
-	{
-		//$user = $this->facebook->getUser();
-		
-		//$accessToken = $this->facebook->getAccessToken();
-		
-
-		if($user) {
-		//	$user_info = $this->facebook->api('me?fields=id,name,first_name,last_name&access_token='.$accessToken);
-		//	var_dump($user_info);
-		}
-		echo('herere');
-
-
-
-	}
-		// the necessary data to the Auth class.
-//		else
-//		{
-//			$access = $key1.'='.$val1;
-//			if(!empty($key2)&&!empty($val2))
-//			{
-//				$access .= $key2.'='.$val2;
-//			}
-//			$facebook_data = json_decode(file_get_contents("https://graph.facebook.com/me?".$access));
-//			
-//			if($key1=="access_token")
-//			{
-//				$facebook_data->token = $val1;
-//			}
-//			
-//			$this->auth->facebook($facebook_data);
 
 	function terms()
 	{

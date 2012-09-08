@@ -5,8 +5,8 @@
 	
 	<div class='right_content'>
 		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="button btn"><?php echo lang("button_add_".$type);?></a>
-		<?php if(!empty($goods)) { ?>
-			<ul class ="transactions goods_list list_menu float_right">
+		<ul class ="transactions goods_list list_menu float_right">
+			<?php if(!empty($goods)) { ?>
 				<?php foreach($goods as $val) { ?>
 					<?php 
 						if($val->status !='disabled')
@@ -14,8 +14,14 @@
 							<li class="clearfix">
 							
 								<!-- Options Dropdown Menu -->
-								<div class="btn-group css_right">
-								  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
+								<div class="btn-group css_right good_buttons">
+									<a class='btn'>Share</a>
+									<a class='btn'>Edit</a>
+									<a class='btn'>Add Photos</a>
+									<a class='btn'>Delete</a>
+
+
+<!--								  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
 								  	<i class="icon-cog"></i>
 								  	<span class="caret"></span>
 								  </button>
@@ -26,6 +32,7 @@
 									<li class="divider"></li>
 									<li><a href="<?php echo site_url('gifts/'.$val->id.'/disable'); ?>">Delete</a></li>
 								  </ul>
+-->
 								</div>
 								<!-- eof Options Dropdown Menu -->
 								
@@ -45,11 +52,11 @@
 								<!--<span class="status left">
 									<?php echo $val->status; ?>
 								</span>-->
-								
+							<!--	
 								<span class="updated css_right">
 									<?php echo user_date($val->created,"n/j/o");?>
 								</span>
-                <div class='addthis'></div>
+							-->
 						</li>
 						
 						
@@ -57,15 +64,14 @@
 
 					<?php } ?>
 				<?php } ?>
-				</ul>
 		<?php } else { ?>
 		
 			<!-- Empty State -->
-			<p>
+			<li>
 				No <?php echo $type.'s'; ?> found.
-			</p>
+			</li>
 		<?php } ?>
-		
+		</ul>
 	</div>
 	<!-- eof div.right_content -->
 	

@@ -131,7 +131,7 @@ class Good_search extends Search
 			// Filter by status
 			if(!empty($options->status))
 			{
-				$this->CI->db->where("G.status",$options->status);
+				$this->CI->db->where_in("G.status",$options->status);
 			}
 			
 

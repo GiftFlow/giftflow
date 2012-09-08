@@ -548,6 +548,32 @@ ALTER TABLE ci_sessions CHANGE ip_address ip_address varchar(45) default '0' NOT
 ALTER TABLE ci_sessions MODIFY user_agent VARCHAR(120);
 
 
+-- -----------------------------------------------------
+-- v2.7 to 2.8
+-- 2012-06-21 to 2012-07-25
+-- Table `thankyous` added
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `thankyous` (
+	`id` int(100) NOT NULL AUTO_INCREMENT,
+	`thanker_id` int(10) NOT NULL,
+	`recipient_id` int(10) NOT NULL,
+	`gift_title` varchar(200) DEFAULT NULL,
+	`body` varchar(2000) DEFAULT NULL,
+	`status` ENUM('pending','accepted','declined') NOT NULL DEFAULT 'pending',
+	`created` datetime NOT NULL,
+	`updated` datetime NOT NULL,
+	PRIMARY KEY (`id`) ,
+	CONSTRAINT `thankyous_thanker`
+		FOREIGN KEY (`thanker_id` )
+		REFERENCES `users` (`id` ),
+	CONSTRAINT `thankyous_reciptient`
+		FOREIGN KEY (`recipient_id` )
+		REFERENCES `users` (`id` )
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
