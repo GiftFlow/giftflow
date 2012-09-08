@@ -47,9 +47,11 @@ if(isset($css))
 <?php if($localhost) { ?>
 	<script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/jquery.js"></script>
 <?php } else { ?>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <?php } ?>
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap-dropdown.js"></script>
+
 
 <!-- Javascript UI Compilation -->
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/ui.php"></script>
@@ -82,8 +84,6 @@ if(isset($css))
 <?php } ?>
 </head>
 <body>
-<!-- hide_header is a flag set in giftflow/organize because to generate pages that people can print off into flyers, it looks better to not have the header appear --> 
-<?php if(!isset($hide_header)) { ?>
 <div id='header'>
 	<div class='wrapper clearfix'>
 		
@@ -94,34 +94,29 @@ if(isset($css))
 		<div id='session'>
 			
 			<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<!-- Logged-in User You Menu -->
-				<ul id='you_menu'>
-					<li>
-						<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>' id='you'>
-							<?php if(!empty($userdata['photo_thumb_url'])){ echo "<img src='".$userdata['photo_thumb_url']."' id='you_img'  />"; }  ?>
-							<span style='float: left; '>Profile</span>
-							<div style='clear: both;'>
-							</div>
-						</a>
-						<ul id='you_dropdown'>
-							<!-- 
-<li>
-								<a href='<?php echo site_url('people/'.$logged_in_user_id); ?>'>
-									View Profile
-								</a>
-							</li>
- -->
+			<ul id='boot_menu'>
+				<li class='dropdown'>
+					<!-- Logged-in User You Menu -->
+					<a  class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
+						<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
+							Profile
+					</a>
+						<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+							<span class='caret'></span>
+						</button>
+
+						<ul class='dropdown-menu'>
 							<li>
 								<a href='<?php echo site_url(''); ?>'>
 									Dashboard
 								</a>
 							</li>
 							<?php if ($this->auth->validate(100)) { ?>
-								<li>
-									<a href='<?php echo site_url('admin'); ?>'>
-										Admin Area
-									</a>
-								</li>
+							<li>
+								<a href='<?php echo site_url('admin'); ?>'>
+									Admin Area
+								</a>
+							</li>
 							<?php } ?>
 							<li>
 								<a href='<?php echo site_url('account'); ?>'>
@@ -129,79 +124,117 @@ if(isset($css))
 								</a>
 							</li>
 							<li>
-								<a href='<?php echo site_url('donate'); ?>'>
-									Donate
+							<a href='<?php echo site_url('logout'); ?>'>
+								Log Out
+							</a>
+						</li>
+					</ul>
+			</li>
+		</ul><!-- close boot_menu -->
+
+			<?php } else { ?>
+				<!-- Anonymous User Links -->
+				<ul id='anonymous-menu' >
+					
+					<li class='dropdown'>
+						<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+							Login
+							<b class='caret'></b>
+						</a>
+						<ul class='dropdown-menu' id='login-form'>
+							<li>
+								<a href='#' style='background-color: transparent; !important'>
+								<form id='drop_login' action="<?php echo site_url('member/login'); ?>" method='post'>
+										<fieldset id='inputs'>
+											<label for='email'>Email</label>
+											<input type="text" name='email' class='required email span3' id='email' value='' />
+											<label for='password'>Password</label>
+											<input type='password' name='password' class='required span3' id='password' value='' />
+										</fieldset>
+										<fieldset id='actions'>
+											<input type='hidden' name='redirect' value="<?php echo current_url(); ?>" />
+											<input type='submit' class='btn btn-primary btn-large' value="Login" />
+										</fieldset>
+						
+									</form>
 								</a>
 							</li>
-							<li>
-								<a href='<?php echo site_url('logout'); ?>'>
-									Log Out
+							<li>	
+								<a href="<?php echo $fbookUrl; ?>"  class='noborder' id='dropfbook'>
+									<img class='noborder' src='<?php echo site_url("assets/images/facebook_logo.jpeg");?>' style='border: 0; width:100px;' />
+								</a>
+							</li>
+							<li id='dropforgot'>
+								<a href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
 								</a>
 							</li>
 						</ul>
-					</li>
-				</ul>
-			
-			<?php } else { ?>
-			
-				<!-- Anonymous User Links -->
-				<ul id='you_menu'>
-					<li>
-						<a href='<?php echo site_url('login'); ?>' id='login'>
-							Login
-						</a>
+
 					</li>
 					<li>
-						<a href='<?php echo site_url('register'); ?>' id='signup'>
+						<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success'>
 							Sign Up
 						</a>
 					</li>
 					<li>
-						<a href='<?php echo site_url('donate'); ?>' id='donate'>
+						<a href='<?php echo site_url("donate"); ?>' id='donate' class='btn btn-success'>
 							Donate
 						</a>
 					</li>
-				</ul>
+				</ul><!-- close anonymous menu -->
 			<?php } ?>
-		</div>
+		</div><!-- close session -->
 
 		<!-- Main Menu -->
 		<ul id='nav'>
-			<li>
+			
 				<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<a href="<?php echo site_url(); if($segment==false || $segment[1]=="you") echo '" class="active'; ?>">
+				<li <?php if($segment==false || $segment[1]=="you") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url();?>"">
 					You
 				</a>
+				</li>
 				<?php } else { ?>
-				<a href="<?php echo site_url(); if($segment==false) echo '" class="active'; ?>">
+				<li <?php if($segment==false) echo 'class="active"'; ?>>
+				<a href="<?php echo site_url();?>">
 					Home
 				</a>
+				</li>
 				<?php } ?>
-			</li>
-			<li>
-				<a href="<?php echo site_url('find/gifts/'); if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active'; ?>">
+
+			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('find/gifts/');?>">
 					Gifts
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('find/needs/'); if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('find/needs/');?>">
 					Needs
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('people'); if($segment[1]=="people") echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="people") echo '" class="active"'; ?>>
+				<a href="<?php echo site_url('people');?>">
 					People
 				</a>
 			</li>
-			<li>
-				<a href="<?php echo site_url('about'); if($segment[1]=="about") echo '" class="active'; ?>">
+			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url('about');?>">
 					About
 				</a>
 			</li>
 		</ul>
 	</div>		
 </div>
-<?php } ?>
+
+<!-- script for logIn dropdown -->
+<script type='text/javascript'>
+$('.dropdown-toggle').dropdown();
+$('#login-form').css('left', '-50px');
+$('.dropdown-menu').find('form').click(function (e) {
+	e.stopPropagation();
+});
+</script>
+
 
 <!-- Main Wrapper -->
 <div id="main">

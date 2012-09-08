@@ -1,5 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+require('secrets.php');
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes

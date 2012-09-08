@@ -49,7 +49,7 @@
     <div class="control-group">
     	<label class="control-label" for="location">Location</label>
     	<div class="controls">
-			<input type="text" name="location" id="location" value="<?php if(isset($G) && !empty($G->location->address)){ echo $G->location->address; } ?>" class="required input-xlarge" />
+			<input type="text" name="location" id="location" value="<?php if(isset($G) && !empty($G->location->address)){ echo $G->location->address; } else { echo $default_location; } ?>" class="required input-xlarge" />
 			<p class="help-block">e.g city or zip code</p>
     	</div>
     </div>

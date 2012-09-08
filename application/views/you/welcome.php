@@ -1,12 +1,21 @@
 <div class='two_panels'>
-
-	<!-- Sidebar Menu -->
-	<?php echo $menu; ?>
-	
+	<div class='left_content'>
+		<?php echo $menu; ?>
+	</div>
 	<div class='right_content'>
 
 		<!-- GiftFlow module -->
 		<div class='center'>
+
+			
+			<div id="skip_welcome">
+				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
+						<input type=submit class="button" value='Hide this page at log-in' style="height:25px; font-size:12px !important;"/>
+						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
+				</form>
+				</div>
+				
+			
 			<div id="welcome_three">
 				<div class="welcome_block" id="gifts" >
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
@@ -43,12 +52,6 @@
 					<p>Great! Now your search results should be much more accurate</p>
 				</div>
 			</div><!-- close hyperlocal -->	
-			<div id="skip_welcome">
-				<form id="hide_welcome" method="post" action="<?php echo site_url('welcome/hide_welcome'); ?>" name="do_not_show">
-						<input type=submit class="button btn css_right" value='Hide this page at log-in'/>
-						<input type="hidden" name="hide_welcome" value='no' checked='checked'/>
-				</form>
-			</div>
 				
 	</div>
 	</div>
@@ -60,6 +63,7 @@
 $(function(){
 
 	var ul = $('#results');
+	$(".button").button();
 	
 	var base_url = '<?php echo site_url(); ?>';
 	
@@ -76,7 +80,19 @@ $(function(){
             $('#do_not_show').ajaxForm(function() {
             	$('#do_not_show').hide();
             });
-        });	
+        }); 
+	
+	$("ul.gray_toolbar li a").click(function(){
+		$("ul.gray_toolbar li a").removeClass("active");
+		$(this).addClass('active');
+		ul.empty();
+		$.post("<?php echo site_url('ajax/nearby_flow'); ?>", { type: $(this).attr('id'), limit: 5 }, function(data){
+			$.each(data.results, function( key, val){
+				ul.append($(val.html));
+			});
+		}, 'json');
+	});
+	
 });
 	
 	

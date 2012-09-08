@@ -57,6 +57,10 @@ class Event_logger
 		$E->data = json_encode($data);
 		
 		$E->user_id = $this->CI->session->userdata('user_id');
+
+		if(!empty($data->transaction_id)) {
+			$E->transaction_id = $data->transaction_id;
+		}
 		
 		if(!$E->save())
 		{
@@ -92,6 +96,7 @@ class Event_logger
 	/**
 	* Saves Follower_new event AND sends alert email to person being followed
 	*
+	* @todo make the notify user email actual get sent out!
 	*/
 	public function follower_new($params, $data)
 	{

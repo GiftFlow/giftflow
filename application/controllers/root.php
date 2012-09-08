@@ -2,13 +2,13 @@
 class Root extends CI_Controller {
 
 	var $data;
-	
 	function __construct()
 	{
 		parent::__construct();
 		$this->util->config();
 		$this->data = $this->util->parse_globals();
 	}
+
 
 	function index()
 	{
@@ -24,6 +24,19 @@ class Root extends CI_Controller {
 	
 	function _signup()
 	{
+
+		$this->load->library('event_reader');
+		$E = new Event_reader();
+
+		$options = array(
+		  'event_type_id' => array(2,8,4,16),
+		  'limit' => 100,
+		  'location' => $this->data['userdata']['location']
+		  );
+
+		$this->data['events'] = $E->get_events($options);
+				
+
 		$this->data['title'] = "Welcome";
 		$this->load->view('header', $this->data);
 		$this->load->view('index');

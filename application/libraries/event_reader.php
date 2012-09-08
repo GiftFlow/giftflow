@@ -22,34 +22,10 @@ class Event_reader
 //	List of event types with their event_type_ids
 // Class-wide variables created for those events considered relavant
 
-	// event_type_id = 1 for transaction_new
-
-	// 2 	transaction_completed
 	var $transaction_completed = array();
-
-	// 3 	transaction_message
-
-	// 4 	for user_new
 	var $user_new = array();
-	// 5 	transaction_cancelled
-
-	// 6 	transaction_activated
-
-	// 7 	review_new
-
-	//	8 	good_new
 	var $good_new = array();
 
-	//	9 	good_edited
-
-	//	10 	following_new
-	//	11 	follower_new
-	//	12 	transaction_declined
-	//	13 	hide_welcome
-	//	14 	reset_password
-	//	15 	new_password
-	//	16 	email
-	
 	
 	/*
 	*	variable for holding get_events() results
@@ -123,7 +99,8 @@ class Event_reader
 		}
 		else
 		{
-			return false;
+			$empty_results = array();
+			return $empty_results;
 		}
 	
 	}
@@ -133,7 +110,14 @@ class Event_reader
 		$this->CI->load->library('Search/User_search');
 		$this->CI->load->library('Search/Good_search');
 		$this->CI->load->library('Search/Transaction_search');
-    $this->CI->load->library('Search/Review_search');
+		$this->CI->load->library('Search/Review_search');
+		$this->CI->load->library('Search/Thankyou_search');
+
+		$U = new User_search();
+		$G = new Good_search();
+		$R = new Review_search();
+		$T = new Transaction_search();
+		$TY = new Thankyou_search();
 		
 		//sort events by event_type
 		if(!empty($this->raw_results))
@@ -141,27 +125,26 @@ class Event_reader
 			
 			foreach($this->raw_results as $event)
 			{				
+				$json_data = json_decode($event->event_data);
+
 				switch($event->event_type_title)
 				{
 					case "user_new":
-						$U = new User_search();
 						$user = $U->get($options = array('user_id' => $event->event_user_id));
 						//append user object to user_new event
 						if(!empty($user))
 						{
 							$event->user = $user;
-              if(isset($user->location)) 
-              {
-                  $event->location = $user->location;
-              }
+							  if(isset($user->location)) 
+							  {
+								  $event->location = $user->location;
+							  }
 
 							$this->events[] = $event;
 						}
 						break;
 						
 					case "good_new":
-						$G = new Good_search();
-						$json_data = json_decode($event->event_data);
 						
 						if(!empty($json_data->good_id))
 						{
@@ -171,30 +154,38 @@ class Event_reader
 						if(!empty($good))
 						{
 							$event->good = $good;
-              $event->location = $good->location;
+							$event->location = $good->location;
 							$this->events[] = $event;
 						}
 						break;
 						
 					case "transaction_completed":
-						$T = new Transaction_search();
-            $R = new Review_search();
-
-						$json_data = json_decode($event->event_data);
 										
 						if(!empty($json_data->transaction->id))
 						{
-							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id));
-              $review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
+							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => FALSE));
+							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
 						}
 						//append transaction object to transaction event
 						if(!empty($trans))
 						{
 							$event->transaction = $trans;
-              $event->review = $review;
-              $event->location = $trans->demands[0]->good->location;
+							$event->review = $review;
+							$event->location = $trans->demands[0]->good->location;
 							$this->events[] = $event;
 						}
+						break;
+
+					case "thankyou":
+
+						$event->thank = $TY->get(array('id' => $json_data->id));
+
+						//Only include thankyous with a current status of accepted
+						if($event->thank->status == 'accepted') 
+						{
+							$this->events[] = $event;
+						}
+
 						break;
 				}
 				
@@ -210,7 +201,8 @@ class Event_reader
 		else
 		{
 			//@todo error handling
-			return FALSE;
+			$this->events = array();
+			return $this->events;
 		}
 	
 	}

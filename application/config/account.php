@@ -34,12 +34,14 @@ $config['openid_request_to'] = $config['openid_site_root'] . '/account/link/goog
 
 /*
 |--------------------------------------------------------------------------
-| OAuth
+| OAuth + Google
 |--------------------------------------------------------------------------
-*/
+ */
 
-$config['oauth_google_consumer_key'] = 'www.giftflow.org';
-$config['oauth_google_consumer_secret'] = 'duDnVtmvXVBYFB53VJK2VdVY';
+$config['oauth2_client_id'] = OAUTH2_CLIENT_ID;
+$config['oauth2_client_secret'] = OAUTH2_CLIENT_SECRET;
+$config['oauth2_redirect_uri'] = 'http://www.giftflow.org/account/link/google/2';
+
 
 /*
 |--------------------------------------------------------------------------

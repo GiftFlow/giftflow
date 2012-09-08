@@ -151,4 +151,25 @@ class UI_results
 
 	
 	}
+	function thanks($options = array())
+	{
+		Console::logspeed("UI_Results::thanks()");
+		$CI =& get_instance();
+
+		//Compile options
+		$default_options = array(
+			"results" => array(),
+			"row" => FALSE
+		);
+		
+		$options = array_merge($default_options, $options);
+
+		//Load View
+		$view = $CI->load->view('thanks/includes/results', $options, TRUE);
+
+		//Return HTML string
+		Console::logspeed("UI_Results::thanks() done.");
+		return $view;	
+	
+	}
 }
