@@ -619,7 +619,7 @@ class You extends CI_Controller {
 			->result();
 		$this->data['type'] = $type;
 		$this->data['question'] = ($type == 'gift') ? 'What do you want to give?' : 'What do you need?';
-		$this->data['title'] = ($type == 'gift') ? 'Add a Gift' : 'Add a Need';
+		$this->data['title'] = ($type == 'gift') ? lang("button_add_gift") : lang("button_add_need");
 		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
 		
 		// Load Menu

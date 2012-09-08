@@ -20,3 +20,13 @@ $lang["nav_login"] = "Entrar";
 $lang["nav_signup"] = "Juntar";
 $lang["nav_logout"] = "Salir";
 $lang["nav_profile"] = "Retrato";
+$lang["nav_donate"] = "Donar";
+$lang["nav_admin"] = "Zona de Admin";
+
+$lang["nav_you_welcome"] = "Bienvenidos";
+$lang["nav_you_activity_feed"] = "Actividad";
+$lang["nav_you_gifts"] = "Tus Regalos";
+$lang["nav_you_needs"] = "Tus Necesidades";
+$lang["nav_you_watches"] = "Your Watches";
+$lang["nav_you_inbox"] = "Tus Mensajes";
+$lang["nav_you_account"] = "Tu Info";

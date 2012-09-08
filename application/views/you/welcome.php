@@ -11,13 +11,13 @@
 				<div class="welcome_block" id="gifts" >
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
 					<p>What do you want to give? A helping hand? An expert opinion? Handmade jewerly? It's all up to you.</p>
-					<p><a href="<?php echo site_url("you/add_good/?type=gift");?>"  class="button btn">Add a Gift</a></p>
+					<p><a href="<?php echo site_url("you/add_good/?type=gift");?>"  class="button btn"><?php echo lang("button_add_gift");?></a></p>
 				</div>
 				
 				<div class="welcome_block" id="needs">
 					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
 				 <p>What do you need? Help in your garden? A pair of gloves? Don't be afraid to ask.</p>
-				 <p><a href="<?php echo site_url("you/add_good/?type=need");?>"  class="button btn">Add a Need</a></p>
+				 <p><a href="<?php echo site_url("you/add_good/?type=need");?>"  class="button btn"><?php echo lang("button_add_need");?></a></p>
 				</div>
 					
 				<div class="welcome_block" id="people">

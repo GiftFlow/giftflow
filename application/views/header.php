@@ -119,7 +119,7 @@ if(isset($css))
 							<?php if ($this->auth->validate(100)) { ?>
 								<li>
 									<a href='<?php echo site_url('admin'); ?>'>
-										Admin Area
+										<?php echo lang("nav_admin");?>
 									</a>
 								</li>
 							<?php } ?>
@@ -130,7 +130,7 @@ if(isset($css))
 							</li>
 							<li>
 								<a href='<?php echo site_url('donate'); ?>'>
-									Donate
+									<?php echo lang("nav_donate");?>
 								</a>
 							</li>
 							<li>
@@ -158,7 +158,7 @@ if(isset($css))
 					</li>
 					<li>
 						<a href='<?php echo site_url('donate'); ?>' id='donate'>
-							Donate
+							<?php echo lang("nav_donate");?>
 						</a>
 					</li>
 				</ul>

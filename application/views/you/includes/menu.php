@@ -4,33 +4,33 @@
 	</li>-->
 	<li <?php if($segment[2] == 'welcome') { echo "class='active'"; } ?> >
 		<a href='<?php echo site_url('you/welcome/?welcome=show'); ?>'> 
-			Welcome
+			<?php echo lang("nav_you_welcome");?>
 		</a>
 	</li>
 	
 	<li <?php if($segment[1]=="you" && !$welcome  && (empty($segment[2])) || $segment[2]=='index'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you');?>'> 
-			Activity Feed
+			<?php echo lang("nav_you_activity_feed");?>
 		</a>
 	</li>
 	<li <?php if($segment[2]=='gifts'||($segment[1]=="gifts"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/gifts');?>'> 
-			Your Gifts
+			<?php echo lang("nav_you_gifts");?>
 		</a>
 	</li>
 	<li <?php if($segment[2]=='needs'||($segment[1]=="needs"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/needs');?>' > 
-			Your Needs
+			<?php echo lang("nav_you_needs");?>
 		</a>
 	</li>
 	<li <?php if($segment[2]=='watches'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/watches');?>' > 
-			Your Watches
+			<?php echo lang("nav_you_watches");?>
 		</a>
 	</li>
 	<li <?php if($segment[2]=='transactions'){ echo  "class='active'"; } else if($transactions_active) { echo "id='inbox_new'"; } ?>>
 		<a href='<?php echo site_url('you/transactions');?>'> 
-      Your Inbox<?php if($transactions_active) { echo "(".$transactions_active_count.")"; }?>
+      <?php echo lang("nav_you_inbox");?><?php if($transactions_active) { echo "(".$transactions_active_count.")"; }?>
 		</a>
 		<ul>
 			<li>
@@ -52,7 +52,7 @@
 	</li>
 	<li <?php if($segment[1]=='account'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('account');?>' > 
-			Your Account
+			<?php echo lang("nav_you_account");?>
 		</a>
 		<ul>
 			<li>
@@ -90,7 +90,7 @@
 	</li>
 	<li <?php if($segment[2]=='donate' || $segment[1]=="donate"){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('about/donate');?>' > 
-			Donate
+			<?php echo lang("nav_donate");?>
 		</a>
 	</li>
 </ul>
