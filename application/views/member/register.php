@@ -44,7 +44,7 @@
 		</div>
 		<div class="control-group">
 			<label for="password">Password</label>
-			<input maxlength="45" size="30" class="span6 required" type="password" name="password" id="password" value="" />			
+			<input maxlength="45" size="30" class="span6 required" type="password" name="password" id="register_password" value="" />			
 		</div>
 		<div class="control-group">
 			<label for="confirm_password">Confirm Password</label>
@@ -71,7 +71,7 @@ $(function(){
 	$("#register").validate({
 		rules: { 
 			confirm_password: {
-				equalTo: "#password"
+				equalTo: "#register_password"
 			}
 		},
 		messages: {
