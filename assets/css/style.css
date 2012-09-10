@@ -16,8 +16,21 @@ body {
 	padding: 0;
 	display:block !important;
 }
+/*
+Original Header
 #header {
 	background: #65B15B url('../images/solid_topnav_bg.png') repeat-x;
+	height: 53px;
+}
+
+Shades of Green:
+original green: #54b23e
+light green: #6bc557
+moderately desaturated light green: #72c55f
+desaturated light green: #88c57a
+*/
+#header {
+	background: #72c55f url('../images/topnav_texture.png') repeat-x;
 	height: 53px;
 }
 #main {
@@ -170,7 +183,7 @@ ul#nav li a:hover{
 }
 ul#nav li.active{
   	height:64px;
-  	background-image: url('../images/header-bg-carat.png');
+  	background-image: url('../images/header-bg-carat-72c55f.png');
   	background-position: center;
   	background-repeat: no-repeat;
 
