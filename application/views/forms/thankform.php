@@ -3,7 +3,7 @@
 					<label for='gift'>What did <?php echo $u->screen_name; ?> give you? (brief title)</label>
 					</p>
 					<p>
-						<input type='text' class='big-border' name='gift' id='thankyou_gift' value='' class='required'/>
+						<input type='text' class='big-border required' name='gift' id='thankyou_gift' value=''/>
 					</p>
 					<p>
 					<label for='body'>Be sure to describe the gift.</label>
@@ -19,5 +19,5 @@
 						<input type='submit' class='btn' value='Send'/>
 						<a id='thank_cancel' class='btn' href='#'>Cancel</a>
 					</p>
-					<span id='errortext'></span>
+					<span id='thank_errortext'></span>
 				</form>

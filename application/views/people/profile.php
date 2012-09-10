@@ -13,7 +13,7 @@
 	<div class='span4'>	
 		<div class='btn-group profile_actions'>
 				<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-small'>Follow</a>
-				<!--<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>-->
+				<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>
 					<?php if($visitor) { ?>
 						<a href='#' id='thank_button' class='btn profile_action btn-small btn-success'>Thank</a>
 					<?php } ?>
@@ -52,7 +52,7 @@
 			</div>
 	</div>
 
-	<div class='span4 profile_chunk'id='profile_info'>
+	<div class='span4'id='profile_info'>
 			<p class='nicebigtext'>Bio</p>
 			<p><?php if(!empty($u->bio)) { echo $u->bio; } ?></p>
 			<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
@@ -83,10 +83,13 @@
 	</div>
 </div><!--close header row -->
 <div class='row-fluid' id='buttonFormRow'>
-
-	<div class='span12'>
-			<div id='profile_thank_form' style= 'display:none;' >
+<div class='span6'></div>
+	<div class='span6'>
+			<div class='profile_form' id='profile_thank_form' style= 'display:none;' >
 				<?php echo $thankform; ?>
+			</div>
+			<div class='profile_form' id='profile_message_form' style='display:none;'>
+				<?php echo $messageform;?>
 			</div>
 	</div>
 
@@ -182,10 +185,21 @@ $('.photoMod').click(function() {
 
 $('#thank_button').click( function() {
 	$('#profile_top').hide();
+	$('.profile_form').hide();
 	$('#profile_thank_form').show();
 });
 $('#thank_cancel').click( function() {
 	$('#profile_thank_form').hide();
+	$('#profile_top').show();
+});
+
+$('#message_button').click(function() {
+	$('#profile_top').hide();
+	$('.profile_form').hide();
+	$('#profile_message_form').show();
+});
+$('#message_cancel').click(function() {
+	$('#profile_message_form').hide();
 	$('#profile_top').show();
 });
 

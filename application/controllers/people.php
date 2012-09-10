@@ -227,6 +227,9 @@ class People extends CI_Controller {
 			case 'thankyou':
 				$this->_thank();
 				break;
+			case 'message':
+				$this->_message();
+				break;
 			};
  		}
 		// Default behavior:
@@ -377,6 +380,7 @@ class People extends CI_Controller {
 		<link rel="alternate" type="application/rss+xml" title="'.$U->screen_name.'\'s Latest Needs" href="'.site_url('rss/user/'.$user_id.'/needs').'">';
 
 		$this->data['thankform'] = $this->load->view('forms/thankform', $this->data, TRUE);
+		$this->data['messageform'] = $this->load->view('forms/messageform', $this->data, TRUE);
 		
 		// Load views
 		$this->load->view('header', $this->data);
@@ -652,5 +656,14 @@ class People extends CI_Controller {
 			redirect('people/'.$_POST['decider_id']);
 	
 	}
+
+	//write a message unassociated with a transaction
+	function _message ()
+	{
+
+		return TRUE;
+	}
+
+
 }
 
