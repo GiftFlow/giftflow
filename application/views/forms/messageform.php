@@ -1,6 +1,6 @@
 <form name='profile_message' id='messageform' method='post'>
 		<p>
-			<label for 'message'>Write your message here</label>
+		<label for 'message'>Write your message for <?php echo $u->screen_name; ?> here</label>
 			<textarea rows='5' class='big-border required' name='body' id='message_body' value=''></textarea>
 		</p>
 		<p>
