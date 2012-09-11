@@ -894,7 +894,7 @@ ul.results_list.mini li a.result_image {
 	background-image: none;
 	height: 25px;
 	width: 25px;
-	margin: 0 15px 0 0;
+	margin: 8px 15px 0 0;
 }
 ul.results_list.mini li a.result_image img{
 	max-height: 25px;
@@ -941,10 +941,6 @@ ul.results_list.grid li a.result_image {
 ul.results_list.grid li a.result_image img{
 	max-height: 66px;
 	margin: 6px auto auto 6px;
-}
-
-ul.results_list .title_need {
-	color:#C72E92;
 }
 
 /* generated here: http://www.preloaders.net/en/popular */
@@ -1190,6 +1186,12 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 }
 .profile_action {
 	float:left;
+}
+.profile_chunk ul.results_list li a.title {
+	font-size: 14px;
+}
+ul.results_list li a.thankimg img{
+	vertical-align:top;
 }
 
 #profile_left{
@@ -2166,7 +2168,7 @@ ul.simplePagerNav li.currentPage a{
 	width:90%;
 }
 div.thankdata {
-	width: 70%;
+	width: 60%;
 }
 a.thankimage {
 	width:20%;

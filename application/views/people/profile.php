@@ -13,7 +13,7 @@
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
 					<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-small'>Follow</a>
-					<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>
+					<!--<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>-->
 					<a href='#' id='thank_button' class='btn profile_action btn-small btn-success'>Thank</a>
 				<?php } ?>
 			</div>
