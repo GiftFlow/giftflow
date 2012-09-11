@@ -6,6 +6,7 @@
 		<p>
 			<input type='submit' class='btn' value='Send'/>
 			<input type='hidden' name='formtype' value='message'/>
+			<input type='hidden' name='recip_id' value ='<?php echo $u->id; ?>'/>
 			<button id='message_cancel' class='btn'>Cancel</button>
 		</p>
 		<span id='message_errortext'></span>

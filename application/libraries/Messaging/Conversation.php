@@ -321,7 +321,8 @@ class Conversation
 			"body"=>"",
 			"transaction_id"=>NULL,
 			"thread_id"=>NULL,
-			"user_id"=>$this->CI->session->userdata('user_id')
+			"user_id"=>$this->CI->session->userdata('user_id'),
+			'recip_id' => NULL
 		);
 		$options = array_merge($default_options,$options);
 		
@@ -340,12 +341,14 @@ class Conversation
 		// Create new thread
 		if($this->type=="thread" && empty($this->thread))
 		{
+			$this->users[] = new User($options['user_id']);
+			$this->users[] = new User($options['recip_id']);
+
 			$this->thread = new Thread();
-			$this->thread->subject = $this->subject;
+			$this->thread->subject = $options['subject'];
 			if(!$this->thread->save())
 			{
-				// @todo handle thread saving error
-				return FALSE;
+				show_error('Error saving thread');
 			}
 		}
 		else if($this->type=="transaction" && empty($this->transaction))
@@ -375,7 +378,7 @@ class Conversation
 		if(!$M->save())
 		{
 			// @todo handle message saving error
-			return FALSE;
+			show_error('Error saving Message');
 		}
 		
 		// Loop over each user and deliver to inbox

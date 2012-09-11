@@ -660,8 +660,37 @@ class People extends CI_Controller {
 	//write a message unassociated with a transaction
 	function _message ()
 	{
+		$input = $this->input->post();
+		$this->load->library('Messaging/Conversation');
+		/*$this->load->model('thread');
 
-		return TRUE;
+		$T = new Thread();
+		$T->subject = 'unnecessary';
+		$T->save_user($input['recip_id']);
+		$T->save_user($this->data['logged_in_user_id']);
+		print_r($T);
+		dise();
+		if(!$T->save()) {
+			show_error('Error saving thread');
+		}
+		 */
+
+		$C = new Conversation();
+		$C->type = 'thread';
+		//$C->users = array($this->data['logged_in_user_id'], $input['recip_id']);
+
+		if(!$C->compose(array(
+			'body' => $input['body'],
+			'user_id' => $this->data['logged_in_user_id'],
+			'subject' => 'profile_message',
+			'recip_id' => $input['recip_id']
+		))){
+
+			show_error("Error saving Conversation");
+		}
+
+		$Search = new User_search();
+		$U = $Search->get(array('user_id' => $input['recip_id']));
 	}
 
 
