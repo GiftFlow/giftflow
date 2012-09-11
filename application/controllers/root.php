@@ -26,15 +26,25 @@ class Root extends CI_Controller {
 	{
 
 		$this->load->library('event_reader');
+		$this->load->library('Search/Good_search');
+
 		$E = new Event_reader();
 
 		$options = array(
 		  'event_type_id' => array(2,8,4,16),
-		  'limit' => 100,
-		  'location' => $this->data['userdata']['location']
+		  'limit' => 6,
 		  );
 
 		$this->data['events'] = $E->get_events($options);
+
+		$G = new Good_search();
+
+		$options = array(
+			'sort' => 'newest',
+			'limit' => '6',
+		);
+		$this->data['goods'] = $G->find($options);
+
 				
 
 		$this->data['title'] = "Welcome";

@@ -14,7 +14,7 @@
 			
 			<?php if($activity) { ?>
 				<span class='metadata created' style='display:inline; float:right;'>
-					<?php echo user_date($val->event_created, "F jS Y"); ?>
+					<?php //echo user_date($val->event_created, "F jS Y"); ?>
 				</span>
 		<?php } ?>
 
