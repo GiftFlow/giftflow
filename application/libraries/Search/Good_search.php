@@ -57,7 +57,8 @@ class Good_search extends Search
 			"radius"=>300,
 			"user_id"=>NULL,
 			"id_search"=>FALSE,
-			"keyword"=>""
+			"keyword"=>"",
+			"locationLimit" => TRUE
 		);
 		
 		$default_like_options = array(
@@ -142,41 +143,48 @@ class Good_search extends Search
 			{
 				$this->CI->db->where_in("G.category_id",$options->category_id);
 			}
-			if((!empty($options->location->latitude) || !empty($options->location->longitude) || !empty($options->location->address))||!empty($options->location))
-			{
-				// If running full search, include all location-related fields
-				// in the select clause
-				if(!$options->id_search)
+
+			//make limiting by location an OPTION
+			if($options->locationLimit = TRUE) { 
+
+				if(!empty($options->location->latitude) || !empty($options->location->longitude) || !empty($options->location->address) || !empty($options->location))
 				{
-					$this->_join_locations("inner");
-				}
-				
-				// If running ID search, only added JOIN clause
-				else
-				{
-					// Force use of geospatial index if no other useful
-					// WHERE clauses
-					if(empty($options->category_id) && empty($options->user_id))
+					// If running full search, include all location-related fields
+					// in the select clause
+					if(!$options->id_search)
 					{
-						$this->CI->db->join("locations AS L FORCE INDEX (latlng) ","G.location_id = L.id");
+						$this->_join_locations("inner");
 					}
+					
+					// If running ID search, only added JOIN clause
 					else
 					{
-						$this->CI->db->join("locations AS L ","G.location_id = L.id");
+						// Force use of geospatial index if no other useful
+						// WHERE clauses
+						if(empty($options->category_id) && empty($options->user_id))
+						{
+							$this->CI->db->join("locations AS L FORCE INDEX (latlng) ","G.location_id = L.id");
+						}
+						else
+						{
+							$this->CI->db->join("locations AS L ","G.location_id = L.id");
+						}
 					}
+					
+				}
+				// Else simply include location for those who have it
+				else
+				{
+					$this->_join_locations("left");
 				}
 				
-			}
-			// Else simply include location for those who have it
-			else
-			{
-				$this->_join_locations("left");
-			}
-			
-			if(!empty($options->location))
+				if(!empty($options->location))
 				{
 					$this->_geosearch_clauses($options->location);
 				}
+			}
+
+
 			$this->CI->db->order_by($options->order_by, $options->sort);
 
 			

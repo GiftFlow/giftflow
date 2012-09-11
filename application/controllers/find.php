@@ -164,7 +164,8 @@ class Find extends CI_Controller {
 				"order_by"=>$this->args["order_by"],
 				"limit"=>100,
 				"status"=>"active",
-				'sort' =>$this->args['sort']
+				'sort' =>$this->args['sort'],
+				'locationLimit' => $this->args['locationLimit']
 			);
 			
 			$results = $GS->find($options);
@@ -239,23 +240,32 @@ class Find extends CI_Controller {
 			$this->args["order_by"] = "location_distance";
 			$this->args['sort'] = 'ASC';
 		}
-		
-		
-		// If no location, try to use the userdata's location object
-		if(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
+
+		if(!empty($_REQUEST['locationLimit']) && $_REQUEST['locationLimit'] == 'pleaseDONT')
 		{
-			$this->args["location"] = $this->data['userdata']['location'];
+			$this->args['locationLimit'] = FALSE;
+		} else {
+			$this->args['locationLimit'] = TRUE;
 		}
-		// If location consists only of a string, geocode it
-		elseif(!empty($this->args["location"]) && !is_object($this->args["location"]))
-		{
-			$this->load->library('geo');
-			$this->args["location"] = $this->geo->geocode($this->args['location']);
-		}
-		elseif(empty($this->args["location"]))
-		{
-			$this->load->library('geo');
-			$this->args["location"] = $this->geo->geocode_ip();
+
+		//Make limiting by location an OPTION
+		if($this->args['locationLimit']) {
+			// If no location, try to use the userdata's location object
+			if(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
+			{
+				$this->args["location"] = $this->data['userdata']['location'];
+			}
+			// If location consists only of a string, geocode it
+			elseif(!empty($this->args["location"]) && !is_object($this->args["location"]))
+			{
+				$this->load->library('geo');
+				$this->args["location"] = $this->geo->geocode($this->args['location']);
+			}
+			elseif(empty($this->args["location"]))
+			{
+				$this->load->library('geo');
+				$this->args["location"] = $this->geo->geocode_ip();
+			}
 		}
 		
 	}
