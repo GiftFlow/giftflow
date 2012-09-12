@@ -5,15 +5,37 @@
 
 	<div class='right_content'>
 		<!-- Search Form Module -->
-    <span class='location_header'>
-       Location:  <span id="location" class="filter_title" title="Click to Edit Your Location">
-          	<?php if(!empty($args["location"]->address)){ echo $args["location"]->address; } ?>
-        </span>
-        <form id="editLocation" method="post" action="<?php echo site_url("ajax/relocate");?>" style="display: none;">
-          <input id ='locate_input' type="text" value="" name="location" />
-        </form>
-    </span>
-    <a class='button btn' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>" id='add_button'>Add <?php echo ucfirst($args['type']); ?></a>
+
+		<div class='row'>
+			<div class='span3'>
+				<span class="filter_title">
+				  Search by Keyword
+				</span>
+
+				<form name='find_goods' id="find_goods" action="" method='post'>
+				
+				<div class='input-append'>
+						<input type='text' class='find_form span2' id="q" name='q' value='<?php echo $args["q"];?>' />
+						<button class='btn' type='submit' id="find">Find</button>
+					</div>
+				</form>
+			</div>
+			<div class='span4'>
+				<span class='filter_title'>
+					 Location
+				</span>
+				<form id="editLocation" method="post" action="">
+				<div class='input-append'>
+					<input id ='locate_input' class='find_form span2' type="text"  placeholder="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
+						<button id='changeLocation' class='btn'>Change</button>
+				</div>
+				</form>
+
+			</div>
+			<div class='span2'>
+				<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>">Add <?php echo ucfirst($args['type']); ?></a>
+			</div>
+		</div><!-- close row -->
 
 		<!-- Search Results -->
 		<ul class='results_list'>
@@ -45,6 +67,7 @@
 
 $(function(){
 
+
 	// GF Namespace wrapper
 	var GF = {
 		UI: {},
@@ -68,8 +91,8 @@ $(function(){
 			order_by: "newest",
 			category_id: "<?php echo $args['category_id'];?>",
 			limit: 100,
-      offset: 0,
-      location:''
+		  offset: 0,
+		  location:''
 		};
 		
 		api.get = function(){
@@ -128,13 +151,16 @@ $(function(){
 	
 	// Process AJAX Data
 	GF.Ajax.process = function(data){
-	
+		console.log(data);
 		GF.UI.clearResults();
-		GF.UI.setLocation(data.center.address);
+
+		if(data.center) {
+			GF.UI.setLocation(data.center.address);
+		}
 
 
 		if(data.results){
-       GF.UI.setResults(data.results);
+			GF.UI.setResults(data.results);
 		} else {
 			return GF.UI.noResults();
 		}
@@ -149,11 +175,11 @@ $(function(){
 	};
 	
 	GF.Ajax.processNewLocation = function(data){
-    $('#location').text(data.address);
-    locate = $('#editLocation input:text').val();
-    GF.Params.set('location',locate);
-		$("#editLocation input:text").val("").blur();
-		GF.Ajax.request();
+		$('#location').text(data.address);
+		locate = $('#editLocation input:text').val();
+		GF.Params.set('location',locate);
+			$("#editLocation input:text").val("").blur();
+			GF.Ajax.request();
 	};
 	
 	// jQuery Listeners

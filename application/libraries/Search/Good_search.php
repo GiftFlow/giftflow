@@ -58,7 +58,6 @@ class Good_search extends Search
 			"user_id"=>NULL,
 			"id_search"=>FALSE,
 			"keyword"=>"",
-			"locationLimit" => TRUE
 		);
 		
 		$default_like_options = array(
@@ -144,44 +143,41 @@ class Good_search extends Search
 				$this->CI->db->where_in("G.category_id",$options->category_id);
 			}
 
-			//make limiting by location an OPTION
-			if($options->locationLimit = TRUE) { 
 
-				if(!empty($options->location->latitude) || !empty($options->location->longitude) || !empty($options->location->address) || !empty($options->location))
+			if(!empty($options->location->latitude) || !empty($options->location->longitude) || !empty($options->location->address) || !empty($options->location))
+			{
+				// If running full search, include all location-related fields
+				// in the select clause
+				if(!$options->id_search)
 				{
-					// If running full search, include all location-related fields
-					// in the select clause
-					if(!$options->id_search)
-					{
-						$this->_join_locations("inner");
-					}
-					
-					// If running ID search, only added JOIN clause
-					else
-					{
-						// Force use of geospatial index if no other useful
-						// WHERE clauses
-						if(empty($options->category_id) && empty($options->user_id))
-						{
-							$this->CI->db->join("locations AS L FORCE INDEX (latlng) ","G.location_id = L.id");
-						}
-						else
-						{
-							$this->CI->db->join("locations AS L ","G.location_id = L.id");
-						}
-					}
-					
-				}
-				// Else simply include location for those who have it
-				else
-				{
-					$this->_join_locations("left");
+					$this->_join_locations("inner");
 				}
 				
-				if(!empty($options->location))
+				// If running ID search, only added JOIN clause
+				else
 				{
-					$this->_geosearch_clauses($options->location);
+					// Force use of geospatial index if no other useful
+					// WHERE clauses
+					if(empty($options->category_id) && empty($options->user_id))
+					{
+						$this->CI->db->join("locations AS L FORCE INDEX (latlng) ","G.location_id = L.id");
+					}
+					else
+					{
+						$this->CI->db->join("locations AS L ","G.location_id = L.id");
+					}
 				}
+				
+			}
+			// Else simply include location for those who have it
+			else
+			{
+				$this->_join_locations("left");
+			}
+			
+			if(!empty($options->location))
+			{
+				$this->_geosearch_clauses($options->location);
 			}
 
 
@@ -231,7 +227,6 @@ class Good_search extends Search
 				$this->CI->db->limit($options->limit, $options->offset);
 				$result = $this->CI->db->get()->result_array();
 				$good_ids = array_map( function($good){ return $good['id']; }, $result);
-
 				return $good_ids;
 			}
 		}
@@ -287,8 +282,10 @@ class Good_search extends Search
 		}
 		
 		// Process location data one time only
-		$this->CI->load->library('geo');
-		$options->location = $this->CI->geo->process($options->location);
+		if(!empty($options->location)) {			
+			$this->CI->load->library('geo');
+			$options->location = $this->CI->geo->process($options->location);
+		}
 
 		$queries = array(
 			"keyword"=>"",
@@ -303,11 +300,11 @@ class Good_search extends Search
 			// building tag queries if no matches were found.
 			if($query_type=="keyword")
 			{
-				//Notice the extra bracket added before G.title - used to group the like or_like clauses 
-				$this->CI->db->where(sprintf("( G.title LIKE '%s' OR 
-												G.description LIKE '%s')",
-												$options->keyword,
-												$options->keyword));
+				$keywords = explode(' ', $options->keyword);
+				foreach($keywords as $word) {
+					$this->CI->db->or_like('G.title', $word);
+					$this->CI->db->or_like('G.description',$word);
+				}
 			}
 			elseif($query_type=="tag")
 			{

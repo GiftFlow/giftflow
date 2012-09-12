@@ -275,10 +275,6 @@ ul.sidebar_menu.filters li #location a{
 ul.sidebar_menu.filters li #editLocation input{
 	width: 175px;
 }
-#editLocation input {
-  width:175px;
-  margin: 0px 0px 3px 0px;
- }
 
 ul.sidebar_menu.filters li ul{
 	display: block;
@@ -293,6 +289,9 @@ ul.sidebar_menu.filters li ul li{
 #you_sidebar a {
 	color: #555;
 	font-weight: bold;
+}
+#add_good_button {
+	float:right;
 }
 ul#you_sidebar li.active a {
 	color: #EEE;
@@ -1446,6 +1445,10 @@ p.nicebigtext{
 	font-size: 22px;
 	color: #666;
 }
+p.home_text {
+	font-weight:bold;
+	color: #6CB6E2;
+}
 .profile_chunk .nicebigtext{
 	font-weight: 300;
 	line-height: 27px;
@@ -1549,7 +1552,6 @@ ul#index_intro li .green{
 	font-weight: bold;
 }
 p .green{
-	color: #65b15b;
 	font-weight: bold;
 }
 #locations-list{
@@ -2671,9 +2673,6 @@ img.people_header {
   padding: 3px 6px;
   border: 2px solid #DDDDDD;
   width:600px;
-}
-#add_button {
-  margin: 0 0 0 600px;
 }
 
 /* css for Activity feed */

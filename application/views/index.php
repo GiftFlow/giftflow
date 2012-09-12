@@ -2,7 +2,7 @@
 
 	<div class='span12' id='home_header'> 
 
-		<p class='nicebigtext' style='text-align:center'>
+		<p class='nicebigtext home_text' style='text-align:center'>
 			<span class='green'>Give</span> what you can.
 			<span class='green'>&nbsp&nbspAsk</span> for what you need.
 			<span class='green'>&nbsp&nbspPay</span> it forward.
@@ -27,12 +27,11 @@
 <div class='row'>
 	<div  id='home_search' class='span8 offset2'>
 
-			<p class='nicebigtext'>See what we GiftFlowers have to offer.</p>
+			<p class='nicebigtext home_text'>See what we GiftFlowers have to offer.</p>
 		<form class='form-search' method='post' action='<?php echo site_url("find/"); ?>'>
 				<div id='homeInput'>
 				<input name='q'  class='input-large search-query' id='homeSearchInput' type='text' placeholder='Search'>	
 				<input type='hidden' id='searchType' name='type' value='gifts'/>
-				<input type='hidden' name='locationLimit' value='pleaseDONT'/>
 				<button value='gift' id='giftSearch' class='typeToggle btn btn-large'>Gifts</button>
 				<button value='need' id='needSearch' class='typeToggle btn btn-large'>Needs</button>
 				</div>

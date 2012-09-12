@@ -17,9 +17,9 @@ class Find extends CI_Controller {
 	var $args = array(
 		"q"=>"",
 		"type"=>"gift",
-		"location"=>"",
+		"location"=>NULL,
 		"category_id"=>NULL,
-		"radius"=>100,
+		"radius"=>1000,
 		"limit"=>20,
 		"offset"=>0
 	);
@@ -165,7 +165,6 @@ class Find extends CI_Controller {
 				"limit"=>100,
 				"status"=>"active",
 				'sort' =>$this->args['sort'],
-				'locationLimit' => $this->args['locationLimit']
 			);
 			
 			$results = $GS->find($options);
@@ -178,6 +177,7 @@ class Find extends CI_Controller {
 			"total_results"=>count($this->data['results']),
 			"results"=>$this->data['results']
 		);
+
 		$this->data['results_json'] = json_encode($data);
 	}
 	
@@ -240,32 +240,17 @@ class Find extends CI_Controller {
 			$this->args["order_by"] = "location_distance";
 			$this->args['sort'] = 'ASC';
 		}
-
-		if(!empty($_REQUEST['locationLimit']) && $_REQUEST['locationLimit'] == 'pleaseDONT')
+		// If location consists only of a string, geocode it
+		if(!empty($this->args["location"]) && !is_object($this->args["location"]))
 		{
-			$this->args['locationLimit'] = FALSE;
-		} else {
-			$this->args['locationLimit'] = TRUE;
+			$this->load->library('geo');
+			$this->args["location"] = $this->geo->geocode($this->args['location']);
 		}
-
-		//Make limiting by location an OPTION
-		if($this->args['locationLimit']) {
-			// If no location, try to use the userdata's location object
-			if(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
-			{
-				$this->args["location"] = $this->data['userdata']['location'];
-			}
-			// If location consists only of a string, geocode it
-			elseif(!empty($this->args["location"]) && !is_object($this->args["location"]))
-			{
-				$this->load->library('geo');
-				$this->args["location"] = $this->geo->geocode($this->args['location']);
-			}
-			elseif(empty($this->args["location"]))
-			{
-				$this->load->library('geo');
-				$this->args["location"] = $this->geo->geocode_ip();
-			}
+		//if location isn't provided, then don't use it!
+		elseif(empty($this->args["location"]))
+		{
+			$this->args["order_by"] = "G.created";
+			$this->args['sort'] = 'DESC';
 		}
 		
 	}
