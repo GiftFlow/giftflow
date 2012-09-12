@@ -2042,13 +2042,17 @@ input::-moz-focus-inner{ border: 0; }
 
 
 #home_header {
-	margin: 20px 0px 30px 0px;
+	margin: 30px 0px 30px 0px;
 }
 #home_search {
-	margin-top: 30px;
+	margin-top: 10px;
+}
+#home_search p {
+	text-align: center;
+	margin-bottom: 30px;
 }
 #home_categories {
-	margin: 10px 0 20px 0;
+	margin: 20px 0 20px 0;
 }
 #homeSearchInput {
 	font-size: 22px;
@@ -2070,10 +2074,13 @@ input::-moz-focus-inner{ border: 0; }
     -webkit-box-shadow:0 0 5px #CCC;
     box-shadow:0 0 5px #CCC;
 }
-div#categories a:hover {
+#home_categories a:hover {
 	color:#FFF;
 	text-decoration:none;
 	opacity: .5;
+}
+#home_categories .thumb_grid a img {
+	width:50px;
 }
 .top {
 	margin-bottom: 3px;

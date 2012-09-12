@@ -3,15 +3,14 @@
 	<div class='span12' id='home_header'> 
 
 		<p class='nicebigtext' style='text-align:center'>
-			<span class='green'>Give</span> something away.
-			<span class='green'>&nbsp&nbspReceive</span> someone else's gift.
+			<span class='green'>Give</span> what you can.
+			<span class='green'>&nbsp&nbspAsk</span> for what you need.
 			<span class='green'>&nbsp&nbspPay</span> it forward.
 		</p>
 	</div>
 </div>
 <div class='row-fluid' id='home_categories'>
-	<div class='span1'></div>
-	<div class='span10 thumb_grid'>	
+	<div class='span12 thumb_grid'>	
 		<a href='#' class='result_image'>
 			<img src ="<?php echo site_url('assets/images/categories/16.png'); ?>"/>
 		</a>
@@ -28,7 +27,7 @@
 <div class='row'>
 	<div  id='home_search' class='span8 offset2'>
 
-			<p class='nicebigtext'style='text-align:center'>See what we GiftFlowers have to offer.</p>
+			<p class='nicebigtext'>See what we GiftFlowers have to offer.</p>
 		<form class='form-search' method='post' action='<?php echo site_url("find/"); ?>'>
 				<div id='homeInput'>
 				<input name='q'  class='input-large search-query' id='homeSearchInput' type='text' placeholder='Search'>	
