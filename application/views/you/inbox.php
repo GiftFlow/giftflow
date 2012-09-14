@@ -81,8 +81,29 @@
 							</span>
 					</li>
 				<?php } ?>
-				</ul>
-		<?php } else { ?>
+			<?php } ?>
+			<?php if(!empty($threads)) { ?>
+				<?php foreach($threads as $T) { ?>
+					<li class='result_row clearfix'>
+
+						<a class='result_image thankimg' href='<?php echo site_url('people/'.$M->user->id); ?>'>
+							<img src="<?php //echo $M->user->default_photo->thumb_url;?>"/>
+						</a>
+
+						<!-- Metadata -->
+						<div class='result_meta clearfix thankdata'>
+							<span class='metadata'>	
+								<?php echo user_date($M->created, "F jS Y"); ?>
+							</span>
+							<!-- Title --> 
+							<span class="title small">Message from <?php echo $M->user->screen_name; ?></span>
+							<span id='full_review'>
+								<?php echo $M->body; ?>
+							</span>
+						</div> <!-- result_meta  -->
+					</li>
+				<?php } ?>
+			<?php } else { ?>
 		
 			<!-- Empty State -->
 			<p class='nicebigtext'> You don't have any messages! It's time to get with the flow.</p>

@@ -273,6 +273,20 @@ class You extends CI_Controller {
 			$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
 		}
 
+		//Messaging system IN PROGRESS!!!!
+		$this->load->library('Search/Message_search');
+		$M = new Message_search();
+		$threads = $M->get_threads(array('user_id'=> $this->data['logged_in_user_id']));
+
+		foreach($threads as $key=>$val) 
+		{
+			$threads[$key]->messages = $M->get_messages($val->thread_id);
+		}
+
+		$this->data['threads'] = $threads;
+	
+
+
 		// Set view variables
 		$this->data['title'] = "Inbox";
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
