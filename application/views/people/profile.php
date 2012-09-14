@@ -9,12 +9,12 @@
 			
 			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
 	</div>
-	<div class='span3'>
+	<div class='span4'>
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
-					<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-small'>Follow</a>
-					<!--<a href='#' id='message_button' class='btn profile_action btn-small'>Message</a>-->
-					<a href='#' id='thank_button' class='btn profile_action btn-small btn-success'>Thank</a>
+					<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-medium'><i class='icon-eye-open'></i> Follow</a>
+					<a href='#' id='message_button' class='btn profile_action btn-medium'><i class='icon-pencil'></i> Message</a>
+					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success'><i class='icon-gift icon-white'></i> Thank</a>
 				<?php } ?>
 			</div>
 				

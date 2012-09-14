@@ -17,7 +17,7 @@
 			</span>
 			<select name="radius" id="radius" class='span2'>
 				<option value="10">10 miles</option>
-				<option value="100">100 miles</option>
+				<option value="100" selected>100 miles</option>
 				<option value="1000">1000 miles</option>
 				<option value="100000">Global</option>
 			</select>

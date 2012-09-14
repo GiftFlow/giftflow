@@ -15,7 +15,7 @@
 				<form name='find_goods' id="find_goods" action="" method='post'>
 					<div class='input-append'>
 						<input type='text' class='find_form span2' id="q" name='q' value='<?php echo $args["q"];?>' />
-						<button class='btn' type='submit' id="find">Find</button>
+						<button class='btn' type='submit' id="find"><i class='icon-search'></i> Find</button>
 					</div>
 			</div>
 			<div class='span4'>
@@ -25,13 +25,13 @@
 				<div class='input-append'>
 				<form id="editLocation" method="post" action="">
 					<input id ='location' class='find_form span2' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
-						<button id='changeLocation' class='btn'>Change</button>
+					<button id='changeLocation' class='btn'><i class= 'icon-refresh'></i> Change</button>
 				</div>
 				</form>
 
 			</div>
 			<div class='span2'>
-				<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>">Add <?php echo ucfirst($args['type']); ?></a>
+				<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>"><i class='icon-plus icon-white'></i> Add <?php echo ucfirst($args['type']); ?></a>
 			</div>
 		</div><!-- close row -->
 

@@ -19,7 +19,7 @@ class Find extends CI_Controller {
 		"type"=>"gift",
 		"location"=>NULL,
 		"category_id"=>NULL,
-		"radius"=>60,
+		"radius"=>10000,
 		"limit"=>20,
 		"offset"=>0
 	);
