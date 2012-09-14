@@ -216,7 +216,7 @@ if(isset($css))
 			</li>
 			<li <?php if($segment[1]=="people") echo '" class="active"'; ?>>
 				<a href="<?php echo site_url('people');?>">
-					People
+					Members
 				</a>
 			</li>
 			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
