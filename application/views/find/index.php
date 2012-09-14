@@ -13,20 +13,18 @@
 				</span>
 
 				<form name='find_goods' id="find_goods" action="" method='post'>
-				
-				<div class='input-append'>
+					<div class='input-append'>
 						<input type='text' class='find_form span2' id="q" name='q' value='<?php echo $args["q"];?>' />
 						<button class='btn' type='submit' id="find">Find</button>
 					</div>
-				</form>
 			</div>
 			<div class='span4'>
 				<span class='filter_title'>
 					 Location
 				</span>
-				<form id="editLocation" method="post" action="">
 				<div class='input-append'>
-					<input id ='locate_input' class='find_form span2' type="text"  placeholder="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
+				<form id="editLocation" method="post" action="">
+					<input id ='location' class='find_form span2' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
 						<button id='changeLocation' class='btn'>Change</button>
 				</div>
 				</form>
@@ -92,10 +90,12 @@ $(function(){
 			category_id: "<?php echo $args['category_id'];?>",
 			limit: 100,
 		  offset: 0,
-		  location:''
+		  location: "<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>",
+			radius: 100,
 		};
 		
 		api.get = function(){
+			console.log(data);
 			return data;
 		};
 		
@@ -145,13 +145,12 @@ $(function(){
 	
 	// Set UI Location String
 	GF.UI.setLocation = function(locationString){
-		$("#location").text(locationString);
+		$("#location").val(locationString);
 	};
 	
 	
 	// Process AJAX Data
 	GF.Ajax.process = function(data){
-		console.log(data);
 		GF.UI.clearResults();
 
 		if(data.center) {
@@ -175,11 +174,9 @@ $(function(){
 	};
 	
 	GF.Ajax.processNewLocation = function(data){
-		$('#location').text(data.address);
-		locate = $('#editLocation input:text').val();
+		locate = $('#location').val();
 		GF.Params.set('location',locate);
-			$("#editLocation input:text").val("").blur();
-			GF.Ajax.request();
+		GF.Ajax.request();
 	};
 	
 	// jQuery Listeners
@@ -187,16 +184,18 @@ $(function(){
 		GF.Params.set("order_by",$("#order_by option:selected").val());
 		GF.Ajax.request();
 	});
+	$('#radius').change(function(e) {
+		GF.Params.set('radius',$('#radius option:selected').val());
+		GF.Ajax.request();
+	});
 	
 	$("ul#categories li a").click(function(e){
-		$('#current_category').text('Category: '+(this.text));
-    $("ul#categories li a").css('color','#AAAAAA');
+		$("ul#categories li a").css('color','#999');
 		GF.Params.set("category_id",$(this).attr("rel"));
 		GF.Params.set("q",'');
 		$('#q').val('');
 		GF.Ajax.request();		
-    $(this).css('color','#6CB6E2');
-
+		$(this).css('color','#6CB6E2');
 		return false;
 	});
 	
@@ -205,29 +204,12 @@ $(function(){
 		GF.Ajax.request();
 		return false;
 	});	
-
-	$("#location").tipTip({
-		defaultPosition: "right",
-		delay: 0,
-		fadein: 0,
-		keepAlive:'true'
-	});
 	
-	$("#location").click(function(){
-		$(this).hide();
-		$("#editLocation").css('display','inline');
-		$("#editLocation input:text").focus();
+	$("#editLocation").submit(function(e) {
+		GF.Ajax.processNewLocation();
+		return false;
 	});
-	
-  $("#editLocation").ajaxForm({
-		success: GF.Ajax.processNewLocation
-	});
-	
-	$("#editLocation input:text").blur(function(){
-		$("#editLocation").hide();
-		$("#location").show();
-	});
-	
+	 
 	$('#find_link').click(function() {
 		$(this).hide();
 		$("ul.results_list").empty();

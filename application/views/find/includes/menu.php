@@ -19,7 +19,7 @@
 				<option value="10">10 miles</option>
 				<option value="100">100 miles</option>
 				<option value="1000">1000 miles</option>
-				<option value="global">Global!</option>
+				<option value="100000">Global</option>
 			</select>
   </li>
 	<li>

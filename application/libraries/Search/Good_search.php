@@ -54,7 +54,7 @@ class Good_search extends Search
 			"include_tags"=>FALSE,
 			"include_photos"=>FALSE,
 			"count_transactions"=>FALSE,
-			"radius"=>300,
+			"radius"=>60,
 			"user_id"=>NULL,
 			"id_search"=>FALSE,
 			"keyword"=>"",
@@ -142,7 +142,7 @@ class Good_search extends Search
 			{
 				$this->CI->db->where_in("G.category_id",$options->category_id);
 			}
-
+		
 
 			if(!empty($options->location->latitude) || !empty($options->location->longitude) || !empty($options->location->address) || !empty($options->location))
 			{
@@ -177,7 +177,7 @@ class Good_search extends Search
 			
 			if(!empty($options->location))
 			{
-				$this->_geosearch_clauses($options->location);
+				$this->_geosearch_clauses($options);
 			}
 
 
@@ -260,21 +260,25 @@ class Good_search extends Search
 			"order_by"=>"created", // or "distance"
 			"sort"=>"ASC",
 			"offset"=>0,
-			"limit"=>100
+			"limit"=>100,
+			'radius' => 60
 		);
 		$options = (object) array_merge($default_options, $options);
+		$keywords = explode(' ', $options->keyword);
 		
 		// Find matching Tag IDs if search keyword 3 characters long or more
 		// @todo move to Tag_search library
-		if(strlen($options->keyword)>2)
+		if(strlen($keywords[0]) > 2)
 		{
 			Console::logSpeed('Good_search::find_by_keyword(): finding matching tags.');
 			
 			// Load first 25 matches, extract their IDs
-			$tags = $this->CI->db->select("id")
-				->from("tags")
-				->like("name",$options->keyword)
-				->limit(100)
+			$this->CI->db->select("id")
+				->from("tags");
+				foreach($keywords as $word) {
+					$this->CI->db->or_like("name",$word);
+				}
+			$tags = $this->CI->db->limit(100)
 				->get()
 				->result_array();
 			// @todo move to get_ids() utility function
@@ -282,10 +286,14 @@ class Good_search extends Search
 		}
 		
 		// Process location data one time only
+		// Leave lcoation out for keyword search
+		/*
 		if(!empty($options->location)) {			
 			$this->CI->load->library('geo');
+			$this->CI->geo->radius = $options->radius;
 			$options->location = $this->CI->geo->process($options->location);
 		}
+		 */
 
 		$queries = array(
 			"keyword"=>"",
@@ -332,11 +340,11 @@ class Good_search extends Search
 				$this->CI->db->where("G.category_id",$options->category_id);
 			}
 			
-		//	if(!empty($options->location->bounds))
-		//	{
-		//		$this->CI->db->join("locations AS L ","G.location_id = L.id");
-		//		$this->_geosearch_clauses($options->location);
-		//	}
+			if(!empty($options->location->bounds))
+			{
+				//$this->CI->db->join("locations AS L ","G.location_id = L.id");
+				//$this->_geosearch_clauses($options);
+			}
 			
 			// NB! get_compiled_select() manually added to end of core active 
 			// record  library. The source code was taken directly from the 
@@ -346,7 +354,7 @@ class Good_search extends Search
 		}
 		
 		// Set field to order by
-	//	$order_by = ($options->order_by=="distance") ? "location_distance" : "created";
+		//$order_by = ($options->order_by=="distance") ? "location_distance" : "created";
 		
 		// Build combined SQL Query
 		
@@ -379,7 +387,7 @@ class Good_search extends Search
 		$options_array['keyword'] = '';
 		$options_array['id_search'] = FALSE;
 		
-		
+	//print_r($options_array);	
 		$results = $this->find($options_array);
 		
 		Console::logSpeed("Good_search::find_by_keyword(): done.");
@@ -555,9 +563,12 @@ class Good_search extends Search
 	*
 	*	@param object $location		Standard location object w/ radius property
 	*/
-	protected function _geosearch_clauses($location)
+	protected function _geosearch_clauses($options)
 	{
 		$this->CI->load->library('geo');
+		$this->CI->geo->radius = $options->radius;
+		$location = $options->location;
+		$location->radius = $options->radius;
 		
 		// Process Location object (geocodes if needed, generates bounds)
 		if(!isset($location->bounds) || empty($location->bounds))
@@ -578,5 +589,6 @@ class Good_search extends Search
 		
 		// Add location_distance SELECT clause
 		$this->CI->db->select("( 3959 * acos( cos( radians( ".$location->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$location->longitude.") ) + sin( radians(".$location->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
+		
 	}
 }

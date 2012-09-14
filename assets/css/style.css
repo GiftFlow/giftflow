@@ -1876,6 +1876,7 @@ ul.breadcrumbs li a{
 	background: url('../images/gift_module_top.gif');
 	height: 19px;
 	display: block;
+	margin:0;
 }
 .gift_module .middle{
 	background: url('../images/gift_module_bg.gif') repeat-y;

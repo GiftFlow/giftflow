@@ -19,7 +19,7 @@ class Find extends CI_Controller {
 		"type"=>"gift",
 		"location"=>NULL,
 		"category_id"=>NULL,
-		"radius"=>1000,
+		"radius"=>60,
 		"limit"=>20,
 		"offset"=>0
 	);
@@ -165,6 +165,7 @@ class Find extends CI_Controller {
 				"limit"=>100,
 				"status"=>"active",
 				'sort' =>$this->args['sort'],
+				'radius' => $this->args['radius']
 			);
 			
 			$results = $GS->find($options);
@@ -226,6 +227,7 @@ class Find extends CI_Controller {
 			}
 		}
 		
+		
 		// Set order by clause
 		// UI passes a value of either "newest" or "nearby"
 		// Search lib requires values of either "G.created" or 
@@ -247,10 +249,21 @@ class Find extends CI_Controller {
 			$this->args["location"] = $this->geo->geocode($this->args['location']);
 		}
 		//if location isn't provided, then don't use it!
-		elseif(empty($this->args["location"]))
+		elseif(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
+		{
+			$this->args['location'] = $this->data['userdata']['location'];
+		}
+		elseif(empty($this->args['location']))
 		{
 			$this->args["order_by"] = "G.created";
 			$this->args['sort'] = 'DESC';
+		}
+		
+		if(!empty($_REQUEST['radius']))
+		{
+			$this->args['location']->radius = $_REQUEST['radius'];
+			$this->args['radius'] = $_REQUEST['radius'];
+			$this->radius = $_REQUEST['radius'];
 		}
 		
 	}
