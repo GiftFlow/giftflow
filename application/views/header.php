@@ -99,7 +99,7 @@ if(isset($css))
 					<!-- Logged-in User You Menu -->
 					<div class='btn-group'>
 					<a  class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
-						<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
+						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
 							Profile
 					</a>
 						<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>

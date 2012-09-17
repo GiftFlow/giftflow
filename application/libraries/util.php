@@ -83,8 +83,8 @@ class Util
 				'screen_name'=>$this->CI->session->userdata('screen_name'),
 				'first_name'=>$this->CI->session->userdata('first_name'),
 				'last_name'=>$this->CI->session->userdata('last_name'),
-				'photo_thumb_url'=>$this->CI->session->userdata('photo_thumb_url'),
-				'photo_url'=>$this->CI->session->userdata('photo_url'),
+				'default_photo_thumb_url'=>$this->CI->session->userdata('photo_thumb_url'),
+				'default_photo_url'=>$this->CI->session->userdata('photo_url'),
 				'language'=>$this->CI->session->userdata('language'),
 				'timezone'=>$this->CI->session->userdata('timezone')
 			);
