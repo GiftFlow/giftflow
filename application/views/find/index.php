@@ -17,16 +17,18 @@
 						<input type='text' class='find_form span2' id="q" name='q' value='<?php echo $args["q"];?>' />
 						<button class='btn' type='submit' id="find"><i class='icon-search'></i> Find</button>
 					</div>
+				</form>
 			</div>
 			<div class='span4'>
 				<span class='filter_title'>
 					 Location
 				</span>
-				<div class='input-append'>
-				<form id="editLocation" method="post" action="">
-					<input id ='location' class='find_form span2' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
-					<button id='changeLocation' class='btn'><i class= 'icon-refresh'></i> Change</button>
-				</div>
+
+				<form name='changeLocation' id="editLocation" method="post" action="">
+					<div class='input-append'>
+						<input id ='location' class='find_form span2' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
+						<button id='changeLocation' class='btn'><i class= 'icon-refresh'></i> Change</button>
+					</div>
 				</form>
 
 			</div>
@@ -175,6 +177,7 @@ $(function(){
 	
 	GF.Ajax.processNewLocation = function(data){
 		locate = $('#location').val();
+		console.log(locate);
 		GF.Params.set('location',locate);
 		GF.Ajax.request();
 	};
