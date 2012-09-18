@@ -2,6 +2,15 @@
 	<li style='margin-bottom: 22px;'>
 		<img alt="About" src="<?php echo base_url();?>assets/images/headings/about_menu.png">
 	</li>
+	<li>
+		<!-- AddThis Follow BEGIN -->
+		<p>Follow Us</p>
+		<div class="addthis_toolbox addthis_32x32_style addthis_default_style">
+		<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
+		<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>
+		</div>
+		<!-- AddThis Follow END -->
+	</li>
 	<li <?php if($segment[2]=='story'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('about/story');?>'> 
 			Our Story

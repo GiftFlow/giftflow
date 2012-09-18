@@ -125,6 +125,20 @@ class Goods extends CI_Controller {
 			
 			
 			Console::logSpeed('loading the gift...done.');
+
+
+			//Load matches for sidebar
+
+			$this->data['gifts'] = $Good_search->find(array(
+				'keyword' => $this->G->title,
+				'limit' => 5,
+				'type' => 'gift'
+			));
+			$this->data['needs'] = $Good_search->find(array(
+				'keyword' => $this->G->title,
+				'limit' => 5,
+				'type' => 'need'
+			));
 		}
 		// Parse global data
 		
@@ -808,6 +822,7 @@ class Goods extends CI_Controller {
 		@$extension = array(
 			'og:image' => $this->G->default_photo->thumb_url,
 			'og:title' => $this->G->title,
+			'og:description' => $this->G->description,
 			'og:type' => "product",
 			'og:latitude' => $this->G->location->latitude,
 			'og:longitude' => $this->G->location->longitude,

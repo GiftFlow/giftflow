@@ -952,6 +952,9 @@ ul.results_list.grid li a.result_image img{
 .sidebar ul.results_list li .result_meta{
 	width: 165px;
 }
+.sidebarTitle {
+	font-size:14px;
+}
 /*eof sidebar exceptions*/
 
 ul.results_list#linked_accounts{
@@ -1935,10 +1938,14 @@ ul.breadcrumbs li a{
 .gift_module .right table{
 	width: 100%;
 }
+.shareSet {
+	width:100%;
+	padding: 10px 0px 10px 0px;
+}
 .sidebar {
 	display: block;
 	float: right;
-	width: 260px;
+	width: 280px;
 	margin-bottom: 25px;
 	clear: right;
 }
