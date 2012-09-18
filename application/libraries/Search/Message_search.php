@@ -37,23 +37,36 @@ class Message_search extends Search
 		
 		if(!empty($options['user_id']))
 		{
-			$this->threads = $this->CI->db->select('T.id AS thread_id,
-				TU.user_id AS thread_pair_user')
-						->from('threads_users AS T')
-						->join('threads_users AS TU','T.thread_id = TU.thread_id AND TU.user_id != '.$options["user_id"])
-						->where('T.user_id',$options['user_id'])
-						->get()
-						->result();
+			$this->CI->db->select('T.thread_id AS thread_id,
+				TU.user_id AS other_user')
+				->from('threads_users AS T')
+				->join('threads_users AS TU','T.thread_id = TU.thread_id AND TU.user_id != '.$options["user_id"], 'left')
+				->where('T.user_id',$options['user_id']);
+		}
+
+		if(!empty($options['thread_id']))
+		{
+			$this->CI->db->where('T.thread_id',$options['thread_id']);
+		}	
+		$this->threads = $this->CI->db->get()->result();
+
+		$this->CI->load->library('Search/User_search');
+		$U = new User_search();
+
+		foreach($this->threads as $val) 
+		{
+			$val->other_user = $U->get(array('user_id'=>$val->other_user));
+			$val->messages = $this->get_messages($val->thread_id);
+
+			if(!empty($val->messages))
+			{	
+				$val->recent = end($val->messages);
+			} 
+		}
 
 			return $this->threads;
-
-
-			//$this->thread_ids = array_map( function ($thread) { return $thread->thread_id; }, $this->threads);
-		}
-		
-
-			
 	}
+		
 
 	function get_messages($thread_id)
 	{
@@ -63,24 +76,10 @@ class Message_search extends Search
 				M.thread_id AS thread_id,
 				M.body AS message_body,
 				M.user_id AS user_id,
-				M.created AS message_created,
-				U.id AS user_id,
-				U.email AS user_email,
-				U.screen_name AS user_screen_name,
-				U.first_name AS user_first_name,
-				U.last_name AS user_last_name,
-				U.photo_source AS user_photo_source,
-				U.default_photo_id AS user_photo_id,
-				U.facebook_id AS user_facebook_id,
-				U.status AS user_status,
-				U.created AS user_created,
-				P.id AS photo_id,
-				P.url AS photo_url,
-				P.thumb_url AS photo_thumb_url')
+				M.created AS message_created')
 				->from("messages AS M")
-				->join('users AS U','M.user_id = U.id')
-				->join("photos AS P ","U.default_photo_id = P.id AND U.default_photo_id IS NOT NULL","left")
 				->where('M.thread_id',$thread_id)
+				->order_by('M.created','DESC')
 				->get()
 				->result();
 			return $messages;

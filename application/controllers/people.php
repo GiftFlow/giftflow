@@ -228,7 +228,7 @@ class People extends CI_Controller {
 				$this->_thank();
 				break;
 			case 'message':
-				$this->_message();
+				$this->message();
 				break;
 			};
  		}
@@ -658,39 +658,29 @@ class People extends CI_Controller {
 	}
 
 	//write a message unassociated with a transaction
-	function _message ()
+	function message ()
 	{
-		$input = $this->input->post();
-		$this->load->library('Messaging/Conversation');
-		/*$this->load->model('thread');
 
-		$T = new Thread();
-		$T->subject = 'unnecessary';
-		$T->save_user($input['recip_id']);
-		$T->save_user($this->data['logged_in_user_id']);
-		print_r($T);
-		dise();
-		if(!$T->save()) {
-			show_error('Error saving thread');
+		if(!empty($_POST)) {
+			$input = $this->input->post();
+
+			$this->load->library('Messaging/Conversation');
+
+			$C = new Conversation();
+			$C->type ='thread';
+
+			if(!$C->compose(array(
+				'body' => $input['body'],
+				'user_id' => $this->data['logged_in_user_id'],
+				'subject' => 'profile_message',
+				'recip_id' => $input['recip_id'],
+				'type' => 'thread'
+			))){
+
+				show_error("Error saving Conversation");
+			}
+
 		}
-		 */
-
-		$C = new Conversation();
-		$C->type = 'thread';
-		//$C->users = array($this->data['logged_in_user_id'], $input['recip_id']);
-
-		if(!$C->compose(array(
-			'body' => $input['body'],
-			'user_id' => $this->data['logged_in_user_id'],
-			'subject' => 'profile_message',
-			'recip_id' => $input['recip_id']
-		))){
-
-			show_error("Error saving Conversation");
-		}
-
-		$Search = new User_search();
-		$U = $Search->get(array('user_id' => $input['recip_id']));
 	}
 
 

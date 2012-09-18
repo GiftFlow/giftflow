@@ -7,9 +7,8 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
-		<?php if(!empty($thankyous) || !empty($transactions)) { ?>
+		<?php if(!empty($thankyous) || !empty($transactions) || !empty($threads)) { ?>
 			<ul class='transactions'>
-		<?php } ?>
 		
 				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->
 				<?php if(!empty($thankyous)) { ?>
@@ -84,27 +83,31 @@
 			<?php } ?>
 			<?php if(!empty($threads)) { ?>
 				<?php foreach($threads as $T) { ?>
-					<li class='result_row clearfix'>
+					<?php if(!empty($T->messages)) { ?>
+					<li class='clearfix'>
 
-						<a class='result_image thankimg' href='<?php echo site_url('people/'.$M->user->id); ?>'>
-							<img src="<?php //echo $M->user->default_photo->thumb_url;?>"/>
+						<img src="<?php echo base_url()."assets/images/status_icons/active.png";?>" title="" alt="" class="left status_icon" />
+
+						<a class='user_image medium left' href='<?php echo site_url('people/'.$T->other_user->id); ?>'>
+							<img src="<?php echo $T->other_user->default_photo->thumb_url;?>"/>
 						</a>
 
 						<!-- Metadata -->
-						<div class='result_meta clearfix thankdata'>
-							<span class='metadata'>	
-								<?php echo user_date($M->created, "F jS Y"); ?>
-							</span>
+						<div class='metadata left'>
 							<!-- Title --> 
-							<span class="title small">Message from <?php echo $M->user->screen_name; ?></span>
-							<span id='full_review'>
-								<?php echo $M->body; ?>
+							<a href="<?php echo site_url('you/view_thread/'.$T->thread_id);?>" class="title">Conversation with <?php echo $T->other_user->screen_name; ?></a>
+							<span class='summary'>
+								<?php echo substr($T->recent->message_body, 0, 150); ?>
 							</span>
 						</div> <!-- result_meta  -->
+							<span class='updated css_right'>	
+								<?php echo user_date($T->recent->message_created, "n/j/o"); ?>
+							</span>
 					</li>
+				<?php }?>
 				<?php } ?>
-			<?php } else { ?>
-		
+			<?php }?>
+		<?php } else { ?>	
 			<!-- Empty State -->
 			<p class='nicebigtext'> You don't have any messages! It's time to get with the flow.</p>
 			<?php echo $welcome_view; ?>

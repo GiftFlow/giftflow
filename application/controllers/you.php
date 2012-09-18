@@ -17,11 +17,13 @@ class You extends CI_Controller {
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/Thankyou_search');
 		$this->load->library('datamapper');
+		$this->load->library('Search/Message_search');
+		$this->load->library('Search/User_search');
 		
 	}
 
 	/**
-	*	User dashboard
+	*	DEPRECATED - REROUTED TO INBOX
 	*/
 	function index()
 	{
@@ -50,37 +52,9 @@ class You extends CI_Controller {
 			"type"=>"need",
 			"user_id"=>$this->data['logged_in_user_id']
 		));
-		
-		//Load event reader for activity feed
-		$this->load->library('event_reader');
-		$E = new Event_reader();
-		$options = array(
-		  'event_type_id' => array(2,8),
-		  'limit' => 100,
-		  'location' => $this->data['userdata']['location']
-		);
-				
-		//Total hack job, rigging the event feed to show more completed transactions
-		$unsorted_events = $E->get_events($options);	
 
-		// TODO: get_events should return an empty array instead of false
-		
-		if ($unsorted_events != FALSE) {	
-			foreach($unsorted_events as $raw)
-			{
-				if($raw->event_type_id == 2)
-				{
-					$this->data['events'][] = $raw;
-				}
-				$sorter = rand() % 7;
-				if($raw->event_type_id == 8 && $sorter == 0 )
-				{   
-					$this->data['events'][] = $raw;
-				}
-			}
-		}
 
-		//In case they have no transactions
+			//In case they have no transactions
 		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
 
 		// Set view variables
@@ -268,24 +242,11 @@ class You extends CI_Controller {
 
 		$this->data['transactions'] = $TS->find($options);
 
-		if(empty($this->data['transactions']) && empty($this->data['thankyous'])) {
-			//In case they have no transactions
-			$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
-		}
+		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
 
 		//Messaging system IN PROGRESS!!!!
-		$this->load->library('Search/Message_search');
 		$M = new Message_search();
-		$threads = $M->get_threads(array('user_id'=> $this->data['logged_in_user_id']));
-
-		foreach($threads as $key=>$val) 
-		{
-			$threads[$key]->messages = $M->get_messages($val->thread_id);
-		}
-
-		$this->data['threads'] = $threads;
-	
-
+		$this->data['threads'] = $M->get_threads(array('user_id'=> $this->data['logged_in_user_id']));
 
 		// Set view variables
 		$this->data['title'] = "Inbox";
@@ -326,7 +287,6 @@ class You extends CI_Controller {
 		Console::logSpeed("You::view_transaction()");
 		
 		// Loading libraries
-		$this->load->library('Search/User_search');
 		$this->load->library('Messaging/Conversation');
 		$this->load->helper('form');
 		$this->load->helper('language');
@@ -664,34 +624,66 @@ class You extends CI_Controller {
 		$T = new Thankyou_search();
 		$thankyou = $T->find(array('id'=>$id));
 		$this->data['thankyou'] = $thankyou[0];
-
-
-		// Title
-		$this->data['title'] = "Thank you from ".$thankyou[0]->screen_name;
-				
-		// Breadcrumbs
-		$this->data['breadcrumbs'][] = array(
-			"title"=>"You", 
-			"href"=>site_url('you')
-		);
-		$this->data['breadcrumbs'][] = array (
-			"title"=>"Inbox",
-			"href" =>site_url('you/transactions')
-		);
-		$this->data['breadcrumbs'][] = array (
-			"title"=>'Thank You'
-		);
-				
+	
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
 		$this->load->view('header',$this->data);
+		$this->load->view('you/includes/header', $this->data);
 		$this->load->view('you/thankyou',$this->data);
 		$this->load->view('footer',$this->data);
 
 
 	}
-	
+
+	public function view_thread($id) 
+	{
+		if(!empty($_POST))
+		{
+			$input = $this->input->post();
+			$this->load->library('Messaging/Conversation');
+			$C = new Conversation();
+			$C->type = 'thread';
+			$C->thread_id = $input['thread_id'];
+			//$C->users = array($this->data['logged_in_user_id'], $input['recip_id']);
+
+			if(!$C->compose(array(
+				'body' => $input['body'],
+				'user_id' => $this->data['logged_in_user_id'],
+				'subject' => 'profile_message',
+				'recip_id' => $input['recip_id'],
+				'type' => 'thread',
+				'thread_id' => $input['thread_id']
+			))){
+
+				show_error("Error saving Conversation");
+			}
+		}
+
+			
+		$M = new Message_search();
+		$thread = $M->get_threads(array(
+			'thread_id'=>$id, 
+			'user_id' => $this->data['logged_in_user_id']
+		));
+		$this->data['thread'] = $thread[0];
+
+		//load logged in user - need this object to match the other_user
+		$U = new User_search();
+		$this->data['u'] = $U->get(array('user_id'=>$this->data['logged_in_user_id']));
+
+		// Title
+		$this->data['title'] = "Conversation with ".$this->data['thread']->other_user->screen_name;
+			
+		// Menu
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		
+		$this->load->view('header',$this->data);
+		$this->load->view('you/includes/header');
+		$this->load->view('you/thread',$this->data);
+		$this->load->view('footer',$this->data);
+	}
+
 	/**
 	*	Loads both the Add a Gift and the Add a Need forms.
 	*	Which form is loaded varies based on the $type variable.

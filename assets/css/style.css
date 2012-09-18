@@ -34,7 +34,7 @@ desaturated light green: #88c57a
 	height: 53px;
 }
 #main {
-	background-image: url('../images/background-noise.jpg');
+	background-image: url('../images/textures/grey.png');
 	padding: 20px 0 50px 0;
 	min-height: 488px;
 }
@@ -2314,7 +2314,6 @@ ul#linked_accounts li span {
 #transaction-messages .message{
 	border-top: 1px solid #EEE;
 	padding: 15px 25px 15px 60px;
-	width: 675px;
 }
 #transaction-messages .message .text{
 	margin: 0 20px;
@@ -2374,6 +2373,8 @@ li#review {
 }
 .transaction-main #message_body {
 	margin: 10px 0;
+	width: 80%;
+	display:block;
 }
 .search_module input[type=text]{
 	font-size: 20px;
