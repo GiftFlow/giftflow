@@ -30,7 +30,7 @@ class You extends CI_Controller {
 		Console::logSpeed('You::index()');
 
 		return $this->inbox();
-		
+	/*	
 		// Load libraries
 		$GS = new Good_search();
 		
@@ -69,6 +69,7 @@ class You extends CI_Controller {
 		$this->load->view('footer', $this->data);
 		
 		Console::logSpeed('You::index(): done.');
+	 */
 	}
 	
 	function welcome()
@@ -210,10 +211,13 @@ class You extends CI_Controller {
 		//Load Thankyou
 		$this->load->library('Search/Thankyou_search');
 		$TY = new Thankyou_search;
-		$this->data['thankyous'] = $TY->find(array(
+		$this->data['thanks'] = $TY->find(array(
 			'recipient_id'=>$this->data['logged_in_user_id']
 		));
 
+		//Load Threads
+		$M = new Message_search();
+		$this->data['threads'] = $M->get_threads(array('user_id'=> $this->data['logged_in_user_id']));
 
 		//Load Transactions		
 		// Load Libraries
@@ -241,6 +245,7 @@ class You extends CI_Controller {
 		}
 
 		$this->data['transactions'] = $TS->find($options);
+
 
 		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
 
@@ -721,4 +726,5 @@ class You extends CI_Controller {
 			$this->load->view('footer', $this->data);
 		}
 	}	
+
 }

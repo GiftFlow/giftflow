@@ -789,6 +789,7 @@ ul.results_list{
 	border-top: 1px solid #ddd;
 	clear: left;
 }
+
 .right_content ul.results_list, ul.transactions, .right_content ul.goods_list{
 	margin-left: -30px;
 }

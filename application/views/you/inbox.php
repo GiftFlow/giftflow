@@ -5,15 +5,14 @@
 
 	<!-- Sidebar Menu -->
 	<?php echo $menu; ?>
-	
 	<div class='right_content'>
 		<?php if(!empty($thankyous) || !empty($transactions) || !empty($threads)) { ?>
 			<ul class='transactions'>
 		
 				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->
-				<?php if(!empty($thankyous)) { ?>
-					<?php foreach($thankyous as $val) { ?>
-
+				<?php if(!empty($thanks)) { ?>
+					<?php foreach($thanks as $val) { ?>
+					<li class='section_header'><h3 class='messages_title'>Thanks</h3></li>
 						<li class="clearfix unread">
 					
 							<img src="<?php echo base_url()."assets/images/status_icons/".$val->status.".png";?>" title="<?php echo ucfirst($val->status);?>" alt="<?php echo ucfirst($val->status);?>" class="left status_icon" />
@@ -39,8 +38,9 @@
 					<?php } ?>
 				<?php } ?>
 
-				<?php if(!empty($transactions)) {	
-					foreach($transactions as $val) 
+				<?php if(!empty($transactions)) { ?>	
+					<li class='section_header'><h3 class='messages_title'>Gifts</h3></li>
+				<?php foreach($transactions as $val) 
 					{
 						if($val->demander->id == $this->data['logged_in_user_id'])
 							{
@@ -82,6 +82,7 @@
 				<?php } ?>
 			<?php } ?>
 			<?php if(!empty($threads)) { ?>
+					<li class='section_header'><h3 class='messages_title'>Messages</h3></li>
 				<?php foreach($threads as $T) { ?>
 					<?php if(!empty($T->messages)) { ?>
 					<li class='clearfix'>
