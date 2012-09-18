@@ -229,9 +229,7 @@ class You extends CI_Controller {
 			"transaction_status"=>array(
 				"active",
 				"pending",
-				"declined",
-				"completed",
-				"cancelled"
+				"completed"
 			),
 			"limit"=>200
 		);
