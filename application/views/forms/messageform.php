@@ -4,10 +4,10 @@
 			<textarea rows='5' class='big-border required' name='body' id='message_body' value=''></textarea>
 		</p>
 		<p>
-			<input type='submit' class='btn' value='Send'/>
 			<input type='hidden' name='formtype' value='message'/>
 			<input type='hidden' name='recip_id' value ='<?php echo $u->id; ?>'/>
-			<button id='message_cancel' class='btn'>Cancel</button>
+			<input type='submit' class='btn' value='Send'/>
+			<a href='#' id='message_cancel' class='btn'>Cancel</a>
 		</p>
 		<span id='message_errortext'></span>
 </form>
