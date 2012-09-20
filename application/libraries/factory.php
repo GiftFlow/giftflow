@@ -30,8 +30,19 @@ class Factory
     if(!empty($results))
     {
       $this->CI->load->library('UI/UI_results');
-      $include = array('created', 'location');
+      $include = array();
 
+			
+		if($sort == 'location_distance')
+		{
+			$include[] = 'location';
+		}
+		elseif($sort == 'U.created')
+		{
+			$include[] = 'created';
+			$include[] = 'location';
+		}
+			
       foreach($results as $key=>$val)
       {
         $results[$key]->html = UI_Results::users(array(

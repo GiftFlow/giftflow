@@ -134,20 +134,18 @@ class Find extends CI_Controller {
 		{
 			Console::logSpeed("Find::_search(): starting User_search...");
 			$options= array(
-				"screen_name"=>$this->args["q"], 
-				"first_name"=>$this->args["q"], 
-				"last_name"=>$this->args["q"], 
-				"bio"=>$this->args["q"],
-				"occupation"=>$this->args["q"],
+				"keyword"=>$this->args["q"],
 				"location"=>$this->args['location'],
 				"radius"=>$this->args['radius'],
-				"limit"=>50,
-				"order_by"=>"location_distance",
-				"sort" => 'ASC'
+				"limit"=>100,
+				"order_by"=>$this->args['order_by'],
+				"sort" => $this->args['sort'],
+				'status' => 'active'
 			);
 				
 			$US = new User_search;
-			$this->data['results'] = $US->find($options);
+			$results = $US->find($options);
+			$this->data['results'] = $this->factory->users_ajax($results, $this->args['order_by']);
 				
 		}
 		else
@@ -232,8 +230,9 @@ class Find extends CI_Controller {
 		// UI passes a value of either "newest" or "nearby"
 		// Search lib requires values of either "G.created" or 
 		// "location_distance"
-		
-		$this->args["order_by"] = "G.created";
+
+
+		$this->args['order_by'] = ($this->args['type'] != 'people') ? 'G.created' : 'U.created';
 		$this->args['sort'] = 'DESC';
 		
 		// Encode "nearby" as "location_distance" if found
@@ -255,8 +254,10 @@ class Find extends CI_Controller {
 		}
 		elseif(empty($this->args['location']))
 		{
-			$this->args["order_by"] = "G.created";
 			$this->args['sort'] = 'DESC';
+
+			$this->args['order_by'] = ($this->args['type'] != 'people') ? 'G.created' : 'U.created';
+
 		}
 		
 		if(!empty($_REQUEST['radius']))

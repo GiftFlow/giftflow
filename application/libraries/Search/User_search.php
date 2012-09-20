@@ -65,7 +65,6 @@ class User_search extends Search
 			"exclude_logged_in_user"=>FALSE,
 			"following_stats"=>TRUE,
 			"location"=>NULL,
-			"transaction_id"=>NULL,
 			"order_by"=>"U.created",
 			"sort"=>"ASC",
 			"offset"=>0,
@@ -74,7 +73,8 @@ class User_search extends Search
 			"include_forgotten_password_code" => FALSE,
 			'include_photos' => FALSE,
 			"keyword" => '',
-			"type" => ''
+			"type" => '',
+			'radius' => 100
 		);
 		$options = (object) array_merge(
 			//$default_like_options, 
@@ -82,6 +82,7 @@ class User_search extends Search
 			$options
 		);	
 		
+				
 		// Assemble basic SELECT query
 		$this->_basic_query();
 		
@@ -117,16 +118,14 @@ class User_search extends Search
 		// Filter text fields by WHERE LIKE
 		if(!empty($options->keyword))
 		{
-			$where_clause = sprintf("(	U.first_name LIKE '%s' OR 
-										U.last_name LIKE '%s' OR
-										U.screen_name LIKE '%s' OR
-										U.bio LIKE '%s' OR
-										U.email LIKE '%s' OR
-										U.occupation LIKE '%s')",
-										$options->keyword, $options->keyword,
-										$options->keyword, $options->keyword,
-										$options->keyword, $options->keyword);
-			$this->CI->db->where($where_clause);
+			$keywords = explode(' ',$options->keyword);
+
+			foreach($keywords as $word) {
+				$this->CI->db->or_like('U.screen_name', $word);
+				$this->CI->db->or_like('U.bio', $word);
+				$this->CI->db->or_like('U.email', $word);
+				$this->CI->db->or_like('U.occupation', $word);
+			}
 		}	
 		if(!empty($options->type))
 		{
@@ -138,7 +137,7 @@ class User_search extends Search
 		if(!empty($options->location))
 		{
 			$this->_join_locations("inner");
-			$this->_geosearch_clauses($options->location);
+			$this->_geosearch_clauses($options);
 		}
 		
 		// Else simply include location for those who have it
@@ -178,6 +177,8 @@ class User_search extends Search
 		
 		// Return result
 		$result = $this->CI->db->get()->result();
+		echo $this->CI->db->last_query();
+
 		
 		// Hydrate & return results
 		Console::logSpeed("User_search::find(): done.");
@@ -364,40 +365,31 @@ class User_search extends Search
 	protected function _geosearch_clauses($options)
 	{
 		$this->CI->load->library('geo');
+		$this->CI->geo->radius = $options->radius;
+		$location = $options->location;
+		$location->radius = $options->radius;
 		
-		// Geocode if needed
-		if( !empty($options->address) && (empty($options->latitude) || empty($options->longitude)))
+		
+		// Process Location object (geocodes if needed, generates bounds)
+		if(!isset($location->bounds) || empty($location->bounds))
 		{
-			$options = $this->CI->geo->geocode($options->address,$options);
+			$location = $this->CI->geo->process($location);
 		}
-		
-		// Make sure latitude and longitude are present
-		if( empty($options->latitude) || empty($options->longitude) )
-		{
-			return FALSE;
-		}
-		
-		if(empty($options->radius))
-		{
-			$options->radius = 100;
-		}
-		
-		// Get lat/lng bounds
-		$bounds = $this->CI->geo->get_bounds($options->latitude, $options->longitude, $options->radius);
 		
 		// Assemble SQL Clauses
 		
 		// Add latitude WHERE BETWEEN clause
-		$this->CI->db->where("L.latitude BETWEEN ".$bounds['latitude']['min']." AND ".$bounds['latitude']['max']);
+		$this->CI->db->where("L.latitude BETWEEN ".$location->bounds['latitude']['min']." AND ".$location->bounds['latitude']['max']);
 		
 		// Add longitude WHERE BETWEEN clause
-		$this->CI->db->where("L.longitude BETWEEN ".$bounds['longitude']['min']." AND ".$bounds['longitude']['max']);
+		$this->CI->db->where("L.longitude BETWEEN ".$location->bounds['longitude']['min']." AND ".$location->bounds['longitude']['max']);
 		
 		// Add default_location_id WHERE clause
-		$this->CI->db->where("U.default_location_id IS NOT NULL");
+		// $this->CI->db->where("U.default_location_id IS NOT NULL");
 		
 		// Add location_distance SELECT clause
-		$this->CI->db->select("( 3959 * acos( cos( radians( ".$options->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$options->longitude.") ) + sin( radians(".$options->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
+		$this->CI->db->select("( 3959 * acos( cos( radians( ".$location->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$location->longitude.") ) + sin( radians(".$location->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
+		$this->CI->db->where('location_distance <', $location->radius);
 	}
 }
 /*
