@@ -15,7 +15,7 @@
 			<img src ="<?php echo site_url('assets/images/categories/16.png'); ?>"/>
 		</a>
 		<?php for($i=1; $i<17; $i++) { ?>
-			<a href='#' class='result_image'>
+		<a href="<?php echo site_url('find/gifts/?category_id='.$i);?>" class='result_image'>
 			<img src="<?php echo site_url('assets/images/categories/'.$i.'.png'); ?>"/>
 			</a>
 		<?php } ?>
