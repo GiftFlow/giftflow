@@ -82,7 +82,6 @@ class User_search extends Search
 			$options
 		);	
 		
-				
 		// Assemble basic SELECT query
 		$this->_basic_query();
 		
@@ -119,13 +118,25 @@ class User_search extends Search
 		if(!empty($options->keyword))
 		{
 			$keywords = explode(' ',$options->keyword);
-
+			$likewhere = '(';
+			
+			$i = 0;
+			$len = count($keywords);
 			foreach($keywords as $word) {
-				$this->CI->db->or_like('U.screen_name', $word);
-				$this->CI->db->or_like('U.bio', $word);
-				$this->CI->db->or_like('U.email', $word);
-				$this->CI->db->or_like('U.occupation', $word);
+				$i++;
+				$word = "'%".$word."%'";
+
+				$likewhere .= "U.screen_name LIKE ".$word.
+								" OR U.bio LIKE ".$word.
+								" OR U.email LIKE ".$word.
+								" OR U.occupation LIKE ".$word." ";
+				if($i != $len){
+					$likewhere.= ' OR ';
+				}
 			}
+			$likewhere .= ")";
+
+			$this->CI->db->where($likewhere);
 		}	
 		if(!empty($options->type))
 		{
@@ -177,7 +188,6 @@ class User_search extends Search
 		
 		// Return result
 		$result = $this->CI->db->get()->result();
-		echo $this->CI->db->last_query();
 
 		
 		// Hydrate & return results
@@ -389,7 +399,6 @@ class User_search extends Search
 		
 		// Add location_distance SELECT clause
 		$this->CI->db->select("( 3959 * acos( cos( radians( ".$location->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$location->longitude.") ) + sin( radians(".$location->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
-		$this->CI->db->where('location_distance <', $location->radius);
 	}
 }
 /*

@@ -308,11 +308,24 @@ class Good_search extends Search
 			// building tag queries if no matches were found.
 			if($query_type=="keyword")
 			{
-				$keywords = explode(' ', $options->keyword);
+				$keywords = explode(' ',$options->keyword);
+				$likewhere = '(';
+				$i = 0;
+				$len = count($keywords);
 				foreach($keywords as $word) {
-					$this->CI->db->or_like('G.title', $word);
-					$this->CI->db->or_like('G.description',$word);
+					$i++;
+					$word = "'%".$word."%'";
+
+					$likewhere .= "G.title LIKE ".$word.
+									" OR G.description LIKE ".$word." ";
+
+					if($i != $len){
+						$likewhere.= ' OR ';
+					}
 				}
+				$likewhere .= ")";
+
+				$this->CI->db->where($likewhere);
 			}
 			elseif($query_type=="tag")
 			{
@@ -387,7 +400,6 @@ class Good_search extends Search
 		$options_array['keyword'] = '';
 		$options_array['id_search'] = FALSE;
 		
-	//print_r($options_array);	
 		$results = $this->find($options_array);
 		
 		Console::logSpeed("Good_search::find_by_keyword(): done.");
