@@ -12,9 +12,9 @@
 			<?php if($type == 'people') { ?>
 				<div class='chunk findButtons span2'>
 					<div class='btn-group' id='peopleTypes'>
-					<button class='ptype btn btn-small' value='individual'>People</button>
-					<button class='ptype btn btn-small' value='nonprofit'>Nonprofits</button>
-					<button class='ptype btn btn-small' value='business'>Businesses</button>
+					<button class='ptype btn btn-small <?php if($args["profile_type"] == "people") {echo "disabled";}?> ' value='individual'>People</button>
+					<button class='ptype btn btn-small <?php if($args["profile_type"] == "nonprofit") {echo "disabled";}?> ' value='nonprofit'>Nonprofits</button>
+					<button class='ptype btn btn-small <?php if($args["profile_type"] == "business") {echo "disabled";}?> ' value='business'>Businesses</button>
 					</div>
 				</div>
 				<div class='findBar span10 chunk peopleBar'>
@@ -74,7 +74,6 @@
 
 $(function(){
 
-
 	// GF Namespace wrapper
 	var GF = {
 		UI: {},
@@ -95,13 +94,13 @@ $(function(){
 		var api = {};
 		
 		var data = {
-			order_by: "newest",
+			order_by: "<?php echo $args['order_by'];?>",
 			category_id: "<?php echo $args['category_id'];?>",
 			limit: 100,
 		  offset: 0,
 		  location: "<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>",
 		  radius: 100,
-		  profile_type: ''
+		  profile_type: "<?php echo $args['profile_type'];?>"
 		};
 		
 		api.get = function(){
@@ -116,7 +115,7 @@ $(function(){
 		return api;
 		
 	}());
-		
+
 	// Hide results, show loading icon
 	GF.UI.loading = function(){
 		$("ul.simplePagerNav").remove();
@@ -229,6 +228,7 @@ $(function(){
 		GF.Ajax.request();
 		return false;
 	});
+
 		
 });
 		
