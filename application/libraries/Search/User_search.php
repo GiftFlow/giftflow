@@ -288,7 +288,8 @@ class User_search extends Search
 		else
 		{
 			return $this->find(array(
-				"user_id"=>$user_ids
+				"user_id"=>$user_ids,
+				'include_location' => TRUE
 			));
 		}
 	}

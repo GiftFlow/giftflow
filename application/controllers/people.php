@@ -191,7 +191,7 @@ class People extends CI_Controller {
 		if($type=="giftcircle")
 		{
 			$this->data['title'] = "Gift Connections";	
-			$this->data['heading'] = "People connected to you via gifts.";
+			$this->data['heading'] = "Members connected to you via gifts.";
 			$this->data['results'] = $GC->gift_circle($options = array('user_id' => $this->U->id));
 
 		}

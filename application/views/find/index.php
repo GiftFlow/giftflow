@@ -2,6 +2,8 @@
 
 	<!-- Sidebar Menu -->
 	<?php echo $menu;?>
+	<?php if($type =='people') { echo $people_menu; } else { echo $category_menu; } ?>
+	   </ul>	<!-- closing ul opened in $menu -->
 
 	<div class='right_content'>
 		<!-- Search Form Module -->
@@ -9,7 +11,7 @@
 		<div class='row'>
 			<div class='span3'>
 				<span class="filter_title">
-				  Search by Keyword
+				  Search
 				</span>
 
 				<form name='find_goods' id="find_goods" action="" method='post'>

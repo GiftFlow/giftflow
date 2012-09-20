@@ -21,7 +21,9 @@ class Find extends CI_Controller {
 		"category_id"=>NULL,
 		"radius"=>10000,
 		"limit"=>20,
-		"offset"=>0
+		"offset"=>0,
+		'order_by' => NULL
+
 	);
 	
 	function __construct()
@@ -111,6 +113,10 @@ class Find extends CI_Controller {
 		
 		// Load Menu
 		$this->data['menu'] = $this->load->view('find/includes/menu', $this->data, TRUE);
+
+		$this->data['category_menu'] = $this->load->view('find/includes/categories.php', $this->data, TRUE);
+
+		$this->data['people_menu'] = $this->load->view('people/includes/submenu.php', $this->data, TRUE);
 
 		// Load views
 		$this->load->view('header',$this->data);
