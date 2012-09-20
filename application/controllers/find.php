@@ -22,7 +22,8 @@ class Find extends CI_Controller {
 		"radius"=>10000,
 		"limit"=>20,
 		"offset"=>0,
-		'order_by' => NULL
+		'order_by' => NULL,
+		'profile_type' => NULL
 
 	);
 	
@@ -146,7 +147,8 @@ class Find extends CI_Controller {
 				"limit"=>100,
 				"order_by"=>$this->args['order_by'],
 				"sort" => $this->args['sort'],
-				'status' => 'active'
+				'status' => 'active',
+				'type' => $this->args['profile_type']
 			);
 				
 			$US = new User_search;

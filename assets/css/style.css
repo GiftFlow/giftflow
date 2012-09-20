@@ -59,6 +59,40 @@ a:hover{
 input[type=text], textarea{
 	font-family:'helvetica neue', helvetica, arial;
 }
+
+.chunk {
+	min-height:25px;
+	padding: 10px;
+	-webkit-background-clip: padding-box;
+	-webkit-background-origin: padding-box;
+	-webkit-background-size: auto;
+	-webkit-border-image: none;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 1px 3px 0px;
+	background-attachment: scroll;
+	background-clip: padding-box;
+	background-color: white;
+	background-image: none;
+	background-origin: padding-box;
+	background-size: auto;
+	border-bottom-color: rgba(0, 0, 0, 0.199219);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-color: rgba(0, 0, 0, 0.199219);
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-color: rgba(0, 0, 0, 0.199219);
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-color: rgba(0, 0, 0, 0.199219);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	box-shadow: rgba(0, 0, 0, 0.199219) 0px 1px 3px 0px;
+}
+
 #footer ul {
 	list-style: none;
 	margin: 0;
@@ -1471,6 +1505,22 @@ ul.nicebigtext{
 .two_panels.find{
 	padding-top: 0;
 }
+#findNav {
+	margin-bottom: 15px;
+}
+.find_form {
+	display:inline;
+}
+span.navForm{
+	margin-top:5px;
+}
+.find_form div.input-append {
+	display:inline;
+}
+.findButtons {
+	padding: 10px;
+	margin-top: 10px;
+}
 .about h1{
 	margin-top: 9px;
 }
@@ -2569,7 +2619,7 @@ ul.list_menu li ul.tooltip_menu li a .ui-icon{
 	margin-right: 10px;
 	float: left;
 }
-ul.list_menu li ul.tooltip_menu li a:hover .ui-icon{
+ul.list_menu li ul.tooltip_menu li a:hover .ui-icon  {
 	background-image: url("green/images/ui-icons_ffffff_256x240.png");
 }
 ul.list_menu li .list_controls .options.clicked{
@@ -2781,5 +2831,10 @@ ul.thumbnails.photos-list li p.caption {
 a.photoMoid:hover {
 	text-decoration:none !important;
 }
-
-
+#peopleTypes button {
+	width:100%;
+	display:block;
+}
+.peopleBar {
+	margin-top: 30px;
+}
