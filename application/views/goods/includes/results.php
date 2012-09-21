@@ -24,34 +24,12 @@
 					
 						<!-- Title -->
 						
-						<a class="title" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
-							<span class= "title <?php if($sidebar) {echo'sidebarTitle';}?>">
+						<a class="title <?php if($sidebar) { echo 'sidebarTitle';}?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+							<span class= "title">
 							<?php echo $G->title;?>
 							</span>
 						</a>
 				<?php }?>
-				<?php if(in_array("offer_links",$include)){ ?>
-				
-				<!--Offer button -->
-				<input type="radio" name="good_id" class="offer_link" value="<?php echo $G->id;?>" />
-					
-				<!-- Image -->
-				<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image">
-					<img src="<?php echo $G->default_photo->thumb_url;?>" />
-				</a>
-				
-				<!-- Metadata -->
-				<div class='result_meta clearfix'>
-				
-					<!-- Title -->
-					<a class="title" href="#">
-						<span class='title <?php echo $G->type; ?>'> 
-							<?php echo $G->title;?>
-						</span>
-					</a>
-					
-			<?php } ?>
-					
 					<?php if(in_array("requests",$include)){ ?>
 					
 						<!-- # Times Requested -->

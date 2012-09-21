@@ -986,8 +986,12 @@ ul.results_list.grid li a.result_image img{
 .sidebar ul.results_list li .result_meta{
 	width: 165px;
 }
-.sidebarTitle {
-	font-size:14px;
+ul.results_list.mini li a.sidebarTitle {
+	float:none;
+	clear:both;
+}
+ul.results_list li a.sidebarTitle.title span.title {
+	font-size:14px !important;
 }
 /*eof sidebar exceptions*/
 

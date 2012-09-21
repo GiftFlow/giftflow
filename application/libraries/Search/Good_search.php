@@ -58,6 +58,7 @@ class Good_search extends Search
 			"user_id"=>NULL,
 			"id_search"=>FALSE,
 			"keyword"=>"",
+			"exclude" => NULL
 		);
 		
 		$default_like_options = array(
@@ -118,6 +119,10 @@ class Good_search extends Search
 			if(!empty($options->good_id))
 			{
 				$this->CI->db->where_in('G.id',$options->good_id);
+			}
+			if(!empty($options->exclude))
+			{
+				$this->CI->db->where('G.id !=', $options->exclude);
 			}
 			
 			// Set WHERE G.type clause, TYPE IS SINGULAR (Gift,Need)
