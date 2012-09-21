@@ -28,7 +28,6 @@ class You extends CI_Controller {
 	function index()
 	{
 		Console::logSpeed('You::index()');
-
 		return $this->inbox();
 	/*	
 		// Load libraries
@@ -231,7 +230,7 @@ class You extends CI_Controller {
 				"pending",
 				"completed"
 			),
-			"limit"=>200
+			"limit"=> '2000'
 		);
 		if(!empty($_GET['good_id']))
 		{

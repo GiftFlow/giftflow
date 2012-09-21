@@ -121,7 +121,7 @@ class Util
 					"active",
 					"pending"
 				),
-				"limit"=>200
+				"limit"=>2000
 			));
 
 			//include thankyous in active inbox
