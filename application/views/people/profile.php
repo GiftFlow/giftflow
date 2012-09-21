@@ -136,9 +136,9 @@
 		<div id='profile_reviews' class='profile_chunk'>
 			<span class='nicebigtext'>Reviews</span>
 
-				<?php if(!empty($giver)) { ?>
+				<?php if(!empty($reviews)) { ?>
 					<?php echo UI_Results::reviews(array(
-						'results'=>$giver
+						'results'=>$reviews
 					)); ?>
 
 				<?php } else { ?>

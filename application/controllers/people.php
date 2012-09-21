@@ -316,8 +316,11 @@ class People extends CI_Controller {
 		$U_model->stats();
 
 		//Load user's thank yous - transactions without goods or demands
-		$R = new Review_search();
-		$review_options = array('user_id' => $U->id);
+		$R = new Transaction_search();
+		$review_options = array(
+			'user_id' => $U->id,
+			'transaction_status' => 'completed'
+		);
 		//to be appended to gifts_given list in view
 		$this->data['reviews'] = $R->find($review_options);
 

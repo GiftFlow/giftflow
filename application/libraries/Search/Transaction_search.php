@@ -118,7 +118,7 @@ class Transaction_search extends Search
 			"include_messages"=>FALSE,
 			"include_events"=>FALSE,
 			"include_unread"=>TRUE,
-			"limit"=>NULL
+			"limit"=>2000
 		);
 		$options = (object) array_merge($default_options,$options);
 		// Redirect find by good queries

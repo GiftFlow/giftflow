@@ -96,10 +96,22 @@ class Review_search extends Search
 			
 			$T = new Transaction_search;
 			
-			$this->result['transactions'] = $T->find(array (
+			$transactions = $T->find(array (
 				"transaction_id" => $transaction_ids,
 				"transaction_status" => "completed"
 			));
+
+			foreach($this->result['reviews'] as $review) 
+			{
+				foreach($transactions as $trans) 
+				{
+					if($review->transaction_id = $trans->id) 
+					{
+						$review->transaction = $trans;
+					}
+				}
+			}
+
 		}
 		
 		return $this->result;
