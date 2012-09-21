@@ -60,7 +60,11 @@
 		<!-- Loading Message -->
 		<div class="results_empty" style="display: none;">
 			<h3>No Results Found</h3>
-			<p>Oops! No results were found that matched your query. To create a new need to let others know you're looking for something, <a href="<?php echo site_url("you/needs/add");?>">click here.</a>
+			<p></p>
+			<a href="<?php echo site_url('you/watches'); ?>" class='btn btn-info btn-large'>Add Watch</a>
+			<p></p>
+			<p>Oops! No results were found that matched your query.</p>
+			<p>Add a watch keyword to be notified when someone posts a match!</p>
 		</div>
 	
 	</div>

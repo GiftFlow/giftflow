@@ -52,13 +52,13 @@
 
 <script type='text/javascript'>
 $(function(){
-
+/*
 	$('#keyword').tipTip({
 		defaultPosition: "right",
 		delay: 0,
 		fadein: 0,
 		keepAlive:'true'
 	});
-	
+ */	
 });
 </script>
