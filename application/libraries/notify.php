@@ -87,7 +87,7 @@ class Notify
 		
       	// Map hook data onto email template parseables array
 		$A->parseables = array(
-			'subject' => "An item you may be interested was posted",
+			'subject' => "Someone posted a new gift that might interest you",
 			'link' => site_url('gifts/'.$good->id),
 			'title' => $good->title,
 			'recipient_name' => $watch->screen_name

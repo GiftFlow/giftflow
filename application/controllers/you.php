@@ -349,7 +349,7 @@ class You extends CI_Controller {
 						));
 						if($activated)
 						{
-							$this->session->set_flashdata('success','Transaction activated.');
+							$this->session->set_flashdata('success','Gift activated.');
 						}
 
 					}
@@ -362,7 +362,7 @@ class You extends CI_Controller {
 						));
 						if($declined)
 						{
-							$this->session->set_flashdata('success','Transaction declined.');
+							$this->session->set_flashdata('success','Gift  declined.');
 						}
 					}
 				}
@@ -400,7 +400,7 @@ class You extends CI_Controller {
 					// within Market()
 
 					// Set success flashdata and refresh page
-					$this->session->set_flashdata('success','Transaction '.$decision.'d');
+					$this->session->set_flashdata('success','Gift '.$decision.'d');
 					redirect('you/view_transaction/'.$id);
 				}
 				
@@ -450,7 +450,7 @@ class You extends CI_Controller {
 					// within Market::cancel()
 
 					// Set success flashdata and refresh page
-					$this->session->set_flashdata('success','Transaction cancelled!');
+					$this->session->set_flashdata('success','Gift cancelled!');
 					redirect('you/view_transaction/'.$id);
 				}
 				
@@ -523,7 +523,7 @@ class You extends CI_Controller {
 		$this->db->query("UPDATE `notifications` AS N JOIN events AS E ON N.event_id=E.id SET `N`.`enabled` = 0 WHERE `E`.`transaction_id` = ? AND `N`.`user_id` = ?",array($id, $this->data["logged_in_user_id"]));		
 
 		// Title
-		$this->data['title'] = "Transaction with ".$this->data['other_user']->screen_name;
+		$this->data['title'] = "Gift  with ".$this->data['other_user']->screen_name;
 	/*	
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(

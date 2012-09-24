@@ -2824,10 +2824,6 @@ ul.thumbnails.photos-list li p.caption {
 .good_buttons {
 	margin-top: 10px;
 	width:40%;
-	opacity: .5;
-}
-.good_buttons:hover {
-	opacity: 1 !important;
 }
 .photoMod img:hover {
 	opacity: .5;

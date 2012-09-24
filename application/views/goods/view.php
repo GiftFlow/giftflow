@@ -151,14 +151,14 @@
 				<form method="post" action="<?php echo site_url('goods/view'); ?>">
 					<p>
 						<!-- @todo create message template similar to the new couchsurfing request form -->
-						<label>Enter a message below (optional)</label><br />
-						<textarea name='note'></textarea>
+						<label>Enter a message below</label><br />
+						<textarea name='note' rows='5'></textarea>
 					</p>
 					<input type="hidden" name="method" value="demand">
 					<input type="hidden" name="type" value="give">
 					<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 					<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />
-					<input type="submit" class="btn btn-primary" value="Offer to Give" />
+					<input type="submit" class="btn btn-primary" value="Send Offer" />
 				</form>
 			</div>
 			<?php }?>
@@ -223,7 +223,7 @@
 	<div class="sidebar" id="giver">		
 		<div class="top">
 			<h2>
-				Matching Gifts
+				Other Gifts
 			</h2>
 		</div>
 		<div class="center">
@@ -243,7 +243,7 @@
 	<div class="sidebar" id="giver">		
 		<div class="top">
 			<h2>
-			Matching Needs
+			Other Needs
 			</h2>
 		</div>
 		<div class="center">

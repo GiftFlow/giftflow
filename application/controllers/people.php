@@ -38,13 +38,13 @@ class People extends CI_Controller {
 	
 	public function index()
   {
-    $newest_options = array(
-      'order_by' => 'U.created',
-      'sort' => 'DESC',
-      'exclude_logged_in_user'=>TRUE
-    );
+		$newest_options = array(
+		  'order_by' => 'U.created',
+		  'sort' => 'DESC',
+		  'exclude_logged_in_user'=>TRUE
+		);
 
-    $newest_search = new User_search();
+		$newest_search = new User_search();
 		$this->data['results'] = $newest_search->find($newest_options);
 
 		$this->data['title'] = "People";	

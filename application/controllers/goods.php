@@ -208,7 +208,7 @@ class Goods extends CI_Controller {
 			}
 			elseif(!$L->save())
 			{
-					echo $L->error->string;
+				echo $L->error->string;
 			}
 			
 			// Create Good object

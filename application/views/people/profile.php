@@ -12,9 +12,13 @@
 	<div class='span4'>
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
-				<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled"; }?>'><i class='icon-eye-open'></i> Follow</a>
-				<a href='#' id='message_button' class='btn profile_action btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled";}?>'><i class='icon-pencil'></i> Message</a>
-				<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
+					<?php if($is_following) { ?>
+						<a href='<?php echo site_url("people/unfollow/".$u->id);?>' id='unfollow_button' class='btn btn-medium'><i class='icon-eye-close'></i>Unfollow</a>
+					<?php } else { ?>
+					<a href='<?php echo site_url("people/follow/".$u->id); ?>' id='follow_button' class='btn btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled"; }?>'><i class='icon-eye-open'></i> Follow</a>
+					<?php } ?>
+					<a href='#' id='message_button' class='btn profile_action btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled";}?>'><i class='icon-pencil'></i> Message</a>
+					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
 				<?php } ?>
 			</div>
 				
