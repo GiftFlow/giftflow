@@ -146,7 +146,7 @@ class Util
 			$fbook = $this->CI->config->config['account'];
 
 			//load the facebook sdk
-			require_once('assets/facebook/facebook.php');
+			require_once('assets/facebook-php-sdk/src/facebook.php');
 			$config = array (	
 				"appId"=> $fbook['appId'],
 				"secret"=> $fbook['secret'],
@@ -154,10 +154,9 @@ class Util
 			);
 
 			$this->facebook = new Facebook($config);
-
 			$params = array(
 				'scope' => 'email, user_photos, publish_stream',
-				'redirect_uri' => current_url()
+				'redirect_uri' => site_url('member/login/?redirect=').$this->CI->uri->uri_string()
 			);
 
 			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);

@@ -347,6 +347,11 @@ class Auth
 	function facebook( $data )
 	{
 		$this->CI->load->library('datamapper');
+
+		if(empty($data->redirect))
+		{
+			$data->redirect = 'you';
+		}
 	
 		// Only proceed if ID present
 		if(!empty($data->id))
@@ -361,7 +366,7 @@ class Auth
 				$this->U = new User($user->id);
 				$this->U->facebook_sync( $data );
 				$this->new_session();
-				redirect('');
+				redirect($data->redirect);
 			}
 			// eof 2a
 			
@@ -397,7 +402,7 @@ class Auth
 					{
 						$this->U->save();
 						// Redirect to dashboard
-						redirect('');
+						redirect($data->redirect);
 					}
 				}
 				// eof 4a
@@ -414,7 +419,7 @@ class Auth
 						if($this->new_session())
 						{
 							// Redirect to facebook welcome page
-							redirect('welcome/facebook');
+							redirect($data->redirect);
 						}
 						else
 						{

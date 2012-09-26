@@ -19,7 +19,7 @@ class Member extends CI_Controller {
 		$fbook = $this->config->config['account'];
 
 		//load the facebook sdk
-		require_once('assets/facebook/facebook.php');
+		require_once('assets/facebook-php-sdk/src/facebook.php');
 		$config = array (	
 			"appId"=> $fbook['appId'],
 			"secret"=> $fbook['secret'],
@@ -43,6 +43,11 @@ class Member extends CI_Controller {
 	function login( $redirect = FALSE )
 	{
 
+		if(!empty($_GET['redirect']))
+		{
+			$redirect = $this->input->get('redirect');
+		}
+
 		//check if user is facebook authorized
 		$user = $this->facebook->getUser();
 		//facebook authorized
@@ -53,6 +58,8 @@ class Member extends CI_Controller {
 		
 			$userJson = json_encode($user_info);
 			$userObj = json_decode($userJson);
+
+			$userObj->redirect = $redirect;
 
 			$this->auth->facebook($userObj);
 		}
