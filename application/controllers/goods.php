@@ -836,4 +836,87 @@ class Goods extends CI_Controller {
 		);
 		$this->data['open_graph_tags'] = array_merge($this->data['open_graph_tags'], $extension);
 	}
+
+	function remind ()
+	{
+	
+		$this->db->select('DISTINCT(U.id),
+			U.screen_name AS screen_name,
+			U.email AS email')
+		->from('transactions_users AS TU')
+		->join('transactions AS T','TU.transaction_id=T.id AND T.status = "pending"','inner')
+		->join('users AS U', 'TU.user_id = U.id', 'left')
+		->limit('5');
+
+		$result = $this->db->get()->result();
+
+		$this->load->library('Search/Transaction_search');
+
+		$T = new Transaction_search();
+
+		foreach($result as $user) 
+		{
+			$this->db->select('TU.transaction_id AS transaction, TT.user_id AS other_user')
+					->from('transactions_users AS TU')
+					->join('transactions_users AS TT', 'TU.transaction_id = TT.transaction_id AND TT.user_id !='.$user->id, 'left')
+					->join('transactions AS T', 'TU.transaction_id = T.id AND T.status IN ("pending","active")','inner')
+					->where('TU.user_id', $user->id);
+
+			$transactions = $this->db->get()->result();
+			echo $this->db->last_query();
+			die();
+			
+			foreach($transactions as $big)
+			{
+				
+				$fullTrans = $T->get(array('transaction_id' => $big->transaction));
+				$user->transaction_count = count($transactions);
+				$user->summaries[] = $fullTrans->language;
+				$user->role = ($fullTrans->demander->id == $user->id ? 'demander' : 'decider');
+
+				$big->transaction = $fullTrans;
+
+				$user->transactions[] = $big;
+			
+				
+
+/*				//load user
+				$this->db->select('U.id, U.email, U.screen_name')
+					->from('users AS U')
+					->where('U.id',$big->other_user);
+				$other_user = $this->db->get()->result();
+				$big->other_user = $other_user[0];
+
+				//LOAD DEMAND
+				$this->db->select('D.type, D.good_id,D.user_id, G.title AS good_title, G.type AS good_type')
+					->from('demands AS D')
+					->join('goods as G','D.good_id = G.id')
+					->where('D.transaction_id', $big->transaction);
+
+				$demand = $this->db->get()->result();
+
+				$big->demand = $demand[0];
+
+
+				$user->transactions[] = $big;
+
+				if($user->id == $demand[0]->user_id) 
+				{
+					$big->role = 'demander';
+
+
+
+				} else {
+					$big->role = 'decider';
+				}
+ */
+ 
+
+			}
+
+		
+		}
+		print_r($result);
+			
+	}
 }
