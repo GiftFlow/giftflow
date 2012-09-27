@@ -857,13 +857,19 @@ class Goods extends CI_Controller {
 		->from('transactions_users AS TU')
 		->join('transactions AS T','TU.transaction_id=T.id AND T.status = "pending"','inner')
 		->join('users AS U', 'TU.user_id = U.id', 'left')
-		->limit('5');
+		->where('TU.user_id',73);
 
 		$result = $this->db->get()->result();
 
 		$this->load->library('Search/Transaction_search');
+		$this->load->library('notify');
+		$this->load->library('Search/Good_search');
+
+		$N = new Notify();
 
 		$T = new Transaction_search();
+
+		$G = new Good_search();
 
 		foreach($result as $user) 
 		{
@@ -871,63 +877,77 @@ class Goods extends CI_Controller {
 					->from('transactions_users AS TU')
 					->join('transactions_users AS TT', 'TU.transaction_id = TT.transaction_id AND TT.user_id !='.$user->id, 'left')
 					->join('transactions AS T', 'TU.transaction_id = T.id AND T.status IN ("pending","active")','inner')
-					->where('TU.user_id', $user->id);
+					->where('TU.user_id', $user->id)
+					->limit(5);
 
 			$transactions = $this->db->get()->result();
-			echo $this->db->last_query();
-			die();
+
+			$content = "<span style='font-weight:bold;'><p>Hello ".$user->screen_name.", </p><p> Here is a list of your pending and active gifts on GiftFlow. Log in and stay in touch with your fellow GiftFlowers.
+							Help us build a community of giving one click at a time.</p></span>";
+			$content .= "<ul style='list-style:none;'>";
 			
 			foreach($transactions as $big)
 			{
-				
 				$fullTrans = $T->get(array('transaction_id' => $big->transaction));
-				$user->transaction_count = count($transactions);
-				$user->summaries[] = $fullTrans->language;
+
+				//$user->transaction_count = count($transactions);
+				//$user->summaries[] = $fullTrans->language;
 				$user->role = ($fullTrans->demander->id == $user->id ? 'demander' : 'decider');
-
-				$big->transaction = $fullTrans;
-
-				$user->transactions[] = $big;
-			
+				$other_user = ($fullTrans->demander->id == $user->id ? $fullTrans->decider : $fullTrans->demander);
 				
+				$summary = $user->role."_summary";
 
-/*				//load user
-				$this->db->select('U.id, U.email, U.screen_name')
-					->from('users AS U')
-					->where('U.id',$big->other_user);
-				$other_user = $this->db->get()->result();
-				$big->other_user = $other_user[0];
+				$content .= "<a href='".site_url('you/view_transaction/'.$fullTrans->id)."' style='text-decoration:none; color:black;'>".
+						"<li> <p style ='font-weight:bold; padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; display:inline; vertical-align:middle;'/>
+						".strip_tags($fullTrans->demands[0]->good->title)."</p>";
 
-				//LOAD DEMAND
-				$this->db->select('D.type, D.good_id,D.user_id, G.title AS good_title, G.type AS good_type')
-					->from('demands AS D')
-					->join('goods as G','D.good_id = G.id')
-					->where('D.transaction_id', $big->transaction);
+				$content .= "<p><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin: 0px 5px 0px 40px; display:inline; vertical-align:middle;'/>";
 
-				$demand = $this->db->get()->result();
+				$content .= strip_tags(trim($fullTrans->language->$summary)).". ";
 
-				$big->demand = $demand[0];
-
-
-				$user->transactions[] = $big;
-
-				if($user->id == $demand[0]->user_id) 
+				if($fullTrans->status == 'active')
 				{
-					$big->role = 'demander';
-
-
-
-				} else {
-					$big->role = 'decider';
+					$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. If not, write ".$other_user->screen_name." a message.</span>";
+				} else if ($fullTrans->status == 'pending') { 
+					if($user->role == 'decider')
+					{
+						$content .= "<span class='instructions'>You need to accept or decline ".$other_user->screen_name."'s request.</span>";
+					} else {
+						$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
+					}
 				}
- */
- 
+				$content .= "</p></li></a>";
+			}
+		
+			$content .= "</ul>";
 
+			$role = $user->role;	
+			$teaser_gifts = $G->find(array(
+				'location' => $fullTrans->$role->location,
+				'sort' => 'newest',
+				'limit' => '10'
+			));
+
+			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";
+
+			foreach($teaser_gifts as $gift)
+			{
+				$content .= " <a href='".site_url('gifts/'.$gift->id)."'>".$gift->title."</a>, ";
 			}
 
+			$user->content = $content;
+
+
+			$data = array(
+				'body' => $user->content,
+				'email' => $user->email,
+				'screen_name' => $user->screen_name
+			);
+			$N->remind('transaction_reminder',$data);
+			echo 'reminder sent to '.$data['screen_name'];
 		
 		}
-		print_r($result);
+
 			
 	}
 }

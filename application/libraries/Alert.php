@@ -127,6 +127,14 @@ class Alert {
 	*/
 	function generate()
 	{
+
+		//this is used for sending emails where entire body is prepared beforehand like remind
+		if(isset($this->message))
+		{
+			$this->subject = $this->parseables['subject'];
+			return TRUE;
+		}
+
 		// Load template from database using template name
 		$Term = new Term();
 		$T = $Term->get_email_template($this->template_name, "en");

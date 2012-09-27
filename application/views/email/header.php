@@ -25,6 +25,9 @@
 			font-size:12px;
 			font-weight:normal;
 		}
+		.instructions {
+			color: #666;
+			}
 
 		a,a:link,a:visited{
 			/*@editable*/color:#6cb6e2;
@@ -62,4 +65,3 @@
 				<tr>
 					<td width='50' valign="top" align="left" class="defaultText" 
 					style='padding: 40px 30px 40px 30px; border-top: 5px solid #65B15B; border-bottom: 5px solid #65B15B;'>
-		
