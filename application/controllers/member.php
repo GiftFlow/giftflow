@@ -385,7 +385,7 @@ class Member extends CI_Controller {
 	{
 		$params = array(
 			'scope' => 'email, user_photos, publish_stream',
-			'redirect_uri' => 'http://mvp.giftflow.org/member/register'
+			'redirect_uri' => site_url('member/register')
 		);
 
 		$this->data['registerUrl'] = $this->facebook->getLoginUrl($params);
