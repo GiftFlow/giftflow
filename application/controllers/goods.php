@@ -185,30 +185,41 @@ class Goods extends CI_Controller {
 		if(!empty($_POST))
 		{
 			// Create location object and then try to save it
-			$L = new Location();
+
 			$this->load->library('geo');
-			$Geo = new geo();
-			$full_location = $Geo->geocode($this->input->post('location'));
+			$Geo = new Geo();
+			$full_location = $this->geo->parse_location($this->input->post('location'));
+
+			if(!empty($full_location)) 
+			{
+				$L = new Location($full_location->id);
+
+			} else {
+
+				$new_location = $Geo->geocode($this->input->post('location'));
+
+				if(!$new_location)
+				{
+					$new_location = $Geo->geocode_ip();
+				}
+
+				$L = new Location();
 			
-			if(!$full_location)
-			{
-				$full_location = $Geo->geocode_ip();
-			}
-			
-			foreach($full_location as $key=>$val)
-			{
-					$L->$key = $val;
-			}
-			
-			$L->user_id = $this->data['logged_in_user_id'];
-			$L->validate();
-			if(!empty($L->duplicate_id))
-			{
-				$L = new Location($L->duplicate_id);
-			}
-			elseif(!$L->save())
-			{
-				echo $L->error->string;
+				foreach($new_location as $key=>$val)
+				{
+						$L->$key = $val;
+				}
+				
+				$L->user_id = $this->data['logged_in_user_id'];
+				$L->validate();
+				if(!empty($L->duplicate_id))
+				{
+					$L = new Location($L->duplicate_id);
+				}
+				elseif(!$L->save())
+				{
+					echo $L->error->string;
+				}
 			}
 			
 			// Create Good object

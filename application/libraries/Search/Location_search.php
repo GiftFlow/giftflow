@@ -12,6 +12,9 @@ class Location_search extends Search
 
 	var $clue;
 
+	//flag for if state match was found
+	var $stated = FALSE;
+
 
 	public function __construct()
 	{
@@ -27,24 +30,29 @@ class Location_search extends Search
 		{
 			$this->clue = $options['string'];
 
-			if(strlen($options['string'] > 2))
-			{
-				$this->check_state($options);
+			$this->check_state($options);
+
+			$this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
+				->from('locations AS L');
+
+			if(!$this->stated) {
+				$this->CI->db->or_like('city', $this->clue)
+					->or_like('address', $this->clue);
 			}
 
-			$city = $this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
-				->from('locations AS L')
-				->or_like('city', $this->clue)
-				->or_like('address', $this->clue)
-				->or_like('state', $this->clue)
-				->limit(1);
+			$this->CI->db->or_like('state', $this->clue);
+			
+			$this->CI->db->limit(1);
 			
 			$match = $this->CI->db->get()->result();
 
-			//don't get more specific than city	
-			$match[0]->address = $match[0]->city;
-			
-			return $match[0];
+			if(!empty($match)) {
+				//don't get more specific than city	
+				$match[0]->address = $match[0]->city;
+				return $match[0];
+			} else {
+				return $match;
+			}
 		}
 
 
@@ -53,15 +61,23 @@ class Location_search extends Search
 	public function check_state ($options)
 	{
 		//check is user entered full name of state
-		$state = $this->CI->db->select('S.state_abbr')
-			->from('states AS S')
-			->like('state', $options['string'])
-			->get()->result();
+		
+		$this->CI->db->select('S.state_abbr AS state_abbr')
+					->from('states AS S');
+
+		if(strlen($options['string']) > 2) {
+			$this->CI->db->like('state', $options['string']);
+		} else {
+			$this->CI->db->where('S.state_abbr',$options['string']);
+		}
+	
+		$state = $this->CI->db->get()->result();
 	
 		//if state match found, call fill_out with abbreviated version
 		if(!empty($state[0]))
 		{
-			$this->clue = $state[0];
+			$this->clue = $state[0]->state_abbr;
+			$this->stated = TRUE;
 		}
 	}
 
