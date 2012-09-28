@@ -13,9 +13,13 @@ class Remind extends CI_Controller {
 		parent::__construct();
 
 		Console::logSpeed('Remind::__construct');
+		$this->util->config();
+		$this->data = $this->util->parse_globals();
 		$this->load->library('Search/Transaction_search');
 		$this->load->library('notify');
 		$this->load->library('Search/Good_search');
+
+		$this->auth->bouncer(100);
 
 	}
 
@@ -30,7 +34,7 @@ class Remind extends CI_Controller {
 		$this->add_transactions();
 		echo "Transaction data added<br/>";
 
-		$this->send_reminders();
+		//$this->send_reminders();
 		echo "<br/>Reminders sent<br/>";
 		
 
@@ -42,8 +46,7 @@ class Remind extends CI_Controller {
 			U.email AS email')
 		->from('transactions_users AS TU')
 		->join('transactions AS T','TU.transaction_id=T.id AND T.status IN ("pending", "active")','inner')
-		->join('users AS U', 'TU.user_id = U.id', 'left')
-		->where('TU.user_id',36);
+		->join('users AS U', 'TU.user_id = U.id', 'left');
 
 		$this->users = $this->db->get()->result();
 	}
@@ -56,12 +59,12 @@ class Remind extends CI_Controller {
 
 		foreach($this->users as $user) 
 		{
-			$this->db->select('TU.transaction_id AS transaction, TT.user_id AS other_user')
+			$this->db->select('TU.transaction_id AS transaction_id, TT.user_id AS other_user')
 					->from('transactions_users AS TU')
 					->join('transactions_users AS TT', 'TU.transaction_id = TT.transaction_id AND TT.user_id !='.$user->id, 'left')
 					->join('transactions AS T', 'TU.transaction_id = T.id AND T.status IN ("pending","active")','inner')
 					->where('TU.user_id', $user->id)
-					->limit(5);
+					->limit(10);
 
 			$transactions = $this->db->get()->result();
 
@@ -73,33 +76,36 @@ class Remind extends CI_Controller {
 			//Build list of users active and pending transactions	
 			foreach($transactions as $big)
 			{
-				$fullTrans = $T->get(array('transaction_id' => $big->transaction));
-
-				$user->role = ($fullTrans->demander->id == $user->id ? 'demander' : 'decider');
-				$other_user = ($fullTrans->demander->id == $user->id ? $fullTrans->decider : $fullTrans->demander);
-				
-				$summary = $user->role."_summary";
-
-				$content .= "<a href='".site_url('you/view_transaction/'.$fullTrans->id)."' style='text-decoration:none; color:black;'>".
-						"<li> <p style ='font-weight:bold; padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; display:inline; vertical-align:middle;'/>
-						".strip_tags($fullTrans->demands[0]->good->title)."</p>";
-
-				$content .= "<div style='margin-left:25px;'><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
-
-				$content .= strip_tags(trim($fullTrans->language->$summary)).". ";
-
-				if($fullTrans->status == 'active')
+				$fullTrans = $T->get(array('transaction_id' => $big->transaction_id));
+				if(!empty($fullTrans))
 				{
-					$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. If not, write ".$other_user->screen_name." a message.</span>";
-				} else if ($fullTrans->status == 'pending') { 
-					if($user->role == 'decider')
+
+					$user->role = ($fullTrans->demander->id == $user->id ? 'demander' : 'decider');
+					$other_user = ($fullTrans->demander->id == $user->id ? $fullTrans->decider : $fullTrans->demander);
+									
+					$summary = $user->role."_summary";
+
+					$content .= "<a href='".site_url('you/view_transaction/'.$fullTrans->id)."' style='text-decoration:none; color:black;'>".
+							"<li> <p style ='font-weight:bold; padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; display:inline; vertical-align:middle;'/>
+							".strip_tags($fullTrans->demands[0]->good->title)."</p>";
+
+					$content .= "<div style='margin-left:25px;'><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+
+					$content .= strip_tags(trim($fullTrans->language->$summary)).". ";
+
+					if($fullTrans->status == 'active')
 					{
-						$content .= "<span class='instructions'>You need to accept or decline ".$other_user->screen_name."'s request.</span>";
-					} else {
-						$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
+						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. If not, write ".$other_user->screen_name." a message.</span>";
+					} else if ($fullTrans->status == 'pending') { 
+						if($user->role == 'decider')
+						{
+							$content .= "<span class='instructions'>You need to accept or decline ".$other_user->screen_name."'s request.</span>";
+						} else {
+							$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
+						}
 					}
+					$content .= "</div></li></a>";
 				}
-				$content .= "</div></li></a>";
 			}
 		
 			$content .= "</ul>";
