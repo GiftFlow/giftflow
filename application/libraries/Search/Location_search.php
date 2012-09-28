@@ -48,7 +48,7 @@ class Location_search extends Search
 
 			if(!empty($match)) {
 				//don't get more specific than city	
-				$match[0]->address = $match[0]->city;
+				$match[0]->address = $match[0]->city.", ".$match[0]->state;
 				return $match[0];
 			} else {
 				return $match;

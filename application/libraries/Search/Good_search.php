@@ -54,7 +54,7 @@ class Good_search extends Search
 			"include_tags"=>FALSE,
 			"include_photos"=>FALSE,
 			"count_transactions"=>FALSE,
-			"radius"=>60,
+			"radius"=>NULL,
 			"user_id"=>NULL,
 			"id_search"=>FALSE,
 			"keyword"=>"",
@@ -149,7 +149,7 @@ class Good_search extends Search
 			}
 		
 
-			if(!empty($options->location->latitude) || !empty($options->location->longitude) || !empty($options->location->address) || !empty($options->location))
+			if(!empty($options->location->city) || !empty($options->location->latitude) || !empty($options->location->address) || !empty($options->location->state))
 			{
 				// If running full search, include all location-related fields
 				// in the select clause
@@ -172,19 +172,17 @@ class Good_search extends Search
 						$this->CI->db->join("locations AS L ","G.location_id = L.id");
 					}
 				}
+
+				$this->_geosearch_clauses($options);
 				
 			}
 			// Else simply include location for those who have it
 			else
 			{
+				$options->order_by = 'G.created';
 				$this->_join_locations("left");
 			}
 			
-			if(!empty($options->location))
-			{
-				$this->_geosearch_clauses($options);
-			}
-
 
 			$this->CI->db->order_by($options->order_by, $options->sort);
 
