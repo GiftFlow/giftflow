@@ -307,4 +307,24 @@ class Geo
 		} 
 	}
 
+	//function for taking whatever location info the user gives us and 
+	//filling it out without making too many calls to Google
+
+	function parse_location($location) 
+	{
+		$this->CI->load->library('Search/Location_search');
+		$L = new Location_search();
+	
+		//String passed from user Find form
+		if(gettype($location) == 'string')
+		{
+			//Look through locations table for matching fields
+
+			$location =	trim($location, "'");
+			return $L->match(array('string' => $location));
+
+		}
+
+	}
+
 }

@@ -253,7 +253,13 @@ class Find extends CI_Controller {
 		if(!empty($this->args["location"]) && !is_object($this->args["location"]))
 		{
 			$this->load->library('geo');
-			$this->args["location"] = $this->geo->geocode($this->args['location']);
+			$locate = $this->geo->parse_location($this->args['location']);
+
+			if(empty($locate)) {
+				$locate = $this->geo->process($this->args['location']);
+			}
+			$this->args['location'] = (object)$locate;
+
 		}
 		//if location isn't provided, then don't use it!
 		elseif(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
