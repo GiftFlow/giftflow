@@ -35,7 +35,7 @@ class Remind extends CI_Controller {
 		$this->add_transactions();
 		echo "Transaction data added<br/>";
 
-		//$this->send_reminders();
+		$this->send_reminders();
 		echo "<br/>Reminders sent<br/>";
 		
 
