@@ -58,7 +58,8 @@ class Good_search extends Search
 			"user_id"=>NULL,
 			"id_search"=>FALSE,
 			"keyword"=>"",
-			"exclude" => NULL
+			"exclude" => NULL,
+			'status' => 'active'
 		);
 		
 		$default_like_options = array(
