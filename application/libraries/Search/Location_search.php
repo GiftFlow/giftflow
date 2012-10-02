@@ -81,6 +81,27 @@ class Location_search extends Search
 		}
 	}
 
+	/* 
+	 * Gets a specific location by id
+	 */
+
+	public function get	($options)
+	{
+		$this->CI->db->select("L.address AS location_address,
+			L.city AS location_city,
+			L.state AS location_state,
+			L.latitude AS location_latitude,
+			L.longitude AS location_longitude,
+			L.postal_code AS location_postal_code,
+			L.country AS location_country
+			")
+			->from('locations AS L')
+			->where('L.id', $options['location_id']);
+
+		$result = $this->CI->db->get()->result();
+		return $result;
+	}
+
 
 
 
