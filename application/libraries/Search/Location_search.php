@@ -28,9 +28,9 @@ class Location_search extends Search
 	{
 		if(isset($options['string']))
 		{
-			$this->clue = $options['string'];
+			$this->clue = $this->CI->db->escape_like_str($options['string']);
 
-			$this->check_state($options);
+			$this->check_state($this->clue);
 
 			$this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
 				->from('locations AS L');
@@ -58,17 +58,17 @@ class Location_search extends Search
 
 	}
 
-	public function check_state ($options)
+	public function check_state ($clue)
 	{
 		//check is user entered full name of state
 		
 		$this->CI->db->select('S.state_abbr AS state_abbr')
 					->from('states AS S');
 
-		if(strlen($options['string']) > 2) {
-			$this->CI->db->like('state', $options['string']);
+		if(strlen($clue > 2)) {
+			$this->CI->db->like('state', $clue);
 		} else {
-			$this->CI->db->where('S.state_abbr',$options['string']);
+			$this->CI->db->where('S.state_abbr',$clue);
 		}
 	
 		$state = $this->CI->db->get()->result();
