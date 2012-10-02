@@ -18,6 +18,7 @@ class Remind extends CI_Controller {
 		$this->load->library('Search/Transaction_search');
 		$this->load->library('notify');
 		$this->load->library('Search/Good_search');
+		$this->load->library('Search/Location_search');
 
 		$this->auth->bouncer(100);
 
@@ -34,7 +35,7 @@ class Remind extends CI_Controller {
 		$this->add_transactions();
 		echo "Transaction data added<br/>";
 
-		//$this->send_reminders();
+		$this->send_reminders();
 		echo "<br/>Reminders sent<br/>";
 		
 
@@ -95,11 +96,11 @@ class Remind extends CI_Controller {
 
 					if($fullTrans->status == 'active')
 					{
-						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. If not, write ".$other_user->screen_name." a message.</span>";
+						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. Otherwise, you should write ".$other_user->screen_name." a message.</span>";
 					} else if ($fullTrans->status == 'pending') { 
 						if($user->role == 'decider')
 						{
-							$content .= "<span class='instructions'>You need to accept or decline ".$other_user->screen_name."'s request.</span>";
+							$content .= "<span class='instructions'>You should to accept or decline ".$other_user->screen_name."'s request.</span>";
 						} else {
 							$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
 						}
@@ -114,7 +115,8 @@ class Remind extends CI_Controller {
 			$teaser_gifts = $G->find(array(
 				'location' => $fullTrans->$role->location,
 				'sort' => 'newest',
-				'limit' => '10'
+				'limit' => '10',
+				'radius' => '1000'
 			));
 
 			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";
@@ -141,10 +143,187 @@ class Remind extends CI_Controller {
 		foreach($this->users as $user)
 		{
 			$N->remind('transaction_reminder',$user->data);
-			echo 'reminder sent to '.$user->data['screen_name'];
+			echo 'reminder sent to '.$user->data['screen_name'].'<br/>';
 		}
 		
 	}
 
+
+	/*
+	 * Goods matching system
+	 * Sends an email to those users with goods
+	 * informing them of potential matches in the database
+	 * @author Hans Schoenburg
+	 *
+	 * matchGoods is the umbrella function
+	 */
+
+
+	function matchGoods()
+	{
+		//get users and their goods
+		$stack = $this->_buildUserStack();
+
+		//populate with matching goods
+		$matchStack = $this->_addMatches($stack);
+
+		//add html strings for email
+		$content = $this->_buildMatchEmail($matchStack);
+	}
+
+	function _buildUserStack()
+	{
+
+		$this->db->select('G.id AS good_id, G.type AS good_type,G.title AS good_title, 
+			G.location_id AS good_location_id, U.id AS user_id,
+			U.screen_name AS screen_name, U.email AS user_email')
+					->from('goods AS G')
+					->join('users AS U','G.user_id = U.id','inner')
+					->where('G.status','active')
+					->where('U.id !=','36')
+					->order_by('U.id')
+					->limit(10);
+		$raw = $this->db->get()->result();
+		$users = array();
+		foreach($raw as $val)
+		{
+			$users[] = $val->user_id;
+		}
+	
+		$user_ids =	array_unique($users);
+
+		//process list, grouping goods by user
+		
+		$stack = array();
+		
+		foreach($user_ids as $user)
+		{
+			$me = new stdClass();
+			$me->user_id = $user;
+
+			//add goods to user object
+
+			foreach($raw as $val)
+			{
+				if($val->user_id == $user)
+				{
+					$me->screen_name = $val->screen_name;
+					$me->email = $val->user_email;
+
+					if($val->good_type == 'gift')
+					{
+						$me->gifts[] = $val;
+					} else {
+						$me->needs[] = $val;
+					}
+				}
+			}
+			$stack[] = $me;
+		}
+		return $stack;
+	}
+
+	function _addMatches($stack)
+	{
+		
+		$L = new Location_search();
+		$G = new Good_search();
+
+		foreach($stack as $user) 
+		{
+
+			if(!empty($user->gifts))
+			{
+				$location = $user->gifts[0]->good_location_id;
+			} else {
+				$location = $user->needs[0]->good_location_id;
+			}
+
+			$user->location = $L->get(array('location_id' => $location));
+
+			if(!empty($user->gifts))
+			{
+				foreach($user->gifts as $good)
+				{
+					$good->matches = $G->find(array(
+						'keyword' => $good->good_title,
+						'location' => $user->location,
+						'radius' => 1000,
+						'limit' => 10,
+						'exclude' => $good->good_id,
+						'type' => 'need'
+					));
+				}
+			}
+
+			if(!empty($user->needs))
+			{
+				foreach($user->needs as $good)
+				{
+
+					$G = new Good_search();
+
+					$good->matches = $G->find(array(
+						'keyword' => $good->good_title,
+						'location' => $user->location,
+						'radius' => 1000,
+						'limit' => 10,
+						'exclude' => $good->good_id,
+						'type' => 'gift'
+					));
+				}
+			}
+
+
+		}
+		return $stack;
+
+	}
+
+	function _buildMatchEmail($stack)
+	{
+		foreach($stack as $user)
+		{
+			//build html for email
+
+			$content = "<span style='font-weight:bold;'><p>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs the match your own. We hope you find this helpful.
+							Thank you for helping us build a community of giving one click at a time.</p></span>";
+			$content .= "<ul style='list-style:none;'>";
+
+
+			if(!empty($user->gifts)) {
+
+				$content .= $this->buildRows($user->gifts);
+			}
+
+			//$content .= "</ul><ul>";
+		
+			if(!empty($user->needs)) 
+			{
+				$content .= $this->buildRows($user->needs);
+			}
+			$user->email = $content;
+		}
+
+	}
+
+	function buildRows($goods)
+	{
+		$row = '';
 			
+		foreach($goods as $val)
+		{
+			if(!empty($val->matches))
+			{
+				$row .=  "<li>".$val->good_title."<ul>";
+
+					foreach($val->matches as $match)
+					{
+						$row .= "<li>".$match->title."</li>";
+					}
+				$row .= "</ul></li>";
+			}
+			return $row;
+		}
+	}
 }
