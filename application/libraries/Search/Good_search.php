@@ -280,7 +280,7 @@ class Good_search extends Search
 			$this->CI->db->select("id")
 				->from("tags");
 				foreach($keywords as $word) {
-					$this->CI->db->or_like("name",$word);
+					$this->CI->db->or_like("name",$this->CI->db->escape_like_str($word));
 				}
 			$tags = $this->CI->db->limit(100)
 				->get()
@@ -318,7 +318,9 @@ class Good_search extends Search
 				$len = count($keywords);
 				foreach($keywords as $word) {
 					$i++;
+					$word = $this->CI->db->escape_like_str($word);
 					$word = "'%".$word."%'";
+
 
 					$likewhere .= "G.title LIKE ".$word.
 									" OR G.description LIKE ".$word." ";

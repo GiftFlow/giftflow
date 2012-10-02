@@ -124,6 +124,7 @@ class User_search extends Search
 			$len = count($keywords);
 			foreach($keywords as $word) {
 				$i++;
+				$word = $this->CI->db->escape_like_str($word);
 				$word = "'%".$word."%'";
 
 				$likewhere .= "U.screen_name LIKE ".$word.
