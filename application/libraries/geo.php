@@ -41,11 +41,20 @@ class Geo
 	*	@param object $location
 	*	@return object $location
 	*/
-	public function process($location)
+	public function process($locate)
 	{
-		// Geocode if needed
-		if( !empty($location->address) && (empty($location->latitude) || empty($location->longitude)) && ($geocoded == $this->geocode($location->address,$location)))
+		$location = new stdClass;
+		if(gettype($locate) == 'string')
 		{
+			$location->address = $locate;
+		}else {
+			$location = $locate;
+		}
+
+		// Geocode if needed
+		if( !empty($location->address) && (empty($location->latitude) || empty($location->longitude)))
+		{
+			$geocoded = $this->geocode($location->address,$location);
 			$location = $geocoded;
 		}
 		
@@ -116,9 +125,15 @@ class Geo
 			$object->state = $L->state;
 			$object->country = $L->country;
 			return $object;			
+		} else {
+
+			//try to find match with wider database query
+			$match = $this->parse_location($address);
+			if(!empty($match->latitude)){
+				return $match;
+			}
 		}
-		
-		
+
 		// query google
 		
 		// Build URL
