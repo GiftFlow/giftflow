@@ -53,7 +53,8 @@ class Geo
 		if( empty($location->latitude) || empty($location->longitude) )
 		{
 			// @todo throw exception here
-			return $location;
+			show_error('Error processing location');
+
 		}
 		
 		// Set default radius

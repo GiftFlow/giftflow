@@ -4,6 +4,10 @@ class Thread extends DataMapperExtension
 {
 	
 	 var $CI;
+
+	 var $created_field = 'created';
+
+	 var $updated_field = 'updated';
 	
 	
 	// --------------------------------------------------------------------

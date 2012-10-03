@@ -118,10 +118,9 @@ class Transaction_search extends Search
 			"include_messages"=>FALSE,
 			"include_events"=>FALSE,
 			"include_unread"=>TRUE,
-			"limit"=>NULL
+			"limit"=>2000
 		);
 		$options = (object) array_merge($default_options,$options);
-		
 		// Redirect find by good queries
 		if(!empty($options->good_id))
 		{
@@ -194,7 +193,8 @@ class Transaction_search extends Search
 		// Find Users by using the User_search library and then passing to the 
 		// factory
 		$users = $User_search->find(array(
-			"transaction_id"=>$transaction_id_list
+			"transaction_id"=>$transaction_id_list,
+			"limit" => 2000
 		));
 		$Factory->set_users($users);
 		
@@ -270,7 +270,6 @@ class Transaction_search extends Search
 			$Factory->set_unread($result);
 			
 		}
-
 		
 		// Compile final result object from its components
 		$result = $Factory->result();

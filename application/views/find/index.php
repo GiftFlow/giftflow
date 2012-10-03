@@ -1,20 +1,48 @@
-<div class="two_panels find">
+<div class="row-fluid">
+	<div class='span3'>
+		<!-- Sidebar Menu -->
+		<?php echo $menu;?>
+		<?php if($type =='people') { echo $people_menu; } else { echo $category_menu; } ?>
+		   </ul>	<!-- closing ul opened in $menu -->
+	</div>
 
-	<!-- Sidebar Menu -->
-	<?php echo $menu;?>
-
-	<div class='right_content'>
+	<div class='span9'>
 		<!-- Search Form Module -->
-    <span class='location_header'>
-       Location:  <span id="location" class="filter_title" title="Click to Edit Your Location">
-          	<?php if(!empty($args["location"]->address)){ echo $args["location"]->address; } ?>
-        </span>
-        <form id="editLocation" method="post" action="<?php echo site_url("ajax/relocate");?>" style="display: none;">
-          <input id ='locate_input' type="text" value="" name="location" />
-        </form>
-    </span>
-    <a class='button btn' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>" id='add_button'>Add <?php echo ucfirst($args['type']); ?></a>
+		<div class='row' id='findNav'>
+			<?php if($type == 'people') { ?>
+				<div class='chunk findButtons span2'>
+					<div class='btn-group' id='peopleTypes'>
+					<button class='ptype btn btn-small <?php if($args["profile_type"] == "people") {echo "disabled";}?> ' value='individual'>People</button>
+					<button class='ptype btn btn-small <?php if($args["profile_type"] == "nonprofit") {echo "disabled";}?> ' value='nonprofit'>Nonprofits</button>
+					<button class='ptype btn btn-small <?php if($args["profile_type"] == "business") {echo "disabled";}?> ' value='business'>Businesses</button>
+					</div>
+				</div>
+				<div class='findBar span10 chunk peopleBar'>
+			<?php } else { ?>
+				<div class='findBar span12 chunk'>
+			<?php }?>
 
+			<span class='navForm clearfix'>
+				<form name='find_goods' class='find_form'id="find_goods" action="" method='post'>
+					<div class='input-append'>
+						<input type='text' size='16' placeholder='Keyword' class='input-medium' id="q" name='q' value='<?php echo $args["q"];?>' />
+						<button class='btn btn-medium' type='submit' id="find"><i class='icon-search'></i> Find</button>
+					</div>
+				</form>
+			
+				<form name='changeLocation' class='find_form' id="editLocation" method="post" action="">
+					<div class='input-append'>
+						<input id ='location' size='16' class='input-medium' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
+						<button id='changeLocation' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
+					</div>
+				</form>
+			</span>
+			<?php if($type != 'people') { ?>
+					<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>"><i class='icon-plus icon-white'></i> Add <?php echo ucfirst($args['type']); ?></a>
+			<?php } ?>
+		</div>
+	</div><!-- close row -->
+	<div class='row chunk'>
 		<!-- Search Results -->
 		<ul class='results_list'>
 		<?php if( $display == 'results' ) { ?>
@@ -32,12 +60,19 @@
 		<!-- Loading Message -->
 		<div class="results_empty" style="display: none;">
 			<h3>No Results Found</h3>
-			<p>Oops! No results were found that matched your query. To create a new need to let others know you're looking for something, <a href="<?php echo site_url("you/needs/add");?>">click here.</a>
+			<p>Oops! No results were found that matched your query.</p>
+			<?php if($args['type'] != 'people') { ?>
+				<p></p>
+				<a href="<?php echo site_url('you/watches'); ?>" class='btn btn-info btn-large'>Add Watch</a>
+				<p></p>
+				<p>Add a watch keyword to be notified when someone posts a match!</p>
+			<?php }?>
 		</div>
 	
 	</div>
 	<!-- eof.right_content -->
 
+</div>
 </div>
 <!-- close two panels -->
 
@@ -65,14 +100,17 @@ $(function(){
 		var api = {};
 		
 		var data = {
-			order_by: "newest",
+			order_by: "<?php echo $args['order_by'];?>",
 			category_id: "<?php echo $args['category_id'];?>",
 			limit: 100,
-      offset: 0,
-      location:''
+		  offset: 0,
+		  location: "<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>",
+		  radius: 100,
+		  profile_type: "<?php echo $args['profile_type'];?>"
 		};
 		
 		api.get = function(){
+			console.log(data);
 			return data;
 		};
 		
@@ -83,7 +121,7 @@ $(function(){
 		return api;
 		
 	}());
-		
+
 	// Hide results, show loading icon
 	GF.UI.loading = function(){
 		$("ul.simplePagerNav").remove();
@@ -103,6 +141,7 @@ $(function(){
 		$("ul.simplePagerNav").remove();
 		$(".results_loading").hide();
 		$("ul.results_list").hide();
+		console.log('here');
 		$(".results_empty").show();
 	};
 	
@@ -122,19 +161,21 @@ $(function(){
 	
 	// Set UI Location String
 	GF.UI.setLocation = function(locationString){
-		$("#location").text(locationString);
+		$("#location").val(locationString);
 	};
 	
 	
 	// Process AJAX Data
 	GF.Ajax.process = function(data){
-	
 		GF.UI.clearResults();
-		GF.UI.setLocation(data.center.address);
+
+		if(data.center) {
+			GF.UI.setLocation(data.center.address);
+		}
 
 
-		if(data.results){
-       GF.UI.setResults(data.results);
+		if(data.results.length > 0){
+			GF.UI.setResults(data.results);
 		} else {
 			return GF.UI.noResults();
 		}
@@ -149,10 +190,9 @@ $(function(){
 	};
 	
 	GF.Ajax.processNewLocation = function(data){
-    $('#location').text(data.address);
-    locate = $('#editLocation input:text').val();
-    GF.Params.set('location',locate);
-		$("#editLocation input:text").val("").blur();
+		locate = $('#location').val();
+		console.log(locate);
+		GF.Params.set('location',locate);
 		GF.Ajax.request();
 	};
 	
@@ -161,16 +201,18 @@ $(function(){
 		GF.Params.set("order_by",$("#order_by option:selected").val());
 		GF.Ajax.request();
 	});
+	$('#radius').change(function(e) {
+		GF.Params.set('radius',$('#radius option:selected').val());
+		GF.Ajax.request();
+	});
 	
 	$("ul#categories li a").click(function(e){
-		$('#current_category').text('Category: '+(this.text));
-    $("ul#categories li a").css('color','#AAAAAA');
+		$("ul#categories li a").css('color','#999');
 		GF.Params.set("category_id",$(this).attr("rel"));
 		GF.Params.set("q",'');
 		$('#q').val('');
 		GF.Ajax.request();		
-    $(this).css('color','#6CB6E2');
-
+		$(this).css('color','#6CB6E2');
 		return false;
 	});
 	
@@ -179,36 +221,21 @@ $(function(){
 		GF.Ajax.request();
 		return false;
 	});	
+	
+	$("#editLocation").submit(function(e) {
+		GF.Ajax.processNewLocation();
+		return false;
+	});
 
-	$("#location").tipTip({
-		defaultPosition: "right",
-		delay: 0,
-		fadein: 0,
-		keepAlive:'true'
+	$('.ptype').click(function(e) {
+		$('.ptype').removeClass('disabled');
+		$(this).addClass('disabled');
+		GF.Params.set('profile_type',$(this).attr('value'));
+		GF.Ajax.request();
+		return false;
 	});
-	
-	$("#location").click(function(){
-		$(this).hide();
-		$("#editLocation").css('display','inline');
-		$("#editLocation input:text").focus();
-	});
-	
-  $("#editLocation").ajaxForm({
-		success: GF.Ajax.processNewLocation
-	});
-	
-	$("#editLocation input:text").blur(function(){
-		$("#editLocation").hide();
-		$("#location").show();
-	});
-	
-	$('#find_link').click(function() {
-		$(this).hide();
-		$("ul.results_list").empty();
-		$(".results_empty").hide();
-		$('#search_bar').show();
-	});
-	
+
+		
 });
 		
 </script>

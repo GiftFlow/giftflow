@@ -6,8 +6,8 @@
 
 <?php 
 	if(!$active) { echo 'DISABLED'; }
-	
 ?>
+	
 	
 	
 <!-- Main Module -->
@@ -15,13 +15,24 @@
 	<div class="top"></div>
 	<div class="middle">
 		<!-- Main Image-->
-		<img src="<?php if(isset($G->photo->thumb_url)) { echo $G->photo->thumb_url; } else { echo $G->default_photo->url; }?>" />		
+		<img src="<?php echo $G->default_photo->thumb_url; ?>" />		
 		<!-- Title, Description, Tags and More -->
 		<div class='right'>
 		
 			<h1>
 				<?php echo $G->title; ?>
 			</h1>
+
+			<!-- AddThis Button BEGIN -->
+			<div class="clearfix shareSet addthis_toolbox addthis_default_style addthis_32x32_style">
+				<a class="addthis_button_preferred_1"></a>
+				<a class="addthis_button_preferred_2"></a>
+				<a class="addthis_button_preferred_3"></a>
+				<a class="addthis_button_preferred_4"></a>
+				<a class="addthis_button_compact"></a>
+				<a class="addthis_counter addthis_bubble_style"></a>
+			</div>
+		<!-- AddThis Button END -->
 			
 			<?php if(!empty($G->location->city)&&!empty($G->location->state)) { ?>
 			<!-- Location -->
@@ -64,8 +75,7 @@
 					<?php } ?>
 				</span>
 			</p>
-			
-			<?php } ?>
+			<?php }?>
 			
 		<?php if(!$is_owner){ ?>
 			<?php if($is_gift){ ?>
@@ -80,8 +90,33 @@
 		
 			<?php }?>
 		<?php } ?>
-		
+		</div>	
+
+		<?php if(!empty($G->photos)) { ?>
+		<div id='goods_photos'  class='thumb_grid'>
+			<p class='nicebigtext'>More Photos</p>
+			<p>
+			<?php foreach($G->photos as $val) { ?>
+			<a class='photoMod' style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+					<img src='<?php echo site_url($val->thumb_url);?>' />
+				</a>
+			<?php } ?>
+			</p>
+			<!--<button class='btn' href='#photoModal' role='button' data-toggle='modal'>BUTTON</button>-->
+			<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
+				<div class='modal-header'>
+					<h3 id='photoModalLabel'>Photo of <?php echo $G->title; ?></h3>
+				</div>
+				<div class='modal-body'>
+					<img src='' id = 'modImage'/>
+				</div>
+				<div class='modal-footer'>
+					<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+				</div>
+			</div>
 		</div>
+		<?php } ?>
+			
 		<div style='clear: both;'></div>
 	</div>
 	
@@ -116,14 +151,14 @@
 				<form method="post" action="<?php echo site_url('goods/view'); ?>">
 					<p>
 						<!-- @todo create message template similar to the new couchsurfing request form -->
-						<label>Enter a message below (optional)</label><br />
-						<textarea name='note'></textarea>
+						<label>Enter a message below</label><br />
+						<textarea name='note' rows='5'></textarea>
 					</p>
 					<input type="hidden" name="method" value="demand">
 					<input type="hidden" name="type" value="give">
 					<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 					<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />
-					<input type="submit" class="btn btn-primary" value="Offer to Give" />
+					<input type="submit" class="btn btn-primary" value="Send Offer" />
 				</form>
 			</div>
 			<?php }?>
@@ -147,12 +182,6 @@
 			</a>
 		
 		<?php } ?>
-		<?php if(!empty($photos)) { ?>
-			<a  id="show_photos" class="btn" >
-				<i class="icon-camera"></i>
-				See more photos
-			</a>
-		<?php } ?>
 		</div>
 		
 			
@@ -160,45 +189,6 @@
 	</div>
 	
 </div>
-
-<!-- Requests Sidebar-->
-<?php if($is_owner || $requested){ ?>
-	<div class="sidebar" id="giver">		
-		<div class="top">
-			<h2>
-				<?php echo $G->type=="gift" ? "Requests" : "Offers";?>
-			</h2>
-		</div>
-		<div class="center">
-			
-			<?php if($is_owner || count($transactions['pending'])>0) { ?>
-				<p><?php echo count($transactions['pending']); ?> Pending <?php echo $G->type=="gift" ? "Requests" : "Offers";?></p>
-			<?php } ?>
-			
-			<?php if($is_owner || count($transactions['active'])>0) { ?>
-				<p><?php echo count($transactions['active']); ?> Active <?php echo $G->type=="gift" ? "Requests" : "Offers";?></p>
-			<?php } ?>
-			
-			<?php if($is_owner || count($transactions['completed'])>0) { ?>
-				<p><?php echo count($transactions['completed']); ?> Completed <?php echo $G->type=="gift" ? "Requests" : "Offers";?></p>
-			<?php } ?>
-			
-			<?php if($is_owner || count($transactions['declined'])>0) { ?>
-				<p><?php echo count($transactions['declined']); ?> Declined <?php echo $G->type=="gift" ? "Requests" : "Offers";?></p>
-			<?php } ?>
-			
-			<?php if($is_owner || count($transactions['cancelled'])>0) { ?>
-				<p><?php echo count($transactions['cancelled']); ?> Cancelled <?php echo $G->type=="gift" ? "Requests" : "Offers";?></p>
-			<?php } ?>
-			
-			<a href="<?php echo site_url("you/transactions/?good_id=".$G->id);?>">View Transactions</a>
-			
-		</div>
-		<div class="bottom"></div>
-	</div>
-<?php } ?>
-
-
 
 <?php if(!$is_owner){ ?>
 	<!-- More About This Person Sidebar-->
@@ -209,7 +199,7 @@
 		<div class="center">
 		
 			<!-- Image -->
-			<img src="<?php if(isset($G->user->photo->thumb_url)){ echo $G->user->photo->thumb_url; } else { echo $G->user->default_photo->url; }?>" alt="<?php echo $G->user->screen_name; ?>" />
+			<img src="<?php echo $G->user->default_photo->thumb_url; ?>" />
 			
 			<!-- Name -->
 			<a href="<?php echo site_url('people/'.$G->user->id);?>">
@@ -227,76 +217,61 @@
 	</div>
 <?php } ?>
 
-<!-- Sharing Sidebar -->
-<div class="sidebar">		
-	<div class="top">
-		<h2>Share This</h2>
-	</div>
-	<div class="center">
-	
-		<!-- AddThis Toolbox-->
-		<div class="addthis_toolbox">
-			
-			<!-- Facebook Like Button -->
-			<a class="addthis_button_facebook_like"></a>
-		
-			<!-- Other Sharing Destinations -->
-			<div class="two_column">
-				<div class="top"></div>
-				<div class="clear"></div>
-				<div class="column1">					
-					<a class="addthis_button_facebook">Facebook</a>
-					<a class="addthis_button_email">Email</a>
-					<a class="addthis_button_myspace">MySpace</a>
-				</div>
-				<div class="column2">
-					<a class="addthis_button_twitter">Twitter</a>
-					<a class="addthis_button_digg">Digg</a>
-					<a class="addthis_button_delicious">Delicous</a>
-				</div>
-				<div class="clear"></div>
-				<div class="more">
-					<a class="addthis_button_expanded">More Destinations...</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="bottom"></div>
-</div>
 
-<div id="more_photos">
-<?php 
-//foreach($photos as $row) { echo "<img src='".$row['thumb_url']."'/>"; } 
-?>
+<!-- Gifts Sidebar -->
+<?php if(!empty($gifts)) { ?>
+	<div class="sidebar" id="giver">		
+		<div class="top">
+			<h2>
+				Other Gifts
+			</h2>
+		</div>
+		<div class="center">
+				<?php echo UI_Results::goods(array(
+					"results"=> $gifts,
+					'mini' => TRUE,
+					'border'=> FALSE,
+					'sidebar' => TRUE
+				)); ?>
+		</div>
+		<div class="bottom"></div>
+	</div>
+<?php }?>
+
+<!-- Gifts Sidebar -->
+<?php if(!empty($needs)) { ?>
+	<div class="sidebar" id="giver">		
+		<div class="top">
+			<h2>
+			Other Needs
+			</h2>
+		</div>
+		<div class="center">
+				<?php echo UI_Results::goods(array(
+					"results"=> $needs,
+					'mini' => TRUE,
+					'border'=> FALSE,
+					'sidebar'=>TRUE
+				)); ?>
+		</div>
+		<div class="bottom"></div>
+	</div>
+<?php }?>
 
 </div>
 
 <script type='text/javascript'>	
 $(function(){
 		
-	
-	$('#show_photos').click(function() {
-		var photos = <?php if(!empty($photos)) { echo $photos; } else { echo "empty"; } ?>;
 
-		if(photos != 'empty' && $('#more_photos').children().length == 0)
-		{
-			for (var data in photos)
-			{		
-				var d = document.createElement("div");
-				text = document.createTextNode(photos[data].caption);
+$('#photoModal').modal({show:false});
 
-				var img = document.createElement("IMG");
-				img.src = photos[data].thumb_url;
+$('.photoMod').click(function() {
+	var imgUrl = $(this).attr('id');
+	console.log(imgUrl);
+	$('#modImage').attr('src',imgUrl);
+});
 
-				d.appendChild(img);
-				d.appendChild(text);
-
-				$('#more_photos').append(d);
-			}
-			$('#more_photos').addClass('photo_block');
-		}
-	});
-	
 	$("#request_gift_button.open").click(function(){
 		$(this).slideUp();
 		$(".gift_module .middle").addClass("shadow");

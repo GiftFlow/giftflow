@@ -131,6 +131,22 @@ class Goods extends CI_Controller {
 			
 			
 			Console::logSpeed('loading the gift...done.');
+
+
+			//Load matches for sidebar
+
+			$this->data['gifts'] = $Good_search->find(array(
+				'keyword' => $this->G->title,
+				'limit' => 5,
+				'type' => 'gift',
+				'exclude' => $this->good_id
+			));
+			$this->data['needs'] = $Good_search->find(array(
+				'keyword' => $this->G->title,
+				'limit' => 5,
+				'type' => 'need',
+				'exclude' => $this->good_id
+			));
 		}
 		// Parse global data
 		
@@ -198,7 +214,7 @@ class Goods extends CI_Controller {
 			}
 			elseif(!$L->save())
 			{
-					echo $L->error->string;
+				echo $L->error->string;
 			}
 			
 			// Create Good object
@@ -314,37 +330,7 @@ class Goods extends CI_Controller {
 				}
 			}
 		}
-		
-		
-		//load all photos of Good
-		$this->load->library('datamapper');
-		$G_dmz = new Good();
-		$G_dmz->get_where(array('id' => $this->G->id)); 
-		$G_dmz->photos->get();
-		
-		//Load photos
-		foreach($G_dmz->photos->all as $pho)
-		{
-			$data = array (
-				"id" => $pho->id,
-				"caption" => $pho->caption,
-				"url" => site_url().$pho->url,
-				"thumb_url" => site_url().$pho->thumb_url,
-				"default" => FALSE
-			);
-			$photos[] = $data;
-		}
-		if(!empty($photos)) 
-		{
-			$this->data['photos'] = json_encode($photos);
-		}
-		else
-		{
-			$this->data['photos'] = NULL;
-		}
-
 			
-				
 		// Title
 		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
@@ -844,6 +830,7 @@ class Goods extends CI_Controller {
 		@$extension = array(
 			'og:image' => $this->G->default_photo->thumb_url,
 			'og:title' => $this->G->title,
+			'og:description' => $this->G->description,
 			'og:type' => "product",
 			'og:latitude' => $this->G->location->latitude,
 			'og:longitude' => $this->G->location->longitude,

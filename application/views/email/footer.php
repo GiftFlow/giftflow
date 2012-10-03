@@ -1,14 +1,13 @@
-<br />
-<br />
-Thanks. <br />
-The <a href="http://www.giftflow.org">GiftFlow</a> team
-</tr>
 
+
+		</td>
+ 	</tr>
 <tr>
-<td class="footerRow" align="left" valign="top">
-<div class="footerText" mc:edit="footer">
-Email not displaying correctly?
-    <a href="*|ARCHIVE|*" class="adminText">View it in your browser.</a>
+<td class="footerRow" align="left" valign="top" style='border: 5px solid #BFEDB9; padding: 5px;'>
+<div class="footerText">
+	<p>Find us on <a href='http://facebook.com/giftflow'>Facebook</a> and <a href='http://twitter.com/GiftFlow'>Twitter</a>
+	</p>
+	<p>71 Orange st @theGrove, New Haven CT 06511</p>
 </div>
 
 

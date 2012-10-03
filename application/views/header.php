@@ -80,8 +80,11 @@ if(isset($css))
 
 <?php if(!empty($addthis) && $addthis == TRUE){ ?>
 	<!-- AddThis -->
-	<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>
 <?php } ?>
+	                
+	<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
+			
 </head>
 <body>
 <div id='header'>
@@ -100,7 +103,7 @@ if(isset($css))
 					<!-- Logged-in User You Menu -->
 					<div class='btn-group'>
 					<a  class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
-						<?php if(!empty($userdata['photo_thumb_url'])){echo "<img src='".$userdata['photo_thumb_url']."' id='you_img' />";}?>
+						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
 							Profile
 					</a>
 						<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>

@@ -28,7 +28,7 @@
 					
 						<!-- Location -->
 						<span class='metadata location'>
-							<em>in</em> <?php echo $val->location->city.",".$val->location->state;?>
+							<em>in</em> <?php echo $val->location->address; ?> <?php if(!in_array('created', $include)) { echo '('.round($val->location->distance).' miles away)'; } ?>
 						</span>
 						
 					<?php } ?>

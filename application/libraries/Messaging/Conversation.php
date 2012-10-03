@@ -321,61 +321,99 @@ class Conversation
 			"body"=>"",
 			"transaction_id"=>NULL,
 			"thread_id"=>NULL,
-			"user_id"=>$this->CI->session->userdata('user_id')
+			"user_id"=>$this->CI->session->userdata('user_id'),
+			'recip_id' => NULL,
+			'type'=> NULL
 		);
 		$options = array_merge($default_options,$options);
-		
-		// Load transaction or thread conversations if an ID passed via $options
-		if(!empty($options['transaction_id'])&&empty($this->transaction))
-		{
-			$this->transaction_id = $options['transaction_id'];
-			$this->get();
-		}
-		elseif(!empty($options['thread_id'])&&empty($this->thread))
-		{
-			$this->thread_id = $options['thread_id'];
-			$this->get();
-		}
-		
-		// Create new thread
-		if($this->type=="thread" && empty($this->thread))
-		{
-			$this->thread = new Thread();
-			$this->thread->subject = $this->subject;
-			if(!$this->thread->save())
+
+		if($this->type == 'transaction' || $options['type']== 'transaction')
+		{	
+			// Load transaction or thread conversations if an ID passed via $options
+			if(!empty($options['transaction_id']) && empty($this->transaction))
 			{
-				// @todo handle thread saving error
-				return FALSE;
+				$this->transaction_id = $options['transaction_id'];
+				$this->get();
+			}
+			if($this->type=="transaction" && empty($this->transaction))
+			{
+				if(!empty($this->id))
+				{
+					$this->get_transaction();
+				}
+				else
+				{
+					// @todo throw error: "no transaction found"
+					show_error("libraries/Messaging/Conversation.php: No Transaction Found");
+					return FALSE;
+				}
 			}
 		}
-		else if($this->type=="transaction" && empty($this->transaction))
+		else if($this->type =='thread' || $options['type'] == 'thread')
 		{
-			if(!empty($this->id))
+			if(!empty($options['thread_id']))
 			{
-				$this->get_transaction();
+				$this->thread_id = $options['thread_id'];
+				$this->get();
 			}
-			else
+			
+			// Create new thread
+			elseif(empty($options['thread_id']) && empty($this->thread_id))
 			{
-				// @todo throw error: "no transaction found"
-				show_error("libraries/Messaging/Conversation.php: No Transaction Found");
-				return FALSE;
+
+				//Check to see if users already have a thread between them
+				$existing_threads = $this->get_existing($options);
+					
+				if(!empty($existing_threads))
+				{
+					$this->get();
+				} else {
+
+					//if no existing thread, create a new one
+
+					$this->thread = new Thread();
+					$this->thread->subject = $options['subject'];
+					if(!$this->thread->save())
+					{
+						show_error('Error saving thread');
+					} 
+					$this->thread_id = $this->thread->id;
+				}
 			}
+
+			//Save users to new thread
+			$this->users[] = new User($options['user_id']);
+			$this->users[] = new User($options['recip_id']);
+
+			// Loop over each user and deliver to inbox
+			foreach($this->users as $User)
+			{
+				if($this->type=="thread")
+				{
+					// Associate each user with the thread
+					if(!$this->thread->save($User))
+					{
+						show_error('Error saving threads_users');
+					}
+				}
+			}		
 		}
 
-		// Create new message
+			// Create new message
 		$M = new Message();
 		$M->body = $options['body'];
 		$M->user_id = $options['user_id'];
-		
+
 		// Determine foreign key name dynamically using $this->type
 		// e.g. transaction_id or thread_id
+
 		$M->{$this->type."_id"} = $this->{$this->type}->id;
-		
+
 		// Save Message
 		if(!$M->save())
 		{
 			// @todo handle message saving error
-			return FALSE;
+			show_error('Error saving Message');
 		}
 		
 		// Loop over each user and deliver to inbox
@@ -384,7 +422,10 @@ class Conversation
 			if($this->type=="thread")
 			{
 				// Associate each user with the thread
-				$this->thread->save($User);
+				if(!$this->thread->save($User))
+				{
+					show_error('Error saving threads_users');
+				}
 			}
 		}
 		
@@ -401,4 +442,33 @@ class Conversation
 		// Success!
 		return TRUE;
 	}
+
+
+	public function get_existing($options)
+	{
+		$id = NULL;
+		if(isset($options['user_id']) && isset($options['recip_id']))
+		{
+			//Check to see if users already have a thread between them
+			$existing_threads = $this->CI->db->select('T.user_id, T.thread_id, TU.user_id')
+						->from('threads_users AS T')
+						->join('threads_users AS TU', 'T.thread_id = TU.thread_id AND TU.user_id !='.$options['user_id'])
+						->where('T.user_id ='.$options["user_id"])
+						->where('TU.user_id ='.$options['recip_id'])
+						->get()
+						->result();
+
+			//Each pair of users can only have ONE thread between them.
+			if(!empty($existing_threads))
+			{
+				$id = $existing_threads[0]->thread_id;
+				$this->thread_id = $id;
+			} 
+			
+			return $id;
+		}
+	}
+			
 }
+
+

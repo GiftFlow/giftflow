@@ -87,7 +87,7 @@ class Notify
 		
       	// Map hook data onto email template parseables array
 		$A->parseables = array(
-			'subject' => "An item you may be interested was posted",
+			'subject' => "Someone posted a new gift that might interest you",
 			'link' => site_url('gifts/'.$good->id),
 			'title' => $good->title,
 			'recipient_name' => $watch->screen_name
@@ -127,7 +127,8 @@ class Notify
 			'decider_email' => $data->transaction->decider->email,
 			'summary' => strip_tags($data->transaction->language->decider_summary),
 			'subject' => strip_tags($data->transaction->language->decider_summary),
-			'note' => $data->note
+			'note' => $data->note,
+			'return_url' => $data->return_url
 		);
 	
 		
@@ -150,7 +151,8 @@ class Notify
 			"demander_name" => $data->transaction->demander->screen_name,
 			"decider_name" => $data->transaction->decider->screen_name,
 			"demander_summary" => strip_tags($data->transaction->language->demander_summary),
-			"subject" => $data->transaction->decider->screen_name." has accepted your request!"
+			"subject" => $data->transaction->decider->screen_name." has accepted your request!",
+			'return_url' => $data->return_url
 			);
 			
 		// Set template name
@@ -175,7 +177,8 @@ class Notify
 			"message" => $M->body,
 			"user_screen_name" => $this->CI->session->userdata('screen_name'),
 			"subject" => $this->CI->session->userdata('screen_name')." sent you a message",
-			"good_title" => $data->transaction->demands[0]->good->title
+			"good_title" => $data->transaction->demands[0]->good->title,
+			"return_url" => $data->return_url
 		);
 		
 		// Set template name
@@ -203,7 +206,8 @@ class Notify
 			"reviewed_screen_name" => $data->reviewed->screen_name,
 			"reviewer_screen_name" => $data->reviewer->screen_name,
 			"good_title" => $data->transaction->demands[0]->good->title,
-			"subject" => $data->reviewer->screen_name." has written you a review."
+			"subject" => $data->reviewer->screen_name." has written you a review.",
+			"return_url" => $data->return_url
 		);
 		
 		$A->template_name = "review_new";
@@ -290,7 +294,8 @@ class Notify
 			'body' => $data->body,
 			'gift_title' => $data->gift_title,
 			'recipient_screen_name' => $data->recipient_screen_name,
-			'screen_name' => $data->screen_name
+			'screen_name' => $data->screen_name,
+			'return_url' => $data->return_url
 		);
 
 		$A->template_name = 'thankyou';
@@ -308,7 +313,7 @@ class Notify
 			'gift_title' => $data->gift_title,
 			'screen_name' => $data->screen_name,
 			'recipient_screen_name' => $data->recipient_screen_name,
-			'link' => site_url('/you/view_thankyou/'.$data->id)
+			'return_url' => site_url('/you/view_thankyou/'.$data->id)
 		);
 		
 		$A->template_name = 'thankyou_updated';

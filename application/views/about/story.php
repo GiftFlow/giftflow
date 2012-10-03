@@ -6,7 +6,7 @@
 	<iframe width="640" height="360" src="http://www.youtube.com/embed/6iCfJ3AZtxU" frameborder="0" allowfullscreen></iframe>
 </div>
 
-<p>
+<p style='margin-top:20px;'>
 By posting what you need and what you have 
 to give, you contribute to a growing database of gifts and needs. 
 Your post adds to the potential for successful gifts. Each gift given

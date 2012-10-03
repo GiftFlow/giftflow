@@ -22,6 +22,7 @@ class User_search extends Search
 	{
 		parent::__construct();
 		$this->CI =& get_instance();
+		$this->CI->load->library('Factory/User_factory');
 	}
 	
 	/**
@@ -38,7 +39,7 @@ class User_search extends Search
 	*	@param int $options['facebook_id'] 		Filter by Facebook ID
 	*	@param boolean $options['exclude_logged_in_user'] 	Excludes logged in user
 	*	@param boolean $options['following_stats']	If true, populates am_following and is_follower fields
-	*	@param float $options['location']		Filter by location object
+	*	@param float $optiorar'location']		Filter by location object
 	*	@param string $options['order_by']		Field name to order by
 	*	@param string $options['sort']			Sort order
 	*	@param int $options['offset']			Offset
@@ -64,15 +65,16 @@ class User_search extends Search
 			"exclude_logged_in_user"=>FALSE,
 			"following_stats"=>TRUE,
 			"location"=>NULL,
-			"transaction_id"=>NULL,
 			"order_by"=>"U.created",
 			"sort"=>"ASC",
 			"offset"=>0,
 			"limit"=>20,
 			"forgotten_password_code"=>NULL,
 			"include_forgotten_password_code" => FALSE,
+			'include_photos' => FALSE,
 			"keyword" => '',
-      "type" => ''
+			"type" => '',
+			'radius' => 100
 		);
 		$options = (object) array_merge(
 			//$default_like_options, 
@@ -115,28 +117,38 @@ class User_search extends Search
 		// Filter text fields by WHERE LIKE
 		if(!empty($options->keyword))
 		{
-			$where_clause = sprintf("(	U.first_name LIKE '%s' OR 
-										U.last_name LIKE '%s' OR
-										U.screen_name LIKE '%s' OR
-										U.bio LIKE '%s' OR
-										U.email LIKE '%s' OR
-										U.occupation LIKE '%s')",
-										$options->keyword, $options->keyword,
-										$options->keyword, $options->keyword,
-										$options->keyword, $options->keyword);
-			$this->CI->db->where($where_clause);
+			$keywords = explode(' ',$options->keyword);
+			$likewhere = '(';
+			
+			$i = 0;
+			$len = count($keywords);
+			foreach($keywords as $word) {
+				$i++;
+				$word = "'%".$word."%'";
+
+				$likewhere .= "U.screen_name LIKE ".$word.
+								" OR U.bio LIKE ".$word.
+								" OR U.email LIKE ".$word.
+								" OR U.occupation LIKE ".$word." ";
+				if($i != $len){
+					$likewhere.= ' OR ';
+				}
+			}
+			$likewhere .= ")";
+
+			$this->CI->db->where($likewhere);
 		}	
-    if(!empty($options->type))
-    {
-      $this->CI->db->where('U.type',$options->type);
-    }
+		if(!empty($options->type))
+		{
+		  $this->CI->db->where('U.type',$options->type);
+		}
 		
 		// Filter by location if lat/lng or un-geocoded address,
 		// only returning users who have a location
 		if(!empty($options->location))
 		{
 			$this->_join_locations("inner");
-			$this->_geosearch_clauses($options->location);
+			$this->_geosearch_clauses($options);
 		}
 		
 		// Else simply include location for those who have it
@@ -176,10 +188,12 @@ class User_search extends Search
 		
 		// Return result
 		$result = $this->CI->db->get()->result();
+
 		
 		// Hydrate & return results
 		Console::logSpeed("User_search::find(): done.");
-		return Factory::user($result);
+		$UF = new User_factory();
+		return $UF->build_users($options,$result);
 	}
 	
 	/**
@@ -215,10 +229,11 @@ class User_search extends Search
 			->get()
 			->result();
 
-		$object = Factory::user($result);
 		
 		Console::logSpeed("User_search::following(): done.");
-		return $object;
+		$F = new User_factory();
+		return $F->build_users($options, $result);
+
 	}
 	
 	/**
@@ -235,11 +250,10 @@ class User_search extends Search
 			->where('FU.following_id',$options['user_id'])
 			->get()
 			->result();
-
-		$object = Factory::user($result);
 		
 		Console::logSpeed("User_search::followers(): done.");
-		return $object;
+		$F = new User_factory();
+		return $F->build_users($options, $result);
 	}
 	
 	/**
@@ -274,7 +288,8 @@ class User_search extends Search
 		else
 		{
 			return $this->find(array(
-				"user_id"=>$user_ids
+				"user_id"=>$user_ids,
+				'include_location' => TRUE
 			));
 		}
 	}
@@ -361,40 +376,30 @@ class User_search extends Search
 	protected function _geosearch_clauses($options)
 	{
 		$this->CI->load->library('geo');
+		$this->CI->geo->radius = $options->radius;
+		$location = $options->location;
+		$location->radius = $options->radius;
 		
-		// Geocode if needed
-		if( !empty($options->address) && (empty($options->latitude) || empty($options->longitude)))
+		
+		// Process Location object (geocodes if needed, generates bounds)
+		if(!isset($location->bounds) || empty($location->bounds))
 		{
-			$options = $this->CI->geo->geocode($options->address,$options);
+			$location = $this->CI->geo->process($location);
 		}
-		
-		// Make sure latitude and longitude are present
-		if( empty($options->latitude) || empty($options->longitude) )
-		{
-			return FALSE;
-		}
-		
-		if(empty($options->radius))
-		{
-			$options->radius = 100;
-		}
-		
-		// Get lat/lng bounds
-		$bounds = $this->CI->geo->get_bounds($options->latitude, $options->longitude, $options->radius);
 		
 		// Assemble SQL Clauses
 		
 		// Add latitude WHERE BETWEEN clause
-		$this->CI->db->where("L.latitude BETWEEN ".$bounds['latitude']['min']." AND ".$bounds['latitude']['max']);
+		$this->CI->db->where("L.latitude BETWEEN ".$location->bounds['latitude']['min']." AND ".$location->bounds['latitude']['max']);
 		
 		// Add longitude WHERE BETWEEN clause
-		$this->CI->db->where("L.longitude BETWEEN ".$bounds['longitude']['min']." AND ".$bounds['longitude']['max']);
+		$this->CI->db->where("L.longitude BETWEEN ".$location->bounds['longitude']['min']." AND ".$location->bounds['longitude']['max']);
 		
 		// Add default_location_id WHERE clause
-		$this->CI->db->where("U.default_location_id IS NOT NULL");
+		// $this->CI->db->where("U.default_location_id IS NOT NULL");
 		
 		// Add location_distance SELECT clause
-		$this->CI->db->select("( 3959 * acos( cos( radians( ".$options->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$options->longitude.") ) + sin( radians(".$options->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
+		$this->CI->db->select("( 3959 * acos( cos( radians( ".$location->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$location->longitude.") ) + sin( radians(".$location->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
 	}
 }
 /*

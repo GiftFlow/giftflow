@@ -8,7 +8,7 @@
 				
 				<div class="clearfix">
 					<a href="<?php echo site_url('people/'.$other_user->id);?>" class="user_image medium left">
-						<img src="<?php if(!empty($other_user->photo->id)) { echo $other_user->photo->thumb_url; } else { echo $other_user->default_photo->thumb_url; }?>" alt="<?php echo $other_user->screen_name;?>" />
+						<img src="<?php echo $other_user->default_photo->thumb_url; ?>" alt="<?php echo $other_user->screen_name;?>" />
 					</a>
 					
 					<div class="metadata left">
@@ -35,7 +35,7 @@
 					<div class="left field">
 						<?php if($transaction->status=="pending"){ ?>
 							<?php if($demander){ ?>
-								<p>Waiting for <?php echo $other_user->screen_name	; ?> to respond</p>
+								<p>Waiting for <?php echo $other_user->screen_name; ?> to respond</p>
 								
 								<form method="post" id="cancel_transaction">
 									<input type="hidden" name="form_type" value="transaction_cancel" />
@@ -79,7 +79,7 @@
 						<?php if($use->id == $rev->reviewer_id) { ?>
 							<li class='message clearfix'>
 								<a href='#' class='user_image medium css_left'>
-									<img src="<?php if(isset($use->photo_id)) { echo $use->photo->thumb_url; } else { echo $use->default_photo->thumb_url; }?>" alt="<?php echo $use->screen_name;?>" />
+									<img src="<?php echo $use->default_photo->thumb_url; ?>" alt="<?php echo $use->screen_name;?>" />
 								</a>
 								<div class = 'text clearfix css_left' href='<?php echo site_url('people/'.$use->id); ?>'>
 									<a href='<?php echo site_url("people/profile/").$use->id; ?>' >
@@ -115,7 +115,7 @@
 					$other_user : $current_user; ?>
 				<li class='message clearfix'>
 					<a href="#" class="user_image medium css_left">
-						<img src="<?php if(isset($author->photo->id)) { echo $author->photo->thumb_url; } else { echo $author->default_photo->thumb_url; }?>" alt="<?php echo $author->screen_name;?>" />
+						<img src="<?php echo $author->default_photo->thumb_url; ?>" alt="<?php echo $author->screen_name;?>" />
 					</a>					
 					<div class="text clearfix css_left">
 						

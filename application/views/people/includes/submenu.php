@@ -1,10 +1,4 @@
-<ul id='find_sidebar' class='sidebar_menu filters'>
 
-				<li <?php if($segment[2]=='find'){ echo  "class='active'"; } ?>>
-					<a href='<?php echo site_url('find/people');?>'> 
-					Find
-					</a>
-				</li>
 				<?php if($logged_in){?>
 				
 					<li <?php if($segment[2]=='friends'){ echo  "class='active'"; } ?>>
@@ -29,4 +23,3 @@
 					</li>
 				<?php } ?>
 		
-</ul>

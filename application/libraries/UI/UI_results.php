@@ -40,7 +40,7 @@ class UI_results
 		$default_options = array(
 			"results"=>array(),
 			"mini"=>FALSE,
-			"include"=>array("location","created"),
+			"include"=>array("location"),
 			"row"=>FALSE
 		);
 		$options = array_merge($default_options, $options);
@@ -80,7 +80,8 @@ class UI_results
 			"mini"=>FALSE,
 			"grid"=>FALSE,
 			"include"=>array("location","created"),
-			"row"=>FALSE
+			"row"=>FALSE,
+			'sidebar' => FALSE
 		);
 		$options = array_merge($default_options, $options);
 		

@@ -8,48 +8,28 @@
 		<?php if($G->status == 'active') { ?>
 			<!-- Result Row -->
 			<li class='result_row clearfix'>
-			
-			<?php if(!in_array("offer_links",$include)){ ?>
-				<?php if(!in_array("no_pic",$include)){ ?>
-				<!-- Image -->
-				<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
-					<img src="<?php if(isset($G->photo->thumb_url)) { echo $G->photo->thumb_url; } else { echo $G->default_photo->url;} ?>" />
-				</a>
-				<?php } ?>
-				
-				<!-- Metadata -->
-				<div class='result_meta clearfix'>
-				
-					<!-- Title -->
-					
-					<a class="title" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
-						<span class= "title_<?php echo $G->type; ?>">
-						<?php echo $G->title;?>
-						</span>
+			<div class='row-fluid'>			
+			<div class='span2'>
+				<?php if(!in_array("offer_links",$include)){ ?>
+					<?php if(!in_array("no_pic",$include)){ ?>
+					<!-- Image -->
+					<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
+						<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
 					</a>
-			<?php }?>
-			<?php if(in_array("offer_links",$include)){ ?>
-				
-				<!--Offer button -->
-				<input type="radio" name="good_id" class="offer_link" value="<?php echo $G->id;?>" />
+					<?php } ?>
 					
-				<!-- Image -->
-				<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image">
-					<img src="<?php if(isset($G->photo->thumb_url)) { echo $G->photo->thumb_url; } else { echo $G->default_photo->url;}?>" />
-				</a>
-				
-				<!-- Metadata -->
-				<div class='result_meta clearfix'>
-				
-					<!-- Title -->
-					<a class="title" href="#">
-						<span class='title <?php echo $G->type; ?>'> 
+			<!-- Metadata -->
+			</div>
+			<div class='span10 result_meta clearfix'>
+					
+						<!-- Title -->
+						
+						<a class="title <?php if($sidebar) { echo 'sidebarTitle';}?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+							<span class= "title">
 							<?php echo $G->title;?>
-						</span>
-					</a>
-					
-			<?php } ?>
-					
+							</span>
+						</a>
+				<?php }?>
 					<?php if(in_array("requests",$include)){ ?>
 					
 						<!-- # Times Requested -->
@@ -85,6 +65,7 @@
 						</span>
 						
 					<?php } ?>
+					</div>
 				</div>
 			</li>
 			<!-- eof Result Row -->

@@ -17,11 +17,14 @@ class Find extends CI_Controller {
 	var $args = array(
 		"q"=>"",
 		"type"=>"gift",
-		"location"=>"",
+		"location"=>NULL,
 		"category_id"=>NULL,
-		"radius"=>100,
+		"radius"=>10000,
 		"limit"=>20,
-		"offset"=>0
+		"offset"=>0,
+		'order_by' => NULL,
+		'profile_type' => NULL
+
 	);
 	
 	function __construct()
@@ -112,6 +115,10 @@ class Find extends CI_Controller {
 		// Load Menu
 		$this->data['menu'] = $this->load->view('find/includes/menu', $this->data, TRUE);
 
+		$this->data['category_menu'] = $this->load->view('find/includes/categories.php', $this->data, TRUE);
+
+		$this->data['people_menu'] = $this->load->view('people/includes/submenu.php', $this->data, TRUE);
+
 		// Load views
 		$this->load->view('header',$this->data);
 		$this->load->view('find/includes/header',$this->data);
@@ -134,20 +141,19 @@ class Find extends CI_Controller {
 		{
 			Console::logSpeed("Find::_search(): starting User_search...");
 			$options= array(
-				"screen_name"=>$this->args["q"], 
-				"first_name"=>$this->args["q"], 
-				"last_name"=>$this->args["q"], 
-				"bio"=>$this->args["q"],
-				"occupation"=>$this->args["q"],
+				"keyword"=>$this->args["q"],
 				"location"=>$this->args['location'],
 				"radius"=>$this->args['radius'],
-				"limit"=>50,
-				"order_by"=>"location_distance",
-				"sort" => 'ASC'
+				"limit"=>100,
+				"order_by"=>$this->args['order_by'],
+				"sort" => $this->args['sort'],
+				'status' => 'active',
+				'type' => $this->args['profile_type']
 			);
 				
 			$US = new User_search;
-			$this->data['results'] = $US->find($options);
+			$results = $US->find($options);
+			$this->data['results'] = $this->factory->users_ajax($results, $this->args['order_by']);
 				
 		}
 		else
@@ -164,7 +170,8 @@ class Find extends CI_Controller {
 				"order_by"=>$this->args["order_by"],
 				"limit"=>100,
 				"status"=>"active",
-				'sort' =>$this->args['sort']
+				'sort' =>$this->args['sort'],
+				'radius' => $this->args['radius']
 			);
 			
 			$results = $GS->find($options);
@@ -177,6 +184,7 @@ class Find extends CI_Controller {
 			"total_results"=>count($this->data['results']),
 			"results"=>$this->data['results']
 		);
+
 		$this->data['results_json'] = json_encode($data);
 	}
 	
@@ -225,12 +233,14 @@ class Find extends CI_Controller {
 			}
 		}
 		
+		
 		// Set order by clause
 		// UI passes a value of either "newest" or "nearby"
 		// Search lib requires values of either "G.created" or 
 		// "location_distance"
-		
-		$this->args["order_by"] = "G.created";
+
+
+		$this->args['order_by'] = ($this->args['type'] != 'people') ? 'G.created' : 'U.created';
 		$this->args['sort'] = 'DESC';
 		
 		// Encode "nearby" as "location_distance" if found
@@ -239,23 +249,30 @@ class Find extends CI_Controller {
 			$this->args["order_by"] = "location_distance";
 			$this->args['sort'] = 'ASC';
 		}
-		
-		
-		// If no location, try to use the userdata's location object
-		if(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
-		{
-			$this->args["location"] = $this->data['userdata']['location'];
-		}
 		// If location consists only of a string, geocode it
-		elseif(!empty($this->args["location"]) && !is_object($this->args["location"]))
+		if(!empty($this->args["location"]) && !is_object($this->args["location"]))
 		{
 			$this->load->library('geo');
 			$this->args["location"] = $this->geo->geocode($this->args['location']);
 		}
-		elseif(empty($this->args["location"]))
+		//if location isn't provided, then don't use it!
+		elseif(empty($this->args["location"]) && !empty($this->data['userdata']['location']))
 		{
-			$this->load->library('geo');
-			$this->args["location"] = $this->geo->geocode_ip();
+			$this->args['location'] = $this->data['userdata']['location'];
+		}
+		elseif(empty($this->args['location']))
+		{
+			$this->args['sort'] = 'DESC';
+
+			$this->args['order_by'] = ($this->args['type'] != 'people') ? 'G.created' : 'U.created';
+
+		}
+		
+		if(!empty($_REQUEST['radius']))
+		{
+			$this->args['location']->radius = $_REQUEST['radius'];
+			$this->args['radius'] = $_REQUEST['radius'];
+			$this->radius = $_REQUEST['radius'];
 		}
 		
 	}

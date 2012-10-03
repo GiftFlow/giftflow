@@ -38,6 +38,7 @@ class Member extends CI_Controller {
 	/**
 	*	Login page
 	*	@param string $redirect
+	*	redirect can also be passed via a ?return_url GET param
 	*/
 	function login( $redirect = FALSE )
 	{
@@ -102,7 +103,12 @@ class Member extends CI_Controller {
 		// If no form data, render login form
 		else
 		{
-			$this->_login_form();
+			$redirect = FALSE;
+			//pick up redirect url from GET
+			if(!empty($_GET['return_url'])) {
+				$redirect = $_GET['return_url'];
+			}
+			$this->_login_form($redirect);
 		}
 	}
 	
@@ -350,7 +356,7 @@ class Member extends CI_Controller {
 	}
 	
 	
-	protected function _login_form()
+	protected function _login_form($redirect = FALSE)
 	{
 		$params = array(
 			'scope' => 'email, user_photos, publish_stream',
@@ -358,6 +364,7 @@ class Member extends CI_Controller {
 		);
 
 		$loginUrl = $this->facebook->getLoginUrl($params);
+		$this->data['redirect'] = $redirect;
 
 		$this->data['fbookUrl'] = $loginUrl;
 		$this->data['js'][] = 'jquery-validate.php';

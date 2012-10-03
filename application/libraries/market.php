@@ -192,7 +192,8 @@ class Market
 					"transaction_id"=>$Transaction->id,
 					"include_messages" => FALSE			
 					)),
-				"note" => $this->note
+				"note" => $this->note,
+				'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 			);
 
 		$E = new Event_logger();
@@ -271,7 +272,8 @@ class Market
 				"transaction_id"=>$Transaction->id,
 				"include_messages"=>FALSE
 			)),
-			"message" => $options['message']
+			"message" => $options['message'],
+			'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 		);
 		
 		$E = new Event_logger();
@@ -341,7 +343,8 @@ class Market
 				"transaction_id"=>$Transaction->id,
 				"include_messages" => FALSE
 			)),
-			"message" => $options['message']
+			"message" => $options['message'],
+			'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 		);
 		
 		
@@ -393,7 +396,8 @@ class Market
 				"transaction_id"=>$Transaction->id,
 				"include_messages" => FALSE
 			)),
-			"message" => $options['message']
+			"message" => $options['message'],
+			'return_url' => site_url('you/view_transaction/'.$Transaction->id)	
 		);
 				
 		$E = new Event_logger();
@@ -468,7 +472,8 @@ class Market
 				"transaction_id"=>$Transaction->id,
 				"include_messages" => FALSE,
 				"include_reviews" => TRUE
-			))
+			)),
+			'return_url' => site_url('you/view_transaction/'.$Transaction->id)
 		);
 		//iterate over the transaction and add ReviewER and ReviewED user arrays to hook_data
 		foreach($hook_data->transaction->users as $key=>$val)
@@ -577,7 +582,8 @@ class Market
 				"transaction_id"=>$options['transaction_id']
 			)),
 			"message_id"=>$Message->id,
-			"conversation"=>$Conversation
+			"conversation"=>$Conversation,
+			'return_url' => site_url('you/view_transaction/'.$options['transaction_id'])
 		);
 		
 		$E = new Event_logger();
