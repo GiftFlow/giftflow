@@ -31,9 +31,41 @@
 	</div>
 </div>
 
+
+<!-- Javascript UI Compilation -->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/ui.php"></script>
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
+
+<?php if(!empty($addthis) && $addthis == TRUE){ ?>
+	<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
+<?php } ?>
+
+<?php if(!empty($googlemaps)&&$googlemaps==TRUE){ ?>
+	<!-- Google Maps API -->
+	<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false'></script>
+	<script type='text/javascript' src="<?php echo  base_url();?>assets/javascript/fluster.php"></script>
+<?php }?>
+
+<?php if(isset($js)){ foreach($js as $val){ ?>
+	<!-- Custom JavaScript Files -->
+	<script type="text/javascript" src="<?php echo base_url('assets/javascript/'.$val);?>"></script>
+<?php } } ?>
+
+
 <script type="text/javascript">
 $(function(){
 	
+	<!-- script for logIn dropdown -->
+
+	$('.dropdown-toggle').dropdown();
+	$('#login-form').css('left', '-50px');
+	$('.dropdown-menu').find('form').click(function (e) {
+		e.stopPropagation();
+	});
+
+
 	<?php /**
 	*	Follow user button click listener
 	*	Used extensively in the people section. Included here to make it easier
