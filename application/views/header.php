@@ -50,12 +50,6 @@ if(isset($css))
 <?php } else { ?>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <?php } ?>
-<script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap-dropdown.js"></script>
-
-
-<!-- Javascript UI Compilation -->
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/ui.php"></script>
 
 <!-- GF Javascript namespace declaration -->
 <script type="text/javascript">
@@ -66,26 +60,7 @@ if(isset($css))
 		return base + str;
 	};
 </script>
-
-
-<?php if(!empty($googlemaps)&&$googlemaps==TRUE){ ?>
-	<!-- Google Maps API -->
-	<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false'></script>
-	<script type='text/javascript' src="<?php echo  base_url();?>assets/javascript/fluster.php"></script>
-<?php }?>
-
-<?php if(isset($js)){ foreach($js as $val){ ?>
-	<!-- Custom JavaScript Files -->
-	<script type="text/javascript" src="<?php echo base_url('assets/javascript/'.$val);?>"></script>
-<?php } } ?>
-
-<?php if(!empty($addthis) && $addthis == TRUE){ ?>
-	<!-- AddThis -->
-<?php } ?>
-	                
-	<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
-			
+		
 </head>
 <body>
 <div id='header'>
@@ -231,15 +206,6 @@ if(isset($css))
 		</ul>
 	</div>		
 </div>
-
-<!-- script for logIn dropdown -->
-<script type='text/javascript'>
-$('.dropdown-toggle').dropdown();
-$('#login-form').css('left', '-50px');
-$('.dropdown-menu').find('form').click(function (e) {
-	e.stopPropagation();
-});
-</script>
 
 
 <!-- Main Wrapper -->
