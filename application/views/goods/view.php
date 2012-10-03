@@ -15,7 +15,7 @@
 	<div class="top"></div>
 	<div class="middle">
 		<!-- Main Image-->
-		<img src="<?php echo $G->default_photo->thumb_url; ?>" />		
+		<img class="<?php echo $G->default_photo->class; ?>" src="<?php echo $G->default_photo->url; ?>"/>
 		<!-- Title, Description, Tags and More -->
 		<div class='right'>
 		
