@@ -10,11 +10,10 @@
 			<li class='result_row clearfix'>
 			<div class='row-fluid'>			
 			<div class='span2'>
-				<?php if(!in_array("offer_links",$include)){ ?>
 					<?php if(!in_array("no_pic",$include)){ ?>
 					<!-- Image -->
 					<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
-						<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
+						<img class="<?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>" src="<?php echo $G->default_photo->thumb_url; ?>"/>
 					</a>
 					<?php } ?>
 					
@@ -29,7 +28,6 @@
 							<?php echo $G->title;?>
 							</span>
 						</a>
-				<?php }?>
 					<?php if(in_array("requests",$include)){ ?>
 					
 						<!-- # Times Requested -->

@@ -60,18 +60,30 @@ Class Good_factory {
 				}
 				elseif($object == 'photo')
 				{
+					$item->default_photo->class = '';
+					$item->default_photo->thumb_class = '';
+					$item->default_photo->mini_class = '';
+
+
 					if(isset($row->photo_url))
 					{
 						$item->default_photo->url = base_url($row->photo_url);
 						$item->default_photo->thumb_url = base_url($row->photo_thumb_url);
 					} else {
 						// Use category photo or default photo if no category set
-						if(!empty($item->category->id)) 
+						if(!empty($row->category_id)) 
 						{
-							$item->default_photo->url = base_url()."assets/images/categories/".$item->category->id.".png";
+							$item->default_photo->thumb_url = NULL;
+							$item->default_photo->url = NULL;
+							$item->default_photo->mini_class = 'mini-'.$row->category_id;
+							$item->default_photo->thumb_class = 'medium-'.$row->category_id;
+							$item->default_photo->class = 'large-'.$row->category_id;
 						} else {
-							$item->default_photo->url = base_url()."assets/images/categories/16.png";
-							$item->default_photo->thumb_url = base_url()."assets/images/categories/16.png";
+							$item->default_photo->thumb_url = NULL;
+							$item->default_photo->url = NULL;
+							$item->default_photo->mini_class = 'mini-16';
+							$item->default_photo->thumb_class = 'medium-16';
+							$item->default_photo->class = 'large-16';
 						}
 					}
 				}
