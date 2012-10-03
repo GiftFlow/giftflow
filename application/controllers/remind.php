@@ -161,6 +161,7 @@ class Remind extends CI_Controller {
 
 	function matchGoods()
 	{
+		$this->auth->bouncer(100);
 		//get users and their goods
 		$stack = $this->_buildUserStack();
 
@@ -169,9 +170,12 @@ class Remind extends CI_Controller {
 
 		//add html strings for email
 		$content = $this->_buildMatchEmail($matchStack);
+
+		//Send emails!
+		$this->_send_matches($content);
 	}
 
-	function _buildUserStack()
+	private function _buildUserStack()
 	{
 
 		$this->db->select('G.id AS good_id, G.type AS good_type,G.title AS good_title, 
@@ -223,7 +227,7 @@ class Remind extends CI_Controller {
 		return $stack;
 	}
 
-	function _addMatches($stack)
+	private function _addMatches($stack)
 	{
 		
 		$L = new Location_search();
@@ -280,13 +284,13 @@ class Remind extends CI_Controller {
 
 	}
 
-	function _buildMatchEmail($stack)
+	private function _buildMatchEmail($stack)
 	{
 		foreach($stack as $user)
 		{
 			//build html for email
 
-			$content = "<span style='font-weight:bold;'><p>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs the match your own. We hope you find this helpful.
+			$content = "<span><p>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs that <i>might</i> match your own. OUr search alogrithms aren't perfect but we hope you find this helpful.
 							Thank you for helping us build a community of giving one click at a time.</p></span>";
 			$content .= "<ul style='list-style:none;'>";
 
@@ -295,15 +299,15 @@ class Remind extends CI_Controller {
 
 				$content .= $this->buildRows($user->gifts);
 			}
-
-			//$content .= "</ul><ul>";
 		
 			if(!empty($user->needs)) 
 			{
 				$content .= $this->buildRows($user->needs);
 			}
-			$user->email = $content;
+			$content .= "</ul>";
+			$user->body = $content;
 		}
+		return $stack;
 
 	}
 
@@ -315,15 +319,31 @@ class Remind extends CI_Controller {
 		{
 			if(!empty($val->matches))
 			{
-				$row .=  "<li>".$val->good_title."<ul>";
+				$row .=  "<li><p style ='padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+				$row .= $val->good_title."</p><ul style='list-style:none;'>";
 
 					foreach($val->matches as $match)
 					{
-						$row .= "<li>".$match->title."</li>";
+					
+						$row .= "<li><div style='margin-left:25px;'><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+						$row .= "<a href='".site_url($match->type.'s/'.$match->id)."'>".$match->title."</a></div></li>";
 					}
 				$row .= "</ul></li>";
 			}
-			return $row;
 		}
+		return $row;
 	}
+
+	private function _send_matches($stack)
+	{
+	
+		$N = new Notify();
+		foreach($stack as $user)
+		{
+			$N->send_matches('goods_match',$user);
+			echo 'reminder sent to '.$user->screen_name.'<br/>';
+		}
+		
+	}
+
 }

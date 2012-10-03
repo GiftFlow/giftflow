@@ -337,6 +337,21 @@ class Notify
 		$A->send();
 
 	}
-			
+
+	function send_matches($params, $data) 
+	{
+		$A = new Alert();
+
+		$A->parseables = array(
+			'subject' => 'Might this be what you are looking for?',
+			'screen_name' => $data->screen_name,
+			'return_url' => site_url('login')
+		);
+		$A->message = $data->body;
+		$A->template_name = 'goods_match';
+		$A->to = $data->email;
+		$A->send();
+
+	}	
 
 }
