@@ -38,7 +38,6 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
 
 <?php if(!empty($addthis) && $addthis == TRUE){ ?>
-	<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
 	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
 <?php } ?>
 
