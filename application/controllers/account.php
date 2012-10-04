@@ -100,6 +100,7 @@ class Account extends CI_Controller {
 	function photos( $segment = FALSE, $param = FALSE )
 	{
 		$this->auth->bouncer(1);
+
 		switch( $segment )
 		{
 			// Empty 3rd segment. List photos.
@@ -113,9 +114,13 @@ class Account extends CI_Controller {
 				break;
 				
 			//Choose profile photo source
-			case "choose_profile_photo":
-				$this->_choose_profile_photo();
+			case "default_photo":
+				$this->_default_photo($param);
 				break;
+
+			case "photo_delete":
+				$this->_photo_delete($param);
+				break;	
 				
 			// Edit photo of ID passed in 3rd segment
 			default:
@@ -123,7 +128,19 @@ class Account extends CI_Controller {
 				break;
 		}
 	}
-	
+
+	function _photo_delete($param)
+	{
+
+		$P = new Photo;
+		$P->where('id',$param)->get();
+
+		$P->delete();
+		$this->U->delete($P);
+
+		redirect('account/photos');
+	}
+
 	// General settings - including privacy, timezones and language selection
 	function settings()
 	{
@@ -729,6 +746,26 @@ class Account extends CI_Controller {
 		{
 			redirect('account/photos');
 		}
+	}
+
+	protected function _default_photo($param)
+	{
+		if($param != 'facebook') {
+			$this->U->photo_source = 'giftflow';
+			$P = new Photo();
+			$P->where('id', $param)->get();
+			$this->U->save_default_photo($P);
+		} else {
+			$this->U->photo_source = 'facebook';
+			$this->U->default_photo_id = NULL;
+		}
+
+		if(!$this->U->save())
+		{
+			show_error("Error saving photo source");
+		}
+
+		redirect('account/photos');
 	}
 	
 	/*

@@ -4,92 +4,68 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
-	
-	<ul class='gray_toolbar'>
-			<li>
-				<a href='#' class='active' rel='choose'>Choose Profile Photo</a>
-			</li>
-			<li>
-				<a href='#' rel='upload'>Upload Photos</a>
-			</li> 
-	</ul>
-	<div class='center'>
-			<div id="choose" class="gift_pane">
-			<form name='photo_source' method='post' action="<?php echo site_url('account/photos/choose_profile_photo');?>" id='photo_source' >
-
-					<h3>Select Profile Photo</h3>
-					
-					<?php foreach($photos as $key=>$val) 
-							{?>
-								<p>
-								<label>
-									<input type='radio' name='source' value='<?php echo $val->id; ?>' <?php if($U->default_photo_id == $val->id) { echo "checked='checked'"; } ?>  />
-									<img src="<?php echo $val->thumb_url; ?>"/>
-									<?php echo $val->caption; ?>
-								</label>
-								</p>
-								
-						<?php }?>
-							
-					<p>
-						<label class="radio">
-							<input type='radio' <?php if(empty($U->default_photo_id)){ echo "checked='checked'"; } ?> name='source' value='giftflow' />
-							Default Icon
-						</label>
-					</p>
-					
-					<p>
-						<label class="radio">
-							<input type='radio' name='source' value='facebook' <?php if(!$facebook_connected){ echo "disabled='disabled' "; } else if($U->photo_source=="facebook"){ echo "checked='checked' "; } ?>/>
-							Facebook Profile Photo<?php if(!$facebook_connected){?>(<a href="<?php echo site_url('account/link/facebook');?>">Click here to connect with your Facebook profile</a>)<?php } ?>
-							
-						</label>
-					</p>
-					
-					<p>
-						<label style='color: #ccc;' class="radio">
-							<input type='radio' name='source' value='twitter' disabled='disabled' />
-							Coming Soon: Use Twitter Profile Photo
-						</label>
-					</p>
-					
-					<p>
-						<label style='color: #ccc;' class="radio">
-							<input type='radio' name='source' value='gravatar' disabled='disabled' />
-							Coming Soon: Use Gravatar
-						</label>
-					</p>
-					
-					<p>
-						<input type="hidden" name="form_type" value="choose" />
-						<input type='submit' class="button btn btn-primary" value='Save' />
-					</p>
-				</form>
-		</div>
+	<legend>Manage Photos </legend>
+		<ul class="thumbnails photos-list">
+			<?php foreach($photos as $key=>$photo){ ?>
+				<li>
+					<div class="thumbnail">
+						<img src="<?php echo $photo->thumb_url;?>" alt="<?php echo $photo->caption;?>" title="<?php echo $photo->caption;?>" />
+						<p class="caption"><?php echo $photo->caption;?></p>
+						<div class="btn-group" style="margin-top: 5px;">
+						<?php if($U->default_photo_id == $photo->id){ ?>
+							<a href="#" class="btn disabled btn-mini">
+								<i class="icon-star"></i>
+								Default Photo
+							</a>
+						<?php } else { ?>
+							<a href="<?php echo site_url('account/photos/default_photo/'.$photo->id);?>" class="btn btn-mini">
+								Make Default
+							</a> 				
+						<?php } ?>
+						<?php if($photo->id!=NULL){ ?>
+						<a href="<?php echo site_url('account/photos/photo_delete/'.$photo->id);?>" class="btn btn-mini">
+							Delete
+						</a>
+						<?php } ?>
+						</div>
+					</div>
+				</li>
+			<?php } ?>
+			<?php if($facebook_connected) { ?>
+				<li>
+					<a href="<?php echo site_url('account/photos/default_photo/facebook'); ?>" class='btn btn-medium'>Use Facebook Photo</a>
+				</li>
+			<?php } ?>
+		</ul>
 				
-		<div id="upload" style="display:none;" class="gift_pane">
-			<h4>Share photos of yourself!</h4><br />
-			You can upload up to 5 photos. Max size 0.5 MB
-			<p>
-			<?php if($num_photos < 5) { ?>
-				<form name="photo_uplaod" action="<?php echo site_url('account/photos/add'); ?>" enctype="multipart/form-data" method='post'>
-					<input type="file" class='optional' name="photo" id="photo" />
-					<p>Add a caption</p>
-					<input type="text" name="caption"/>
-					<input type="hidden" name="form_type" value="photo_upload"/>
-					<p>
-					<input type="submit" class="btn btn-primary" value="Upload"/>
-					</p>
-				</form>
-			<?php } else { ?>
-				You have reached your photo limit. You must delete a photo before you can upload another
-				<?php } ?>
-			</p>
+		<form method="post" enctype="multipart/form-data" class="form-horizontal" action="<?php echo site_url('account/photos/add'); ?>">
+			<fieldset>
+				<legend>Upload a Photo</legend>
+					
+				<div class='control-group'>
+					<label class="control-label" for="photo">Select File</label>
+					<div class="controls">
+						<input type="file" name="photo" id="photo"/>
+						<span class="help-block">Maximum allowed size is 200KB</span>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label for="caption" class="control-label">Caption</label>
+					<div class="controls">
+						<input type="textarea" name="caption"/>
+					</div>
+				</div>
 			
-		</div>
-	</div><!-- end of center -->
+			<div class='form-actions'>
+				<input type='submit' name="Submit" value='Upload' class='btn btn-primary' /> 
+			</div>
+		</form>
+		
+
+			
 	</div>
 	<!-- eof div.right_content -->
+
 </div>
 <!-- eof div.two_panels -->
 
