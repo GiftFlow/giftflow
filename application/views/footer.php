@@ -33,7 +33,7 @@
 
 
 <!-- Javascript UI Compilation -->
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/ui.php"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/masterJS.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
 

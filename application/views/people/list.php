@@ -35,6 +35,5 @@ $(function(){
 		$(this).remove();
 		return false;
 	});
-	$("#community_sources").buttonTabs();
 });
 </script>
