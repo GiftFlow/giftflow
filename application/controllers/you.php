@@ -124,7 +124,8 @@ class You extends CI_Controller {
 		$this->data['goods'] = $G->find(array(
 			"user_id" => $this->data['logged_in_user_id'],
 			"count_transactions" => TRUE,
-			"type"=>"gift"
+			"type"=>"gift",
+                        'status' => 'active'
 		));
 		
 		// Set view variables
@@ -157,7 +158,8 @@ class You extends CI_Controller {
 			"user_id" => $this->data['logged_in_user_id'],
 			"count_transactions" => TRUE,
 			"type"=>"need",
-			"limit"=>100
+			"limit"=>100,
+                        'status' => 'active'
 		));
 		
 		// Set view variables
@@ -242,7 +244,6 @@ class You extends CI_Controller {
 		}
 
 		$this->data['transactions'] = $TS->find($options);
-
 
 		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
 

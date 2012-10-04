@@ -42,6 +42,7 @@ class Root extends CI_Controller {
 		$options = array(
 			'sort' => 'newest',
 			'limit' => '6',
+                        'status' => 'active'
 		);
 		$this->data['goods'] = $G->find($options);
 

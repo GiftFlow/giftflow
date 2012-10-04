@@ -340,7 +340,7 @@ class People extends CI_Controller {
 		//Load gifts for "Give to" panel
 		if(!empty($this->data['logged_in_user_id']))
 		{
-			$this->data['potential_gifts'] = $G->find( array("user_id" => $this->data['logged_in_user_id'], "type"=>"gift"));
+			$this->data['potential_gifts'] = $G->find( array("user_id" => $this->data['logged_in_user_id'], "type"=>"gift", 'status' => 'active'));
 		}
 		
 		// Get list of people this user is following

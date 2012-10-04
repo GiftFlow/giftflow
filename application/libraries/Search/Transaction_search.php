@@ -210,10 +210,12 @@ class Transaction_search extends Search
 		// using the Good_search library and then passing to the factory
 		$good_id_list = $Factory->get_ids("goods");
 		$goods = $Good_search->find(array(
-			"good_id"=>$good_id_list
+			"good_id"=>$good_id_list,
+			'radius' => 10000,
+                        'status' => array('active','disabled', 'unavailable')
 		));
 		$Factory->set_goods($goods);
-		
+
 		// Load Reviews and pass them to the factory
 		if($options->include_reviews)
 		{
