@@ -116,7 +116,8 @@ class Remind extends CI_Controller {
 				'location' => $fullTrans->$role->location,
 				'sort' => 'newest',
 				'limit' => '10',
-				'radius' => '1000'
+				'radius' => '1000',
+				'status' => 'active'
 			));
 
 			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";
@@ -255,7 +256,8 @@ class Remind extends CI_Controller {
 						'radius' => 1000,
 						'limit' => 10,
 						'exclude' => $good->good_id,
-						'type' => 'need'
+						'type' => 'need',
+                                                'status' => 'active'
 					));
 				}
 			}
@@ -273,7 +275,8 @@ class Remind extends CI_Controller {
 						'radius' => 1000,
 						'limit' => 10,
 						'exclude' => $good->good_id,
-						'type' => 'gift'
+						'type' => 'gift',
+						'status'=> 'active'
 					));
 				}
 			}

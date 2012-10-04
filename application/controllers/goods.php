@@ -133,13 +133,15 @@ class Goods extends CI_Controller {
 				'keyword' => $this->G->title,
 				'limit' => 5,
 				'type' => 'gift',
-				'exclude' => $this->good_id
+				'exclude' => $this->good_id,
+                                'status' => 'active'
 			));
 			$this->data['needs'] = $Good_search->find(array(
 				'keyword' => $this->G->title,
 				'limit' => 5,
 				'type' => 'need',
-				'exclude' => $this->good_id
+				'exclude' => $this->good_id,
+                                'status' => 'active'
 			));
 		}
 		// Parse global data

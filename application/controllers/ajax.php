@@ -88,6 +88,7 @@ class Ajax extends CI_Controller {
 					"user_id" => $following_user_ids,
 					'limit' => 10,
 					'type' => 'gift',
+                                        'status'=> 'active'
 				);
 				$this->object = $G->find($options);
 			}
@@ -103,7 +104,8 @@ class Ajax extends CI_Controller {
 			$options = array(
 				"location" => $this->data['userdata']['location'],
 				"limit" => 10,
-				"type" =>"gift"
+				"type" =>"gift",
+                                'status'=> 'active'
 			);
 			$this->object = $G->find($options);
 		}
