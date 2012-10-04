@@ -132,7 +132,7 @@
 					<form method="post" action="<?php echo site_url('goods/view'); ?>">
 						<p>
 							<!-- @todo create message template similar to the new couchsurfing request form -->
-							<label>Send <?php echo $G->user->first_name; ?> a note:</label><br />
+							<label>Send <?php echo $G->user->screen_name; ?> a note:</label><br />
 							<textarea name='note'></textarea>
 						</p>
 						<input type="hidden" name="method" value="demand">
