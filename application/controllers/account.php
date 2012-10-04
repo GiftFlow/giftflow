@@ -763,6 +763,8 @@ class Account extends CI_Controller {
 		if(!$this->U->save())
 		{
 			show_error("Error saving photo source");
+		} else {
+			$this->hooks->call('userdata_updated');
 		}
 
 		redirect('account/photos');
