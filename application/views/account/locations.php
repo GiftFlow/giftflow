@@ -46,7 +46,6 @@
 			</div> 
 
 			<img id='locations_map' class='css_right' src='http://maps.google.com/maps/api/staticmap?sensor=false&size=230x230&markers=color:blue<?php foreach($locations as $key=>$val) { echo '|'.$val['latitude'].','.$val['longitude']; } ?>' />
-			<div id='edit_location' class='jqmWindow'>
 			</div>
 		<?php } else { ?>
 			<p>You do not yet have any locations.</p>
@@ -65,7 +64,7 @@ $(function(){
 
 	$('.dropdown-toggle').dropdown();
 
-
+/*
 	$("#edit_location").jqm({ 	
 		ajax: '@href', 
 		trigger: '.edit', 
@@ -73,5 +72,6 @@ $(function(){
 			$('#edit_location').jqmAddClose('#close_this'); 
 		} 
 	});
+ */
 });
 </script>
