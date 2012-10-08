@@ -891,10 +891,13 @@ ul.results_list li a.result_image {
 	height: 80px;
 	width: 80px;
 	margin-right: 15px;
+	position:absolute;
+	z-index: 0;
 }
 ul.results_list li a.result_image img{
 	max-height: 66px;
 	margin: 6px auto auto 6px;
+	z-index:0;
 }
 ul.results_list li .result_meta{
 	float: left;

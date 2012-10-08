@@ -11,9 +11,8 @@
 </div>
 <div class='row-fluid' id='home_categories'>
 	<div class='span12'>	
-		<?php for($i=1; $i<14; $i++) { ?>
-		<a href="<?php echo site_url('find/gifts/?category_id='.$i);?>" class='result_image'>
-		<img class="medium-<?php echo $i;?>"src=""/>
+		<?php for($i=1; $i<13; $i++) { ?>
+		<a href="<?php echo site_url('find/gifts/?category_id='.$i);?>" class='homepage medium-<?php echo $i; ?>'>
 			</a>
 		<?php } ?>
 	</div>

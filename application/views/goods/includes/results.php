@@ -13,7 +13,12 @@
 					<?php if(!in_array("no_pic",$include)){ ?>
 					<!-- Image -->
 					<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
-						<img class="<?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>" src="<?php echo $G->default_photo->thumb_url; ?>"/>
+						<?php if(!isset($G->default_photo->thumb_url)) { ?>	
+							<a class="<?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>">
+							</a>
+						<?php } else { ?>
+							<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
+						<?php }?>
 					</a>
 					<?php } ?>
 					
