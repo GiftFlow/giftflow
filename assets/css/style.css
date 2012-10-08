@@ -894,6 +894,20 @@ ul.results_list li a.result_image {
 	position:absolute;
 	z-index: 0;
 }
+
+ul.results_list li a.user_image {
+	background-image: url('../images/good_frame.png');
+	float: left;
+	height: 80px;
+	width: 80px;
+	margin-right: 15px;
+	z-index: 0;
+}
+ul.results_list li a.user_image img{
+	max-height: 66px;
+	margin: 6px auto auto 6px;
+	z-index:0;
+}
 ul.results_list li a.result_image img{
 	max-height: 66px;
 	margin: 6px auto auto 6px;

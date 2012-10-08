@@ -15,7 +15,14 @@
 	<div class="top"></div>
 	<div class="middle">
 		<!-- Main Image-->
-		<img class="<?php echo $G->default_photo->class; ?>" src="<?php echo $G->default_photo->url; ?>"/>
+		<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
+			<?php if(!isset($G->default_photo->thumb_url)) { ?>	
+				<a class="<?php echo $G->default_photo->class; ?>">
+				</a>
+			<?php } else { ?>
+				<img src="<?php echo $G->default_photo->url; ?>"/>
+			<?php }?>
+		</a>
 		<!-- Title, Description, Tags and More -->
 		<div class='right'>
 		
