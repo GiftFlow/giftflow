@@ -80,6 +80,8 @@
 
 $(function(){
 
+	paginate();
+
 	// GF Namespace wrapper
 	var GF = {
 		UI: {},
