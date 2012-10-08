@@ -292,7 +292,7 @@ class People extends CI_Controller {
 
 		$U_model = new User($user_id);
 
-		$this->data['profile_thumb'] = $U->default_photo->thumb_url;
+		$this->data['profile_thumb'] = $U->default_photo->url;
 
 		// Load user's gift
 		$G = new Good_search;

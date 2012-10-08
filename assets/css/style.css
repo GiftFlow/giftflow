@@ -905,6 +905,7 @@ ul.results_list li a.user_image {
 }
 ul.results_list li a.user_image img{
 	max-height: 66px;
+	width: 66px;
 	margin: 6px auto auto 6px;
 	z-index:0;
 }

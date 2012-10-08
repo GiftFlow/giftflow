@@ -82,7 +82,7 @@ Class User_factory {
 					} 
 					elseif($user->photo_source == "facebook" && !empty( $user->facebook_id ))
 					{
-						$user->default_photo->thumb_url = "http://graph.facebook.com/".$user->facebook_id."/picture?type=square";
+						$user->default_photo->thumb_url = "http://graph.facebook.com/".$user->facebook_id."/picture?type=large";
 						$user->default_photo->url = "http://graph.facebook.com/".$user->facebook_id."/picture?type=large";
 					}
 					else
