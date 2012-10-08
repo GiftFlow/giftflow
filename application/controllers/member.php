@@ -21,8 +21,8 @@ class Member extends CI_Controller {
 		//load the facebook sdk
 		require_once('assets/facebook-php-sdk/src/facebook.php');
 		$config = array (	
-			"appId"=> $fbook['appId'],
-			"secret"=> $fbook['secret'],
+			"appId"=> FBOOK_APP_ID,
+			"secret"=> FBOOK_SECRET,
 			"fileUpload"=>true
 		);
 		$this->facebook = new Facebook($config);
