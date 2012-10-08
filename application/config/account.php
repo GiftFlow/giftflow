@@ -42,18 +42,6 @@ $config['oauth2_client_id'] = OAUTH2_CLIENT_ID;
 $config['oauth2_client_secret'] = OAUTH2_CLIENT_SECRET;
 $config['oauth2_redirect_uri'] = 'http://www.giftflow.org/account/link/google/2';
 
-
-/*
-|--------------------------------------------------------------------------
-|Facebook
-|--------------------------------------------------------------------------
- */
-
-$config['appId'] = '';
-$config['secret'] = '';
-$config['fileUpload'] = TRUE;
-
-
 		
 /* End of file account.php */
 /* Location: ./system/application/modules/account/config/account.php */

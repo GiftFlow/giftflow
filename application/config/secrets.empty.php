@@ -19,4 +19,8 @@ define('OAUTH2_CLIENT_SECRET', '');
 // Obtain keys from: http://ipinfodb.com
 define('IPINFODB_API_KEY', '');
 
+//Register your app with Facebook
+define('FBOOK_APP_ID','');
+define('FBOOK_SECRET', '');
+
 ?>
