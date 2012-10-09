@@ -190,39 +190,30 @@ class Goods extends CI_Controller {
 
 			$this->load->library('geo');
 			$Geo = new Geo();
-			$full_location = $this->geo->parse_location($this->input->post('location'));
 
-			if(!empty($full_location)) 
-			{
-				$L = new Location($full_location->id);
-
-			} else {
-
-				$new_location = $Geo->geocode($this->input->post('location'));
-
-				if(!$new_location)
-				{
-					$new_location = $Geo->geocode_ip();
-				}
-
-				$L = new Location();
+			$L = new Location();
 			
-				foreach($new_location as $key=>$val)
-				{
-						$L->$key = $val;
-				}
-				
-				$L->user_id = $this->data['logged_in_user_id'];
-				$L->validate();
-				if(!empty($L->duplicate_id))
-				{
-					$L = new Location($L->duplicate_id);
-				}
-				elseif(!$L->save())
-				{
-					echo $L->error->string;
-				}
+			$new_location = $Geo->geocode($this->input->post('location'));
+
+			if(empty($new_location))
+			{
+				$new_location = $Geo->geocode_ip();
 			}
+
+			foreach($new_location as $key=>$val)
+				$L->$key = $val;
+
+			$L->user_id = $this->data['logged_in_user_id'];
+			$L->validate();
+			if(!empty($L->duplicate_id))
+			{
+				$L = new Location($L->duplicate_id);
+			}
+			elseif(!$L->save())
+			{
+				echo $L->error->string;
+			}
+			
 			
 			// Create Good object
 			$this->G = new Good();

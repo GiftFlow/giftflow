@@ -61,10 +61,9 @@ class Auth
 			if(!empty($full_location))
 			{
         foreach($full_location as $key=>$val)
-          {
-            $L->$key = $val;
-          }
-        
+				{
+					$L->$key = $val;
+				}
         
         $L->validate();
         if(!empty($L->duplicate_id))

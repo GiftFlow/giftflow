@@ -118,31 +118,30 @@ class Test extends CI_Controller {
 
     foreach($unknowns as $key => $val)
     {
- //     echo $val->screen_name;
       $location=$Geo->geocode_ip($val->ip_address);
       if(isset($location->state) && isset($location->city))
       {
-       $this->CI->db->select('L.city,L.state,L.id')
+        $this->CI->db->select('L.city,L.state,L.id')
                     ->from('locations AS L')
                     ->where('L.state', $location->state)
                     ->limit(1);
-      $match = $this->CI->db->get()->result();
+				$match = $this->CI->db->get()->result();
 
-      $data = array();
+				$data = array();
 
-      if(!empty($match))
-      {
-        foreach($match as $hah)
-        {
+				if(!empty($match))
+				{
+					foreach($match as $hah)
+					{
+						$data = array('default_location_id' => $hah->id);
+					}
 
-          $data = array('default_location_id' => $hah->id);
-        }
-           $this->CI->db->where('id',$val->user_id);
-           $this->CI->db->update('users',$data);
-            $i++;
-            echo "done ".$i;
-      }
-      }
+					$this->CI->db->where('id',$val->user_id);
+					$this->CI->db->update('users',$data);
+					$i++;
+					echo "done ".$i;
+				}
+			}
     }
   }
 
