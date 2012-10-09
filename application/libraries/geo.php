@@ -95,7 +95,7 @@ class Geo
 	*	http://code.google.com/apis/maps/documentation/geocoding/
 	*
 	*	@param string $address		Location keyword / address to encode
-	*	@param object $object		Object to store results in (optional)
+	*	@param object $result		Object to store results in (optional)
 	*	@return object
 	*/
 	function geocode( $address )
@@ -122,54 +122,53 @@ class Geo
 		// Get & Decode Data
 		$data = json_decode(file_get_contents($url));
 		
+		$result = new stdClass;
 
 		// If result invalid, exit
 		if($data->status != "OK" || empty($data->results[0]))
 		{
-			return FALSE;	// TODO: remove false returns
+			return $result;
 		}
 		
 		// Else start parsing
 		
-		$object = new stdClass;
-		
 		// Shortcut to the part of $data we're interested in
-		$object->address = $data->results[0]->formatted_address;
-		$object->latitude = $data->results[0]->geometry->location->lat;
-		$object->longitude = $data->results[0]->geometry->location->lng;
+		$result->address = $data->results[0]->formatted_address;
+		$result->latitude = $data->results[0]->geometry->location->lat;
+		$result->longitude = $data->results[0]->geometry->location->lng;
 		
 		foreach($data->results[0]->address_components as $key=>$val)
 		{
 			if(in_array("street_number",$val->types))
 			{
-				$object->street_address = $val->long_name;
+				$result->street_address = $val->long_name;
 			}
 			elseif(in_array("route",$val->types))
 			{
-				$object->street_address .= " ".$val->long_name;
+				$result->street_address .= " ".$val->long_name;
 			}
 			elseif(in_array("locality",$val->types))
 			{
-				$object->city = $val->long_name;
+				$result->city = $val->long_name;
 			}
 			elseif(in_array("postal_code",$val->types))
 			{
-				$object->postal_code = $val->long_name;
+				$result->postal_code = $val->long_name;
 			}
 			elseif(in_array("administrative_area_level_1",$val->types))
 			{
-				$object->state = $val->long_name;
+				$result->state = $val->long_name;
 			}
 			elseif(in_array("country",$val->types))
 			{
-				$object->country = $val->long_name;
+				$result->country = $val->long_name;
 			}
 		}
 		
 		Console::logSpeed("Geo::geocode(): done.");
 		
 		// Return finished object
-		return $object;
+		return $result;
 	}
 	
 	/**
@@ -215,7 +214,7 @@ class Geo
 		{
 			Console::logSpeed("Geo::geocode_ip(): saving valid result...");
 
-			$object = (object) array(
+			$result = (object) array(
 				"address"=>$xml->City.", ".$xml->RegionName,
 				"city"=> (string) $xml->City,
 				"state"=> (string) $xml->RegionName,
@@ -227,7 +226,7 @@ class Geo
 		}
 		Console::logSpeed("Geo::geocode_ip(): done.");
 
-		return isset($object) ? $object : FALSE;
+		return isset($result) ? $result : new stdClass;
 	}
 
 	/**

@@ -25,8 +25,11 @@ class Location_search extends Search
 
 	public function match($options)
 	{
+		
+		$result = new stdClass;
+		
 		if(!isset($options['string']))
-			return null;
+			return $result;
 		
 		
 		// first search for an exact match
@@ -36,20 +39,18 @@ class Location_search extends Search
 		
 		if ($L->exists()) {
 			
-			$object = new stdClass;
-			
 			// Shortcut to the part of $data we're interested in
-			$object->address = $L->address;
-			$object->latitude = $L->latitude;
-			$object->longitude = $L->longitude;
+			$result->address = $L->address;
+			$result->latitude = $L->latitude;
+			$result->longitude = $L->longitude;
 			//		$object->street_address = $L->street_address;	
 			//		$object->street_address .= " ".$val->long_name;
 
-			$object->city = $L->city;
-			$object->postal_code = $L->postal_code;
-			$object->state = $L->state;
-			$object->country = $L->country;
-			return $object;			
+			$result->city = $L->city;
+			$result->postal_code = $L->postal_code;
+			$result->state = $L->state;
+			$result->country = $L->country;
+			return $result;			
 		}
 			
 		

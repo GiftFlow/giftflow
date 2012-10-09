@@ -10,9 +10,6 @@ class Location extends DataMapperExtension {
 	*/
 	protected $CI;
 
-	// @todo move to config file
-	var $gmaps_api = 'ABQIAAAAkOw8NpiV3ytX3LtD-8v38BT2yXp_ZAY8_ufC3CFXhHIE1NvwkxR1ZRBaI4FdPyk103lbr60FLRnCqA';
-
 	// --------------------------------------------------------------------
 	// Relationships
 	//   Configure your relationships below

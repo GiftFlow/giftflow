@@ -523,10 +523,9 @@ class Account extends CI_Controller {
 			$full_location = $Geo->geocode($this->input->post('location'));
 			
 			foreach($full_location as $key=>$val)
-				{
-					$L->$key = $val;
-				}
-			
+			{
+				$L->$key = $val;
+			}
 			
 			$L->user_id = $this->data['logged_in_user_id'];
 			$L->validate();
@@ -564,31 +563,30 @@ class Account extends CI_Controller {
 	{
 		if(!empty($_POST))
 		{
-			 $L= new Location();
-            $this->load->library('geo');
-            $Geo = new geo();
-            $full_location = $Geo->geocode($this->input->post('location'));
-            
-            foreach($full_location as $key=>$val)
-                {
-                    $L->$key = $val;
-                }
-            
-            
-            $L->user_id = $this->data['logged_in_user_id'];
-            $L->validate();
-            if(!empty($L->duplicate_id))
-            {
-                $L = new Location($L->duplicate_id);
-            }
-            elseif(!$L->save())
-            {
-                echo $L->error->string;
-            }
-            else
-            {
-                $this->U->save($L);
-            }
+			$L= new Location();
+			$this->load->library('geo');
+			$Geo = new geo();
+			$full_location = $Geo->geocode($this->input->post('location'));
+
+			foreach($full_location as $key=>$val)
+			{
+					$L->$key = $val;
+			}
+
+			$L->user_id = $this->data['logged_in_user_id'];
+			$L->validate();
+			if(!empty($L->duplicate_id))
+			{
+					$L = new Location($L->duplicate_id);
+			}
+			elseif(!$L->save())
+			{
+					echo $L->error->string;
+			}
+			else
+			{
+					$this->U->save($L);
+			}
             
 		}
 		else
