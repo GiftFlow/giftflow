@@ -721,7 +721,7 @@ class You extends CI_Controller {
 	*/
 	public function add_good($type = NULL)
 	{
-		$this->auth->bouncer(1, 'you/add_good/'.$type);
+		$this->auth->bouncer('1', 'you/add_good/'.$type);
 		$this->data['default_location'] = $this->data['userdata']['location']->address;
 
 		if(!empty($_GET['type']))

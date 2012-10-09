@@ -47,7 +47,7 @@ class Member extends CI_Controller {
 		{
 			$redirect = $this->input->get('redirect');
 		} else {
-			$redirect = site_url('you');
+			$redirect = 'you';
 		}
 
 		//check if user is facebook authorized
@@ -344,10 +344,10 @@ class Member extends CI_Controller {
 	{
 		$params = array(
 			'scope' => 'email, user_photos, publish_stream',
-			'redirect_uri' => $redirect
+			'redirect_uri' => site_url('member/login/?redirect=').$redirect
 		);
-
 		$loginUrl = $this->facebook->getLoginUrl($params);
+
 		$this->data['redirect'] = $redirect;
 
 		$this->data['fbookUrl'] = $loginUrl;
