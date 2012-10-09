@@ -301,6 +301,7 @@ class Auth
 	
 	public function bouncer ($min = NULL, $redirect = 'login')
 	{
+		 
 		Console::logSpeed('start Auth::bouncer()');
 
 		if($this->validate($min))
@@ -317,8 +318,8 @@ class Auth
 			else
 			{
 				$this->CI->session->set_flashdata('error','You need to log in first');
-				$this->CI->db->insert('redirects', array("url"=>$this->CI->uri->uri_string()));
-				redirect($redirect."/".$this->CI->db->insert_id());
+		//		$this->CI->db->insert('redirects', array("url"=>$this->CI->uri->uri_string()));
+				redirect('login/?redirect='.current_url());
 			}
 		}
 	}

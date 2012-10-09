@@ -687,15 +687,37 @@ class You extends CI_Controller {
 		$this->load->view('footer',$this->data);
 	}
 
+
+	/**
+	 * Routes requests to the add_good function 
+	 *
+	 */
+	public function add_gift()
+	{
+		$type = 'gift';
+		$this->add_good($type);
+	}
+
+	public function add_need()
+	{
+		$type = 'need';
+		$this->add_good($type);
+	}
+
 	/**
 	*	Loads both the Add a Gift and the Add a Need forms.
 	*	Which form is loaded varies based on the $type variable.
 	*	@param string $type		Type of good to create ('gift' or 'need')
 	*/
-	public function add_good()
+	public function add_good($type = NULL)
 	{
 		$this->data['default_location'] = $this->data['userdata']['location']->address;
-		$type = !empty($_GET['type']) ? $_GET['type'] : "gift";
+
+		if(!empty($_GET['type']))
+		{
+			$type =	$this->input->get('type');
+		} 
+
 		$this->data['add']=TRUE;
 		$this->data['categories'] = $this->db->order_by("name","ASC")
 			->get("categories")

@@ -38,7 +38,7 @@
 				</form>
 			</span>
 			<?php if($type != 'people') { ?>
-					<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_good/?type='.$args['type']);?>"><i class='icon-plus icon-white'></i> Add <?php echo ucfirst($args['type']); ?></a>
+					<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_'.$args['type']);?>"><i class='icon-plus icon-white'></i> Add <?php echo ucfirst($args['type']); ?></a>
 			<?php } ?>
 		</div>
 	</div><!-- close row -->
