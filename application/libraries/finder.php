@@ -788,7 +788,7 @@ class Finder
 			{
 				$this->CI->load->library('geo');
 				$ip = $this->CI->geo->geocode_ip();
-				if(!empty( $ip))
+				if(!empty($ip))
 				{
 					$this->location = $ip;
 					return TRUE;

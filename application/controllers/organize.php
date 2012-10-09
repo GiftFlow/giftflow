@@ -41,9 +41,9 @@ var $needs;
 			}
 			
 			foreach($full_location as $key=>$val)
-				{
-					$L->$key = $val;
-				}
+			{
+				$L->$key = $val;
+			}
 	
 			//Location set
 			$this->data['L'] = $L;

@@ -191,20 +191,17 @@ class Goods extends CI_Controller {
 			$this->load->library('geo');
 			$Geo = new Geo();
 
-
+			$L = new Location();
+			
 			$new_location = $Geo->geocode($this->input->post('location'));
 
-			if(!$new_location)
+			if(empty($new_location))
 			{
 				$new_location = $Geo->geocode_ip();
 			}
 
-			$L = new Location();
-
 			foreach($new_location as $key=>$val)
-			{
-					$L->$key = $val;
-			}
+				$L->$key = $val;
 
 			$L->user_id = $this->data['logged_in_user_id'];
 			$L->validate();
