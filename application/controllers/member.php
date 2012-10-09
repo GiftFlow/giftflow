@@ -38,7 +38,7 @@ class Member extends CI_Controller {
 	/**
 	*	Login page
 	*	@param string $redirect
-	*	redirect can also be passed via a ?return_url GET param
+	*	redirect can also be passed via a ?redirect GET param
 	*/
 	function login( $redirect = FALSE )
 	{
@@ -46,6 +46,8 @@ class Member extends CI_Controller {
 		if(!empty($_GET['redirect']))
 		{
 			$redirect = $this->input->get('redirect');
+		} else {
+			$redirect = site_url('you');
 		}
 
 		//check if user is facebook authorized
@@ -68,12 +70,8 @@ class Member extends CI_Controller {
 		else if(!empty($_POST))
 		{
 			$this->U = $this->auth->login();
-			$this->data['redirect'] = $this->input->post('redirect');
-
-			if($this->data['redirect'] == site_url('member/login')) 
-			{
-				$this->data['redirect'] = site_url('you');
-			}
+			$redirect = $this->input->post('redirect');
+			
 			
 			// Check for errors
 			
@@ -81,40 +79,19 @@ class Member extends CI_Controller {
 			if(count($this->U->error->all) > 0)
 			{
 				$this->session->set_flashdata('error', $this->U->error->string);
-				$this->_login_form();
+				$this->_login_form($redirect);
 			}
 			// No errors. Proceed.
 			else
 			{
-				// If there is a redirect adress set, send the authorized user there
-				//-hans - unclear what this bit does
-				if($this->input->post('redirect'))
-				{
-					/*
-					$q = $this->db->where('id', $this->input->post('redirect'))->get('redirects',1);
-					$r = $q->row();
-					redirect($r->url);
-					 */
-					//Changing from database redirect system to a simple url segment redirect
-					
-					redirect($this->data['redirect']);
-
-				}
-				else
-				{
-					redirect('you/inbox');
-				}
+				redirect($redirect);
 			}
 		}
+
 		
 		// If no form data, render login form
 		else
 		{
-			$redirect = FALSE;
-			//pick up redirect url from GET
-			if(!empty($_GET['return_url'])) {
-				$redirect = $_GET['return_url'];
-			}
 			$this->_login_form($redirect);
 		}
 	}
@@ -363,11 +340,11 @@ class Member extends CI_Controller {
 	}
 	
 	
-	protected function _login_form($redirect = FALSE)
+	protected function _login_form($redirect)
 	{
 		$params = array(
 			'scope' => 'email, user_photos, publish_stream',
-			'redirect_uri' => 'http://mvp.giftflow.org/member/login'
+			'redirect_uri' => $redirect
 		);
 
 		$loginUrl = $this->facebook->getLoginUrl($params);
