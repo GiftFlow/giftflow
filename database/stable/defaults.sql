@@ -49,8 +49,8 @@ INSERT INTO `terms` (`id`, `type`, `language`, `name`, `subject`, `body`) VALUES
 (19, 'alert_template', 'en', 'contact_giftflow', '{{subject}}', 'What is up admin? {{name}} has sent you a message from outer space....<br /><br />\r\n\r\n{{message}}\r\n<br/>\r\nTheir email is {{email}}\r\n<br /><br />\r\nWhen you write them back, be sure to set your email to your @giftflow.org account'),
 (20, 'alert_template', 'en', 'watch_match', '{{subject}}', '<p><b>Hello {{recipient_name}},</b></p>\r\n<p>\r\n A new gift was posted that you may be interested in: <br/>\r\n<b>{{title}}</b>\r\n</p>\r\n<p>\r\nFollow this link to see the posting: {{link}}\r\n</p>'),
 (21, 'alert_template', 'en', 'thankyou', '{{subject}}', '<p><b>\r\nHello {{recipient_screen_name}}, \r\n</b></p>\r\n<p>\r\n<b>{{screen_name}}</b> has thanked you on GiftFlow for: "{{gift_title}}".\r\n</p>\r\n<p>\r\nThey wrote: <br />\r\n"{{body}}"\r\n</p>\r\n\r\n<p>\r\n<a href=''{{return_url}}''>Click here to Accept or Decline.</a>\r\n</p>'),
-(23, 'alert_template', 'en', 'thankyou_updated', '{{subject}}', '<p><b>Hello {{screen_name}},</b></p>\r\n<p>\r\n{{subject}}\r\n</p>\r\n<p>\r\nYou thanked them for <b>{{gift_title}}</b>.\r\n</p>\r\n<p>\r\nIf you would like, you can send them a message through your <a href=''{{return_url}}''>Inbox</a>.\r\n</p>');
-(24, 'alert_template', 'en', 'transaction_reminder', '{{subject}}', '');
+(23, 'alert_template', 'en', 'thankyou_updated', '{{subject}}', '<p><b>Hello {{screen_name}},</b></p>\r\n<p>\r\n{{subject}}\r\n</p>\r\n<p>\r\nYou thanked them for <b>{{gift_title}}</b>.\r\n</p>\r\n<p>\r\nIf you would like, you can send them a message through your <a href=''{{return_url}}''>Inbox</a>.\r\n</p>'),
+(24, 'alert_template', 'en', 'transaction_reminder', '{{subject}}', ''),
 (25, 'alert_template', 'en', 'goods_match', '{{subject}}', '');
 
 

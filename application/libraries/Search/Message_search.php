@@ -70,9 +70,7 @@ class Message_search extends Search
 
 	function get_messages($thread_id)
 	{
-		if(!empty($thread_id)) 
-		{
-			$messages = $this->CI->db->select('M.id AS message_id, 
+		$messages = $this->CI->db->select('M.id AS message_id, 
 				M.thread_id AS thread_id,
 				M.body AS message_body,
 				M.user_id AS user_id,
@@ -82,8 +80,8 @@ class Message_search extends Search
 				->order_by('M.created','DESC')
 				->get()
 				->result();
-			return $messages;
-		}
+		
+		return $messages;
 	}
 
 
