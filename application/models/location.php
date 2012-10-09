@@ -96,7 +96,7 @@ class Location extends DataMapperExtension {
 	function compare( $Location, $unit = 'm')
 	{
 		$this->CI->load->library('geo');
-		return $this->CI->geo->distance($this->latitude, $this->longitude, $other->latitude, $other->longitude, $unit);
+		return $this->CI->geo->distance($this->latitude, $this->longitude, $Location->latitude, $Location->longitude, $unit);
 	}
 	
 	/**
@@ -105,7 +105,11 @@ class Location extends DataMapperExtension {
 	function geocode( $address )
 	{
 		$this->CI->load->library('geo');
-		$this->CI->geo->geocode($address, $this);
+		$result = $this->CI->geo->geocode($address);
+		
+		foreach ($result as $key=>$value) 
+			$this->$key = $value;
+		
 	}
 	
 	/**

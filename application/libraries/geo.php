@@ -15,7 +15,7 @@ class Geo
 	protected $CI;
 	
 	/**
-	*	@todo move to config file
+	*	InfoDB API key, stored in secrets
 	*	@var string
 	*/
 	var $ipinfodb_api_key = IPINFODB_API_KEY;
@@ -54,8 +54,10 @@ class Geo
 		// Geocode if needed
 		if( !empty($location->address) && (empty($location->latitude) || empty($location->longitude)))
 		{
-			$geocoded = $this->geocode($location->address,$location);
-			$location = $geocoded;
+			$geocoded = $this->geocode($location->address);
+
+			foreach ($geocoded as $key=>$value) 
+			  $location->$key = $value;
 		}
 		
 		// Make sure latitude and longitude are present
@@ -96,54 +98,26 @@ class Geo
 	*	@param object $object		Object to store results in (optional)
 	*	@return object
 	*/
-	function geocode( $address, $object = NULL )
+	function geocode( $address )
 	{
 		Console::logSpeed("Geo::geocode()");
-		
-		
-		// first query our database. if not found there, query google
-		$this->CI->load->library('datamapper');
-		$L = new Location();
-		$L->where('address', $address)->get();
-		
-		if ($L->exists()) {
-			
-			if(!is_object($object))
-			{
-				$object = new stdClass;
-			}
 
-			// Shortcut to the part of $data we're interested in
-			$object->address = $L->address;
-			$object->latitude = $L->latitude;
-			$object->longitude = $L->longitude;
-			//		$object->street_address = $L->street_address;	
-			//		$object->street_address .= " ".$val->long_name;
+		//try to find match in the database
+		$match = $this->parse_location($address);
+		if(!empty($match->latitude))
+			return $match;
 
-			$object->city = $L->city;
-			$object->postal_code = $L->postal_code;
-			$object->state = $L->state;
-			$object->country = $L->country;
-			return $object;			
-		} else {
-
-			//try to find match with wider database query
-			$match = $this->parse_location($address);
-			if(!empty($match->latitude)){
-				return $match;
-			}
-		}
 
 		// query google
 		
 		// Build URL
-		$data = array ( 
+		$url_values = array ( 
 			"address" => $address, 
 			"sensor"=>"false", 
 			"language"=>"en"
 		);
 		$url = "http://maps.googleapis.com/maps/api/geocode/json?";
-		$url .= http_build_query($data);
+		$url .= http_build_query($url_values);
 		
 		// Get & Decode Data
 		$data = json_decode(file_get_contents($url));
@@ -157,11 +131,7 @@ class Geo
 		
 		// Else start parsing
 		
-		// Object will store location components
-		if(!is_object($object))
-		{
-			$object = new stdClass;
-		}
+		$object = new stdClass;
 		
 		// Shortcut to the part of $data we're interested in
 		$object->address = $data->results[0]->formatted_address;
@@ -322,21 +292,24 @@ class Geo
 		} 
 	}
 
-	//function for taking whatever location info the user gives us and 
-	//filling it out without making too many calls to Google
-
-	function parse_location($location) 
+	/**
+	 * Function for taking whatever location info the user gives us and 
+	 * filling it out without making too many calls to Google
+	 * @param type $location_string
+	 * @return type
+	 */
+	function parse_location($location_string) 
 	{
 		$this->CI->load->library('Search/Location_search');
-		$L = new Location_search();
+		$LS = new Location_search();
 	
 		//String passed from user Find form
-		if(gettype($location) == 'string')
+//		if(gettype($location_string) == 'string')
 		{
 			//Look through locations table for matching fields
 
-			$location =	trim($location, "'");
-			return $L->match(array('string' => $location));
+			$location_string = trim($location_string, "'");
+			return $LS->match(array('string' => $location_string));
 
 		}
 

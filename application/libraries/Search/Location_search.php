@@ -12,7 +12,7 @@ class Location_search extends Search
 
 	var $clue;
 
-	//flag for if state match was found
+	// flag for if state match was found
 	var $stated = FALSE;
 
 
@@ -20,45 +20,70 @@ class Location_search extends Search
 	{
 		parent::__construct();
 		$this->CI =& get_instance();
-		$this->CI->load->library('geo');
 	}
 
 
-	public function match ($options)
+	public function match($options)
 	{
-		if(isset($options['string']))
-		{
-			$this->clue = $this->CI->db->escape_like_str($options['string']);
-
-			$this->check_state($this->clue);
-
-			$this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
-				->from('locations AS L');
-
-			if(!$this->stated) {
-				$this->CI->db->or_like('city', $this->clue)
-					->or_like('address', $this->clue);
-			}
-
-			$this->CI->db->or_like('state', $this->clue);
+		if(!isset($options['string']))
+			return null;
+		
+		
+		// first search for an exact match
+		
+		$L = new Location();
+		$L->where('address', $options['string'])->get();
+		
+		if ($L->exists()) {
 			
-			$this->CI->db->limit(1);
+			$object = new stdClass;
 			
-			$match = $this->CI->db->get()->result();
+			// Shortcut to the part of $data we're interested in
+			$object->address = $L->address;
+			$object->latitude = $L->latitude;
+			$object->longitude = $L->longitude;
+			//		$object->street_address = $L->street_address;	
+			//		$object->street_address .= " ".$val->long_name;
 
-			if(!empty($match)) {
-				//don't get more specific than city	
-				$match[0]->address = $match[0]->city.", ".$match[0]->state;
-				return $match[0];
-			} else {
-				return $match;
-			}
+			$object->city = $L->city;
+			$object->postal_code = $L->postal_code;
+			$object->state = $L->state;
+			$object->country = $L->country;
+			return $object;			
+		}
+			
+		
+		// if the above does not work, search for a more general match
+
+		$this->clue = $this->CI->db->escape_like_str($options['string']);
+
+		$this->check_state($this->clue);
+
+		$this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
+			->from('locations AS L');
+
+		if(!$this->stated) {
+			$this->CI->db->or_like('city', $this->clue)
+				->or_like('address', $this->clue);
 		}
 
+		$this->CI->db->or_like('state', $this->clue);
+
+		$this->CI->db->limit(1);
+
+		$match = $this->CI->db->get()->result();
+
+		if(!empty($match)) {
+			//don't get more specific than city	
+			$match[0]->address = $match[0]->city.", ".$match[0]->state;
+			return $match[0];
+		} else {
+			return $match;
+		}
 
 	}
 
-	public function check_state ($clue)
+	private function check_state($clue)
 	{
 		//check is user entered full name of state
 		
@@ -81,11 +106,13 @@ class Location_search extends Search
 		}
 	}
 
-	/* 
+	/**
 	 * Gets a specific location by id
+	 * 
+	 * @param type $location_id
+	 * @return database entries
 	 */
-
-	public function get	($options)
+	public function get($location_id)
 	{
 		$this->CI->db->select("L.address AS location_address,
 			L.city AS location_city,
@@ -96,13 +123,10 @@ class Location_search extends Search
 			L.country AS location_country
 			")
 			->from('locations AS L')
-			->where('L.id', $options['location_id']);
+			->where('L.id', $location_id);
 
 		$result = $this->CI->db->get()->result();
 		return $result;
 	}
-
-
-
 
 }
