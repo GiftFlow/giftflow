@@ -10,7 +10,6 @@ class You extends CI_Controller {
 		parent::__construct();
 		$this->util->config();
 		$this->data = $this->util->parse_globals($options = array('geocode_ip' => TRUE));
-		$this->auth->bouncer(1);
 		$this->data['welcome'] = FALSE;
 		$this->load->library('Search/Review_search');
 		$this->load->library('Search/Transaction_search');
@@ -27,7 +26,8 @@ class You extends CI_Controller {
 	*/
 	function index()
 	{
-		Console::logSpeed('You::index()');
+
+		$this->auth->bouncer(1);
 		return $this->inbox();
 	/*	
 		// Load libraries
@@ -73,6 +73,7 @@ class You extends CI_Controller {
 	
 	function welcome()
 	{
+		$this->auth->bouncer(1);
 		//detects when user clicks 'welcome' link in you/menu
 		if(!empty($_GET) && $_GET['welcome'] == 'show')
 		{
@@ -105,6 +106,7 @@ class You extends CI_Controller {
 	
 	function show_welcome()
 	{
+		$this->auth->bouncer(1);
 		$this->data['title'] = "Welcome";
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		$this->load->view('header', $this->data);
@@ -118,6 +120,7 @@ class You extends CI_Controller {
 	*/
 	function gifts()
 	{
+		$this->auth->bouncer(1);
 		Console::logSpeed('You::gifts()');
 		
 		$G = new Good_search;
@@ -152,6 +155,7 @@ class You extends CI_Controller {
 	
 	public function needs()
 	{
+		$this->auth->bouncer(1);
 		$G = new Good_search;
 		
 		$this->data['goods'] = $G->find(array(
@@ -183,6 +187,7 @@ class You extends CI_Controller {
 	
 	function watches()
 	{
+		$this->auth->bouncer(1, 'you/watches');
 		$this->load->model('watch');
 
 		// Execute tag search
@@ -209,6 +214,7 @@ class You extends CI_Controller {
 	public function inbox()
 	{
 		
+		$this->auth->bouncer(1);
 		//Load Thankyou
 		$this->load->library('Search/Thankyou_search');
 		$TY = new Thankyou_search;
@@ -287,6 +293,7 @@ class You extends CI_Controller {
 
 	public function view_transaction( $id )
 	{
+		$this->auth->bouncer(1);
 		Console::logSpeed("You::view_transaction()");
 		
 		// Loading libraries
@@ -558,6 +565,7 @@ class You extends CI_Controller {
 	
 	public function reviews($include)
 	{
+		$this->auth->bouncer(1);
 		//$include is a boolean for whether or not to include transactions in results
 		$R = new Review_search();
 		$options = array(
@@ -577,6 +585,7 @@ class You extends CI_Controller {
 
 	public function view_thankyou($id)
 	{
+		$this->auth->bouncer(1);
 		//accept or decline thankyou
 		if(!empty($_POST)) {	
 			$thankyou_id = $this->input->post('thankyou_id');
@@ -641,6 +650,7 @@ class You extends CI_Controller {
 
 	public function view_thread($id) 
 	{
+		$this->auth->bouncer(1);
 		if(!empty($_POST))
 		{
 			$input = $this->input->post();
@@ -711,6 +721,7 @@ class You extends CI_Controller {
 	*/
 	public function add_good($type = NULL)
 	{
+		$this->auth->bouncer(1, 'you/add_good/'.$type);
 		$this->data['default_location'] = $this->data['userdata']['location']->address;
 
 		if(!empty($_GET['type']))

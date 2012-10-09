@@ -12,7 +12,7 @@
 			<li class='result_row users clearfix'>
 			
 				<!-- Image -->
-				<a class='user_image medium' href='<?php echo site_url('people/'.$val->id); ?>'>
+				<a class='user_image' href='<?php echo site_url('people/'.$val->id); ?>'>
 					<img src='<?php if(isset($val->photo->url)) { echo $val->photo->thumb_url; } else { echo $val->default_photo->thumb_url; }?>'>
 				</a>
 				

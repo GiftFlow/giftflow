@@ -71,14 +71,15 @@ class Goods extends CI_Controller {
 		$this->load->library('Event_logger');
 	
 		
+		
+		$this->util->config();
+		$this->data = $this->util->parse_globals();
+
 		// Set some class-wide variables
 		$this->good_id = $this->uri->segment(2);
 		$this->method = $this->uri->segment(3);
 		$this->param = $this->uri->segment(4);
 		
-		$this->util->config();
-		$this->data = $this->util->parse_globals();
-
 	}
 	
 	/**
@@ -102,7 +103,6 @@ class Goods extends CI_Controller {
 	*/
 	function view()
 	{
-		
 		if(!empty($_POST))
 		{
 			if($_POST['method'] == "demand")
@@ -143,7 +143,10 @@ class Goods extends CI_Controller {
 				'exclude' => $this->good_id,
                                 'status' => 'active'
 			));
+		} else {
+			redirect('find/gifts');
 		}
+		
 		// Parse global data
 		
 		// Do a few things that can only be done if a good is found
@@ -594,24 +597,28 @@ class Goods extends CI_Controller {
 	*/
 	function _demand()
 	{
+		$input = $this->input->post();
+	
 		// Restrict access to logged in users
-		$this->auth->bouncer('1');
+		$redirect = $input['type'].'/'.$this->G->id;
+
+		$this->auth->bouncer('1', $redirect);
 		
 		$this->load->library('market');
 		
-		$this->good_id = $_POST['good_id'];
+		$this->good_id = $input['good_id'];
 				
 		// Arguments to send to Market::create_transaction()
 		$options = array(
 			"demands" => array(
 				array (
 					"user_id" => $this->data["logged_in_user_id"],
-					"good_id" => $_POST['good_id'],
-					"type" => $_POST['type'],
-					"note" => $_POST['note']
+					"good_id" => $input['good_id'],
+					"type" => $input['type'],
+					"note" => $input['note']
 				)
 			),
-			"decider_id" => $_POST['decider_id'],
+			"decider_id" => $input['decider_id'],
 			'hook' => 'transaction_new'
 		);
 		
@@ -623,7 +630,7 @@ class Goods extends CI_Controller {
 		}
 		
 		
-		$type = $_POST['type'];
+		$type = $input['type'];
 		
 		// Set flashdata & redirect
 		if($type =='give') 
