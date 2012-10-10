@@ -103,7 +103,10 @@ class Geo
 		Console::logSpeed("Geo::geocode()");
 
 		//try to find match in the database
-		$match = $this->parse_location($address);
+		$this->load->library('Search/Location_search');
+		$L = new Location_search();
+		$match = $L->match(array('string' => trim($address, "'")));
+
 		if(!empty($match->latitude))
 			return $match;
 
@@ -289,29 +292,6 @@ class Geo
 		{
 			return $miles;
 		} 
-	}
-
-	/**
-	 * Function for taking whatever location info the user gives us and 
-	 * filling it out without making too many calls to Google
-	 * @param type $location_string
-	 * @return type
-	 */
-	function parse_location($location_string) 
-	{
-		$this->CI->load->library('Search/Location_search');
-		$LS = new Location_search();
-	
-		//String passed from user Find form
-//		if(gettype($location_string) == 'string')
-		{
-			//Look through locations table for matching fields
-
-			$location_string = trim($location_string, "'");
-			return $LS->match(array('string' => $location_string));
-
-		}
-
 	}
 
 }
