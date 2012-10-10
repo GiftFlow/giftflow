@@ -103,7 +103,7 @@ class Geo
 		Console::logSpeed("Geo::geocode()");
 
 		//try to find match in the database
-		$this->load->library('Search/Location_search');
+		$this->CI->load->library('Search/Location_search');
 		$L = new Location_search();
 		$match = $L->match(array('string' => trim($address, "'")));
 

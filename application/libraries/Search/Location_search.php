@@ -63,10 +63,13 @@ class Location_search extends Search
 		$this->check_state($this->clue);
 
 		$this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
-			->from('locations AS L')
-			->or_like('city', $this->clue)
-			->or_like('address', $this->clue)
-			->or_like('state', $this->clue)
+			->from('locations AS L');
+
+		if(!$this->stated) {
+			$this->CI->db->or_like('city', $this->clue)
+				->or_like('address', $this->clue);
+		}
+		$this->CI->db->or_like('state', $this->clue)
 			->limit(1);
 
 		$match = $this->CI->db->get()->result();
@@ -84,9 +87,9 @@ class Location_search extends Search
 	private function check_state($clue)
 	{
 		//check is user entered full name of state
-		$this->load->helper('states');
+		$this->CI->load->helper('states');
 
-		$states = $states_list();
+		$states = states_list();
 		
 		//vals are state names, keys are state abbreviations
 		//convert state abbreviations into full state names for more 
@@ -96,6 +99,7 @@ class Location_search extends Search
 			if($clue == $key)
 			{
 				$clue = $val;
+				$this->stated = TRUE;
 			}
 		}
 		return $clue;
