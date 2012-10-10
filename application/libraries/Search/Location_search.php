@@ -29,9 +29,9 @@ class Location_search extends Search
 		
 		$result = new stdClass;
 		
-		if(!isset($options['string']))
+		if(!isset($options['string'])){
 			return $result;
-		
+		}
 		
 		// first search for an exact match
 		
@@ -59,19 +59,15 @@ class Location_search extends Search
 
 		$this->clue = $this->CI->db->escape_like_str($options['string']);
 
+		//Check if clue is a state abbreviation, convert to full state name
 		$this->check_state($this->clue);
 
 		$this->CI->db->select('L.city, L.state, L.id, L.latitude, L.longitude')
-			->from('locations AS L');
-
-		if(!$this->stated) {
-			$this->CI->db->or_like('city', $this->clue)
-				->or_like('address', $this->clue);
-		}
-
-		$this->CI->db->or_like('state', $this->clue);
-
-		$this->CI->db->limit(1);
+			->from('locations AS L')
+			->or_like('city', $this->clue)
+			->or_like('address', $this->clue)
+			->or_like('state', $this->clue)
+			->limit(1);
 
 		$match = $this->CI->db->get()->result();
 
@@ -88,24 +84,21 @@ class Location_search extends Search
 	private function check_state($clue)
 	{
 		//check is user entered full name of state
-		
-		$this->CI->db->select('S.state_abbr AS state_abbr')
-					->from('states AS S');
+		$this->load->helper('states');
 
-		if(strlen($clue > 2)) {
-			$this->CI->db->like('state', $clue);
-		} else {
-			$this->CI->db->where('S.state_abbr',$clue);
-		}
-	
-		$state = $this->CI->db->get()->result();
-	
-		//if state match found, call fill_out with abbreviated version
-		if(!empty($state[0]))
+		$states = $states_list();
+		
+		//vals are state names, keys are state abbreviations
+		//convert state abbreviations into full state names for more 
+		//accurate match
+		foreach($states as $key => $val)
 		{
-			$this->clue = $state[0]->state_abbr;
-			$this->stated = TRUE;
+			if($clue == $key)
+			{
+				$clue = $val;
+			}
 		}
+		return $clue;
 	}
 
 	/**

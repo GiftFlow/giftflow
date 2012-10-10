@@ -567,21 +567,6 @@ CREATE TABLE IF NOT EXISTS `thankyous` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
--- ---------------------------------------------------
--- 2012-10-4
---	add states table for location searching
--- ------------------------------------------
-
-CREATE TABLE IF NOT EXISTS `states` (
-
-id smallint unsigned not null auto_increment comment 'PK: Unique state ID',
-state varchar(32) not null comment 'State name with first letter capital',
-state_abbr varchar(8) comment 'Optional state abbreviation (US is 2 capital letters)',
-
-primary key (id)
-);
-
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
