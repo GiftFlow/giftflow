@@ -117,72 +117,51 @@ class You extends CI_Controller {
 	
 	/**
 	*	Your gifts
+	*	Takes GET param of type - singular gift or need
 	*/
-	function gifts()
+	function list_goods($type = 'gift')
 	{
+		if(!empty($_GET))
+		{
+			$get = $this->input->get();
+			$type = (isset($get['type'])) ? $get['type'] : 'gift';
+			$shareId = (isset($get['id'])) ? $get['id'] : NULL;
+		}
+
 		$this->auth->bouncer(1);
-		Console::logSpeed('You::gifts()');
+		Console::logSpeed('You::list_goods()');
 		
 		$G = new Good_search;
 		$this->data['goods'] = $G->find(array(
 			"user_id" => $this->data['logged_in_user_id'],
 			"count_transactions" => TRUE,
-			"type"=>"gift",
-                        'status' => 'active'
+			"type"=>$type,
+            'status' => 'active'
 		));
 		
 		// Set view variables
-		$this->data['title'] = "Your Gifts";
+		$this->data['title'] = "Your ".ucfirst($type)."s";
 		$this->data['js'][] = "GF.Tags.js";
 		$this->data['js'][] = "jquery-validate.php";
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
-		$this->data['type'] = "gift";
+		$this->data['type'] = $type;
 		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
 		$this->data['categories'] = $this->db->order_by("name","ASC")
 			->get("categories")
 			->result();
-		
-    $this->data['addthis'] = TRUE;
 
+		//If id is passed via GET, load sharing modal window
+		$promptShare = (isset($shareId))? TRUE : FALSE;
+		$this->data['promptShare'] = json_encode($promptShare);
+		$this->data['shareId'] = $shareId;
+		
 		// Load views
 		$this->load->view('header', $this->data);
 		$this->load->view('you/includes/header',$this->data);
 		$this->load->view('you/goods', $this->data);
 		$this->load->view('footer');
 		
-		Console::logSpeed('You::gifts(): done.');
-	}
-	
-	public function needs()
-	{
-		$this->auth->bouncer(1);
-		$G = new Good_search;
-		
-		$this->data['goods'] = $G->find(array(
-			"user_id" => $this->data['logged_in_user_id'],
-			"count_transactions" => TRUE,
-			"type"=>"need",
-			"limit"=>100,
-                        'status' => 'active'
-		));
-		
-		// Set view variables
-		$this->data['title'] = "Your Needs";
-		$this->data['js'][] = "GF.Tags.js";
-		$this->data['js'][] = "jquery-validate.php";
-		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
-		$this->data['type'] = "need";
-		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
-		$this->data['categories'] = $this->db->order_by("name","ASC")
-			->get("categories")
-			->result();
-		
-		
-		// Load views
-		$this->load->view('header', $this->data);
-		$this->load->view('you/includes/header',$this->data);
-		$this->load->view('you/goods', $this->data);	
-		$this->load->view('footer', $this->data);
+		Console::logSpeed('You::list_goods(): done.');
 	}
 	
 	function watches()

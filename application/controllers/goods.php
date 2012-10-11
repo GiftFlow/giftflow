@@ -155,9 +155,6 @@ class Goods extends CI_Controller {
 			// Extend Open Graph Tags data
 			$this->_extend_open_graph_tags();
 			
-			// Show AddThis sidebar
-			$this->data['addthis'] = TRUE;
-		
 			// Pass $this->G to view
 			$this->data['G'] = $this->G;
 		}
@@ -275,12 +272,14 @@ class Goods extends CI_Controller {
 			{
 				$this->data['alert_error'] = $this->G->error->all;
 			}
-			$where = ($this->G->type == 'gift') ? 'you/gifts' : 'you/needs';
+			$where = 'you/list_goods/?type='.$this->G->type.'&id='.$this->G->id;
+
 			redirect($where);
 		}
 		show_error("Good didn't save properly.");
 		return FALSE;
 	}
+
 	
 	/**
 	*	Main "View Gift" or "View Need" page

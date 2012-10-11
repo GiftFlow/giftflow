@@ -5,12 +5,12 @@
 		</a>
 	</li>
 	<li <?php if($segment[2]=='gifts'||($segment[1]=="gifts"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('you/gifts');?>'> 
+		<a href='<?php echo site_url('you/list_goods/?type=gift');?>'> 
 			Gifts
 		</a>
 	</li>
 	<li <?php if($segment[2]=='needs'||($segment[1]=="needs"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('you/needs');?>' > 
+		<a href='<?php echo site_url('you/list_goods/?type=need');?>' > 
 			Needs
 		</a>
 	</li>

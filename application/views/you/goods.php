@@ -60,15 +60,51 @@
 		<?php } ?>
 		</ul>
 	</div>
-	<!-- eof div.right_content -->
-	
-	<div class='add jqmWindow' id='add_good'></div>
+	<!-- eof div.right_content -->	
+
+	<div class='modal hide fade' id='shareModal'>
+		<div class='modal-header'>
+			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
+			<h3 style ='text-align:center;'>Congratulations! Your <?php echo ucfirst($type);?> has been added.</h3>
+		</div>
+		<div class='modal-body row-fluid spreadWord'>
+			
+			<div class='span3'>
+				<img src="<?php echo site_url('assets/images/kid.jpg');?>"/>
+			</div>
+			<div class="span6 addthis_toolbox addthis_default_style addthis_32x32_style"
+				addthis:url="<?php echo site_url($type.'s/'.$shareId);?>">
+					<a class="addthis_button_preferred_1"></a>
+					<a class="addthis_button_preferred_2"></a>
+					<a class="addthis_button_preferred_3"></a>
+					<a class="addthis_button_preferred_4"></a>
+					<a href="http://www.addthis.com/bookmark.php?v=250&pubid=giftflow" class="addthis_button_compact"></a>
+					<p class='nicebigtext clearfix'>Spread the word!</p>
+			</div>
+			<div class='span3'>
+				<img src="<?php echo site_url('assets/images/robot.jpg');?>"/>
+			</div>
+		</div>
+		<div class='modal-footer'>
+			<a href='#' data-dismiss='modal' class='btn'>Close</a>
+		</div>
+	</div>
+
 
 </div>
 <!-- eof div.two_panels -->
 
 <script type='text/javascript'>
 $(function(){
+
+	if(<?php echo $promptShare; ?>)
+	{
+		$('#shareModal').modal({
+			'toggle': 'true',
+			'backdrop': 'static'
+		});
+	}
+
 
 	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
 

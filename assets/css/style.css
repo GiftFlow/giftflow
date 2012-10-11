@@ -2856,3 +2856,10 @@ a.photoMoid:hover {
 .peopleBar {
 	margin-top: 30px;
 }
+.spreadWord {
+	margin-top: 20px;
+}
+
+.spreadWord p {
+	margin: 20px 0px 0px 10px;
+}
