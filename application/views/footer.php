@@ -10,13 +10,16 @@
 				&copy; <?php echo date("Y"); ?> GiftFlow
 			</li>
 			<li>
+				<div class="addthis_toolbox addthis_32x32_style addthis_default_style">
+				<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
+				<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>
+				</div>
+			</li>
+			<li>
 				<a href="<?php echo site_url('about'); ?>">About</a>
 			</li>
 			<li>
 				<a href="http://giftflow.uservoice.com">Feedback Forum</a>
-			</li>
-			<li>
-				<a href="http://www.twitter.com/giftflow">Twitter</a>
 			</li>
 			<li>
 				<a href="http://www.github.com/GiftFlow/GiftFlow">GitHub</a>
@@ -36,10 +39,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/masterJS.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
-
-<?php if(!empty($addthis) && $addthis == TRUE){ ?>
-	<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
-<?php } ?>
+<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
 
 <?php if(!empty($googlemaps)&&$googlemaps==TRUE){ ?>
 	<!-- Google Maps API -->
