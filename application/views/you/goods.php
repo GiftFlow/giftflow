@@ -70,7 +70,7 @@
 		<div class='modal-body row-fluid spreadWord'>
 			
 			<div class='span3'>
-				<img src="<?php echo site_url('assets/images/kid.jpg');?>"/>
+				<a class='result_image medium-16'></a>
 			</div>
 			<div class="span6 addthis_toolbox addthis_default_style addthis_32x32_style"
 				addthis:url="<?php echo site_url($type.'s/'.$shareId);?>">
@@ -82,7 +82,7 @@
 					<p class='nicebigtext clearfix'>Spread the word!</p>
 			</div>
 			<div class='span3'>
-				<img src="<?php echo site_url('assets/images/robot.jpg');?>"/>
+				<a class='result_image medium-16'></a>
 			</div>
 		</div>
 		<div class='modal-footer'>
