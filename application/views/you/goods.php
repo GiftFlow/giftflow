@@ -15,24 +15,11 @@
 							
 								<!-- Options Dropdown Menu -->
 								<div class="btn-group css_right good_buttons">
-									<a href='#' class='btn'>Share</a>
+									<a href="http://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http://giftflow.org/gifts/<?php echo $val->id; ?>" class='btn shareBtn' title='on Facebook'>Share</a>
 									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit'); ?>" class='btn'>Edit</a>
 									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/photos'); ?>" class='btn'>Add Photos</a>
 									<a href="<?php echo site_url('gifts/'.$val->id.'/disable');?>" class='btn'>Delete</a>
 
-
-<!--								  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">
-								  	<i class="icon-cog"></i>
-								  	<span class="caret"></span>
-								  </button>
-								 
-								  <ul class="dropdown-menu">
-								  	<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit');?>">Edit</a></li>
-									<li><a href="<?php echo site_url($val->type.'s/'.$val->id.'/photos');?>">Add Photo</a></li>
-									<li class="divider"></li>
-									<li><a href="<?php echo site_url('gifts/'.$val->id.'/disable'); ?>">Delete</a></li>
-								  </ul>
--->
 								</div>
 								<!-- eof Options Dropdown Menu -->
 								
@@ -82,37 +69,14 @@
 
 <script type='text/javascript'>
 $(function(){
-  jQuery.fn.stripTags = function() { 
-    return this.replaceWith( this.html().replace(/<\/?[^>]+>/gi, '') ); 
-  };
 
 	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
+
+	$('.shareBtn').tipTip({ delay: 0, fadein: 0 });
 	
 	$("#delete_gift").click(function(){
 		return confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');
 	});
-	
-  //Renders unique addthis buttons for every row!
-  var goods =  $('.goods_list').children('li.clearfix');
-  $.each(goods, function(foo, bar){
-    myurl  = $(bar).find('a.title').attr('href');
-    mytitle = $(bar).find('a.title').text();
-    mydescription = $(bar).find('span.summary').text();
-    myimage = $(bar).find('img.thumb_image').attr('src');
-
-
-    var addcon = {
-      pubid: 'giftflow'
-    };
-
-    var addshare = {
-        url: $.trim(myurl),
-        title: $.trim(mytitle),
-        description: $.trim(mydescription)+'...',
-        image: $.trim(myimage)
-    };
-
-  });
 
 });
 </script>
