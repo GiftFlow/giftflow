@@ -120,10 +120,7 @@ class Remind extends CI_Controller {
 				'sort' => 'newest',
 				'limit' => '10'
 			));
-			if(empty($teaser_gifts)){
-				echo $this->db->last_query();
-			}
-		
+
 			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";
 
 			foreach($teaser_gifts as $gift)
