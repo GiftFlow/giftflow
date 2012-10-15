@@ -184,7 +184,7 @@ class Member extends CI_Controller {
 				// Log user in, redirect to welcome page
 				$this->auth->manual_login($U, FALSE);
 				$this->session->set_flashdata('success','Welcome to GiftFlow!');
-				redirect('welcome');
+				redirect('you');
 			}
 			else
 			{
