@@ -36,7 +36,7 @@ class Account extends CI_Controller {
 	{
 		$this->profile();
 	}
-
+        
 	/**
 	* This function handles the edit profile form  
 	*/
@@ -66,7 +66,7 @@ class Account extends CI_Controller {
 		{
 			$this->_profile_edit();
 		}
-
+			 
 	}
 	
 	/**
