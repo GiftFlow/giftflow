@@ -80,15 +80,20 @@
 
 $(function(){
 
+
+	GF.Locations.initialize($('input#location'));
+	$('#location').click( function () {
+		$(this).val('');
+	});
+
 	paginate();
 
 	// GF Namespace wrapper
-	var GF = {
-		UI: {},
-		Data: {},
-		Ajax: {},
-	};
+	GF.UI = {};
+	GF.Data = {};
+	GF.Ajax = {};
 	
+
 	function paginate(){
 		$("ul.simplePagerNav").remove();
 		$("ul.results_list").quickPager({ pageSize: 10});
@@ -112,7 +117,6 @@ $(function(){
 		};
 		
 		api.get = function(){
-			console.log(data);
 			return data;
 		};
 		
@@ -143,7 +147,6 @@ $(function(){
 		$("ul.simplePagerNav").remove();
 		$(".results_loading").hide();
 		$("ul.results_list").hide();
-		console.log('here');
 		$(".results_empty").show();
 	};
 	
@@ -193,7 +196,6 @@ $(function(){
 	
 	GF.Ajax.processNewLocation = function(data){
 		locate = $('#location').val();
-		console.log(locate);
 		GF.Params.set('location',locate);
 		GF.Ajax.request();
 	};

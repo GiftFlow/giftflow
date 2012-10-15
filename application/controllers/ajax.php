@@ -197,6 +197,32 @@ class Ajax extends CI_Controller {
 		echo json_encode($result);
 	}
 
+	/*
+	 * Matches string with cities in database
+	 */
+
+	public function locations()
+	{
+		$post = $this->input->post();
+		$keyword = trim($post['term']);
+
+		$result=array();
+
+		if(!empty($keyword))
+		{
+			$query = $this->db->select("CONCAT(L.city, ', ', L.state) AS label", FALSE, 'L.address AS value')
+					->from('locations AS L')
+					->where('L.latitude !=', 'NULL')
+					->where('L.longitude !=', 'NULL')
+					->where('L.address !=', 'NULL')
+					->or_like('L.address', $keyword)
+					->or_like('L.state', $keyword)
+					->limit(10)
+					->get();
+			$result = $query->result_array();
+		}
+		echo json_encode($result);
+	}
 	
 	public function add_tag()
 	{

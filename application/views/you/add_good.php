@@ -15,7 +15,9 @@
 <script type='text/javascript'>
 $(function(){
 	$('form').validate();
+	
 	GF.Tags.initialize($("input#tags"));
+	GF.Locations.initialize($("input#location"));
 });
 </script>
 

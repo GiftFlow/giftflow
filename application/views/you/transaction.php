@@ -165,14 +165,12 @@ $(function(){
 	  	}
 	});
 	$("a#write_message").click(function(){
-		console.log('yo yo');
 		$('.transaction_form').hide();
 		$('#message_new').show();
 		$("#message_body").focus();
 		return false;
 	});
 	$('a#write_review').click(function(){
-		console.log('herehere!');
 		$('.transaction_form').hide();
 		$('#review_new').show();
 		$('#review_body').focus();
