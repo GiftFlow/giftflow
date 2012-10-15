@@ -121,6 +121,9 @@ class You extends CI_Controller {
 	*/
 	function list_goods($type = 'gift')
 	{
+		$get = NULL;
+		$shareId = NULL;
+
 		if(!empty($_GET))
 		{
 			$get = $this->input->get();

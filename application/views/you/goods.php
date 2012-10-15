@@ -23,10 +23,15 @@
 								</div>
 								<!-- eof Options Dropdown Menu -->
 								
-								<a href="#" class="result_image left">
-									<img class='thumb_image' src="<?php echo $val->default_photo->thumb_url;?>" />		
+								<a href="<?php echo site_url('goods/'.$val->id);?>" class="result_image left" title="<?php echo $val->title;?>">
+									<?php if(!isset($val->default_photo->thumb_url)) { ?>	
+										<a class="<?php echo $val->default_photo->thumb_class; ?>">
+										</a>
+									<?php } else { ?>
+										<img src="<?php echo $val->default_photo->thumb_url; ?>"/>
+									<?php }?>
 								</a>
-								
+					
 								<div class="metadata left">
 									<a href="<?php echo site_url($val->type.'s/'.$val->id);?>" class="title">
 									 <?php echo $val->title; ?>
