@@ -1,0 +1,91 @@
+
+div#frame {
+  display:none;
+  display:block;
+  width:900px;
+  height:400px;
+  overflow:hidden;
+  position:relative;
+  margin: 20px 0px 0px 0px;
+}
+.arrows img {
+  position:absolute;
+  width:50px;
+  left:245px;
+  z-index:5;
+}
+img#werks {
+  position:absolute;
+  width:300px;
+  top:50px;
+  left:10px;
+  z-index:0;
+
+}
+img#arrow_one {
+  top:115px;
+
+}
+img#arrow_two {
+  top:170px;
+}
+img#arrow_three {
+  top:230px;
+}
+img#arrow_four {
+  top:290px;
+}
+img#robot {
+  position:absolute;
+  left:700px;
+  width:200px;
+  float:left;
+}
+img#kid {
+  position:absolute;
+  left:20px;
+  width:150px;
+  float:left;
+}
+div.info_panel{
+  width:300px;
+  height:300px;
+  z-index: 9;
+  position:absolute;
+  top:40px;
+  left:360px;
+  display:none;
+  box-shado
+}
+div#arrow_one {
+  background: url(../images/applegate/Register.gif) no-repeat center top;
+}
+div#arrow_two{
+  background: url(../images/applegate/Find.gif) no-repeat center top;
+}
+div#arrow_three{
+  background: url(../images/applegate/Donate.gif) no-repeat center top;
+}
+div#arrow_four{
+  background: url(../images/applegate/Review.gif) no-repeat center top;
+}
+#stereomedia img {
+  width:150px;
+}
+.stereo_tour {
+  width:200px;
+  display:inline;
+}
+
+#tour_link {
+  color:#CCCCCC;
+  margin: 0px 0px 20px 0px;
+  font-size:18px;
+}
+p.credits{
+  display:block;
+  clear:both;
+  margin: 100px 0px 0px 20px;
+}
+
+
