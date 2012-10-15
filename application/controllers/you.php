@@ -724,6 +724,7 @@ class You extends CI_Controller {
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['js'][] = 'GF.Tags.js';
+		$this->data['js'][] = 'GF.Locations.js';
 		
 		// Load views
 		if($this->data['is_ajax'])

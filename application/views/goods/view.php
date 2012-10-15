@@ -275,7 +275,6 @@ $('#photoModal').modal({show:false});
 
 $('.photoMod').click(function() {
 	var imgUrl = $(this).attr('id');
-	console.log(imgUrl);
 	$('#modImage').attr('src',imgUrl);
 });
 

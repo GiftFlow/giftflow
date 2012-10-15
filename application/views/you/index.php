@@ -116,7 +116,6 @@ $(function(){
 	*	3. location is set to be new haven
 	*/
 	function generateCenteredMap(data){
-    console.log(data);
 		if(data.center != null && ( data.center.latitude != null || data.center.latitude != '' ) && ( data.center.longitude != null && data.center.longitude != '' ) ){
 			var default_location = new google.maps.LatLng( data.center.latitude, data.center.longitude );
 		} else if(data.results[0]!=null) {

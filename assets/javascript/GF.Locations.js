@@ -1,4 +1,4 @@
-GF.Tags = (function(){
+GF.Locations = (function(){
 
 	var api = {};
 	
@@ -15,19 +15,9 @@ GF.Tags = (function(){
 	*	Add new tag to CSV tag string
 	*	@param string newTag
 	*/
-	var append = function(newTag, input){
-	
-		// Split up CSV string into an array
-		var tagsArray = input.val().split(", ");
-		
-		// Update last item's array entry
-		tagsArray[tagsArray.length-1] = $.trim(newTag);
-		
-		// Implode array into string using comma delimiters
-		var newTags = tagsArray.join(", ")+", ";
-		
-		// Set input field's value to be newly formed string
-		input.val(newTags);
+	var append = function(newTag, input)
+	{
+		input.val(newTag);
 	};
 	
 	/**
@@ -45,17 +35,21 @@ GF.Tags = (function(){
 			source: function(request, response){
 				// Extracts last tag from raw CSV string then sends POST request
 				var query = getLastTag(request.term);
-				$.post(GF.siteURL("ajax/tags"), { term: query }, function(data) { 
-					response(data) 
+				$.post(GF.siteURL("ajax/locations"), { term: query }, function(data) { 
+					response(data);
 				}, 'json');
 			},
 			select: function( event, ui ){
 				// Append selected item to list, override default behavior
-				append(ui.item.value, input);
-				return false;
-			},
-			focus: function ( event, ui ){
-				// When list item focused, don't change text field's value
+				$('#location').val(ui.item.value);
+
+
+				//working with Find index.php scripts here
+				if(GF.Ajax) {
+					GF.Params.set('location', ui.item.value);
+					GF.UI.setLocation(ui.item.value);
+					GF.Ajax.request();
+				}
 				return false;
 			}
 		});
