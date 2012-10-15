@@ -1,10 +1,9 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
-*	Conversations object
-*	A component of the Messaging library
+*   Misc processing functions
+*   prepares data for display 
 *	
-*	@author Brandon Jackson
-*	@package Messaging
+*
 */
 
 class Factory
@@ -25,6 +24,13 @@ class Factory
 	}
 
 
+   /**
+    * Creates html for each result row  
+    *  appends html to data and returns for display via ajax
+    * @param type $results
+    * @param type $sort
+    * @return type 
+    */
   function users_ajax($results, $sort)
   {
     if(!empty($results))
@@ -58,7 +64,12 @@ class Factory
 
 
 
-	
+  /**
+   *    same as above, creates html row for display
+   * @param type $results
+   * @param type $sort
+   * @return type 
+   */
 	function goods_ajax($results, $sort)
 	{
 		if(!empty($results))
@@ -88,6 +99,12 @@ class Factory
 		return $results;
 	}
 
+         /**
+          * Preps thankyou row for display
+          * Does not involve ajax
+          * @param type $results
+          * @return type 
+          */
 	function thankyou($results) 
 	{
 		//set thanker's photo source

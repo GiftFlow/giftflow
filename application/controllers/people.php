@@ -36,101 +36,17 @@ class People extends CI_Controller {
 		}
 	}
 	
+        
 	public function index()
-  {
-		$newest_options = array(
-		  'order_by' => 'U.created',
-		  'sort' => 'DESC',
-		  'exclude_logged_in_user'=>TRUE
-		);
-
-		$newest_search = new User_search();
-		$this->data['results'] = $newest_search->find($newest_options);
-
-		$this->data['title'] = "People";	
-		$this->load->view('header', $this->data);
-		$this->data['menu'] = $this->load->view('people/includes/menu',$this->data, TRUE);
-		$this->load->view('people/index', $this->data);
-		$this->load->view('footer', $this->data);
-	}
-
-  public function browse()
-  {
-      
-    $order = ($_POST['order_by'] == 'newest' ? 'U.created' : 'location_distance');
-    $sort = ($_POST['order_by'] == 'newest' ? 'DESC' : 'ASC');
-
-    $type = $_POST['type'];
-
-    $P = new User_search();
-
-    $options = array(
-      'order_by' => $order,
-      'type' => $type,
-      'sort' => $sort,
-      'limit' => 10,
-      'location' => $this->data['userdata']['location']
-    );
-
-    $this->load->library('factory');
-    $results = $P->find($options);
-    $this->data['results'] = $this->factory->users_ajax($results, $sort);
-
-
-    //Encode in JSON
-    $data = array(
-      "center" => '',
-      "total_results" =>count($this->data['results']),
-      "results"=>$this->data['results']
-    );
-    $this->data['results_json'] = json_encode($data);
-
-        return $this->util->json($this->data['results_json']);
-  }
-
-  public function test () 
-  {
-
-		$nearby_search = new User_search;
-		
-		// If user logged in and location data is available, filter by it
-		if(!empty($this->data['logged_in_user_id']) && !empty($this->data['userdata']['location']))
-		{
-			$nearby_options = array(
-				"location"=>$this->data['userdata']['location'],
-				"order_by"=>"location_distance",
-				"sort"=>"ASC",
-				"exclude_logged_in_user"=>TRUE,
-				"radius" => 100
-			);
-		}
-		
-		// Else try to geolocate via their IP address.
-		// If that doesn't work, skip geo filtering
-		else
-		{
-			//$location = $this->geo->geocode_ip();
-			
-			// Geocode via IP successful, filtering
-			if(!empty($location))
-			{
-				$nearby_options = array(
-					"location"=>$location,
-					"order_by"=>"location_distance",
-					"sort"=>"ASC",
-					"radius" => 100
-				);
-			}
-			
-			// No location found
-			else
-			{
-				$nearby_options = array();
-			}
-		}
-  }
-		
-
+        {
+                redirect('find/people');
+        }
+        
+        /**
+         *  Loads users facebook friends 
+         *  NON FUNCTIONAL
+         *  @todo fix this! 
+         */
 	public function friends()
 	{
 		// Page Title
@@ -181,6 +97,10 @@ class People extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}	
 	
+        /**
+         *  Displays lists of users, i.e. following, giftcircle, etc
+         * @param type $type 
+         */
 	function lists($type = "following")
 	{
 		$this->auth->bouncer(1);
@@ -213,7 +133,8 @@ class People extends CI_Controller {
 	}
 
 	/**
-	*	Displays user profile
+	*   Displays user profile
+        *    handles incoming user actions from profile
 	*/
 	function profile($id=NULL)
 	{
@@ -221,9 +142,7 @@ class People extends CI_Controller {
  		if(!empty($_POST))
  		{
 			switch($_POST['formtype']) {
-			case 'offer':
-				$this->_offer();
-				break;
+			
 			case 'thankyou':
 				$this->_thank();
 				break;
@@ -458,9 +377,8 @@ class People extends CI_Controller {
 
 
 	/** 
-	 * The thank you function is for the Thank you button on the user profile
-	 * The idea is to enable users to write quick reviews for one another without
-	 * needing to go through the whole transaction process
+	 * Handles incoming Thank form from profile
+	 * 
 	 */
 	function _thank()
 	{
@@ -506,6 +424,10 @@ class People extends CI_Controller {
 			redirect('people/'.$form['recipient_id']);
 		}
 	}
+        
+        /**
+         *  Loads list of facebook friends 
+         */
 
 	public function facebook()
 	{
@@ -538,6 +460,11 @@ class People extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 	
+        /**
+         * NON FUNCTIONAL 
+         * Lists Gmail friends 
+         * @todo rebuild integration with google
+         */
 	public function gmail()
 	{
 		// Page Title
@@ -574,93 +501,10 @@ class People extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 	
-	function find()
-	{
-		if(!empty($this->data['userdata']['location']))
-		{
-			$this->data['location'] = $this->data['userdata']['location'];
-		}
-		else
-		{
-			$this->data['location'] = $this->geo->geocode_ip();
-		}
-		
-		if(!empty($_POST))
-		{
-			$options = array(
-				"keyword"=> $_POST['keyword']);
-			$this->data['results'] = $this->user_search->find($options);
-		}
-				
-		$this->data['title'] = "Find People";
-		$this->load->view('header', $this->data);
-		$this->data['menu'] = $this->load->view('people/includes/menu',$this->data, TRUE);
-		$this->load->view('people/find', $this->data);
-		$this->load->view('footer', $this->data);
+	/**
+         *  Handles incoming message form from profile 
+         */
 
-	}
-	function results()
-	{
-		//$this->load->library("search/user_search");
-		if(!empty($_POST))
-		{
-			$options = array(
-				"first_name" => $_POST['keyword'],
-				"screen_name"=> $_POST['keyword'],
-				"last_name" => $_POST['keyword'],
-				"location" => $this->data['userdata']['location']
-			);
-			
-			$this->data['results'] = $this->user_search->find($options);
-		}
-		
-		$this->data['title'] = "Search Results";
-		$this->load->view('header', $this->data);
-		$this->data['menu'] = $this->load->view('people/includes/menu',$this->data, TRUE);
-		$this->load->view('people/find', $this->data);
-		$this->load->view('footer', $this->data);
-	}
-	function _offer()
-	{
-		// Restrict access to logged in users
-		$this->auth->bouncer('1');
-		
-		if(empty($_POST['good_id']))
-		{
-			$this->session->set_flashdata('error', 'You forgot to select a gift!');
-			redirect('people/'.$_POST['decider_id']);
-		}
-
-				
-		// Arguments to send to Market::create_transaction()
-		$options = array(
-			"demands" => array(
-				array (
-					"user_id" => $this->data["logged_in_user_id"],
-					"good_id" => $_POST['good_id'],
-					"type" => $_POST['type'],
-					"hook" => 'hook',
-					"note" => $_POST['reason']
-				)
-			),
-			"decider_id" => $_POST['decider_id']
-		);
-		
-		
-		
-		// Make request
-		if(!$this->market->create_transaction($options))
-		{
-			// @todo handle request failure
-			return FALSE;
-		}
-		// Set flashdata & redirect
-			$this->session->set_flashdata('success', 'Offer sent!');
-			redirect('people/'.$_POST['decider_id']);
-	
-	}
-
-	//write a message unassociated with a transaction
 	function message ()
 	{
 

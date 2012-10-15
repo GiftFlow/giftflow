@@ -36,9 +36,18 @@ class Find extends CI_Controller {
 		));
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/User_search');
-		$this->load->library('finder');
 	}
-
+/**
+ * Searches through Gifts, Needs or people
+ * 
+ * Returns either a php array of results for the first pageload
+ * All subsequent searches from Find are made via Ajax and results
+ * are encoded as JSON
+ * 
+ * @param type $type
+ * @param type $q
+ * @return type 
+ */
 	public function index( $type = NULL, $q = NULL)
 	{
 		Console::logSpeed("Find::index()");
@@ -132,6 +141,10 @@ class Find extends CI_Controller {
 	
 	/**
 	*	Performs search
+        *       uses $this->args for parameters
+        *      sets $this->data['results'] and $this->data['results_json']
+        *      does not return anything
+        *      
 	*/
 	function _search ()
 	{
@@ -190,6 +203,12 @@ class Find extends CI_Controller {
 		$this->data['results_json'] = json_encode($data);
 	}
 	
+        /**
+         *  Sets search parameters
+         *  First scans through URL segments - set in util::parse_globals
+         *  Then scans the $_REQUEST array 
+         *  Matches up inputs with search options  
+         */
 	function _set_args()
 	{
 		Console::logSpeed("Find::_set_args()");
@@ -235,12 +254,11 @@ class Find extends CI_Controller {
 			}
 		}
 		
-		
-		// Set order by clause
+                
+		// Set order by clause, Figure out Location parameters
 		// UI passes a value of either "newest" or "nearby"
 		// Search lib requires values of either "G.created" or 
 		// "location_distance"
-
 
 		$this->args['order_by'] = ($this->args['type'] != 'people') ? 'G.created' : 'U.created';
 		$this->args['sort'] = 'DESC';

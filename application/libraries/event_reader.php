@@ -19,8 +19,8 @@ class Event_reader
 	protected $CI;
 	
 	
-//	List of event types with their event_type_ids
-// Class-wide variables created for those events considered relavant
+    //List of event types with their event_type_ids
+    // Class-wide variables created for those events considered relavant
 
 	var $transaction_completed = array();
 	var $user_new = array();
@@ -51,10 +51,11 @@ class Event_reader
 		$this->CI->load->library('datamapper');
 	}
 	
-	/*
-	*	Get 20 most recent events, pass them to process_events
-	*
-	*/
+	/**
+         * Gets events according to options params
+         * @param type $options
+         * @return array 
+         */
 	
 	public function get_events($options = NULL)
 	{
@@ -105,6 +106,10 @@ class Event_reader
 	
 	}
 	
+        /**
+         *  Builds event objects with needed data
+         * @return type 
+         */
 	function process_events()
 	{
 		$this->CI->load->library('Search/User_search');

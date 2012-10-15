@@ -103,6 +103,7 @@ class Goods extends CI_Controller {
 	*/
 	function view()
 	{
+		//User has requested the gift/offered to help with need
 		if(!empty($_POST))
 		{
 			if($_POST['method'] == "demand")
@@ -134,14 +135,14 @@ class Goods extends CI_Controller {
 				'limit' => 5,
 				'type' => 'gift',
 				'exclude' => $this->good_id,
-                                'status' => 'active'
+                'status' => 'active'
 			));
 			$this->data['needs'] = $Good_search->find(array(
 				'keyword' => $this->G->title,
 				'limit' => 5,
 				'type' => 'need',
 				'exclude' => $this->good_id,
-                                'status' => 'active'
+                'status' => 'active'
 			));
 		} else {
 			redirect('find/gifts');
@@ -305,6 +306,8 @@ class Goods extends CI_Controller {
 			// For non-owners, results are filtered by user
 			$user_id = ($this->_restrict(FALSE)) ? NULL : $this->data['logged_in_user_id'];
 
+			//UNUSED FOR NOW
+			/*
 			// Search for transactions
 			$G = new Good_search;
 			$G->good_id = $this->good_id;
@@ -315,7 +318,7 @@ class Goods extends CI_Controller {
 				"declined" => $G->declined_transactions($user_id),
 				"cancelled" => $G->cancelled_transactions($user_id)
 			);
-			
+			*/
 			// For non-owners, set $requested flag to true if user
 			// has already requested at least once
 			if(!$this->_restrict(FALSE))

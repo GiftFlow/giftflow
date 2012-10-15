@@ -29,11 +29,14 @@ class Account extends CI_Controller {
 		
 	}
 
-	// Basic account statistics, list of options
+        /**
+         *  defaults to user profile 
+         */
 	function index()
 	{
             $this->profile();
 	}
+        
 	/**
          * This function handles the edit profile form  
          */
