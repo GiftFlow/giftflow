@@ -96,11 +96,11 @@ class Remind extends CI_Controller {
 
 					if($fullTrans->status == 'active')
 					{
-						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. If not, write ".$other_user->screen_name." a message.</span>";
+						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. Otherwise, you should write ".$other_user->screen_name." a message.</span>";
 					} else if ($fullTrans->status == 'pending') { 
 						if($user->role == 'decider')
 						{
-							$content .= "<span class='instructions'>You need to accept or decline ".$other_user->screen_name."'s request.</span>";
+							$content .= "<span class='instructions'>You should accept or decline ".$other_user->screen_name."'s request.</span>";
 						} else {
 							$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
 						}
