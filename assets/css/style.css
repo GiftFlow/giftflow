@@ -1540,6 +1540,9 @@ ul.nicebigtext{
 .find_form {
 	display:inline;
 }
+.find_form span {
+	display:inline;
+}
 span.navForm{
 	margin-top:5px;
 }
@@ -2871,6 +2874,12 @@ a.photoMoid:hover {
 }
 .peopleBar {
 	margin-top: 30px;
+}
+.goodsBar {
+	margin-left: 0px;
+}
+#radius {
+	margin: 5px;
 }
 .spreadWord {
 	margin-top: 20px;

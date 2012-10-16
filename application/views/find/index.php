@@ -1,4 +1,4 @@
-<div class="row-fluid">
+<div class="row">
 	<div class='span3'>
 		<!-- Sidebar Menu -->
 		<?php echo $menu;?>
@@ -9,26 +9,10 @@
 	<div class='span9'>
 		<!-- Search Form Module -->
 		<div class='row' id='findNav'>
-			<?php if($type == 'people') { ?>
-				<div class='chunk findButtons span2'>
-					<div class='btn-group' id='peopleTypes'>
-					<button class='ptype btn btn-small <?php if($args["profile_type"] == "people") {echo "disabled";}?> ' value='individual'>People</button>
-					<button class='ptype btn btn-small <?php if($args["profile_type"] == "nonprofit") {echo "disabled";}?> ' value='nonprofit'>Nonprofits</button>
-					<button class='ptype btn btn-small <?php if($args["profile_type"] == "business") {echo "disabled";}?> ' value='business'>Businesses</button>
-					</div>
-				</div>
-				<div class='findBar span10 chunk peopleBar'>
-			<?php } else { ?>
-				<div class='findBar span12 chunk'>
-			<?php }?>
+			<div class='findBar span9 chunk goodsBar'>
 
 			<span class='navForm clearfix'>
-				<form name='find_goods' class='find_form'id="find_goods" action="" method='post'>
-					<div class='input-append'>
-						<input type='text' size='16' placeholder='Keyword' class='input-medium' id="q" name='q' value='<?php echo $args["q"];?>' />
-						<button class='btn btn-medium' type='submit' id="find"><i class='icon-search'></i> Find</button>
-					</div>
-				</form>
+
 			
 				<form name='changeLocation' class='find_form' id="editLocation" method="post" action="">
 					<div class='input-append'>
@@ -36,10 +20,23 @@
 						<button id='changeLocation' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
 					</div>
 				</form>
-			</span>
-			<?php if($type != 'people') { ?>
-					<a class='btn btn-large btn-success' id='add_good_button' href="<?php echo site_url('you/add_'.$args['type']);?>"><i class='icon-plus icon-white'></i> Add <?php echo ucfirst($args['type']); ?></a>
-			<?php } ?>
+
+				<form name='find_goods' class='find_form'id="find_goods" action="" method='post'>
+					<div class='input-append'>
+						<input type='text' size='16' placeholder='Keyword' class='input-medium' id="q" name='q' value='<?php echo $args["q"];?>' />
+						<button class='btn btn-medium' type='submit' id="find"><i class='icon-search'></i> Find</button>
+					</div>
+				</form>
+			
+
+					<select name="radius" id="radius" class='find_form span2'>
+						<option value="10">10 miles</option>
+						<option value="100" selected>100 miles</option>
+						<option value="1000">1000 miles</option>
+						<option value="100000">Global</option>
+					</select>
+
+				</span>
 		</div>
 	</div><!-- close row -->
 	<div class='row chunk'>
