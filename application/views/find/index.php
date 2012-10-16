@@ -40,6 +40,15 @@
 		</div>
 	</div><!-- close row -->
 	<div class='row chunk'>
+
+		<span id="order_by_label">
+				Sort By
+			</span>
+			<select name="order_by" id="order_by" class='input-small'>
+			<option value="newest"<?php if($args['order_by'] == 'newest') { echo "selected"; }?>>Newest</option>
+			<option value="nearby" <?php if($args['order_by'] =='location_distance') { echo "selected"; } ?>>Nearby</option>
+			</select>
+	</span>
 		<!-- Search Results -->
 		<ul class='results_list'>
 		<?php if( $display == 'results' ) { ?>
