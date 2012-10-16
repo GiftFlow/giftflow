@@ -2888,3 +2888,6 @@ a.photoMoid:hover {
 .spreadWord p {
 	margin: 20px 0px 0px 10px;
 }
+.ptype {
+min-width: 120px;
+}
