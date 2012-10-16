@@ -26,7 +26,7 @@
 		<!-- Title, Description, Tags and More -->
 		<div class='right'>
 		
-			<h1>
+			<h1 class="<?php if($G->type == 'need') { echo 'need'; } ?>" >
 				<?php echo $G->title; ?>
 			</h1>
 

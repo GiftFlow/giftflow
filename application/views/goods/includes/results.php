@@ -28,7 +28,7 @@
 					
 						<!-- Title -->
 						
-						<a class="title <?php if($sidebar) { echo 'sidebarTitle';}?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+						<a class="title <?php if($sidebar) { echo 'sidebarTitle ';} if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
 							<span class= "title">
 							<?php echo $G->title;?>
 							</span>
