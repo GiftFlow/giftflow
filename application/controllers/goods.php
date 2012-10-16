@@ -307,7 +307,8 @@ class Goods extends CI_Controller {
 
 			// Search for transactions
 			$G = new Good_search;
-			$G->good_id = $this->good_id;
+
+/* DEPRECATED NOT USED
 			$this->data['transactions'] = array(
 				"pending" => $G->pending_transactions($user_id),
 				"active" => $G->active_transactions($user_id),
@@ -329,8 +330,39 @@ class Goods extends CI_Controller {
 					}
 				}
 			}
+ */
 		}
+			$other_goods = '';
+			//Load matches for sidebar
+			if($this->data['is_owner'])
+			{
+				$other_goods = ($this->data['is_gift'])? 'need' :'gift';
+			} else {
+				$other_goods = ($this->data['is_gift'])? 'gift' : 'need';
+			}
+
+			$this->data['other_goods'] = $G->find(array(
+				'keyword' => $this->G->title,
+				'limit' => 5,
+				'type' => $other_goods,
+				'exclude' => $this->good_id,
+                'status' => 'active'
+			));
 			
+			//load goods even if there are no keyword matches
+			if(empty($this->data['other_goods']))
+			{
+				$this->data['other_goods'] = $G->find(array(
+					'limit' => 5,
+					'type' => $other_goods,
+					'exclude' => $this->good_id,
+					'status' => 'active'
+				));
+			}
+
+
+		$this->data['othergoods_type'] = ucfirst($other_goods).'s';
+
 		// Title
 		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		

@@ -226,39 +226,19 @@
 
 
 <!-- Gifts Sidebar -->
-<?php if(!empty($gifts)) { ?>
+<?php if(!empty($other_goods)) { ?>
 	<div class="sidebar" id="giver">		
 		<div class="top">
 			<h2>
-				Other Gifts
+			Similar <?php echo $othergoods_type; ?>
 			</h2>
 		</div>
 		<div class="center">
 				<?php echo UI_Results::goods(array(
-					"results"=> $gifts,
+					"results"=> $other_goods,
 					'mini' => TRUE,
 					'border'=> FALSE,
 					'sidebar' => TRUE
-				)); ?>
-		</div>
-		<div class="bottom"></div>
-	</div>
-<?php }?>
-
-<!-- Gifts Sidebar -->
-<?php if(!empty($needs)) { ?>
-	<div class="sidebar" id="giver">		
-		<div class="top">
-			<h2>
-			Other Needs
-			</h2>
-		</div>
-		<div class="center">
-				<?php echo UI_Results::goods(array(
-					"results"=> $needs,
-					'mini' => TRUE,
-					'border'=> FALSE,
-					'sidebar'=>TRUE
 				)); ?>
 		</div>
 		<div class="bottom"></div>
