@@ -374,12 +374,15 @@ class Member extends CI_Controller {
 		}
 
 		$fields = array('email','screen_name', 'city');
+		
+		$this->data['recaptchaError'] = (empty($oldPost))? FALSE : TRUE;
 
 		foreach($fields as $val) {
 			$this->data['form'][$val] = (empty($oldPost[$val]))? '' : $oldPost[$val];
 		}	
 
 		$this->data['js'][] = 'jquery-validate.php';
+		$this->data['js'][] = 'GF.Locations.js';
 		$this->data['facebook_sdk'] = $this->load->view('includes/facebook_sdk',NULL,TRUE);
 		$this->data['recaptcha'] = $this->recaptcha->get_html();
 		$this->data['u'] = $this->U;

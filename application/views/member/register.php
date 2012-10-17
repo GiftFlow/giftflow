@@ -20,7 +20,7 @@
 		</p>
 	</td>
 	<td></td>
-	<td class="span6"><?php echo form_errors(); ?>
+	<td class="span6"><?php if(!$recaptchaError) { echo form_errors(); } else  { echo "<ul class='alert_error'><li><p>You did not input the words in the image correctly. Please try again.</p></li></ul><br/>";}?>
 	<form name='register' id='register' method="post">
 		<div class="control-group">
 			<label for="email">Email Address</label>
@@ -32,7 +32,7 @@
 		</div>
 		<div class="control-group">
 			<label for="city">City</label>
-			<input maxlength="20" class="span6" size="10" type="text" name="city" id="city" value="<?php echo $form['city'];?>"/>
+			<input  class="span6" size="10" type="text" name="city" id="city" value="<?php echo $form['city'];?>"/>
 		</div>
 		<div class="control-group">			
 			<label for="profile_type">Profile Type</label>
@@ -44,7 +44,7 @@
 		</div>
 		<div class="control-group">
 			<label for="password">Password</label>
-			<input maxlength="45" size="30" class="span6 required" type="password" name="password" id="register_password" value="" />			
+			<input maxlength="45" size="30" class="span6 required" type="password" minlength='7' name="password" id="register_password" value="" />			
 		</div>
 		<div class="control-group">
 			<label for="confirm_password">Confirm Password</label>
@@ -68,6 +68,9 @@
 <?php //echo $facebook_sdk; ?>
 <script type='text/javascript'>
 $(function(){
+
+	GF.Locations.initialize($('input#city'));
+
 	$("#register").validate({
 		rules: { 
 			confirm_password: {

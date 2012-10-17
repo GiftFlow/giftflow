@@ -48,10 +48,10 @@ class Auth
 
 		
 		//Create and set Location if user provided zipcode
+		//The city field uses Location autocomplete, so its more of an address
 		$city = $this->CI->input->post('city');
 		if(isset($city)) 
 		{
-
 			// Create location object and then try to save it
 			$L = new Location();
 			$this->CI->load->library('geo');
@@ -93,13 +93,13 @@ class Auth
 		// Save new user. If successful....
 		if($this->U->register())
 		{
-			// Deactive user, generate activation code
-		$this->U->deactivate();
-		
-			// Hook: 'user_registration_manual'
-		$this->load->library('notify');
-		$N = new Notify();
-		$N->alert_user_registration_manual($this->U);
+				// Deactive user, generate activation code
+			$this->U->deactivate();
+			
+				// Hook: 'user_registration_manual'
+			$this->CI->load->library('notify');
+			$N = new Notify();
+			$N->registration_manual($this->U);
 		}
 		
 		// Return new user
