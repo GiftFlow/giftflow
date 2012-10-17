@@ -108,7 +108,7 @@ class Member extends CI_Controller {
 	/**
 	*	Registration form display and processing
 	*/
-	function register()
+	function register ()
 	{
 		$this->load->library('recaptcha');
 
@@ -130,7 +130,7 @@ class Member extends CI_Controller {
 			if (!$this->recaptcha->check_answer($this->input->ip_address(),$this->input->post('recaptcha_challenge_field'),$this->input->post('recaptcha_response_field')))
 			{
 				$this->session->set_flashdata('error', "You did not correctly input the words in the image. Please try again.");
-				redirect('register');
+				$this->_register_form($this->input->post());
 			}
 			
 			// Perform registration routine
@@ -358,7 +358,7 @@ class Member extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	protected function _register_form()
+	protected function _register_form($oldPost = NULL)
 	{
 		$params = array(
 			'scope' => 'email, user_photos, publish_stream',
@@ -372,6 +372,13 @@ class Member extends CI_Controller {
 		{
 			$this->U = new User();
 		}
+
+		$fields = array('email','screen_name', 'city');
+
+		foreach($fields as $val) {
+			$this->data['form'][$val] = (empty($oldPost[$val]))? '' : $oldPost[$val];
+		}	
+
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['facebook_sdk'] = $this->load->view('includes/facebook_sdk',NULL,TRUE);
 		$this->data['recaptcha'] = $this->recaptcha->get_html();

@@ -24,15 +24,15 @@
 	<form name='register' id='register' method="post">
 		<div class="control-group">
 			<label for="email">Email Address</label>
-			<input maxlength="255" size="30" class="email span6 required" type="text" name="email" id="email" value="" />
+			<input maxlength="255" size="30" class="email span6 required" type="text" name="email" id="email" value="<?php echo $form['email'];?>" />
 		</div>
 		<div class="control-group">
 			<label for="screen_name">Name</label>
-			<input maxlength="75" size="30" class="required span6" type="text" name="screen_name" id="screen_name" value=""/>
+			<input maxlength="35" size="30" class="required span6" type="text" name="screen_name" id="screen_name" value="<?php echo $form['screen_name'];?>"/>
 		</div>
 		<div class="control-group">
-			<label for="zipcode">Zip Code</label>
-			<input maxlength="20" class="span6" size="10" type="text" name="zipcode" id="zipcode" value=""/>
+			<label for="city">City</label>
+			<input maxlength="20" class="span6" size="10" type="text" name="city" id="city" value="<?php echo $form['city'];?>"/>
 		</div>
 		<div class="control-group">			
 			<label for="profile_type">Profile Type</label>

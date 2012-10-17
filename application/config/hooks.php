@@ -29,14 +29,6 @@ $hook['following_new'][] = array(
 	'filepath' => 'libraries'
 );
 
-
-$hook['user_registration_manual'][] = array(
-	'class'    => 'Notify',
-	'function' => 'alert_user_registration_manual',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
 $hook['userdata_updated'][] = array(
 	'class'    => 'Auth',
 	'function' => 'new_session',

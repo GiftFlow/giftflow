@@ -52,14 +52,14 @@ class Notify
 	*	@param array $params
 	*	@param array $data
 	*/
-	function alert_user_registration_manual( $params, $data )
+	function registration_manual($U)
 	{
 		$A = new Alert();
 		
       	// Map hook data onto email template parseables array
 		$A->parseables = array(
-			'user_email' => $data->U->email, 
-			'activation_link' => site_url('member/activate/'.$data->U->activation_code),
+			'user_email' => $U->email, 
+			'activation_link' => site_url('member/activate/'.$U->activation_code),
 			'subject' => "Please confirm your account",
 		);
 		
@@ -67,7 +67,7 @@ class Notify
 		$A->template_name = 'email_confirmation';
 		
 		// Set recipient
-		$A->to = $data->U->email;
+		$A->to = $U->email;
       
       	// send email
 		$A->send();
