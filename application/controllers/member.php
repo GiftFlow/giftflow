@@ -50,22 +50,25 @@ class Member extends CI_Controller {
 			$redirect = 'you';
 		}
 
-		//check if user is facebook authorized
-		$user = $this->facebook->getUser();
-		//facebook authorized
-		if($user > 0)
+		if(empty($_POST))
 		{
-			$user_info = $this->facebook->api('/me','GET');
-			$user_info['token'] = $this->facebook->getAccessToken();
-		
-			$userJson = json_encode($user_info);
-			$userObj = json_decode($userJson);
 
-			$userObj->redirect = $redirect;
+			//check if user is facebook authorized
+			$user = $this->facebook->getUser();
+			//facebook authorized
+			if($user > 0)
+			{
+				$user_info = $this->facebook->api('/me','GET');
+				$user_info['token'] = $this->facebook->getAccessToken();
+			
+				$userJson = json_encode($user_info);
+				$userObj = json_decode($userJson);
 
-			$this->auth->facebook($userObj);
+				$userObj->redirect = $redirect;
+
+				$this->auth->facebook($userObj);
+			}
 		}
-
 		// If form data POST is here, process login
 		else if(!empty($_POST))
 		{
