@@ -73,17 +73,19 @@ if(isset($css))
 		<div id='session'>
 			
 			<?php if(!empty($logged_in)&&$logged_in){ ?>
-			<ul id='boot_menu'>
-				<li class='dropdown'>
-					<!-- Logged-in User You Menu -->
-					<div class='btn-group'>
-					<a  class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
+				<div class='btn-group' id='header_actions'>
+
+				<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'><i class='icon-plus icon-white'></i>Add</a>
+				<a href='#'class='btn btn-large btn-success'><i class='icon-envelope icon-white'></i>Inbox</a>
+
+				<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
 						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
-							Profile
-					</a>
-						<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
-							<span class='caret'></span>
-						</button>
+							<?php echo substr($userdata['screen_name'],0,25); ?>
+				</a>
+
+				<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+					<span class='caret'></span>
+				</button>
 
 						<ul class='dropdown-menu'>
 							<li>
@@ -109,19 +111,17 @@ if(isset($css))
 							</a>
 						</li>
 					</ul>
-				</div>
-			</li>
-		</ul><!-- close boot_menu -->
+
+				</div><!-- close btn-group -->
 
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
-				<ul id='anonymous-menu' >
+				<div class='btn-group'>
 					
-					<li class='dropdown'>
-						<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
-							Login
-							<b class='caret'></b>
-						</a>
+					<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+						Login
+						<b class='caret'></b>
+					</a>
 						<ul class='dropdown-menu' id='login-form'>
 							<li>
 								<a href='#' style='background-color: transparent; !important'>
@@ -151,56 +151,35 @@ if(isset($css))
 							</li>
 						</ul>
 
-					</li>
-					<li>
-						<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success'>
-							Sign Up
-						</a>
-					</li>
-					<li>
-						<a href='<?php echo site_url("donate"); ?>' id='donate' class='btn btn-success'>
-							Donate
-						</a>
-					</li>
-				</ul><!-- close anonymous menu -->
+					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success'>
+						Sign Up
+					</a>
+				</div>
 			<?php } ?>
 		</div><!-- close session -->
 
 		<!-- Main Menu -->
 		<ul id='nav'>
 			
-				<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<li <?php if($segment==false || $segment[1]=="you") echo 'class="active"'; ?>>
-				<a href="<?php echo site_url();?>"">
-					You
-				</a>
-				</li>
-				<?php } else { ?>
-				<li <?php if($segment==false) echo 'class="active"'; ?>>
-				<a href="<?php echo site_url();?>">
+			<li <?php if($segment[1]=='you') echo 'class="active"'; ?>>
+				<a href="<?php echo site_url('you');?>">
 					Home
 				</a>
-				</li>
-				<?php } ?>
+			</li>
 
 			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
 				<a href="<?php echo site_url('find/gifts/');?>">
-					Gifts
-				</a>
-			</li>
-			<li <?php if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active"'; ?>>
-				<a href="<?php echo site_url('find/needs/');?>">
-					Needs
-				</a>
-			</li>
-			<li <?php if($segment[1]=="people") echo '" class="active"'; ?>>
-				<a href="<?php echo site_url('find/people');?>">
-					Members
+					Find
 				</a>
 			</li>
 			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
 				<a href="<?php echo site_url('about');?>">
 					About
+				</a>
+			</li>
+			<li>	
+				<a href='#'>
+					Donate
 				</a>
 			</li>
 		</ul>
@@ -212,6 +191,43 @@ if(isset($css))
 <div id="main">
 
 	<div class='wrapper clearfix'>
+
+	<!-- Add menu modal window -->
+	<div class='modal hide' id='addModal'>
+		<div class='modal-header'>
+			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
+			<p class='nicebigtext' style ='text-align:center;'>The many ways to participate on GiftFlow</p>
+		</div>
+		<div class='modal-body'>
+
+			<ul id='addActions'>
+				<li>
+					<a href='#' class='btn btn-large'>Add Gift</a>
+					<span>What can you offer the GiftFlow community?</span>
+				</li>
+				<li>
+					<a href='#' class='btn btn-large btn-danger'>Add Need</a>
+					<span>What do you need? Ask away!</span>
+				</li>
+				<li>
+					<a href='#' class='btn btn-large btn-success'>Thank Someone</a>
+					<span>Gratitude is a wonderful thing.</span>
+				</li>
+				<li> 
+					<a href='#' class='btn btn-large btn-info'>Add Watch</a>
+					<span>Receive custom notifications.</span>
+				</li>
+				<li>
+					<a href='#' class='btn btn-large btn-primary'>Invite Friends</a>
+					<span>The more the merrier.</span>
+				</li>
+			</ul>
+
+		</div>
+		<div class='modal-footer'>
+			<a href='#' data-dismiss='modal' class='btn'>Close</a>
+		</div>
+	</div>
 
 <?php
 // Output flashdata as javascript variable so that it can be displayed in jQuery

@@ -28,6 +28,7 @@ original green: #54b23e
 light green: #6bc557
 moderately desaturated light green: #72c55f
 desaturated light green: #88c57a
+6BDC5F
 */
 #header {
 	background: #72c55f url('../images/topnav_texture.png') repeat-x;
@@ -206,21 +207,21 @@ ul#nav li {
 	cursor: pointer;
 }
 ul#nav li a{
-	color: #eee;
+	color: #FFF;
 	padding: 15px 25px 17px;
 	margin: 0;
 	display: block;
 	text-decoration:none;
 	letter-spacing: .5px;
-	font-weight: normal;
-	font-size: 15px;
+	font-weight: bold;
+	font-size: 17px;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   	cursor: pointer;
   	border-left: 1px solid #9bd79d;
   	border-right: 1px solid #4b864d;
 }
 ul#nav li a:hover{
-  opacity:0.8;
+  opacity:0.6;
 }
 ul#nav li.active{
   	height:64px;
@@ -238,6 +239,43 @@ ul#nav li.active a{
 ul#nav li a:active{
 	outline: none;
 	color: #fff;
+}
+
+#header_actions {
+	margin: 5px 30px 0px 0px;
+	font-size: 14px;
+
+}
+#header_actions a {
+	height:15px;
+}
+#header_actions span.caret {
+	height:14px;
+}
+#header_actions i {
+	margin-right: 4px;
+}
+#header_actions ul.dropdown_menu {
+	float:right;
+	right: 0;
+}
+
+#addActions {
+	list-style:none;
+}
+#addActions li {
+	margin: 10px 0 0 0;
+	border-bottom: 1px solid #DDD;
+}
+#addActions a {
+	width: 120px;
+}
+#addActions span {
+	margin-left: 10px;
+	font-weight: 300;
+	line-height: 27px;
+	font-size: 15px;
+	color: #666;
 }
 
 /* Sidebar Menu */

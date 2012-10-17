@@ -56,7 +56,7 @@
 <script type="text/javascript">
 $(function(){
 	
-	<!-- script for logIn dropdown -->
+	// script for logIn dropdown
 
 	$('.dropdown-toggle').dropdown();
 	$('#login-form').css('left', '-50px');
