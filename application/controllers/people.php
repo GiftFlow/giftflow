@@ -686,6 +686,20 @@ class People extends CI_Controller {
 		}
 	}
 
+	function addThank() 
+	{
+
+		$this->data['js'][] = 'GF.Users.js';
+		$this->data['title'] = 'Add a thank!';
+		$this->load->view('header', $this->data);
+
+		$this->load->view('people/addThankForm', $this->data);
+
+		$this->load->view('footer', $this->data);
+	}
+
+
+
 
 }
 

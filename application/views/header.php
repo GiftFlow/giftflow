@@ -167,6 +167,11 @@ if(isset($css))
 				</a>
 			</li>
 
+			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url('about');?>">
+					Groups
+				</a>
+			</li>
 			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
 				<a href="<?php echo site_url('find/gifts/');?>">
 					Find
@@ -175,11 +180,6 @@ if(isset($css))
 			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
 				<a href="<?php echo site_url('about');?>">
 					About
-				</a>
-			</li>
-			<li>	
-				<a href='#'>
-					Donate
 				</a>
 			</li>
 		</ul>
@@ -202,19 +202,19 @@ if(isset($css))
 
 			<ul id='addActions'>
 				<li>
-					<a href='#' class='btn btn-large'>Add Gift</a>
+				<a href="<?php echo site_url('you/add_good/?type=gift');?>" class='btn btn-large'>Add Gift</a>
 					<span>What can you offer the GiftFlow community?</span>
 				</li>
 				<li>
-					<a href='#' class='btn btn-large btn-danger'>Add Need</a>
+				<a href="<?php echo site_url('you/add_good/?type=need');?>" class='btn btn-large btn-danger'>Add Need</a>
 					<span>What do you need? Ask away!</span>
 				</li>
 				<li>
-					<a href='#' class='btn btn-large btn-success'>Thank Someone</a>
+					<a href="<?php echo site_url('people/addThank'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
 					<span>Gratitude is a wonderful thing.</span>
 				</li>
 				<li> 
-					<a href='#' class='btn btn-large btn-info'>Add Watch</a>
+				<a href="<?php echo site_url('you/watches');?>" class='btn btn-large btn-info'>Add Watch</a>
 					<span>Receive custom notifications.</span>
 				</li>
 				<li>
