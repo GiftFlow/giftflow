@@ -6,7 +6,7 @@
     <div class="control-group">
     	<label class="control-label" for="title">Title</label>
     	<div class="controls">
-    		<input type="text" name="title" id="title" value="<?php if(isset($G) && !empty($G->title)){ echo $G->title; } ?>" class="required input-xlarge"/>	
+    		<input type="text" name="title" id="title" value="<?php if(isset($G) && !empty($G->title)){ echo $G->title; } ?>" class="required input-xlarge" maxlength='25'/>	
     	</div>
     </div>
     
