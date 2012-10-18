@@ -225,7 +225,7 @@ class People extends CI_Controller {
 				$this->_offer();
 				break;
 			case 'thankyou':
-				$this->_thank();
+				$this->thank();
 				break;
 			case 'message':
 				$this->message();
@@ -457,56 +457,6 @@ class People extends CI_Controller {
 	}
 
 
-	/** 
-	 * The thank you function is for the Thank you button on the user profile
-	 * The idea is to enable users to write quick reviews for one another without
-	 * needing to go through the whole transaction process
-	 */
-	function _thank()
-	{
-		$this->auth->bouncer('1');
-
-		//ok lets try the new route. forget working it into the data structure.
-		$form = $this->input->post(NULL,TRUE);
-
-		if($form['recipient_id'] == $this->data['logged_in_user_id'])
-		{
-			$this->session->set_flashdata('error', 'You can not thank yourself!');
-			redirect('');
-		}
-
-		$TY = new Thankyou();
-
-		$TY->thanker_id = $this->data['logged_in_user_id'];
-		$TY->recipient_id = $form['recipient_id'];
-		$TY->gift_title = $form['gift'];
-		$TY->body = $form['body'];
-		$Ty->status = 'pending';
-
-		if(!$TY->save()) {
-			show_error('Error saving Thankyou');
-		} else {
-			// Set flashdata & redirect
-			$this->session->set_flashdata('success', 'Thank sent!');
-
-
-			//Get filled out thankyou object from thankyouSearch 
-			$newThank = new Thankyou_search();
-			
-			$hook_data = $newThank->get(array('id'=>$TY->id));
-			$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
-
-			//record event and send notification
-			$E = new Event_logger();
-			$E->basic('thankyou', $hook_data);
-
-			$N = new Notify();
-			$N->thankyou('thankyou', $hook_data);
-
-			redirect('people/'.$form['recipient_id']);
-		}
-	}
-
 	public function facebook()
 	{
 		if(!empty($this->U->facebook_id))
@@ -686,17 +636,110 @@ class People extends CI_Controller {
 		}
 	}
 
-	function addThank() 
-	{
 
+	/** 
+	 *	Saves incoming form data from two places
+	 *	The profile thankForm feeds in POST data
+	 *	The Add menu addThankForm feeds to addThank which then routes here and passes addData
+	 */
+	function thank($addData = NULL)
+	{
+		$this->auth->bouncer('1');
+		if(!empty($_POST) || !empty($addData))
+		{
+
+			$form = (empty($_POST))? $addData : $this->input->post(NULL,TRUE);
+
+			if($form['recipient_id'] == $this->data['logged_in_user_id'])
+			{
+				$this->session->set_flashdata('error', 'You can not thank yourself!');
+				redirect('');
+			}
+
+			$TY = new Thankyou();
+
+			$TY->thanker_id = $this->data['logged_in_user_id'];
+			$TY->recipient_id = $form['recipient_id'];
+			$TY->gift_title = $form['gift'];
+			$TY->body = $form['body'];
+			$Ty->status = 'pending';
+
+			if(!$TY->save()) {
+				show_error('Error saving Thankyou');
+			} else {
+				// Set flashdata & redirect
+				$this->session->set_flashdata('success', 'Thank sent!');
+
+
+					//Get filled out thankyou object from thankyouSearch 
+				$newThank = new Thankyou_search();
+				
+				$hook_data = $newThank->get(array('id'=>$TY->id));
+				$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
+
+				//record event and send notification
+				$E = new Event_logger();
+				$E->basic('thankyou', $hook_data);
+
+				$N = new Notify();
+				$N->thankyou('thankyou', $hook_data);
+
+				redirect('people/'.$form['recipient_id']);
+			}
+		} else {
+			redirect('people');
+		}
+	}
+
+	/**
+	 * Loads a form for adding a thank
+	 * User gets here from the Add menu
+	 */
+
+	function addThankForm() 
+	{
 		$this->data['js'][] = 'GF.Users.js';
 		$this->data['title'] = 'Add a thank!';
 		$this->load->view('header', $this->data);
 
-		$this->load->view('people/addThankForm', $this->data);
+		$this->load->view('forms/addThankForm', $this->data);
 
 		$this->load->view('footer', $this->data);
 	}
+
+	/**
+	 * Handles incoming addThankForm and 
+	 * gets extra data for thank function
+	 */
+	function addThank()
+	{
+		$data = array();
+
+		if(!empty($_POST))
+		{
+			$post = $this->input->post();
+			
+			$U = new User();
+			$U->where('email',$post['thankEmail']);
+			U->get();
+
+			if($U->exists())
+			{
+				$data['recipient_id'] = $U->id;
+				$data['gift_title' ] = $post['gift'];
+				$data['body'] = $post['body'];
+			} else {
+				//User does not exist in database - send invite email
+				$invite = $post['thankEmail'];
+
+		} else {
+			redirect('people/addThankForm');
+		}
+		
+	}
+
+			
+			
 
 
 

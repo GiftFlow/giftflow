@@ -139,8 +139,9 @@ class Ajax extends CI_Controller {
 		{	
 			$keyword = $_POST['term'];
 			
-			$query = $this->db->select('U.screen_name AS label, U.id AS value')
+			$query = $this->db->select('Concat(U.screen_name,", ",U.email) AS label, U.email AS value', FALSE)
 						->from('users AS U')
+						->where('U.id !=', $this->data['userdata']['user_id'])
 						->or_like('U.email',$keyword)
 						->or_like('U.screen_name', $keyword)
 						->limit(10)

@@ -73,8 +73,8 @@ if(isset($css))
 		<div id='session'>
 			
 			<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<div class='btn-group' id='header_actions'>
 
+				<div class='btn-group' id='header_actions'>
 				<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'><i class='icon-plus icon-white'></i>Add</a>
 				<a href='#'class='btn btn-large btn-success'><i class='icon-envelope icon-white'></i>Inbox</a>
 
@@ -112,12 +112,11 @@ if(isset($css))
 						</li>
 					</ul>
 
-				</div><!-- close btn-group -->
-
+				</div>
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
-				<div class='btn-group'>
 					
+				<div class='btn-group'>
 					<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
 						Login
 						<b class='caret'></b>
@@ -210,8 +209,8 @@ if(isset($css))
 					<span>What do you need? Ask away!</span>
 				</li>
 				<li>
-					<a href="<?php echo site_url('people/addThank'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
-					<span>Gratitude is a wonderful thing.</span>
+					<a href="<?php echo site_url('people/addThankForm'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
+					<span>Try thanking a friend who doesn't yet use GiftFlow!</span>
 				</li>
 				<li> 
 				<a href="<?php echo site_url('you/watches');?>" class='btn btn-large btn-info'>Add Watch</a>

@@ -2929,3 +2929,6 @@ a.photoMoid:hover {
 .ptype {
 min-width: 120px;
 }
+.formTitle {
+	margin: 20px 0px 20px -25px;
+}
