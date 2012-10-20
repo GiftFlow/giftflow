@@ -148,6 +148,19 @@ class Member extends CI_Controller {
 			// If no errors, send to success form
 			else
 			{
+
+				//check thankyous table to thankInvites
+				$T = new Thankyou();
+				$thanks = $T->where('recipient_email', $this->U->email)->get();
+				if($thanks->exists())
+				{
+					foreach($thanks as $val)
+					{
+						$val->recipient_id = $this->U->id;
+						$val->save();
+					}
+				}
+
 				$this->_register_success();
 			}
 		}

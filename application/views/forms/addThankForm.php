@@ -6,7 +6,7 @@
 </div>
 <div class='row'>
 	<div class='span6 offset2'>
-	<form name = 'thankyou' id='thankyouform' method='post' action="<?php echo site_url('people/addThank'); ?>">
+	<form name = 'thankyou' id='thankyouform' method='post' action="<?php echo site_url('thank/addThank'); ?>">
 			<label for = 'thankEmail'>What is their email?</label>
 			<p>
 				<input type='text' class='big-border required' name='thankEmail' id='thankEmail'value=''/>

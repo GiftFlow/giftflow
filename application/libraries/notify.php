@@ -354,4 +354,16 @@ class Notify
 
 	}	
 
+	function thankInvite($data)
+	{
+		$A = new Alert();
+
+		$A->parseables = $data;
+
+		$A->template_name = 'thankInvite';
+		$A->to = $data['recipient_email'];
+			
+		$A->send();
+	}
+
 }

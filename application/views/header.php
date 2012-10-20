@@ -209,7 +209,7 @@ if(isset($css))
 					<span>What do you need? Ask away!</span>
 				</li>
 				<li>
-					<a href="<?php echo site_url('people/addThankForm'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
+					<a href="<?php echo site_url('thank/addThankForm'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
 					<span>Try thanking a friend who doesn't yet use GiftFlow!</span>
 				</li>
 				<li> 
