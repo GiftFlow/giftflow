@@ -30,8 +30,8 @@ class UI
 	*	@param string $type
 	*	@return string $url
 	*/
-	public function tag_url($tag, $type = "")
+	public function tag_url($tag, $type)
 	{
-		return site_url('find/?q='.urlencode(trim($tag))."&type=".$type);
+		return site_url('find/'.$type.'/?q='.urlencode(trim($tag)));
 	}
 }

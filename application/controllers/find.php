@@ -24,7 +24,6 @@ class Find extends CI_Controller {
 		"offset"=>0,
 		'order_by' => NULL,
 		'profile_type' => NULL
-
 	);
 	
 	function __construct()
@@ -37,36 +36,31 @@ class Find extends CI_Controller {
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/User_search');
 	}
-/**
- * Searches through Gifts, Needs or people
- * 
- * Returns either a php array of results for the first pageload
- * All subsequent searches from Find are made via Ajax and results
- * are encoded as JSON
- * 
- * @param type $type
- * @param type $q
- * @return type 
- */
-	public function index( $type = NULL, $q = NULL)
+	
+	function gifts()
 	{
-		Console::logSpeed("Find::index()");
+		$this->_items("gift");
+	}
+	
+	function people()
+	{
+		$this->_items("people");
+	}
+	
+	function needs()
+	{
+		$this->_items("need");
+	}
+	
+	function _items($type)
+	{
+		Console::logSpeed("Find::items()");
+		
+		$this->args["type"] = $type;
 		
 		$this->_set_args();
 		
-		// Run search query if extra parameters, $_GET or $_POST data found
-		if(!empty($_GET) || !empty($_POST) || !empty($type))
-		{
-			Console::logSpeed("Find::starting_query");
-		
-			$this->_search();
-			
-			if($this->input->is_ajax_request())
-			{
-				return $this->util->json($this->data['results_json']);
-			}
-		}
-		
+		$this->_search();
 		
 		// Page Title
 		$this->data['title'] = "Find";
@@ -136,7 +130,25 @@ class Find extends CI_Controller {
 		$this->load->view('find/index', $this->data);
 		$this->load->view('footer', $this->data);
 		
-		Console::logSpeed("Find::index(): done.");
+		Console::logSpeed("Find::items(): done.");
+	}
+	
+	public function ajaxRequest()
+	{
+		$this->args["type"] = $_REQUEST['type'];
+		
+		$this->_set_args();
+		
+		Console::logSpeed("Find::starting_query");
+		
+		$this->_search();
+		
+		return $this->util->json($this->data['results_json']);
+	}
+
+	public function index()
+	{
+		$this->gifts();
 	}
 	
 	/**
@@ -165,11 +177,10 @@ class Find extends CI_Controller {
 				'status' => 'active',
 				'type' => $this->args['profile_type']
 			);
-				
+			
 			$US = new User_search;
 			$results = $US->find($options);
 			$this->data['results'] = $this->factory->users_ajax($results, $this->args['order_by']);
-				
 		}
 		else
 		{
@@ -212,32 +223,6 @@ class Find extends CI_Controller {
 	function _set_args()
 	{
 		Console::logSpeed("Find::_set_args()");
-			
-		// Scan 2nd URL segment for useful args
-		if(!empty($this->data['segment'][2]))
-		{
-			$types = array("gift","need","people");
-
-			// Scan for `type` keywords
-			if($this->data['segment'][2]=="gifts")
-			{
-				$this->args["type"] = "gift";
-			}
-			elseif($this->data['segment'][2]=="needs")
-			{
-				$this->args["type"] = "need";
-			}
-			elseif(in_array(strtolower($this->data['segment'][2]),$types))
-			{
-				$this->args["type"] = strtolower($this->data['segment'][2]);
-			}
-			
-			// If not a type and not index, use as `q`
-			elseif($this->data["segment"][2]!="index")
-			{
-				$this->args["q"] = urldecode($this->data["segment"][2]);
-			}
-		}
 		
 		// Scan 3rd URL segment for `q`
 		if(!empty($this->data['segment'][3]))

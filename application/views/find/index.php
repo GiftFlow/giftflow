@@ -191,7 +191,8 @@ $(function(){
 	// Send AJAX request
 	GF.Ajax.request = function(data){
 		GF.UI.loading();
-		$.post("<?php echo current_url();?>", GF.Params.get(), GF.Ajax.process, "json");
+		GF.Params.set("type", "<?php echo $type; ?>");
+		$.post("<?php echo $this->config->item('base_url') .'find/ajaxRequest'; ?>", GF.Params.get(), GF.Ajax.process, "json");
 	};
 	
 	GF.Ajax.processNewLocation = function(data){
