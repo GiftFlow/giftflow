@@ -39,6 +39,7 @@ class Notify
 		$this->CI->load->library('email');
 		$this->CI->load->library('alert');
 	}
+
 	
 	/**
 	*	Sends alert when new users register
@@ -196,6 +197,34 @@ class Notify
 
 		$A->send();
 	}
+
+	function alert_user_message($params, $data)
+	{
+		$A = new Alert();
+
+		$A->parseables = array(
+			'message' => $data->message->body,
+			'user_screen_name' =>$this->CI->session->userdata('screen_name'),
+			'subject' => $data->subject,
+			'return_url' => $data->return_url
+		);
+
+		$A->template_name = 'user_message';
+
+		
+		// Set recipient
+		foreach($data->conversation->users as $user)
+		{
+			if($user->id != $this->CI->session->userdata('user_id'))
+			{
+				$A->to = $user->email;
+				$A->parseables['recipient_name'] = $user->screen_name;
+			}
+		}
+
+		$A->send();
+	}
+
 	
 	function review_new($params, $data)
 	{

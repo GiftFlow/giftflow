@@ -428,7 +428,6 @@ class Conversation
 				}
 			}
 		}
-		
 		// Populate Thread object for return
 		if($this->type=="thread")
 		{

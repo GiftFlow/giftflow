@@ -622,16 +622,32 @@ class People extends CI_Controller {
 			$C = new Conversation();
 			$C->type ='thread';
 
-			if(!$C->compose(array(
+			$data = array(
 				'body' => $input['body'],
 				'user_id' => $this->data['logged_in_user_id'],
-				'subject' => 'profile_message',
+				'subject' => $this->data['userdata']['screen_name']." wrote you a message.",
 				'recip_id' => $input['recip_id'],
 				'type' => 'thread'
-			))){
-
+			);
+			if(!$C->compose($data)){
 				show_error("Error saving Conversation");
 			}
+
+			$Message = $C->get_latest_message();
+
+			$hook_data = (object) $data;
+			$hook_data->conversation = $C;
+			$hook_data->message = $Message;
+			$hook_data->notify_id = $data['recip_id'];
+			$hook_data->message_id = $Message->id;
+			$hook_data->return_url = site_url('you/inbox');
+
+			$N = new Notify();
+			$N->alert_user_message($hook_data);
+
+			$E = new Event_logger();
+			$E->basic('user_message',$hook_data);
+			
 
 		}
 	}

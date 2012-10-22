@@ -50,7 +50,7 @@ class Thank extends CI_Controller {
 		$TY->recipient_id = $form['recipient_id'];
 		$TY->gift_title = $form['gift'];
 		$TY->body = $form['body'];
-		$Ty->status = 'pending';
+		$TY->status = 'pending';
 
 		if(!$TY->save()) {
 			show_error('Error saving Thankyou');
@@ -64,6 +64,7 @@ class Thank extends CI_Controller {
 			
 			$hook_data = $newThank->get(array('id'=>$TY->id));
 			$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
+			$hook_data->notify_id = $TY->recipient_id;
 
 			//record event and send notification
 			$E = new Event_logger();
@@ -163,6 +164,9 @@ class Thank extends CI_Controller {
 					);
 
 					$N->thankInvite($hook_data);
+
+					$E = new Event_logger();
+					$E->basic('thank_invite', $hook_data);
 
 					redirect('you');
 				}

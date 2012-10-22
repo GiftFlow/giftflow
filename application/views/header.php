@@ -76,7 +76,7 @@ if(isset($css))
 
 				<div class='btn-group' id='header_actions'>
 				<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'><i class='icon-plus icon-white'></i>Add</a>
-				<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'><i class="icon-envelope icon-white <?php if(!$inbox_active) { echo 'empty';}?>"></i>Inbox</a>
+				<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'><i class="icon-envelope icon-white <?php if(!$activeInbox) { echo 'empty';}?>"></i>Inbox</a>
 
 				<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
 						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>

@@ -38,7 +38,6 @@ class Util
 	*	to define the $this->data variable in all controllers
 	*
 	*	@param array $options
-	*	@param boolean $options['geocode_ip']
 	*	@return array
 	*/
 	public function parse_globals( $options = array() )
@@ -107,37 +106,10 @@ class Util
 					$globals['userdata']['location']->$field = $this->CI->session->userdata('location_'.$field);
 				}
 			}
-			
-			//See if user has active or pending messages in inbox
-			//If so, light up the Your Inbox menu option
-			$globals['inbox_active'] = FALSE;
-			
-			// Run a transactions search
-			$this->CI->load->library('Search/Transaction_search');
-			$TS = new Transaction_search;
-			$trans_search = $TS->find(array(
-				"user_id"=>$globals['logged_in_user_id'],
-				"transaction_status"=>array(
-					"active",
-					"pending"
-				),
-				"limit"=>2000
-			));
 
-			//include thankyous in active inbox
-			$this->CI->load->library('Search/Thankyou_search');
-			$TY = new Thankyou_search();
-			$thank_search = $TY ->find(array(
-				'recipient_id' => $globals['logged_in_user_id'],
-				'status' => 'pending'
-			));
-
-			// If found, store count
-			if(count($trans_search) > 0 || count($thank_search) > 0)
-			{
-				$globals['inbox_active'] = TRUE;
-				$globals['inbox_active_count'] = count($trans_search) + count($thank_search);
-			}
+			//check for outstanding notifications
+			$globals['inboxCount'] = $this->activeInbox($this->CI->session->userdata('user_id'));
+			$globals['activeInbox'] = ($globals['inboxCount'] > 0)? TRUE : FALSE;
 
 		}
 		else
@@ -166,7 +138,7 @@ class Util
 		}
 			
 		// Geocode via IP address if $options['geocode_ip']==TRUE
-			if(empty($globals['userdata']['location']->longitude))
+			if(empty($globals['userdata']['location']->longitude) && $options['geocode_ip'])
 			{
 				$this->CI->load->library('geo');
 				$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
@@ -188,7 +160,7 @@ class Util
 		
 		// Set Default Facebook Open Graph Tags
 		$globals['open_graph_tags'] = array(
-			'fb:app_id' => '111637438874755',
+			'fb:app_id' => FBOOK_APP_ID,
 			'og:url' => current_url(),
 			'og:site_name' => 'GiftFlow'
 		);
@@ -197,7 +169,32 @@ class Util
 		
 		return $globals;
 	}
-	
+
+
+	/**
+	 * Checks if user has outstanding notifications
+	 *
+	 * @param user_id
+	 * returns int 
+	 * @author Hans Schoenburg
+	 */
+
+	public function activeInbox($user_id)
+	{
+
+		$results = $this->CI->db->select('N.event_id, N.user_id, N.enabled')
+					->from('notifications AS N')
+					->where('N.user_id',$this->CI->session->userdata('user_id'))
+					->where('N.enabled', 0)
+					->get()
+					->result();
+
+
+		return count($results);
+	}
+
+
+
 	/**
 	*	Calculates time ago string
 	*	For example, "This post was created 4 minutes ago" instead of displaying

@@ -17,7 +17,10 @@ INSERT INTO `event_types` (`id`, `title`) VALUES
 (15, 'new_password'),
 (16, 'email'),
 (17, 'thankyou'),
-(18, 'thankyou_updated');
+(18, 'thankyou_updated'),
+(19, 'thank_invite'),
+(20, 'user_message')
+
 
 INSERT INTO `categories` (`id`, `name`, `parent_category_id`) VALUES
 (1, 'Arts & Crafts', NULL),
@@ -52,6 +55,6 @@ INSERT INTO `terms` (`id`, `type`, `language`, `name`, `subject`, `body`) VALUES
 (23, 'alert_template', 'en', 'thankyou_updated', '{{subject}}', '<p><b>Hello {{screen_name}},</b></p>\r\n<p>\r\n{{subject}}\r\n</p>\r\n<p>\r\nYou thanked them for <b>{{gift_title}}</b>.\r\n</p>\r\n<p>\r\nIf you would like, you can send them a message through your <a href=''{{return_url}}''>Inbox</a>.\r\n</p>'),
 (24, 'alert_template', 'en', 'transaction_reminder', '{{subject}}', ''),
 (25, 'alert_template', 'en', 'goods_match', '{{subject}}', ''),
-(26, 'alert_template', 'en', 'thankInvite', '{{subject}}', '<p><b>\r\nHello {{recipient_email}}, \r\n</b></p>\r\n<p>\r\n<b>{{screen_name}}</b> has thanked you on GiftFlow for: "{{gift_title}}".\r\n</p>\r\n<p>\r\nThey wrote: <br />\r\n"{{body}}"\r\n</p>\r\n\r\n<p>\r\n<a href=''{{return_url}}''>Click here to create a GiftFlow Account and be recognized for your generosity!</a>\r\n</p><p>*Not to worry, nothing will be displayed unless you register and accept this thank.</p>');
-
+(26, 'alert_template', 'en', 'thankInvite', '{{subject}}', '<p><b>\r\nHello {{recipient_email}}, \r\n</b></p>\r\n<p>\r\n<b>{{screen_name}}</b> has thanked you on GiftFlow for: "{{gift_title}}".\r\n</p>\r\n<p>\r\nThey wrote: <br />\r\n"{{body}}"\r\n</p>\r\n\r\n<p>\r\n<a href=''{{return_url}}''>Click here to create a GiftFlow Account and be recognized for your generosity!</a>\r\n</p><p>*Not to worry, nothing will be displayed unless you register and accept this thank.</p>'),
+(27, 'alert_template', 'en', 'user_message', '{{subject}}', '<p><b>Hello {{recipient_name}},</b></p>\r\n<p>\r\n{{user_screen_name}} has sent you a message.\r\n</p>\r\n<p>\r\n<b>{{user_screen_name}}</b> wrote: \r\n<br/>\r\n"{{message}}"\r\n</p>\r\n<p>\r\n<a href=''{{return_url}}''>Click Here to Login and Respond</a>\r\n</p>');
 
