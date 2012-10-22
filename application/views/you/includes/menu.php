@@ -1,5 +1,5 @@
 <ul id='you_sidebar' class='sidebar_menu'>
-	<li <?php if($segment[2]=='inbox'){ echo  "class='active'"; } else if($inbox_active) { echo "id='inbox_new'"; } ?>>
+	<li <?php if($segment[2]=='inbox'){ echo  "class='active'"; } else if($activeInbox) { echo "id='inbox_new'"; } ?>>
 		<a href='<?php echo site_url('you/inbox');?>'> 
 			Inbox<?php if($activeInbox) { echo " (".$inboxCount.")"; }?>
 		</a>

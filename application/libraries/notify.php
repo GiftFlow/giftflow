@@ -172,10 +172,9 @@ class Notify
 		$A = new Alert();
 		
 		// Get the latest message
-		$M = $data->conversation->get_latest_message();
 
 		$A->parseables = array(
-			"message" => $M->body,
+			"message" => $data->message,
 			"user_screen_name" => $this->CI->session->userdata('screen_name'),
 			"subject" => $this->CI->session->userdata('screen_name')." sent you a message",
 			"good_title" => $data->transaction->demands[0]->good->title,
@@ -184,43 +183,26 @@ class Notify
 		
 		// Set template name
 		$A->template_name = 'transaction_message';
-		
-		// Set recipient
-		foreach($data->conversation->users as $user)
-		{
-			if($user->id != $this->CI->session->userdata('user_id'))
-			{
-				$A->to = $user->email;
-				$A->parseables['recipient_name'] = $user->screen_name;
-			}
-		}
+		$A->to = $data->recipient_email;
+		$A->parseables['recipient_name'] = $data->recipient;
 
 		$A->send();
 	}
 
-	function alert_user_message($params, $data)
+	function alert_user_message($data)
 	{
 		$A = new Alert();
 
 		$A->parseables = array(
-			'message' => $data->message->body,
+			'message' => $data->message,
 			'user_screen_name' =>$this->CI->session->userdata('screen_name'),
 			'subject' => $data->subject,
+			'recipient_name' => $data->recipient,
 			'return_url' => $data->return_url
 		);
 
 		$A->template_name = 'user_message';
-
-		
-		// Set recipient
-		foreach($data->conversation->users as $user)
-		{
-			if($user->id != $this->CI->session->userdata('user_id'))
-			{
-				$A->to = $user->email;
-				$A->parseables['recipient_name'] = $user->screen_name;
-			}
-		}
+		$A->to = $data->recipient_email;
 
 		$A->send();
 	}

@@ -197,6 +197,10 @@ class You extends CI_Controller {
 	{
 		
 		$this->auth->bouncer(1);
+
+		//mark all messages as read
+		//$this->util->clearActiveInbox($this->data['logged_in_user_id']);
+
 		//Load Thankyou
 		$this->load->library('Search/Thankyou_search');
 		$TY = new Thankyou_search;

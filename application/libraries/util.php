@@ -138,10 +138,10 @@ class Util
 		}
 			
 		// Geocode via IP address if $options['geocode_ip']==TRUE
-			if(empty($globals['userdata']['location']->longitude) && $options['geocode_ip'])
+			if(empty($globals['userdata']['location']->longitude))
 			{
 				$this->CI->load->library('geo');
-				$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
+			//	$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
 			}
 
 		$globals['alert_success'] = "";
@@ -185,12 +185,18 @@ class Util
 		$results = $this->CI->db->select('N.event_id, N.user_id, N.enabled')
 					->from('notifications AS N')
 					->where('N.user_id',$this->CI->session->userdata('user_id'))
-					->where('N.enabled', 0)
+					->where('N.enabled', 1)
 					->get()
 					->result();
 
 
 		return count($results);
+	}
+
+	public function clearActiveInbox($user_id)
+	{
+		$this->CI->db->where('user_id', $user_id)
+			->update('notifications', array('enabled' => 0));
 	}
 
 
