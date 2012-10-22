@@ -45,7 +45,7 @@ for ($i = 0; $i < $Goods_total; $i++)
 	$updated = date('Y-m-d', strtotime('-' . mt_rand(0, 130) . ' days'));
 	
 	//Set category id
-	$Cid = rand(1, 20);
+	$Cid = rand(1, 16);
 	
 	// Set location is
 	$platz = rand(1, $Locations_total);

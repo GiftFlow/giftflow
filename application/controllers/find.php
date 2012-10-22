@@ -24,7 +24,6 @@ class Find extends CI_Controller {
 		"offset"=>0,
 		'order_by' => NULL,
 		'profile_type' => NULL
-
 	);
 	
 	function __construct()
