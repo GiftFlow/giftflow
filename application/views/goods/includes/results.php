@@ -24,13 +24,13 @@
 					
 			<!-- Metadata -->
 			</div>
-			<div class='span10 result_meta clearfix'>
+			<div class='span6 result_meta clearfix'>
 					
 						<!-- Title -->
 						
 						<a class="title <?php if($sidebar) { echo 'sidebarTitle ';} if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
 							<span class= "title">
-							<?php echo $G->title;?>
+								<?php echo substr($G->title, 0, 30); ?>
 							</span>
 						</a>
 					<?php if(in_array("requests",$include)){ ?>
@@ -69,6 +69,13 @@
 						
 					<?php } ?>
 					</div>
+					<?php if(!$mini) { ?>
+						<div class='span4'>
+							<span class='metadata'>
+								<b>Description:</b> <?php echo substr($G->description, 0, 150); ?>
+							</span>
+						</div>
+					<?php } ?>
 				</div>
 			</li>
 			<!-- eof Result Row -->

@@ -25,7 +25,7 @@
 				<!-- hidden fields -->
 			<p>
 				<input type='submit' class='btn' value='Send'/>
-				<a id='thank_cancel' class='btn' href='#'>Cancel</a>
+				<a id='thank_cancel' class='btn' href="<?php echo site_url('you');?>">Cancel</a>
 			</p>
 			<span id='thank_errortext'></span>
 		</form>

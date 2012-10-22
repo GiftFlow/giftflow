@@ -243,10 +243,6 @@ ul#nav li a:active{
 	color: #fff;
 }
 
-#header_actions {
-	margin-right:30px;
-
-}
 #header_actions a {
 	height:15px;
 }
@@ -1967,6 +1963,10 @@ ul#you_menu a#login{
 	height: 16px;
 	background: black;
 	-moz-border-radius: 0px;
+}
+
+#header_actions i.empty {
+	opacity: .5;
 }
 
 ul.breadcrumbs{
