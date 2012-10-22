@@ -9,7 +9,7 @@ class You extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals($options = array('geocode_ip' => TRUE));
+		$this->data = $this->util->parse_globals();
 		$this->data['welcome'] = FALSE;
 		$this->load->library('Search/Review_search');
 		$this->load->library('Search/Transaction_search');

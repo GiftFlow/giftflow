@@ -31,9 +31,7 @@ class Find extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/User_search');
 		$this->load->library('finder');

@@ -68,9 +68,7 @@ class Needs extends CI_Controller {
 		$this->param = $this->uri->segment(4);
 		
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 	}
 	
 	/**

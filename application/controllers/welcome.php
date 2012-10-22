@@ -13,9 +13,7 @@ class Welcome extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
 		$this->load->library('datamapper');
 	}

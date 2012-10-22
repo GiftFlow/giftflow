@@ -15,9 +15,7 @@ class People extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 		//$this->load->library('finder');
 		$this->load->library('geo');
 		$this->load->library('datamapper');

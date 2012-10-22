@@ -15,9 +15,7 @@ class Thank extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			'geocode_ip' => FALSE
-		));
+		$this->data = $this->util->parse_globals();
 		$this->load->library('notify');
 		$this->load->library('event_logger');
 		$this->load->library('datamapper');
