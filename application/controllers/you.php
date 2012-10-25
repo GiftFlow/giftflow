@@ -42,19 +42,15 @@ class You extends CI_Controller {
 		));
 
 		$G = new Good_search();
-		$this->data['gifts'] = $G->find(array(
-			'type' => 'gift',
-			'limit' => 20
-		));
-		$this->data['needs'] = $G->find(array(
-			'type' => 'need',
+		$this->data['goods'] = $G->find(array(
+			'type' => NULL,
 			'limit' => 20
 		));
 
 		$this->load->library('event_reader');
 		$E = new Event_reader();
 		$this->data['activity'] = $E->get_events(array(
-			'event_type_id' => array(17,2,4),
+			'event_type_id' => array(2),
 			'limit' => 20
 		));
 

@@ -163,14 +163,14 @@ class Event_reader
 										
 						if(!empty($json_data->transaction->id))
 						{
-							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => FALSE));
-							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
+							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => TRUE));
+							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id, 'include_transactions' => TRUE));
 						}
 						//append transaction object to transaction event
 						if(!empty($trans))
 						{
 							$event->transaction = $trans;
-							$event->review = $review;
+							//$event->review = $review;
 							$event->location = $trans->demands[0]->good->location;
 							$this->events[] = $event;
 						}

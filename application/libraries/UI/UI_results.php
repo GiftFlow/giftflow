@@ -42,7 +42,7 @@ class UI_results
 			"mini"=>FALSE,
 			"include"=>array("location"),
 			"row"=>FALSE,
-			"follow" => 'TRUE'
+			"follow" => TRUE
 		);
 		$options = array_merge($default_options, $options);
 		

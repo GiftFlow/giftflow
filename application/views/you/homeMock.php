@@ -10,21 +10,21 @@
 	</div>
 </div>
 
-<div class='row' id='dashboard'>
+<div class='row chunk' id='dashboard'>
 	<div class='span8'>	
 		<div class='row'>
 		
 			<div class='span2'>
 
-					<p>Ways to make yourself more visible on GiftFlow</p>
-						<ul>
+					<p>Make yourself visible</p>
+						<ul style='list-style:none; margin-left:0px;'>
 						<?php if(!isset($userdata['bio'])) { ?>
 							<li>
-								<a href="<?php site_url('account'); ?>">Add more information to your profile!</a></p>
+								<a href="<?php site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a></p>
 							</li>
 						<?php } ?>
 							<li>
-								<a href="#">Upload more photos of yourself.</a>
+								<a href="#"><i class='icon-plus'></i>Upload photos</a>
 							</li>
 						</ul>
 								
@@ -38,10 +38,12 @@
 			</div>
 		</div>
 		<div class='row'>
-			<?php //echo UI_Results::events(array(
+			<h3>Recent Activity</h3>
+			<?php echo UI_Results::events(array(
 				"results" => $activity,
 				"row" => FALSE,
-				"mini" => FALSE
+				"mini" => TRUE,
+				"border" => FALSE
 			)); ?>
 
 		</div>
@@ -49,20 +51,32 @@
 	</div>
 	
 	<div class='span2 dashList'>
-		<h3>Recent Needs</h3>
-			<?php echo UI_Results::goods(array(
-				"results" => $needs,
+		<div class='row'>
+		<h3>Top Users</h3>
+			<?php echo UI_Results::users(array(
+				"results" => $new_peeps,
 				"mini" => TRUE,
-				"border" => TRUE,
-				"home_results" => TRUE
+				"border" => FALSE,
+				"follow" => FALSE
 			)); ?>
+		</div>
+		<div class='row'>
+		<h3>Nonprofit Members</h3>
+			<?php echo UI_Results::users(array(
+				'results' => $nonprofits,
+				"mini" => TRUE,
+				"border" => FALSE,
+				"follow" => FALSE
+			)); ?>
+		</div>
+		
 	</div>
 	<div class='span2 dashList'>
-		<h3>Recent Gifts</h3>
+		<h3>Recent Gifts and Needs</h3>
 			<?php echo UI_Results::goods(array(
-				"results" => $gifts,
+				"results" => $goods,
 				"mini" => TRUE,
-				"border" => TRUE,
+				"border" => FALSE,
 				"home_results" => TRUE
 			)); ?>
 	</div>
