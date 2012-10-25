@@ -26,49 +26,46 @@ class You extends CI_Controller {
 	*/
 	function index()
 	{
-
 		$this->auth->bouncer(1);
-		return $this->inbox();
-	/*	
-		// Load libraries
-		$GS = new Good_search();
-		
-		$options = array (
-			"location" => $this->data['userdata']['location'], 
-			"limit"=>10, 
-			"type"=>'gift'
-		);
-		
-		$this->data['giftflow'] = $GS->find($options);
-	
-		
-		$this->data['your_gifts'] = $GS->find(array(
-			"type"=>"gift",
-			"user_id"=>$this->data['logged_in_user_id']
-		));
-		
-		$this->data['your_needs'] = $GS->find(array(
-			"type"=>"need",
-			"user_id"=>$this->data['logged_in_user_id']
+
+
+		//Load most recent users
+		$P = new User_search();
+		$this->data['new_peeps'] = $P->find(array(
+			'limit' => 10
 		));
 
 
-			//In case they have no transactions
-		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
+		$this->data['nonprofits'] = $P->find(array(
+			'type' => 'nonprofit',
+			'limit'=> 10
+		));
 
-		// Set view variables
-		$this->data['title'] = "Your Dashboard";
-		$this->data['googlemaps'] = TRUE;
-		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$G = new Good_search();
+		$this->data['gifts'] = $G->find(array(
+			'type' => 'gift',
+			'limit' => 20
+		));
+		$this->data['needs'] = $G->find(array(
+			'type' => 'need',
+			'limit' => 20
+		));
+
+		$this->load->library('event_reader');
+		$E = new Event_reader();
+		$this->data['activity'] = $E->get_events(array(
+			'event_type_id' => array(17,2,4),
+			'limit' => 20
+		));
+
+
+		$this->data['title'] = "GiftFlow Home";
 		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->load->view('you/includes/header',$this->data);
-		$this->load->view('you/inbox', $this->data);
+		$this->load->view('you/homeMock', $this->data);
 		$this->load->view('footer', $this->data);
 		
-		Console::logSpeed('You::index(): done.');
-	 */
 	}
 	
 	function welcome()

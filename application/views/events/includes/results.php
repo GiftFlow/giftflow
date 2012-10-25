@@ -124,7 +124,7 @@
 				</div>
 			<?php } ?>
     <!-- close good_new -->
-	<?php } else if($val->event_type_id = 16) { ?>
+	<?php } else if($val->event_type_id = 18) { ?>
 	<!-- open thankyou -->
 			<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
 				 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">

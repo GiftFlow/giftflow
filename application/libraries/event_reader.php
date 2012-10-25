@@ -62,8 +62,8 @@ class Event_reader
 			'event_type_id' => NULL,
 			'user_id' => NULL,
 			'limit' => 30,
-      'order_by' => 'E.created',
-      'radius' => '100'
+			'order_by' => 'E.created',
+			'radius' => '100'
 		);
 
 		$options = (object) array_merge(
@@ -73,7 +73,7 @@ class Event_reader
 		
 		$this->basic_query();
 	  if(!empty($options->location))
-    {
+		{
 		    //$this->_geosearch_clauses($options->location);
 		}
 		

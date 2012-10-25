@@ -165,15 +165,14 @@ if(isset($css))
 					Home
 				</a>
 			</li>
-
-			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
-				<a href="<?php echo site_url('about');?>">
-					Groups
-				</a>
-			</li>
 			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
 				<a href="<?php echo site_url('find/gifts/');?>">
 					Find
+				</a>
+			</li>
+			<li <?php if($segment[2]=="people") echo 'class="active"'; ?>>
+				<a href="<?php echo site_url('find/people');?>">
+					Groups
 				</a>
 			</li>
 			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>

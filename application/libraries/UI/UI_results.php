@@ -41,7 +41,8 @@ class UI_results
 			"results"=>array(),
 			"mini"=>FALSE,
 			"include"=>array("location"),
-			"row"=>FALSE
+			"row"=>FALSE,
+			"follow" => 'TRUE'
 		);
 		$options = array_merge($default_options, $options);
 		
@@ -81,7 +82,9 @@ class UI_results
 			"grid"=>FALSE,
 			"include"=>array("location","created"),
 			"row"=>FALSE,
-			'sidebar' => FALSE
+			"sidebar"	=> FALSE,
+			"home_results" => FALSE
+			
 		);
 		$options = array_merge($default_options, $options);
 		
@@ -93,7 +96,11 @@ class UI_results
 		}
 		
 		// Load View
-		$view = $CI->load->view('goods/includes/results',$options,TRUE);
+		if($options['home_results']) {
+			$view = $CI->load->view('goods/includes/home_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('goods/includes/results',$options,TRUE);
+		}
 		
 		// Return HTML string
 		Console::logSpeed("UI_Results::goods(): done.");

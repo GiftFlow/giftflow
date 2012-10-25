@@ -2223,19 +2223,39 @@ input.homeSearchInput {
 #home_categories .thumb_grid a img {
 	width:50px;
 }
-.top {
-	margin-bottom: 3px;
+#dashboard {
+	margin-top:30px;
 }
-#home_goods ul.results_list li a.title {
-	font-size: 14px;
-	font-weight: 400;
+#dashboard .dashList div.span2 ul {
+	margin-left: 0px;
 }
-#home_feed ul.results_list.events.mini span.title a {
-	font-weight: normal;
-	font-size: 14px;
+
+#dashboard .dashList ul.results_list a {
+	margin:0px;
+	font-size:12px;
 }
-#bottom {
-	margin-left: 120px;
+#dashboard .dashList ul.results_list a.title {
+	margin-left:7px;
+	font-size:12px;
+}
+#dashboard .dashList ul {
+	margin: 0px;
+}
+#dashboard .dashList ul.results_list.mini li {
+	padding:5px;
+}
+#dashboard div.dashList.chunk {
+	padding: 0px;
+}
+#dashboard div.dashList h3{
+	padding: 5px;
+}
+#dashboard .chunk {
+	padding: 5px;
+}
+
+#blogFeed li {
+	margin: 5px 0px 5px 0px;
 }
 
 #social_iframe{
