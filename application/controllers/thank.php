@@ -82,6 +82,7 @@ class Thank extends CI_Controller {
 
 	function addThankForm() 
 	{
+		$this->auth->bouncer('1', 'thank/addThankForm');
 		$this->data['js'][] = 'GF.Users.js';
 		$this->data['title'] = 'Add a thank!';
 		$this->load->view('header', $this->data);
