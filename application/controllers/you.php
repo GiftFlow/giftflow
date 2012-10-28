@@ -32,7 +32,9 @@ class You extends CI_Controller {
 		//Load most recent users
 		$P = new User_search();
 		$this->data['new_peeps'] = $P->find(array(
-			'limit' => 10
+			'limit' => 15,
+			'order_by' => 'U.created',
+			'sort' => 'DESC'
 		));
 
 
@@ -44,14 +46,16 @@ class You extends CI_Controller {
 		$G = new Good_search();
 		$this->data['goods'] = $G->find(array(
 			'type' => NULL,
-			'limit' => 20
+			'limit' => 15,
+			'order_by' => 'G.created',
+			'sort' => 'DESC'
 		));
 
 		$this->load->library('event_reader');
 		$E = new Event_reader();
 		$this->data['activity'] = $E->get_events(array(
-			'event_type_id' => array(2),
-			'limit' => 20
+			'event_type_id' => array(17,2),
+			'limit' => 40
 		));
 
 

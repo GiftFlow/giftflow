@@ -185,17 +185,11 @@ class Event_reader
 						{
 							$this->events[] = $event;
 						}
-
 						break;
 				}
 				
 			}
-			
-			//So folks, this is what we have so far -- $this->events is an array of event objects,
-			// each one with it's attached good, user or transaction
-			//The next step is to translate each one of these into a list element. 
-			//Should I make one view or three?
-			
+		
 			return $this->events;
 		}
 		else

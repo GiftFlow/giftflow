@@ -189,6 +189,16 @@ if(isset($css))
 <div id="main">
 
 	<div class='wrapper clearfix'>
+	<div id='location_bar'>
+			<div id='hidden_floater_form' style='display:none'>
+				<form method='post' name='floater_form' id='floater_form'>
+					<input type='text' name='location_change' value=''/>
+				</form>
+			</div>
+			<div id='floater_location'>
+				New Haven, CT
+			</div>
+	</div>
 
 	<!-- Add menu modal window -->
 	<div class='modal hide' id='addModal'>

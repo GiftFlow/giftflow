@@ -24,7 +24,11 @@
 					
 			<!-- Metadata -->
 			</div>
-			<div class='span6 result_meta clearfix'>
+			<?php if(!$mini) { ?>
+				<div class='span6'>
+			<?php } else { ?>
+				<div class='span10 result_meta clearfix'>
+			<?php } ?>
 					
 						<!-- Title -->
 						

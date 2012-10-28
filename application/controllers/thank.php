@@ -19,6 +19,7 @@ class Thank extends CI_Controller {
 		$this->load->library('notify');
 		$this->load->library('event_logger');
 		$this->load->library('datamapper');
+		$this->load->library('Search/Thankyou_search');
 
 		if(!empty($this->data['logged_in_user_id']))
 		{
