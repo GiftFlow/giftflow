@@ -1,36 +1,17 @@
 <div class='row'>
-	<div class='span1'>
-		<a href="<?php echo site_url("you");?>" class="user_image medium left">
-			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
-		</a>
+	<div class='span6'>
+		<p class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><?php echo $userdata['location']->city; ?></p>
 	</div>
-	<div class='span2'
-		<p class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
-		<ul class='homeList'>
-		<?php if(!isset($userdata['bio'])) { ?>
-			<li>
-				<a href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a></p>
-			</li>
-		<?php } ?>
-			<li>
-			<a href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
-			</li>
-		</ul>
-	</div>
-	<div class='span3'>
-		<ul class='homeList' id='yourOptions'>
-		<?php if(!isset($userdata['bio'])) { ?>
-			<li>
-				<a href="<?php echo site_url('you/needs'); ?>"><i class='icon-plus'></i>Your Needs</a>
-			</li>
-		<?php } ?>
-			<li>
-			<a href="<?php echo site_url('you/gifts'); ?>"><i class='icon-plus'></i>Your Gifts</a>
-			</li>
-			<li>
-			<a href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
-			</li>
-		</ul>
+	<div class='span4 offest4'>
+		<button id='relocate_button' class='btn'>Change Location</button>
+		<div style='display:none;' id ='relocate_form'>
+			<form name='relocate' class='find_form' id="relocate" method="post" action="">
+				<div class='input-append'>
+				<input id ='location' size='16' class='input-medium' type="text"  placeholder="<?php echo $userdata['location']->city;?>" name="location" />
+					<button  type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -96,6 +77,17 @@
 <script type='text/javascript'>
 
 $(function() {
+
+
+$('#relocate_button').click(function() {
+	$(this).hide();
+	$('#relocate_form').show();
+});
+
+$('#relocate').focusout(function() {
+	$('#relocate_form').hide();
+	$('#relocate_button').show();
+});
 
 var url = 'http://blog.giftflow.org/?feed=rss2';
 

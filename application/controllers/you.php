@@ -22,7 +22,9 @@ class You extends CI_Controller {
 	}
 
 	/**
-	*	DEPRECATED - REROUTED TO INBOX
+	 * Loads the Home page for logged in users
+	 * This is their dashboard with lots of interesting info
+	 * root::home mimics this page, but for not logged in users
 	*/
 	function index()
 	{

@@ -9,7 +9,7 @@
 			
 			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
 	</div>
-	<div class='span4'>
+	<div class='span6'>
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
 					<?php if(isset($is_following) &&($is_following)) { ?>
@@ -19,8 +19,35 @@
 					<?php } ?>
 					<a href='#' id='message_button' class='btn profile_action btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled";}?>'><i class='icon-pencil'></i> Message</a>
 					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
+			<?php } else { ?>
+			<div class='span3'>
+				<ul class='homeList'>
+				<?php if(!isset($userdata['bio'])) { ?>
+					<li>
+						<a href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a></p>
+					</li>
 				<?php } ?>
+					<li>
+					<a href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
+					</li>
+				</ul>
 			</div>
+			<div class='span3'>
+				<ul class='homeList' id='yourOptions'>
+				<?php if(!isset($userdata['bio'])) { ?>
+					<li>
+						<a href="<?php echo site_url('you/needs'); ?>"><i class='icon-plus'></i>Your Needs</a>
+					</li>
+				<?php } ?>
+					<li>
+					<a href="<?php echo site_url('you/gifts'); ?>"><i class='icon-plus'></i>Your Gifts</a>
+					</li>
+					<li>
+					<a href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
+					</li>
+				</ul>
+			</div>
+		<?php } ?>
 				
 	</div><!-- close profile_masthead -->
 

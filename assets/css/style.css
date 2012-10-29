@@ -165,7 +165,7 @@ a#logo img{
 #session {
 	float:right;
   padding-bottom:3px;
-  margin-top: 10px;
+  margin-top: 8px;
   font-size:14px;
 }
 #session p {
@@ -180,6 +180,7 @@ a#logo img{
 	color: #FFF;
 	font-size: .8em;
 	text-decoration: none;
+	min-height:15px;
 }
 #session img{
 	width: 35px;
@@ -208,8 +209,6 @@ ul#nav {
 	list-style:none;
 	margin-left: 50px;
 	padding:0;
-	border-left: 1px solid #4b864d;
-	border-right: 1px solid #9bd79d;
 	height: 50px;
 }
 ul#nav li {
@@ -228,8 +227,6 @@ ul#nav li a{
 	font-size: 17px;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   	cursor: pointer;
-  	border-left: 1px solid #9bd79d;
-  	border-right: 1px solid #4b864d;
 }
 ul#nav li a:hover{
   opacity:0.6;
@@ -1558,6 +1555,10 @@ p.nicebigtext{
 	font-size: 22px;
 	color: #666;
 }
+p.nicebigtext span.smaller {
+	line-height: 26px;
+	font-size: 18px;
+}
 p.home_text {
 	font-weight:bold;
 	color: #6CB6E2;
@@ -2285,10 +2286,10 @@ input.homeSearchInput {
 	margin: 0px;
 }
 #yourOptions {
-	margin-top: 10px;
+	margin-top: -5px;
 }
 #yourOptions li {
-	padding-top:5px;
+	padding-bottom:5px;
 }
 
 #social_iframe{

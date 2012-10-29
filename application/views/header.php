@@ -78,6 +78,13 @@ if(isset($css))
 				<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'><i class='icon-plus icon-white'></i>Add</a>
 				<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'><i class="icon-envelope icon-white <?php if(!$activeInbox) { echo 'empty';}?>"></i>Inbox</a>
 
+				<a href="<?php echo site_url('you/index'); ?>" class='btn btn-large btn-success'>
+					<i class='icon-home icon-white'></i>Home
+				</a>
+				<a href='#' class='btn btn-large btn-success'>
+					<i class='icon-search icon-white'></i>Find
+				</a>
+
 				<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
 						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
 							<?php echo substr($userdata['screen_name'],0,25); ?>
@@ -115,9 +122,15 @@ if(isset($css))
 				</div>
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
-					
+										
 				<div class='btn-group'>
-					<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
+						<i class='icon-home icon-white'></i>Home
+					</a>
+					<a href="<?php echo site_url('find'); ?>" class='btn btn-large btn-success'>
+						<i class='icon-search icon-white'></i>Find
+					</a>
+					<a href='#' class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
 						Login
 						<b class='caret'></b>
 					</a>
@@ -150,7 +163,7 @@ if(isset($css))
 							</li>
 						</ul>
 
-					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success'>
+					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-large btn-success'>
 						Sign Up
 					</a>
 				</div>
@@ -159,15 +172,17 @@ if(isset($css))
 
 		<!-- Main Menu -->
 		<ul id='nav'>
-			
-			<li <?php if($segment[1]=='you') echo 'class="active"'; ?>>
-				<a href="<?php echo site_url('you');?>">
-					Home
-				</a>
-			</li>
+			<li>
+
+			<a href='#'>
+				<?php echo $userdata['location']->city.", ".$userdata['location']->state; ?>
+			</a>
+
+			</li>	
+<!--
 			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
 				<a href="<?php echo site_url('find/gifts/');?>">
-					Find
+					How it Works
 				</a>
 			</li>
 			<li <?php if($segment[2]=="people") echo 'class="active"'; ?>>
@@ -179,7 +194,8 @@ if(isset($css))
 				<a href="<?php echo site_url('about');?>">
 					About
 				</a>
-			</li>
+	*/		</li>
+--->
 		</ul>
 	</div>		
 </div>
@@ -189,17 +205,6 @@ if(isset($css))
 <div id="main">
 
 	<div class='wrapper clearfix'>
-	<div id='location_bar'>
-			<div id='hidden_floater_form' style='display:none'>
-				<form method='post' name='floater_form' id='floater_form'>
-					<input type='text' name='location_change' value=''/>
-				</form>
-			</div>
-			<div id='floater_location'>
-				New Haven, CT
-			</div>
-	</div>
-
 	<!-- Add menu modal window -->
 	<div class='modal hide' id='addModal'>
 		<div class='modal-header'>
