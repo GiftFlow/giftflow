@@ -42,6 +42,7 @@ class Util
 	*/
 	public function parse_globals( $options = array() )
 	{
+	
 		Console::logSpeed('start Util::parse_globals()');
 
 		$globals = array();
@@ -136,13 +137,21 @@ class Util
 			$globals['logged_in'] = FALSE;
 			$globals['userdata'] = array();
 		}
-			
-		// Geocode via IP address if $options['geocode_ip']==TRUE
-			if(empty($globals['userdata']['location']->longitude))
-			{
-				$this->CI->load->library('geo');
-			//	$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
-			}
+
+		//Geocode via IP address if $options['geocode_ip']==TRUE
+		$sess_locate = $this->CI->session->userdata('location');
+		if(empty($sess_locate))
+		{
+			Console::logSpeed('GEO GEO GEO GEO GEO');
+			$this->CI->load->library('geo');
+			$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
+			$locationArray = get_object_vars($globals['userdata']['location']);
+			$this->CI->session->set_userdata('location', $locationArray);
+		}
+		else if(empty($globals['userdata']['location']))
+		{
+			$globals['userdata']['location'] = (object) $this->CI->session->userdata('location');
+		}
 
 		$globals['alert_success'] = "";
 		$globals['alert_error'] = "";
@@ -387,4 +396,5 @@ class Util
 		$this->CI->output->set_header("Content-Type:application/json");
 		$this->CI->output->set_output($json);
 	}
+
 }
