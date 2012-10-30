@@ -28,6 +28,8 @@ class You extends CI_Controller {
 	*/
 	function index()
 	{
+		$this->inbox();
+		/*
 		$this->auth->bouncer(1);
 
 
@@ -65,9 +67,9 @@ class You extends CI_Controller {
 		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->load->view('you/homeMock', $this->data);
+		$this->load->view('home', $this->data);
 		$this->load->view('footer', $this->data);
-		
+		 */
 	}
 	
 	function welcome()

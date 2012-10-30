@@ -1,19 +1,31 @@
 <div class='row'>
+<!-- set header for visitor -->
+<?php if(!isset($this->data['userdata']['user_id'])) { ?>
 	<div class='span6'>
 		<p class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><?php echo $userdata['location']->city; ?></p>
 	</div>
-	<div class='span4 offest4'>
-		<button id='relocate_button' class='btn'>Change Location</button>
-		<div style='display:none;' id ='relocate_form'>
-			<form name='relocate' class='find_form' id="relocate" method="post" action="">
-				<div class='input-append'>
-				<input id ='location' size='16' class='input-medium' type="text"  placeholder="<?php echo $userdata['location']->city;?>" name="location" />
-					<button  type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
-				</div>
-			</form>
+
+<?php } else { ?>
+
+	<div class='span4'>
+		<a href="<?php echo site_url("you");?>" class="user_image medium left">
+			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
+		</a>
+		<p class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
+	</div>
+	<div class='span8'>
+		<div class='btn-group profile_actions'>
+			<?php if(!isset($userdata['bio'])) { ?>
+				<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a>
+			<?php } ?>
+				<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
+				<a class='btn' href="<?php echo site_url('you/needs'); ?>"><i class='icon-plus'></i>Your Needs</a>
+				<a class='btn' href="<?php echo site_url('you/gifts'); ?>"><i class='icon-plus'></i>Your Gifts</a>
+				<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
 		</div>
 	</div>
-</div>
+<?php } ?>
+	</div><!-- close header row -->
 
 <div class='row chunk' id='dashboard'>
 		<div class='span8'>	
@@ -78,48 +90,40 @@
 
 $(function() {
 
+	var url = 'http://blog.giftflow.org/?feed=rss2';
 
-$('#relocate_button').click(function() {
-	$(this).hide();
-	$('#relocate_form').show();
-});
+		//callback for blog RSS, appends posts to DOM
+	function logfeed(data) {
 
-$('#relocate').focusout(function() {
-	$('#relocate_form').hide();
-	$('#relocate_button').show();
-});
+		$('.results_loading').hide();
 
-var url = 'http://blog.giftflow.org/?feed=rss2';
+		for(var i=0; i<3; i++) {
 
-function logfeed(data) {
+			var latest = data.entries[i];
 
-	$('.results_loading').hide();
+			var blurb = latest.content.replace(/(<([^>]+)>)/ig,"");
+			blurb = blurb.substring(0,150)+'... by '+latest.author;
+			
+			var entry = "<li><span class='entryTitle'><a href='"+latest.link+"'>"+latest.title+"</a></span><span class='entryBlurb'>  "+blurb+"</span></li>";
+			$('#blogFeed').append(entry);
+		}
 
-	for(var i=0; i<3; i++) {
-
-		var latest = data.entries[i];
-
-		var blurb = latest.content.replace(/(<([^>]+)>)/ig,"");
-		blurb = blurb.substring(0,150)+'... by '+latest.author;
-		
-		var entry = "<li><span class='entryTitle'><a href='"+latest.link+"'>"+latest.title+"</a></span><span class='entryBlurb'>  "+blurb+"</span></li>";
-		$('#blogFeed').append(entry);
+	};
+	//Pulls latest blog posts via RSS
+	function parseRSS(url, callback) {
+	  $.ajax({
+		url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(url),
+		dataType: 'json',
+		success: function(data) {
+		  callback(data.responseData.feed);
+		}
+	  });
 	}
 
-};
+	//On page load, show loading gif and get blog RSS feed
+	$('.results_loading').show();
+	parseRSS(url, logfeed);
 
-function parseRSS(url, callback) {
-  $.ajax({
-    url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(url),
-    dataType: 'json',
-    success: function(data) {
-      callback(data.responseData.feed);
-    }
-  });
-}
-
-$('.results_loading').show();
-parseRSS(url, logfeed);
 
 });
 

@@ -64,6 +64,38 @@ $(function(){
 		e.stopPropagation();
 	});
 
+	$('#header_location').tooltip({
+		placement: 'bottom',
+	});
+
+	//script for location_header
+	$('#header_location').click(function() {
+		$(this).hide();
+		$('#relocate_form').show();
+	});
+	$('#relocate_cancel').click(function() {
+		$('#relocate_form').hide();
+		$('#header_location').show();
+		return false;
+	});
+
+	GF.relocate = function(data) {
+		var updated = data.city+", "+data.state;
+		$('#header_location').text(updated);
+		$('#relocate_form').hide();
+		$('#header_location').show();
+	};
+
+	GF.process_relocate = function(locate) {
+		var data = {'location' : locate};
+		$.post("<?php echo site_url('ajax/relocate'); ?>", data, GF.relocate, "json");
+	};
+	$('#relocate').submit(function() {
+		var location_string = $('input#header_location').val();
+		console.log('submit!');
+		GF.process_relocate(location_string);
+		return false;
+	});
 
 	<?php /**
 	*	Follow user button click listener

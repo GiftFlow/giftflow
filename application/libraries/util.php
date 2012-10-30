@@ -99,10 +99,12 @@ class Util
 			
 			// Iterate over list of location fields, setting Location field if data
 			$globals['userdata']['location'] = (object) array();
+
 			$location_fields = array("longitude","latitude","address","city","state");
+
 			foreach($location_fields as $field)
 			{
-				if(!empty($this->CI->session->userdata['location_'.$field]))
+				if(!empty($this->CI->session->userdata['location'][$field]))
 				{
 					$globals['userdata']['location']->$field = $this->CI->session->userdata('location_'.$field);
 				}
@@ -139,18 +141,24 @@ class Util
 		}
 
 		//Geocode via IP address if $options['geocode_ip']==TRUE
-		$sess_locate = $this->CI->session->userdata('location');
-		if(empty($sess_locate))
+		$sess_locate = $this->CI->session->userdata('location_longitude');
+		if(!$sess_locate)
 		{
-			Console::logSpeed('GEO GEO GEO GEO GEO');
 			$this->CI->load->library('geo');
+			$this->CI->load->library('auth');
 			$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
-			$locationArray = get_object_vars($globals['userdata']['location']);
-			$this->CI->session->set_userdata('location', $locationArray);
+			$this->CI->auth->update_session_location($globals['userdata']['location']);
+
 		}
 		else if(empty($globals['userdata']['location']))
 		{
-			$globals['userdata']['location'] = (object) $this->CI->session->userdata('location');
+			$properties = array(
+				"latitude","longitude","address","city","state","country"
+			);
+			foreach($properties as $property)
+			{
+				$globals['userdata']['location']->$property = $this->CI->session->userdata("location_".$property);
+			}
 		}
 
 		$globals['alert_success'] = "";

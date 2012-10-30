@@ -65,7 +65,9 @@ if(isset($css))
 <body>
 <div id='header'>
 	<div class='wrapper clearfix'>
-		
+
+<!--- NOTE MUCH OF THE SCRIPT FOR THESE UI ELEMENTS SUCH AS THE DROPDOWN AND LOCATION BAR IS IN footer.php -->		
+
 		<!-- Logo -->
 		<a href="<?php echo site_url(); ?>" id='logo'>
 			<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
@@ -78,13 +80,13 @@ if(isset($css))
 				<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'><i class='icon-plus icon-white'></i>Add</a>
 				<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'><i class="icon-envelope icon-white <?php if(!$activeInbox) { echo 'empty';}?>"></i>Inbox</a>
 
-				<a href="<?php echo site_url('you/index'); ?>" class='btn btn-large btn-success'>
-					<i class='icon-home icon-white'></i>Home
-				</a>
-				<a href='#' class='btn btn-large btn-success'>
+				<a href="<?php echo site_url('find/gifts'); ?>" class='btn btn-large btn-success'>
 					<i class='icon-search icon-white'></i>Find
 				</a>
 
+				<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
+					<i class='icon-home icon-white'></i>Home
+				</a>
 				<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
 						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
 							<?php echo substr($userdata['screen_name'],0,25); ?>
@@ -174,10 +176,23 @@ if(isset($css))
 		<ul id='nav'>
 			<li>
 
-			<a href='#'>
-				<?php echo $userdata['location']->city.", ".$userdata['location']->state; ?>
+			<a title='Click to change your location' id='header_location' href="#">
+				<?php if(isset($userdata['location']->address)) { ?>
+					<?php echo $userdata['location']->address; ?>
+				<?php } else { ?>
+					Click Here to set your Location
+				<?php } ?>
 			</a>
 
+			<div style='display:none;' id ='relocate_form'>
+			<form name='relocate' class='find_form' id="relocate" method="post" action="">
+					<div class='input-append'>
+					<input id ='header_location' size='16' class='input-medium' type="text"  placeholder="<?php if(isset($userdata['location']->city)) { echo $userdata['location']->city; } ?>" name="location" />
+						<button  id='relocate_button' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
+						<button id='relocate_cancel' class='btn btn-small'><i class='icon-remove'></i></button>
+					</div>
+				</form>
+			</div>
 			</li>	
 <!--
 			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>

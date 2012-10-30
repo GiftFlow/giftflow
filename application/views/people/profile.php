@@ -1,5 +1,5 @@
 <!-- profile is divided into two columns! -->
-<div class = 'row-fluid' id='profile_header'>
+<div class = 'row-fluid' class='profile_header'>
 
 	<div class='profile_column span4' id='profile_masthead'>
 
@@ -7,9 +7,9 @@
 				<img src="<?php echo $profile_thumb; ?>" />
 			</a>	
 			
-			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
+			<p class='nicebigtext' id='profile_name'><?php echo $u->screen_name; ?></p>
 	</div>
-	<div class='span6'>
+	<div class='span8'>
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
 					<?php if(isset($is_following) &&($is_following)) { ?>
@@ -19,35 +19,16 @@
 					<?php } ?>
 					<a href='#' id='message_button' class='btn profile_action btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled";}?>'><i class='icon-pencil'></i> Message</a>
 					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
-			<?php } else { ?>
-			<div class='span3'>
-				<ul class='homeList'>
-				<?php if(!isset($userdata['bio'])) { ?>
-					<li>
-						<a href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a></p>
-					</li>
+				<?php } else { ?>
+					<?php if(!isset($userdata['bio'])) { ?>
+						<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a>
+					<?php } ?>
+						<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
+						<a class='btn' href="<?php echo site_url('you/needs'); ?>"><i class='icon-plus'></i>Your Needs</a>
+						<a class='btn' href="<?php echo site_url('you/gifts'); ?>"><i class='icon-plus'></i>Your Gifts</a>
+						<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
 				<?php } ?>
-					<li>
-					<a href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
-					</li>
-				</ul>
 			</div>
-			<div class='span3'>
-				<ul class='homeList' id='yourOptions'>
-				<?php if(!isset($userdata['bio'])) { ?>
-					<li>
-						<a href="<?php echo site_url('you/needs'); ?>"><i class='icon-plus'></i>Your Needs</a>
-					</li>
-				<?php } ?>
-					<li>
-					<a href="<?php echo site_url('you/gifts'); ?>"><i class='icon-plus'></i>Your Gifts</a>
-					</li>
-					<li>
-					<a href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
-					</li>
-				</ul>
-			</div>
-		<?php } ?>
 				
 	</div><!-- close profile_masthead -->
 

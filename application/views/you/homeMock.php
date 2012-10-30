@@ -1,4 +1,13 @@
 <div class='row'>
+<!-- set header for visitor -->
+<?php if(!$is_logged_in) { ?>
+	<div class='span6'>
+		<p class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><?php echo $userdata['location']->city; ?></p>
+	</div>
+	<div class='span4 offest2'>
+
+<?php } else { ?>
+
 	<div class='span1'>
 		<a href="<?php echo site_url("you");?>" class="user_image medium left">
 			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
@@ -32,7 +41,21 @@
 			</li>
 		</ul>
 	</div>
-</div>
+	<div class='span6'>
+<?php } ?>
+	<!-- this div is opened within the above if/else statement -->
+		<button id='relocate_button' class='btn'>Change Location</button>
+		<div style='display:none;' id ='relocate_form'>
+			<form name='relocate' class='find_form' id="relocate" method="post" action="">
+				<div class='input-append'>
+				<input id ='location' size='16' class='input-medium' type="text"  placeholder="<?php echo $userdata['location']->city;?>" name="location" />
+					<button  type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- close relocate div -->
+</div><!-- close header row -->
 
 <div class='row chunk' id='dashboard'>
 		<div class='span8'>	

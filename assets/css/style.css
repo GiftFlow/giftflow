@@ -62,12 +62,8 @@ input[type=text], textarea{
 	font-family:'helvetica neue', helvetica, arial;
 }
 
-#location_bar {
-	position:absolute;
-	top: 73px;
-	right: 30px;
-	width: 200px;
-	max-height: 30px;
+#relocate_form {
+	margin-top: 10px;
 }
 
 .need {
@@ -1359,14 +1355,17 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 	background: #EEE;
 }
 
-#profile_header {
-	margin: 25px 0px 20px 0px;
+.profile_header {
+	margin: 25px 0px 0px 0px;
 }
 #profile_header_right {
 	margin-top: 20px;
 }
-.profile_action {
-	margin-bottom: 5px;
+#profile_name {
+	margin-left: 80px;
+}
+.profile_actions {
+	margin-top:10px;
 }
 #nameandStuff {
 	padding: 0px 0px 0px 20px;

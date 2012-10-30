@@ -179,18 +179,14 @@ $(function(){
 	// Process AJAX Data
 	GF.Ajax.process = function(data){
 		GF.UI.clearResults();
-
 		if(data.center) {
 			GF.UI.setLocation(data.center.address);
 		}
-
-
 		if(data.results.length > 0){
 			GF.UI.setResults(data.results);
 		} else {
 			return GF.UI.noResults();
 		}
-		
 		GF.UI.loaded();
 	}
 	
