@@ -68,6 +68,12 @@ $(function(){
 		placement: 'bottom',
 	});
 
+	GF.Locations.initialize($('input#header_relocate'));
+
+	$('#header_relocate').click(function() {
+		$(this).val('');
+	});
+
 	//script for location_header
 	$('#header_location').click(function() {
 		$(this).hide();
@@ -91,10 +97,16 @@ $(function(){
 		$.post("<?php echo site_url('ajax/relocate'); ?>", data, GF.relocate, "json");
 	};
 	$('#relocate').submit(function() {
-		var location_string = $('input#header_location').val();
+		var location_string = $('input#header_relocate').val();
 		console.log('submit!');
 		GF.process_relocate(location_string);
 		return false;
+	});
+
+	$('#relocate_button').click(function() {
+		var location_string = $('input#header_relocate').val();
+		console.log('WHAT'+location_string);
+		GF.process_relocate(location_string);
 	});
 
 	<?php /**

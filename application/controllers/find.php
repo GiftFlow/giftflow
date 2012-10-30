@@ -117,7 +117,7 @@ class Find extends CI_Controller {
 
 		$this->data['people_menu'] = $this->load->view('people/includes/submenu.php', $this->data, TRUE);
 
-		$this->data['js'][] = 'GF.Locations.js';
+		//$this->data['js'][] = 'GF.Locations.js';
 
 		// Load views
 		$this->load->view('header',$this->data);

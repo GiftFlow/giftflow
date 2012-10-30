@@ -88,6 +88,7 @@ $(function(){
 
 
 	GF.Locations.initialize($('input#location'));
+
 	$('#location').click( function () {
 		$(this).val('');
 	});

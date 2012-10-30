@@ -187,7 +187,7 @@ if(isset($css))
 			<div style='display:none;' id ='relocate_form'>
 			<form name='relocate' class='find_form' id="relocate" method="post" action="">
 					<div class='input-append'>
-					<input id ='header_location' size='16' class='input-medium' type="text"  placeholder="<?php if(isset($userdata['location']->city)) { echo $userdata['location']->city; } ?>" name="location" />
+					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="<?php if(isset($userdata['location']->city)) { echo $userdata['location']->city; } ?>" name="location" />
 						<button  id='relocate_button' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
 						<button id='relocate_cancel' class='btn btn-small'><i class='icon-remove'></i></button>
 					</div>
