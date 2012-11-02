@@ -56,14 +56,14 @@
 <script type="text/javascript">
 $(function(){
 	
-	// script for logIn dropdown
-
+	// logIn dropdown
 	$('.dropdown-toggle').dropdown();
 	$('#login-form').css('left', '-50px');
 	$('.dropdown-menu').find('form').click(function (e) {
 		e.stopPropagation();
 	});
 
+	//header location bar
 	$('#header_location').tooltip({
 		placement: 'bottom',
 	});
@@ -74,7 +74,6 @@ $(function(){
 		$(this).val('');
 	});
 
-	//script for location_header
 	$('#header_location').click(function() {
 		$(this).hide();
 		$('#relocate_form').show();
@@ -87,7 +86,7 @@ $(function(){
 
 	GF.relocate = function(data) {
 		var updated = data.city+", "+data.state;
-		$('#header_location').text(updated);
+		$('#header_location_text').text(updated);
 		$('#relocate_form').hide();
 		$('#header_location').show();
 	};

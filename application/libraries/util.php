@@ -104,7 +104,7 @@ class Util
 
 			foreach($location_fields as $field)
 			{
-				if(!empty($this->CI->session->userdata['location'][$field]))
+				if(!empty($this->CI->session->userdata['location_'.$field]))
 				{
 					$globals['userdata']['location']->$field = $this->CI->session->userdata('location_'.$field);
 				}
@@ -140,9 +140,11 @@ class Util
 			$globals['userdata'] = array();
 		}
 
-		//Geocode via IP address if $options['geocode_ip']==TRUE
+		//Important note about locations. Locations are almost always stored as objects...
+		//EXCEPT for the session->userdata which is an flat array with each value as 'location_whatever'
+		//Geocode via IP address if session has no location
 		$sess_locate = $this->CI->session->userdata('location_longitude');
-		if(!$sess_locate)
+		if(empty($sess_locate))
 		{
 			$this->CI->load->library('geo');
 			$this->CI->load->library('auth');
@@ -150,16 +152,26 @@ class Util
 			$this->CI->auth->update_session_location($globals['userdata']['location']);
 
 		}
+		//session location is set, but globals is not
 		else if(empty($globals['userdata']['location']))
 		{
 			$properties = array(
 				"latitude","longitude","address","city","state","country"
 			);
+			//translate flat session array into globals location object
 			foreach($properties as $property)
 			{
 				$globals['userdata']['location']->$property = $this->CI->session->userdata("location_".$property);
 			}
 		}
+
+		$header_location = (isset($globals['userdata']['location']->city)) ? $globals['userdata']['location']->city : 'Add your location';
+		if(isset($globals['userdata']['location']->state))
+		{
+			$header_location .= ", ".$globals['userdata']['location']->state;
+		}
+
+		$globals['header_location'] = $header_location;
 
 		$globals['alert_success'] = "";
 		$globals['alert_error'] = "";

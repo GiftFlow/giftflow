@@ -63,7 +63,7 @@ $('.typeToggle').click( function() {
 	$('#searchType').val(type); 
 });
 
-$('.categoryIcon').tipTip({ delay:0, fadein: 0});
+$('.categoryIcon').tooltip();
 
 });
 

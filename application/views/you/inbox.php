@@ -122,6 +122,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
+	$("img.status_icon").tooltip();
 });
 </script>

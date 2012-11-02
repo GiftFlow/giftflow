@@ -177,11 +177,7 @@
 <script type='text/javascript'>
 $(function() {
 
-	var isLogd;
-
-if(<?php echo json_encode($logged_in_user_id); ?>){
-	isLogd = 'TRUE';
-}
+var logged_in = <?php echo json_encode($logged_in); ?>;
 
 
 $('#photoModal').modal({show:false});
@@ -200,7 +196,7 @@ var fadeSection = function(param) {
 		$('#profile_top').css('opacity',0.5);
 	}
 };
-if(isLogd) {
+if(logged_in) {
 	$('.profile_action').click( function() {
 		fadeSection('out');
 		$('.profile_form').hide();

@@ -65,6 +65,10 @@ input[type=text], textarea{
 #relocate_form {
 	margin-top: 10px;
 }
+ul#nav li a#header_location {
+	margin: 5px 0px 5px 0px;
+	padding: 8px;
+}
 
 .need {
 	color: #AB58BE;

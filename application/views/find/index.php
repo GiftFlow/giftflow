@@ -16,7 +16,7 @@
 			
 				<form name='changeLocation' class='find_form' id="editLocation" method="post" action="">
 					<div class='input-append'>
-						<input id ='location' size='16' class='input-medium' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
+						<input id ='find_location' size='16' class='input-medium' type="text"  value="<?php if(!empty($args['location'])) { echo $args['location']->address; } ?>" name="location" />
 						<button id='changeLocation' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i> Change</button>
 					</div>
 				</form>
@@ -87,9 +87,9 @@
 $(function(){
 
 
-	GF.Locations.initialize($('input#location'));
+	GF.Locations.initialize($('input#find_location'));
 
-	$('#location').click( function () {
+	$('#find_location').click( function () {
 		$(this).val('');
 	});
 
@@ -173,7 +173,7 @@ $(function(){
 	
 	// Set UI Location String
 	GF.UI.setLocation = function(locationString){
-		$("#location").val(locationString);
+		$("#find_location").val(locationString);
 	};
 	
 	
