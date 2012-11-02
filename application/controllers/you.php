@@ -3,7 +3,7 @@ class You extends CI_Controller {
 
 	var $data;
 	var $has_reviewed = FALSE;
-	var $hook_data;
+	//var $hook_data;
 	
 	function __construct()
 	{
@@ -601,15 +601,12 @@ class You extends CI_Controller {
 				$this->load->library('notify');
 
 				$TY = new Thankyou_search();
-				$hook_data = $TY->get(array('id'=> $T->id));
-				$hook_data->decision = $decided;
+				$event_data = $TY->get(array('id'=> $T->id));
+				$event_data->decision = $decided;
 
-				$E = new Event_logger();
-				$N = new Notify();
-
-				$E->basic('thankyou_updated', $hook_data);
-				$N->thankyou_updated('thankyou_updated', $hook_data);
-					
+				$this->event_logger->basic('thankyou_updated', $event_data);
+				$this->notify->thankyou_updated($event_data);
+				
 				$this->session->set_flashdata('success','Thank You '.$decided);
 				redirect('you/view_thankyou/'.$thankyou_id);
 			}

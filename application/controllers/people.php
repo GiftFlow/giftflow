@@ -36,17 +36,17 @@ class People extends CI_Controller {
 		}
 	}
 	
-        
+
 	public function index()
-        {
-                redirect('find/people');
-        }
-        
-        /**
-         *  Loads users facebook friends 
-         *  NON FUNCTIONAL
-         *  @todo fix this! 
-         */
+	{
+					redirect('find/people');
+	}
+
+	/**
+	 *  Loads users facebook friends 
+	 *  NON FUNCTIONAL
+	 *  @todo fix this! 
+	 */
 	public function friends()
 	{
 		// Page Title
@@ -96,11 +96,11 @@ class People extends CI_Controller {
 		$this->load->view('people/friends', $this->data);
 		$this->load->view('footer', $this->data);
 	}	
-	
-        /**
-         *  Displays lists of users, i.e. following, giftcircle, etc
-         * @param type $type 
-         */
+
+	/**
+	 *  Displays lists of users, i.e. following, giftcircle, etc
+	 * @param type $type 
+	 */
 	function lists($type = "following")
 	{
 		$this->auth->bouncer(1);
@@ -134,7 +134,7 @@ class People extends CI_Controller {
 
 	/**
 	*   Displays user profile
-        *    handles incoming user actions from profile
+	*   handles incoming user actions from profile
 	*/
 	function profile($id=NULL)
 	{
@@ -253,8 +253,8 @@ class People extends CI_Controller {
 		$this->data['transactions'] = $T_s->find($search_options);
 
 		$T_y = new Thankyou_search();
-		$search_options = array('recipient_id' => $U->id, 'status'=>'accepted');
-		$this->data['thanks'] = $T_y->find($search_options);
+		$search_options_thank = array('recipient_id' => $U->id, 'status'=>'accepted');
+		$this->data['thanks'] = $T_y->find($search_options_thank);
 
 		//Load gifts for "Give to" panel
 		if(!empty($this->data['logged_in_user_id']))
@@ -286,7 +286,7 @@ class People extends CI_Controller {
 		
 		//Check for "gift circle overlap"
 		if($this->data['visitor'] && !empty($this->data['userdata']['user_id']))
-		{			
+		{
 			$options = array(
 				'user_one' => $this->data['userdata']['user_id'],
 				'user_two' => $U->id
@@ -326,15 +326,12 @@ class People extends CI_Controller {
 		$U->save_following($F);
 		
 		// Prep hook data
-		$hook_data = array(
+		$event_data = array(
 			"following_user_id"=>$user_id,
 			"follower_user_id"=>$this->data['logged_in_user_id']
 		);
 
-		$E = new Event_logger();
-		$E->follower_new('follower_new', $hook_data);
-		$E->following_new('following_new',$hook_data);
-
+		$this->event_logger->follower_new($event_data);
 
 		if( $this->data['is_ajax'] )
 		{
@@ -359,9 +356,6 @@ class People extends CI_Controller {
 		
 		// Delete "Following" relationship between 2 Users
 		$U->delete_following($F);
-		
-		// Hook: 'follower_deleted'
-		$this->hooks->call('follower_deleted', $this);
 
 		if( $this->data['is_ajax'] )
 		{
@@ -399,7 +393,7 @@ class People extends CI_Controller {
 		$TY->recipient_id = $form['recipient_id'];
 		$TY->gift_title = $form['gift'];
 		$TY->body = $form['body'];
-		$Ty->status = 'pending';
+		$TY->status = 'pending';
 
 		if(!$TY->save()) {
 			show_error('Error saving Thankyou');
@@ -407,28 +401,23 @@ class People extends CI_Controller {
 			// Set flashdata & redirect
 			$this->session->set_flashdata('success', 'Thank sent!');
 
-
 			//Get filled out thankyou object from thankyouSearch 
 			$newThank = new Thankyou_search();
 			
-			$hook_data = $newThank->get(array('id'=>$TY->id));
-			$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
+			$event_data = $newThank->get(array('id'=>$TY->id));
+			$event_data->return_url = site_url('you/view_thankyou/'.$TY->id);
 
 			//record event and send notification
-			$E = new Event_logger();
-			$E->basic('thankyou', $hook_data);
-
-			$N = new Notify();
-			$N->thankyou('thankyou', $hook_data);
+			$this->event_logger->basic('thankyou', $event_data);
+			$this->notify->thankyou($event_data);
 
 			redirect('people/'.$form['recipient_id']);
 		}
 	}
-        
-        /**
-         *  Loads list of facebook friends 
-         */
 
+	/**
+	 *  Loads list of facebook friends 
+	 */
 	public function facebook()
 	{
 		if(!empty($this->U->facebook_id))
@@ -460,11 +449,11 @@ class People extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 	
-        /**
-         * NON FUNCTIONAL 
-         * Lists Gmail friends 
-         * @todo rebuild integration with google
-         */
+	/**
+	 * NON FUNCTIONAL 
+	 * Lists Gmail friends 
+	 * @todo rebuild integration with google
+	 */
 	public function gmail()
 	{
 		// Page Title
@@ -502,9 +491,8 @@ class People extends CI_Controller {
 	}
 	
 	/**
-         *  Handles incoming message form from profile 
-         */
-
+	*  Handles incoming message form from profile 
+	*/
 	function message ()
 	{
 

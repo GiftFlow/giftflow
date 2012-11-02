@@ -185,24 +185,22 @@ class Market
 				show_error("Error saving conversation.");
 			}
 		}
-			// Load fully formed transaction factory result of new transaction
-			$TS = new Transaction_search;
-			$hook_data = (object) array(
-				"transaction"=> $TS->get(array(
-					"transaction_id"=>$Transaction->id,
-					"include_messages" => FALSE			
-					)),
-				"note" => $this->note,
-				'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
-			);
+		
+		// Load fully formed transaction factory result of new transaction
+		$TS = new Transaction_search;
+		$event_data = (object) array(
+			"transaction"=> $TS->get(array(
+				"transaction_id"=>$Transaction->id,
+				"include_messages" => FALSE			
+				)),
+			"note" => $this->note,
+			'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
+		);
+		
+		$this->CI->event_logger->transaction_new($event_data);
+		$this->CI->notify->alert_transaction_new($event_data);
 
-		$E = new Event_logger();
-		$E->transaction_new('transaction_new',$hook_data);
-
-		$N = new Notify();
-		$N->alert_transaction_new('transaction_new',$hook_data);
-
-		$this->updated('transaction_new',$hook_data);
+		$this->updated('transaction_new',$event_data);
 
 		return TRUE;
 	}
@@ -267,7 +265,7 @@ class Market
 		
 		// Load fully formed transaction factory result of new transaction
 		$TS = new Transaction_search;
-		$hook_data = (object) array(
+		$event_data = (object) array(
 			"transaction"=> $TS->get(array(
 				"transaction_id"=>$Transaction->id,
 				"include_messages"=>FALSE
@@ -276,9 +274,9 @@ class Market
 			'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 		);
 		
-		$E = new Event_logger();
-		$E->transaction_cancelled('transaction_cancelled',$hook_data);
-		$this->updated('transaction_cancelled',$hook_data);
+		$this->CI->event_logger->transaction_cancelled($event_data);
+		
+		$this->updated('transaction_cancelled',$event_data);
 		
 		return TRUE;
 	}
@@ -349,7 +347,7 @@ class Market
 		
 		
 		$E = new Event_logger();
-		$E->transaction_declined('transaction_declined',$hook_data);
+		$E->transaction_declined($hook_data);
 		$this->updated('transaction_declined',$hook_data);
 		
 		return TRUE;
@@ -400,11 +398,13 @@ class Market
 			'return_url' => site_url('you/view_transaction/'.$Transaction->id)	
 		);
 				
-		$E = new Event_logger();
-		$E->transaction_activated('transaction_activated',$hook_data);
+		//$E = new Event_logger();
+		//$E->transaction_activated('transaction_activated',$hook_data);
+		$this->CI->event_logger->transaction_activated($hook_data);
 
-		$N = new Notify();
-		$N->alert_transaction_activated('transaction_activated',$hook_data);
+		//$N = new Notify();
+		//$N->alert_transaction_activated('transaction_activated',$hook_data);
+		$this->CI->notify->alert_transaction_activated($hook_data);
 		
 		return TRUE;
 	}
@@ -467,7 +467,7 @@ class Market
 		
 		// Prep hook data
 		$TS = new Transaction_search;
-		$hook_data = (object) array(
+		$event_data = (object) array(
 			"transaction"=> $TS->get(array(
 				"transaction_id"=>$Transaction->id,
 				"include_messages" => FALSE,
@@ -476,24 +476,20 @@ class Market
 			'return_url' => site_url('you/view_transaction/'.$Transaction->id)
 		);
 		//iterate over the transaction and add ReviewER and ReviewED user arrays to hook_data
-		foreach($hook_data->transaction->users as $key=>$val)
+		foreach($event_data->transaction->users as $key=>$val)
 		{
 			if($val->id == $options['reviewer_id'])
 			{
-				$hook_data->reviewer = $val;
+				$event_data->reviewer = $val;
 			}
 			else if($val->id != $options['reviewer_id'])
 			{
-				$hook_data->reviewed = $val;
+				$event_data->reviewed = $val;
 			}
 		}
 		
-		
-		$E = new Event_logger();
-		$E->review_new('review_new',$hook_data);
-
-		$N = new Notify();
-		$N->review_new('review_new',$hook_data);
+		$this->CI->event_logger->review_new($event_data);
+		$this->CI->notify->review_new($event_data);
 
 		// Attempt to change status to completed
 		$this->complete(array(
@@ -523,7 +519,7 @@ class Market
 		 * A thankyou creates a 'pending' transaction, so this test won't pass.
 		*/
 
-		if($Transaction->status = 'active')
+		if($Transaction->status == 'active')
 		{
 			$Transaction->status = "completed";
 		
@@ -577,7 +573,7 @@ class Market
 		
 		// Prep hook data
 		$TS = new Transaction_search;
-		$hook_data = (object) array(
+		$event_data = (object) array(
 			"transaction"=> $TS->get(array(
 				"transaction_id"=>$options['transaction_id']
 			)),
@@ -586,13 +582,11 @@ class Market
 			'return_url' => site_url('you/view_transaction/'.$options['transaction_id'])
 		);
 		
-		$E = new Event_logger();
-		$E->transaction_message('transaction_message',$hook_data);
 
-		$N = new Notify();
-		$N->alert_transaction_message('transaction_message',$hook_data);
+		$this->CI->event_logger->transaction_message($event_data);
+		$this->CI->notify->alert_transaction_message($event_data);
 
-		$this->updated('transaction_message',$hook_data);
+		$this->updated('transaction_message',$event_data);
 		
 		return TRUE;
 	}

@@ -23,7 +23,6 @@ class Auth
 	public function __construct()
 	{
 		$this->CI =& get_instance();
-		$this->hooks =& load_class('Hooks');
 	}
 	
 	/**
@@ -44,41 +43,37 @@ class Auth
 		$this->U->email = $this->CI->input->post('email');
 		$this->U->screen_name = $this->CI->input->post('screen_name');
 		$this->U->password = $this->CI->input->post('password');
-    $this->U->type = $this->CI->input->post('profile_type');
+		$this->U->type = $this->CI->input->post('profile_type');
 
-		
-    //Create and set Location if user provided zipcode
-    $zipcode = $this->CI->input->post('zipcode');
-    if(isset($zipcode)) 
-     {
-
+		//Create and set Location if user provided zipcode
+		$zipcode = $this->CI->input->post('zipcode');
+		if(isset($zipcode)) 
+		{
 			// Create location object and then try to save it
 			$L = new Location();
 			$this->CI->load->library('geo');
 			$Geo = new geo();
 			$full_location = $Geo->geocode($this->CI->input->post('zipcode'));
-			
+
 			if(!empty($full_location))
 			{
-        foreach($full_location as $key=>$val)
+				foreach($full_location as $key=>$val)
 				{
 					$L->$key = $val;
 				}
-        
-        $L->validate();
-        if(!empty($L->duplicate_id))
-        {
-          $L = new Location($L->duplicate_id);
-        }
-        elseif(!$L->save())
-        {
-            echo $L->error->string;
-        }
-        
-      }
-       $this->U->save($L);
-    } 
 
+				$L->validate();
+				if(!empty($L->duplicate_id))
+				{
+					$L = new Location($L->duplicate_id);
+				}
+				elseif(!$L->save())
+				{
+						echo $L->error->string;
+				}
+			}
+			$this->U->save($L);
+		}
 
 		// Set default user role to 2, which is a normal user
 		$this->U->role = 'user';
@@ -86,7 +81,7 @@ class Auth
 		// Set IP address
 		$this->U->ip_address = $this->CI->input->ip_address();
 		
-		 
+		
 		// Generate forgotten password code
 		$this->U->forgotten_password_code = sha1('$'.$this->U->ip_address.'$'.microtime(TRUE));
 		
@@ -94,10 +89,10 @@ class Auth
 		if($this->U->register())
 		{
 			// Deactive user, generate activation code
-      $this->U->deactivate();
-		
-			// Hook: 'user_registration_manual'
-			$this->hooks->call('user_registration_manual', $this);
+			$this->U->deactivate();
+			
+			$this->CI->load->library('notify');
+			$this->CI->notify->alert_user_registration_manual($this);
 		}
 		
 		// Return new user
@@ -157,10 +152,7 @@ class Auth
 		
 		// Validates login info. If valid...
 		if($this->U->login())
-		{
-			// Hook: 'user_logged_in'
-			$this->hooks->call('user_logged_in', $this);
-		
+		{	
 			// ... create new session
 			$this->new_session();
 		}
@@ -177,9 +169,6 @@ class Auth
 	{
 		// Destroy CI session
 		$this->CI->session->sess_destroy();
-		
-		// Hook: 'user_logged_out'
-		$this->hooks->call('user_logged_out', $this);
 	}
 	
 	/**
@@ -449,10 +438,6 @@ class Auth
 			return false;
 		}
 		$this->U = $U;
-		
-		// Hook: 'user_logged_in'
-		$this->hooks->call('user_logged_in', $this);
-		$this->hooks->call('user_logged_in_openid', $this);
 
 		// ... create new session
 		$this->new_session();
@@ -477,10 +462,6 @@ class Auth
 		
 		$this->U = $U;
 		
-		// Hook: 'user_logged_in'
-		$this->hooks->call('user_logged_in', $this);
-		$this->hooks->call('user_logged_in_openid', $this);
-
 		// ... create new session
 		$this->new_session();
 		

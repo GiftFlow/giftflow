@@ -120,7 +120,6 @@ class Alert {
 		$this->email( $config );
 	}
 
-     
 	/** 
 	*	Generate message and subject by parsing the alert template
 	*	and the data found in $this->parseables

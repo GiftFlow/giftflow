@@ -86,14 +86,15 @@ class About extends CI_Controller {
 	public function contact_giftflow()
 	{
 		if(!empty($_POST)) 
-		{		
-			$this->load->library('datamapper');
-			$hook_data = array(
+		{					
+			$this->load->library('Notify');
+
+			$this->notify->contact_giftflow(array(
 				'name' => $_POST['name'],
 				'email' => $_POST['email'],
 				'message' => $_POST['message']
-				);
-			$this->hooks->call('contact_giftflow', $hook_data);
+				));
+			
 			$this->session->set_flashdata('success','Message submitted. We will get back to you as soon as possible.');
 			redirect('');
 		}

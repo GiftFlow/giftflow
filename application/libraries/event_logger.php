@@ -40,6 +40,7 @@ class Event_logger
 	*/
 	function __call($name,$arguments)
 	{
+		// TODO: remove this function
 		$E = $this->basic($name,$arguments[1]);
 	}
 	
@@ -76,7 +77,7 @@ class Event_logger
 	* $data contains user_id of newly registered user
 	* can't use $this->basic because userdata isn't set yet.
 	*/
-	public function user_new($params,$data)
+	public function user_new($data)
 	{
 		$E = new Event();
 		$E->type = 'user_new';
@@ -90,7 +91,6 @@ class Event_logger
 			return FALSE;
 		}
 		return TRUE;
-	
 	}
 	
 	/**
@@ -98,15 +98,13 @@ class Event_logger
 	*
 	* @todo make the notify user email actual get sent out!
 	*/
-	public function follower_new($params, $data)
+	public function follower_new($data)
 	{
-	
 		$E = $this->basic("follower_new",$data);
 		$E->save();
 		$E->notify_user($data['following_user_id']);
-		
-		
 	}
+	
 	/**
 	*	Saves transaction_id to event object when transaction_new hook
 	*	called and then creates notification db row
@@ -114,7 +112,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_new($params,$data)
+	function transaction_new($data)
 	{
 		$data->conversation = NULL;
 		
@@ -134,7 +132,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_activated($params, $data)
+	function transaction_activated($data)
 	{
 		$E = $this->basic("transaction_activated",$data);
 		$E->transaction_id = $data->transaction->id;
@@ -144,7 +142,6 @@ class Event_logger
 		$E->notify_user($data->transaction->demander->id);
 	}
 	
-	
 	/**
 	*	Saves transaction_id to event object when transaction_cancelled hook
 	*	called and then creates notification db row
@@ -152,7 +149,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_cancelled($params,$data)
+	function transaction_cancelled($data)
 	{
 		$data->conversation = NULL;
 		
@@ -172,7 +169,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_declined($params,$data)
+	function transaction_declined($data)
 	{
 		$data->conversation = NULL;
 		
@@ -192,7 +189,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_message($params,$data)
+	function transaction_message($data)
 	{
 		// Make a copy of the data object and remove conversation object
 		// since we don't want to save it to the database
@@ -215,7 +212,7 @@ class Event_logger
 		}
 	}
 	
-	function reset_password($params, $data)
+	function reset_password($data)
 	{
 		$E = new Event();
 		$E->type = 'reset_password';
@@ -238,7 +235,7 @@ class Event_logger
 	*	@param object $data
 	*/
 	
-	function review_new($params, $data)
+	function review_new($data)
 	{
 		$E = $this->basic("review_new",$data);
 		$E->save();

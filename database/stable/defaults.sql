@@ -9,7 +9,6 @@ INSERT INTO `event_types` (`id`, `title`) VALUES
 (7, 'review_new'),
 (8, 'good_new'),
 (9, 'good_edited'),
-(10, 'following_new'),
 (11, 'follower_new'),
 (12, 'transaction_declined'),
 (13, 'hide_welcome'),

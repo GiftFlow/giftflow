@@ -135,14 +135,14 @@ class Goods extends CI_Controller {
 				'limit' => 5,
 				'type' => 'gift',
 				'exclude' => $this->good_id,
-                'status' => 'active'
+				'status' => 'active'
 			));
 			$this->data['needs'] = $Good_search->find(array(
 				'keyword' => $this->G->title,
 				'limit' => 5,
 				'type' => 'need',
 				'exclude' => $this->good_id,
-                'status' => 'active'
+				'status' => 'active'
 			));
 		} else {
 			redirect('find/gifts');
@@ -247,13 +247,12 @@ class Goods extends CI_Controller {
 				}
 				
 				// Hook: 'good_new'
-				$hook_data = array(
+				$event_data = array(
 					"good_id" => $this->G->id,
 					"user_id" => $U->id
 					);
-				$E = new Event_logger();
-				$E->basic('good_new',$hook_data);
-        
+				$this->event_logger->basic('good_new', $event_data);
+
 				// scan the watch list to see if anyone should get notified
 				
 				$this->load->model('watch');
@@ -577,8 +576,6 @@ class Goods extends CI_Controller {
 		$this->load->library('datamapper');
 		$G = new Good;
 		$P = new Photo;
-		$P_d = new Photo;
-		
 		
 		$G->where('id', $this->good_id)->get();
 		$P->where('id', $this->param)->get();
@@ -734,13 +731,12 @@ class Goods extends CI_Controller {
 		// Save relationship to User
 		$U->save_good($this->G);
 		
-		// Hook: 'good_edited'
-		$hook_data = array(
+		$event_data = array(
 			"good_id" => $this->G->id,
 			"user_id" => $U->id
 			);
-		$E = new Event_logger();
-		$E->basic('good_edited',$hook_data);
+
+		$this->event_logger->basic('good_edited', $event_data);
 
 		// Set flashdata
 		$this->session->set_flashdata('success','Changes saved successfully.');
@@ -786,8 +782,6 @@ class Goods extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('success', $this->G->title." was deleted successfully."); 
-				// Hook: 'good_deleted'
-				//$this->hooks->call('good_deleted', $this);
 				
 				redirect("you/".$this->G->type."s");
 			}

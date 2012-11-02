@@ -52,11 +52,11 @@ class Notify
 	*	@param array $params
 	*	@param array $data
 	*/
-	function alert_user_registration_manual( $params, $data )
+	function alert_user_registration_manual($data)
 	{
 		$A = new Alert();
 		
-      	// Map hook data onto email template parseables array
+		// Map hook data onto email template parseables array
 		$A->parseables = array(
 			'user_email' => $data->U->email, 
 			'activation_link' => site_url('member/activate/'.$data->U->activation_code),
@@ -68,8 +68,8 @@ class Notify
 		
 		// Set recipient
 		$A->to = $data->U->email;
-      
-      	// send email
+
+		// send email
 		$A->send();
 	}
 	
@@ -85,7 +85,7 @@ class Notify
 		
 		$A = new Alert();
 		
-      	// Map hook data onto email template parseables array
+		// Map hook data onto email template parseables array
 		$A->parseables = array(
 			'subject' => "Someone posted a new gift that might interest you",
 			'link' => site_url('gifts/'.$good->id),
@@ -117,7 +117,7 @@ class Notify
 	*	@param array $params
 	*	@param array $data		$this passed from the controller
 	*/
-	function alert_transaction_new( $params, $data )
+	function alert_transaction_new($data)
 	{		
 		$A = new Alert();
 
@@ -137,12 +137,12 @@ class Notify
 		
 		// Set recipient
 		$A->to = $data->transaction->decider->email;
-       
-      	// send email
+
+		// send email
 		$A->send();
 	}
 	
-	function alert_transaction_activated( $params, $data )
+	function alert_transaction_activated($data)
 	{
 		$A = new Alert();
 		
@@ -166,7 +166,7 @@ class Notify
 	
 	}
 	
-	function alert_transaction_message( $params, $data )
+	function alert_transaction_message($data)
 	{
 		$A = new Alert();
 		
@@ -197,7 +197,7 @@ class Notify
 		$A->send();
 	}
 	
-	function review_new($params, $data)
+	function review_new($data)
 	{
 
 		$A = new Alert();
@@ -221,7 +221,7 @@ class Notify
 	*	Email forgotten password code to user
 	*
 	*/
-	function reset_password($params, $data)
+	function reset_password($data)
 	{
 		$A = new Alert();
 		
@@ -242,7 +242,7 @@ class Notify
 	* For admin purposes ONLY - sends email to admin with information about a given error
 	* DOES NOT WORK 
 	*/
-	function report_error($params, $data)
+	function report_error($data)
 	{
 		$A = new Alert();
 		$A->parseables = array (
@@ -262,7 +262,7 @@ class Notify
 	*	For admin purposes ONLY - sends email from about/contact form to admin@giftflow
 	*
 	*/
-	function contact_giftflow($params, $data)
+	function contact_giftflow($data)
 	{
 		$A= new Alert();
 		
@@ -277,7 +277,6 @@ class Notify
 		
 		$A->to = 'hans@giftflow.org';
 		$A->send();
-	
 	}
 
 	/**
@@ -285,7 +284,7 @@ class Notify
 	 * the text of the thank and 'approve/decline' buttons
 	 * The buttons then call the thank controller which validates/disables the thankyou
 	 */
-	function thankyou($params, $data)
+	function thankyou($data)
 	{
 		$A = new Alert();
 
@@ -303,7 +302,7 @@ class Notify
 		$A->send();
 	}
 
-	function thankyou_updated($params, $data)
+	function thankyou_updated($data)
 	{
 		$A = new Alert();
 
@@ -321,7 +320,7 @@ class Notify
 		$A->send();
 	}
 
-	function remind($params, $data)
+	function remind($data)
 	{
 		$A = new Alert();
 
@@ -335,10 +334,9 @@ class Notify
 		$A->template_name = 'transaction_reminder';
 		$A->to = $data['email'];
 		$A->send();
-
 	}
 
-	function send_matches($params, $data) 
+	function send_matches($data) 
 	{
 		$A = new Alert();
 
