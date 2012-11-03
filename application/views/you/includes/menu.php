@@ -4,13 +4,13 @@
 			Inbox<?php if($activeInbox) { echo " (".$inboxCount.")"; }?>
 		</a>
 	</li>
-	<li <?php if($segment[2]=='gifts'||($segment[1]=="gifts"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('you/list_goods/?type=gift');?>'> 
+	<li <?php if($segment[3]=='gift'){ echo  "class='active'"; } ?>>
+		<a href='<?php echo site_url('you/list_goods/gift');?>'> 
 			Gifts
 		</a>
 	</li>
-	<li <?php if($segment[2]=='needs'||($segment[1]=="needs"&&$segment[3]=="edit")){ echo  "class='active'"; } ?>>
-		<a href='<?php echo site_url('you/list_goods/?type=need');?>' > 
+	<li <?php if($segment[3]=='need'){ echo  "class='active'"; } ?>>
+		<a href='<?php echo site_url('you/list_goods/need');?>' > 
 			Needs
 		</a>
 	</li>

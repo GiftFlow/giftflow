@@ -180,6 +180,7 @@ class Goods extends CI_Controller {
 	*/
 	function add()
 	{
+
 		$this->auth->bouncer(1);
 		$this->load->library('datamapper');
 		$U = new User($this->data['logged_in_user_id']);
@@ -595,15 +596,20 @@ class Goods extends CI_Controller {
 	
 	/**
 	*	User makes a demand
+	*	Important note - 'type' here denotes the type of demand (give/take) 
+	*	NOT the type of good (gift/need)
 	*/
 	function _demand()
 	{
 		$input = $this->input->post();
 	
-		// Restrict access to logged in users
-		$redirect = $input['type'].'/'.$input['good_id'];
+		if(!$this->data['logged_in']) {
+			// Restrict access to logged in users
+			$redirect = site_url().$input['good_type']."s/".$input['good_id'];
+			$this->session->set_userdata('redirect_url', $redirect);
+		}
 
-		$this->auth->bouncer('1', $redirect);
+		$this->auth->bouncer(1);
 		
 		$this->load->library('market');
 		

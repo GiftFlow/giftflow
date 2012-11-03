@@ -301,9 +301,11 @@ class Auth
 	*	@param string $redirect	URL to redirect to
 	*/
 	
-	public function bouncer ($min = NULL, $redirect = 'login')
+	public function bouncer ($min = NULL)
 	{
 		 
+		$redirect = $this->CI->session->userdata('redirect_url');
+
 		Console::logSpeed('start Auth::bouncer()');
 
 		if($this->validate($min))

@@ -135,6 +135,10 @@ class Util
 			);
 
 			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
+			
+			//redirect URL for logins
+			//This is overriden by action use cases, like where a user tries to request a good
+			$this->CI->session->set_userdata('redirect_url', current_url());
 
 			$globals['redirect_url'] = current_url();
 

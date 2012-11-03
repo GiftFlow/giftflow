@@ -143,6 +143,7 @@
 							<textarea name='note'></textarea>
 						</p>
 						<input type="hidden" name="method" value="demand">
+						<input type='hidden' name='good_type' value="<?php echo $G->type; ?>"/>
 						<input type="hidden" name="type" value="take">
 						<input type="hidden" name="good_id" value="<?php echo $G->id;?>" />
 						<input type="hidden" name="decider_id" value="<?php echo $G->user->id; ?>" />

@@ -30,13 +30,14 @@
 <div class='row chunk' id='dashboard'>
 		<div class='span8'>	
 		<div class='row'>
-			<!-- Loading Message -->
-			<div class="results_loading" style="display: none;">
-				<img src="<?php echo base_url();?>assets/images/loading.gif" alt="Loading" />
-			</div>
-		
 			<div class='span6' id='homeBlog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
+
+				<!-- Loading Message -->
+				<div class="results_loading" style="display: none;">
+					<img src="<?php echo base_url();?>assets/images/loading.gif" alt="Loading" />
+				</div>
+		
 				<ul id='blogFeed'>
 					<span id='post_title'></span>
 					<span id='post_blurb'></span>

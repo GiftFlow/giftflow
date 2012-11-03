@@ -43,11 +43,12 @@ class Member extends CI_Controller {
 	function login( $redirect = FALSE )
 	{
 
-		if(!empty($_GET['redirect']))
-		{
+		if(!empty($_GET['redirect'])) {
 			$redirect = $this->input->get('redirect');
+		} else if(!empty($_POST['redirect'])) {
+			$redirect = $this->input->post('redirect');
 		} else {
-			$redirect = 'you';
+			$redirect = 'welcome/home';
 		}
 
 		//check if user is facebook authorized
