@@ -153,7 +153,7 @@ if(isset($css))
 											<input type='password' name='password' class='required span3' id='password' value='' />
 										</fieldset>
 										<fieldset id='actions'>
-											<input type='hidden' name='redirect' value="<?php echo current_url(); ?>" />
+										<input type='hidden' name='redirect' value="<?php echo $redirect_url; ?>" />
 											<input type='submit' class='btn btn-primary btn-large' value="Login" />
 										</fieldset>
 						

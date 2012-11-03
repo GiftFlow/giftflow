@@ -136,6 +136,8 @@ class Util
 
 			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
 
+			$globals['redirect_url'] = current_url();
+
 			$globals['logged_in'] = FALSE;
 			$globals['userdata'] = array();
 		}
@@ -178,6 +180,8 @@ class Util
 		
 		// Is this an AJAX request?
 		$globals['is_ajax'] = $this->CI->input->is_ajax_request();
+
+
 		
 		// Load URI segments as array so they can be used in conditionals
 		// ( loading their values from the URI library often throws an error
