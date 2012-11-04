@@ -567,6 +567,18 @@ CREATE TABLE IF NOT EXISTS `thankyous` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
+-- ------------------------------------------------------
+-- 2012-10-20
+-- Thankyous updated to accomodate non-user invite thanks
+-- --------------------------------------------------
+
+ALTER TABLE thankyous 
+	MODIFY COLUMN status ENUM('pending','accepted','declined','invited'),
+	ADD COLUMN `recipient_email` VARCHAR( 100 ) NULL AFTER `recipient_id`;
+
+
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

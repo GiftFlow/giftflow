@@ -196,7 +196,8 @@ class Geo
 		
 		// If localhost, manually override IP address to be one from within the
 		// Yale network for testing purposes
-    if($ip=="0.0.0.0" || $ip = "127.0.0.1")
+
+		if($ip=="0.0.0.0" || $ip = "127.0.0.1")
 		{
 			$ip = "128.36.160.90";
 		}

@@ -12,11 +12,6 @@
 		  <li class='result_row event clearfix'>
 			<!-- Result Row start -->
 			
-			<?php if($activity) { ?>
-				<span class='metadata created' style='display:inline; float:right;'>
-					<?php //echo user_date($val->event_created, "F jS Y"); ?>
-				</span>
-		<?php } ?>
 
 
 		<?php if($val->event_type_id == 4) {  ?>
@@ -46,28 +41,40 @@
 
 					<!-- Created -->
 					<span class="metadata created">
-					  <em>joined&nbsp
+					  <em>joined
 						<?php echo user_date($val->event_created,"F jS Y");?>
 					  </em>
 					</span>
 				</div>
 			<!-- close user new -->
-		   <?php } ?>
-
-		  <?php if($val->event_type_id == 2) { ?>
+		   <?php } else if($val->event_type_id == 2) { ?>
 			<!--Open transaction completed -->
-
+				<div class='row-fluid'>
 				<?php if($mini) { ?>
-					<a class ='result_image' href = '<?php echo site_url("goods/".$val->transaction->demands[0]->good->id); ?>'>
-						<img src ="<?php if(isset($val->transaction->demands[0]->good->photo->thumb_url)) { echo $val->transaction->demands[0]->good->photo->thumb_url; } else { echo $val->transaction->demands[0]->good->default_photo->url; } ?>" />
-					</a>
+					<div class='span2'>
+					<!-- Image -->
+						<a href="<?php echo site_url('gifts/'.$val->transaction->demands[0]->good->id);?>" class="result_image" title="<?php echo $val->transaction->demands[0]->good->title;?>">
+							<?php if(!isset($val->transaction->demands[0]->good->default_photo->thumb_url)) { ?>	
+								<a class="<?php if(!$mini) { echo $val->transaction->demands[0]->good->default_photo->thumb_class; } else { echo $val->transaction->demands[0]->good->default_photo->mini_class; } ?>">
+								</a>
+							<?php } else { ?>
+								<img src="<?php echo $val->transaction->demands[0]->good->default_photo->thumb_url; ?>"/>
+							<?php }?>
+						</a>
+					</div>
+					<div class='span10 result_meta clearfix'>
+					  <span class='title'>
+						<?php echo($val->transaction->language->overview_summary); ?>
+					  </span> 
+					</div>
+
 				<?php } else { ?>
 				<?php foreach($val->transaction->users as $user) { ?>
-					<a class='result_image' href = '<?php echo site_url("people/".$user->id);?>'>
-							<img src='<?php if(isset($user->photo->url)) 
-							{ echo $user->photo->thumb_url; } 
-							else { echo $user->default_photo->thumb_url; }?>'>
+					<div class='span2'>
+						<a class='result_image' href = '<?php echo site_url("people/".$user->id);?>'>
+								<img src='<?php echo $user->default_photo->thumb_url; ?>'>
 						</a>
+					</div>
 					  
 							<?php foreach($val->review['reviews'] as $review) { ?>
 							   <span class='event_review'>
@@ -84,10 +91,8 @@
 						<?php } ?>
 					</span>
 				<?php } ?>
+			</div> <!-- close row -->
 					
-			  <span class='title'>
-				<?php echo($val->transaction->language->overview_summary); ?>
-			  </span> 
 	<!-- close trans_completed -->
 
 	<?php } else if($val->event_type_id == 8) { ?>
@@ -124,11 +129,15 @@
 				</div>
 			<?php } ?>
     <!-- close good_new -->
-	<?php } else if($val->event_type_id = 16) { ?>
+	<?php } else if($val->event_type_id == 17) { ?>
 	<!-- open thankyou -->
-			<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
-				 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
-			</a>
+		<div class='row-fluid'>
+			<div class='span2'>
+				<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
+					 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
+				</a>
+			</div>
+			<div class='span10 result_meta clearfix'>
 				<span class = 'title'>
 					<?php echo $val->thank->summary;?>
 				</span>                  
@@ -136,12 +145,13 @@
 					<?php echo user_date($val->event_created,"F jS Y"); ?>
 				</span>
 			<?php if(!$mini) { ?>
-				<div class='result_meta clearfix'> 
 					<span class='event_text'>
 					  <?php echo substr($val->thank->body, 0, 120)."..."; ?>
 					</span>
 				</div>
 			<?php } ?>
+			</div>
+	<?php } ?>
 
 
 	<!-- eof Result Row -->
@@ -154,5 +164,4 @@
 		</ul>
 		<!-- eof Results List -->
 	<?php } ?>
-<?php } ?>
 	

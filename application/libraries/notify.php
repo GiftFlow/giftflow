@@ -39,6 +39,7 @@ class Notify
 		$this->CI->load->library('email');
 		$this->CI->load->library('alert');
 	}
+
 	
 	/**
 	*	Sends alert when new users register
@@ -52,14 +53,14 @@ class Notify
 	*	@param array $params
 	*	@param array $data
 	*/
-	function alert_user_registration_manual( $params, $data )
+	function registration_manual($U)
 	{
 		$A = new Alert();
 		
       	// Map hook data onto email template parseables array
 		$A->parseables = array(
-			'user_email' => $data->U->email, 
-			'activation_link' => site_url('member/activate/'.$data->U->activation_code),
+			'user_email' => $U->email, 
+			'activation_link' => site_url('member/activate/'.$U->activation_code),
 			'subject' => "Please confirm your account",
 		);
 		
@@ -67,7 +68,7 @@ class Notify
 		$A->template_name = 'email_confirmation';
 		
 		// Set recipient
-		$A->to = $data->U->email;
+		$A->to = $U->email;
       
       	// send email
 		$A->send();
@@ -171,10 +172,9 @@ class Notify
 		$A = new Alert();
 		
 		// Get the latest message
-		$M = $data->conversation->get_latest_message();
 
 		$A->parseables = array(
-			"message" => $M->body,
+			"message" => $data->message,
 			"user_screen_name" => $this->CI->session->userdata('screen_name'),
 			"subject" => $this->CI->session->userdata('screen_name')." sent you a message",
 			"good_title" => $data->transaction->demands[0]->good->title,
@@ -183,19 +183,30 @@ class Notify
 		
 		// Set template name
 		$A->template_name = 'transaction_message';
-		
-		// Set recipient
-		foreach($data->conversation->users as $user)
-		{
-			if($user->id != $this->CI->session->userdata('user_id'))
-			{
-				$A->to = $user->email;
-				$A->parseables['recipient_name'] = $user->screen_name;
-			}
-		}
+		$A->to = $data->recipient_email;
+		$A->parseables['recipient_name'] = $data->recipient;
 
 		$A->send();
 	}
+
+	function alert_user_message($data)
+	{
+		$A = new Alert();
+
+		$A->parseables = array(
+			'message' => $data->message,
+			'user_screen_name' =>$this->CI->session->userdata('screen_name'),
+			'subject' => $data->subject,
+			'recipient_name' => $data->recipient,
+			'return_url' => $data->return_url
+		);
+
+		$A->template_name = 'user_message';
+		$A->to = $data->recipient_email;
+
+		$A->send();
+	}
+
 	
 	function review_new($params, $data)
 	{
@@ -353,5 +364,17 @@ class Notify
 		$A->send();
 
 	}	
+
+	function thankInvite($data)
+	{
+		$A = new Alert();
+
+		$A->parseables = $data;
+
+		$A->template_name = 'thankInvite';
+		$A->to = $data['recipient_email'];
+			
+		$A->send();
+	}
 
 }

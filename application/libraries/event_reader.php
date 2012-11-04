@@ -62,8 +62,8 @@ class Event_reader
 			'event_type_id' => NULL,
 			'user_id' => NULL,
 			'limit' => 30,
-      'order_by' => 'E.created',
-      'radius' => '100'
+			'order_by' => 'E.created',
+			'radius' => '100'
 		);
 
 		$options = (object) array_merge(
@@ -73,7 +73,7 @@ class Event_reader
 		
 		$this->basic_query();
 	  if(!empty($options->location))
-    {
+		{
 		    //$this->_geosearch_clauses($options->location);
 		}
 		
@@ -163,14 +163,14 @@ class Event_reader
 										
 						if(!empty($json_data->transaction->id))
 						{
-							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => FALSE));
-							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
+							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => TRUE));
+							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id, 'include_transactions' => TRUE));
 						}
 						//append transaction object to transaction event
 						if(!empty($trans))
 						{
 							$event->transaction = $trans;
-							$event->review = $review;
+							//$event->review = $review;
 							$event->location = $trans->demands[0]->good->location;
 							$this->events[] = $event;
 						}
@@ -185,17 +185,11 @@ class Event_reader
 						{
 							$this->events[] = $event;
 						}
-
 						break;
 				}
 				
 			}
-			
-			//So folks, this is what we have so far -- $this->events is an array of event objects,
-			// each one with it's attached good, user or transaction
-			//The next step is to translate each one of these into a list element. 
-			//Should I make one view or three?
-			
+		
 			return $this->events;
 		}
 		else

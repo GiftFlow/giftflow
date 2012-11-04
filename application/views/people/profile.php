@@ -1,5 +1,5 @@
 <!-- profile is divided into two columns! -->
-<div class = 'row-fluid' id='profile_header'>
+<div class = 'row-fluid' class='profile_header'>
 
 	<div class='profile_column span4' id='profile_masthead'>
 
@@ -7,9 +7,9 @@
 				<img src="<?php echo $profile_thumb; ?>" />
 			</a>	
 			
-			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
+			<p class='nicebigtext' id='profile_name'><?php echo $u->screen_name; ?></p>
 	</div>
-	<div class='span4'>
+	<div class='span8'>
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
 					<?php if(isset($is_following) &&($is_following)) { ?>
@@ -19,6 +19,14 @@
 					<?php } ?>
 					<a href='#' id='message_button' class='btn profile_action btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled";}?>'><i class='icon-pencil'></i> Message</a>
 					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
+				<?php } else { ?>
+					<?php if(!isset($userdata['bio'])) { ?>
+						<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a>
+					<?php } ?>
+						<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
+						<a class='btn' href="<?php echo site_url('you/list_goods/need'); ?>"><i class='icon-plus'></i>Your Needs</a>
+						<a class='btn' href="<?php echo site_url('you/list_goods/gift'); ?>"><i class='icon-plus'></i>Your Gifts</a>
+						<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
 				<?php } ?>
 			</div>
 				
@@ -169,11 +177,7 @@
 <script type='text/javascript'>
 $(function() {
 
-	var isLogd;
-
-if(<?php echo json_encode($logged_in_user_id); ?>){
-	isLogd = 'TRUE';
-}
+var logged_in = <?php echo json_encode($logged_in); ?>;
 
 
 $('#photoModal').modal({show:false});
@@ -192,7 +196,7 @@ var fadeSection = function(param) {
 		$('#profile_top').css('opacity',0.5);
 	}
 };
-if(isLogd) {
+if(logged_in) {
 	$('.profile_action').click( function() {
 		fadeSection('out');
 		$('.profile_form').hide();

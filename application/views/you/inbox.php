@@ -11,8 +11,8 @@
 		
 				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->
 				<?php if(!empty($thanks)) { ?>
-					<?php foreach($thanks as $val) { ?>
 					<li class='section_header'><h3 class='messages_title'>Thanks</h3></li>
+					<?php foreach($thanks as $val) { ?>
 						<li class="clearfix unread">
 					
 							<img src="<?php echo base_url()."assets/images/status_icons/".$val->status.".png";?>" title="<?php echo ucfirst($val->status);?>" alt="<?php echo ucfirst($val->status);?>" class="left status_icon" />
@@ -122,6 +122,6 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
+	$("img.status_icon").tooltip();
 });
 </script>

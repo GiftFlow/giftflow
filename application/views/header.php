@@ -65,25 +65,42 @@ if(isset($css))
 <body>
 <div id='header'>
 	<div class='wrapper clearfix'>
-		
+
+<!--- NOTE MUCH OF THE JAVASCRIPT FOR THESE UI ELEMENTS SUCH AS THE DROPDOWN AND LOCATION BAR IS IN footer.php -->		
+
 		<!-- Logo -->
 		<a href="<?php echo site_url(); ?>" id='logo'>
 			<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
 		</a>
 		<div id='session'>
 			
-			<?php if(!empty($logged_in)&&$logged_in){ ?>
-			<ul id='boot_menu'>
-				<li class='dropdown'>
-					<!-- Logged-in User You Menu -->
-					<div class='btn-group'>
-					<a  class='btn btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
-						<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
-							Profile
+			<?php if(!empty($logged_in) AND $logged_in){ ?>
+
+				<div class='btn-group' id='header_actions'>
+					<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
+						<i class='icon-plus icon-white'></i>Add
 					</a>
-						<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
-							<span class='caret'></span>
-						</button>
+
+					<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'>
+						<i class="icon-envelope icon-white <?php if(!$activeInbox) { echo 'empty';}?>">
+							</i>Inbox
+					</a>
+
+					<a href="<?php echo site_url('find/gifts'); ?>" class='btn btn-large btn-success'>
+						<i class='icon-search icon-white'></i>Find
+					</a>
+
+					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
+						<i class='icon-home icon-white'></i>Home
+					</a>
+					<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
+							<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
+							<?php echo substr($userdata['screen_name'],0,25); ?>
+					</a>
+
+					<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
+						<span class='caret'></span>
+					</button>
 
 						<ul class='dropdown-menu'>
 							<li>
@@ -109,19 +126,22 @@ if(isset($css))
 							</a>
 						</li>
 					</ul>
-				</div>
-			</li>
-		</ul><!-- close boot_menu -->
 
+				</div>
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
-				<ul id='anonymous-menu' >
-					
-					<li class='dropdown'>
-						<a href='#' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
-							Login
-							<b class='caret'></b>
-						</a>
+										
+				<div class='btn-group'>
+					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
+						<i class='icon-home icon-white'></i>Home
+					</a>
+					<a href="<?php echo site_url('find'); ?>" class='btn btn-large btn-success'>
+						<i class='icon-search icon-white'></i>Find
+					</a>
+					<a href='#' class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
+						Login
+						<b class='caret'></b>
+					</a>
 						<ul class='dropdown-menu' id='login-form'>
 							<li>
 								<a href='#' style='background-color: transparent; !important'>
@@ -133,7 +153,7 @@ if(isset($css))
 											<input type='password' name='password' class='required span3' id='password' value='' />
 										</fieldset>
 										<fieldset id='actions'>
-											<input type='hidden' name='redirect' value="<?php echo current_url(); ?>" />
+										<input type='hidden' name='redirect' value="<?php echo $redirect_url; ?>" />
 											<input type='submit' class='btn btn-primary btn-large' value="Login" />
 										</fieldset>
 						
@@ -151,58 +171,32 @@ if(isset($css))
 							</li>
 						</ul>
 
-					</li>
-					<li>
-						<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success'>
-							Sign Up
-						</a>
-					</li>
-					<li>
-						<a href='<?php echo site_url("donate"); ?>' id='donate' class='btn btn-success'>
-							Donate
-						</a>
-					</li>
-				</ul><!-- close anonymous menu -->
+					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-large btn-success'>
+						Sign Up
+					</a>
+				</div>
 			<?php } ?>
 		</div><!-- close session -->
 
 		<!-- Main Menu -->
 		<ul id='nav'>
-			
-				<?php if(!empty($logged_in)&&$logged_in){ ?>
-				<li <?php if($segment==false || $segment[1]=="you") echo 'class="active"'; ?>>
-				<a href="<?php echo site_url();?>"">
-					You
-				</a>
-				</li>
-				<?php } else { ?>
-				<li <?php if($segment==false) echo 'class="active"'; ?>>
-				<a href="<?php echo site_url();?>">
-					Home
-				</a>
-				</li>
-				<?php } ?>
+			<li>
 
-			<li <?php if($segment[1]=="gifts" || ($segment[1]=="find"&&$segment[2]=="gifts")) echo '" class="active"'; ?>>
-				<a href="<?php echo site_url('find/gifts/');?>">
-					Gifts
-				</a>
-			</li>
-			<li <?php if($segment[1]=="needs" || ($segment[1]=="find" && $segment[2]=="needs")) echo '" class="active"'; ?>>
-				<a href="<?php echo site_url('find/needs/');?>">
-					Needs
-				</a>
-			</li>
-			<li <?php if($segment[1]=="people") echo '" class="active"'; ?>>
-				<a href="<?php echo site_url('find/people');?>">
-					Members
-				</a>
-			</li>
-			<li <?php if($segment[1]=="about") echo 'class="active"'; ?>>
-				<a href="<?php echo site_url('about');?>">
-					About
-				</a>
-			</li>
+			<a class='btn btn-success' title= 'Click here' id='header_location' href="#">
+					<span id='header_location_text'><?php echo $header_location; ?></span><i style='margin: 3px 0px 0px 7px;' class='icon-refresh icon-white'></i>
+			</a>
+		
+
+			<div style='display:none;' id ='relocate_form'>
+			<form name='relocate' class='find_form' id="relocate" method="post" action="">
+					<div class='input-append'>
+					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="location" />
+						<button  id='relocate_button' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i>Relocate</button>
+						<button id='relocate_cancel' class='btn btn-small'><i class='icon-remove'></i></button>
+					</div>
+				</form>
+			</div>
+			</li>	
 		</ul>
 	</div>		
 </div>
@@ -212,6 +206,43 @@ if(isset($css))
 <div id="main">
 
 	<div class='wrapper clearfix'>
+
+	<!-- Add menu modal window -->
+	<div class='modal hide' id='addModal'>
+		<div class='modal-header'>
+			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>x</button>
+			<p class='nicebigtext' style ='text-align:center;'>The many ways to participate on GiftFlow</p>
+		</div>
+		<div class='modal-body'>
+
+			<ul id='addActions'>
+				<li>
+				<a href="<?php echo site_url('you/add_good/?type=gift');?>" class='btn btn-large'>Add Gift</a>
+					<span>What can you offer the GiftFlow community?</span>
+				</li>
+				<li>
+				<a href="<?php echo site_url('you/add_good/?type=need');?>" class='btn btn-large btn-danger'>Add Need</a>
+					<span>What do you need? Ask away!</span>
+				</li>
+				<li>
+					<a href="<?php echo site_url('thank/addThankForm'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
+					<span>Try thanking a friend who doesn't yet use GiftFlow!</span>
+				</li>
+				<li> 
+				<a href="<?php echo site_url('you/watches');?>" class='btn btn-large btn-info'>Add Watch</a>
+					<span>Receive custom notifications.</span>
+				</li>
+				<li>
+					<a href='#' class='btn btn-large btn-primary'>Invite Friends</a>
+					<span>The more the merrier.</span>
+				</li>
+			</ul>
+
+		</div>
+		<div class='modal-footer'>
+			<a href='#' data-dismiss='modal' class='btn'>Close</a>
+		</div>
+	</div><!-- close Add Modal -->
 
 <?php
 // Output flashdata as javascript variable so that it can be displayed in jQuery

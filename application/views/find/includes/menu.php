@@ -1,24 +1,10 @@
 <ul  class='sidebar_menu filters'>
-  <li >
-			<span id="order_by_label">
-				Sort By
-			</span>
-			<select name="order_by" id="order_by" class='input-medium'>
-			<option value="newest"<?php if($args['order_by'] == 'newest') { echo "selected"; }?>>Newest</option>
-			<option value="nearby" <?php if($args['order_by'] =='location_distance') { echo "selected"; } ?>>Nearby</option>
-			</select>
-  </li>
-
-  <li>
-			<span>
-			Search Within	
-			</span>
-			<select name="radius" id="radius" class='input-medium'>
-				<option value="10">10 miles</option>
-				<option value="100" selected>100 miles</option>
-				<option value="1000">1000 miles</option>
-				<option value="100000">Global</option>
-			</select>
-  </li>
-
+	<li>
+	<p>Choose a member type.</p>
+	<?php if($type == 'people') { ?>
+			<button class='ptype btn btn-large btn-success <?php if($args["profile_type"] == "people") {echo "disabled";}?> ' value='individual'>People</button>
+			<button class='ptype btn btn-large btn-success<?php if($args["profile_type"] == "nonprofit") {echo "disabled";}?> ' value='nonprofit'>Nonprofits</button>
+			<button class='ptype btn btn-large btn-success<?php if($args["profile_type"] == "business") {echo "disabled";}?> ' value='business'>Businesses</button>
+	<?php } ?>
+	</li>
 <!-- find sidebar closing ul tag is in find index view -->

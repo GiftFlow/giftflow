@@ -180,6 +180,7 @@ class Goods extends CI_Controller {
 	*/
 	function add()
 	{
+
 		$this->auth->bouncer(1);
 		$this->load->library('datamapper');
 		$U = new User($this->data['logged_in_user_id']);
@@ -298,39 +299,41 @@ class Goods extends CI_Controller {
 		
 		// Set default value of requested flag, will be updated below
 		$this->data['requested'] = FALSE;
-		
-		if(!empty($this->data['logged_in_user_id']))
-		{
-			// Set user_id to pass to transactions search function
-			// For non-owners, results are filtered by user
-			$user_id = ($this->_restrict(FALSE)) ? NULL : $this->data['logged_in_user_id'];
 
-			// Search for transactions
-			$G = new Good_search;
-			$G->good_id = $this->good_id;
-			$this->data['transactions'] = array(
-				"pending" => $G->pending_transactions($user_id),
-				"active" => $G->active_transactions($user_id),
-				"completed" => $G->completed_transactions($user_id),
-				"declined" => $G->declined_transactions($user_id),
-				"cancelled" => $G->cancelled_transactions($user_id)
-			);
-			
-			// For non-owners, set $requested flag to true if user
-			// has already requested at least once
-			if(!$this->_restrict(FALSE))
-			{
-				foreach($this->data['transactions'] as $val)
-				{
-					if(count($val)>0)
-					{
-						$this->data['requested'] = TRUE;
-						break;
-					}
-				}
-			}
+		// Search for transactions
+		$G = new Good_search;
+
+		$other_goods = '';
+		//Load matches for sidebar
+		if($this->data['is_owner'])
+		{
+			$other_goods = ($this->data['is_gift'])? 'need' :'gift';
+		} else {
+			$other_goods = ($this->data['is_gift'])? 'gift' : 'need';
 		}
-			
+
+		$this->data['other_goods'] = $G->find(array(
+			'keyword' => $this->G->title,
+			'limit' => 5,
+			'type' => $other_goods,
+			'exclude' => $this->good_id,
+			'status' => 'active'
+		));
+		
+		//load goods even if there are no keyword matches
+		if(empty($this->data['other_goods']))
+		{
+			$this->data['other_goods'] = $G->find(array(
+				'limit' => 5,
+				'type' => $other_goods,
+				'exclude' => $this->good_id,
+				'status' => 'active'
+			));
+		}
+
+
+		$this->data['othergoods_type'] = ucfirst($other_goods).'s';
+
 		// Title
 		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
@@ -593,15 +596,20 @@ class Goods extends CI_Controller {
 	
 	/**
 	*	User makes a demand
+	*	Important note - 'type' here denotes the type of demand (give/take) 
+	*	NOT the type of good (gift/need)
 	*/
 	function _demand()
 	{
 		$input = $this->input->post();
 	
-		// Restrict access to logged in users
-		$redirect = $input['type'].'/'.$this->G->id;
+		if(!$this->data['logged_in']) {
+			// Restrict access to logged in users
+			$redirect = site_url().$input['good_type']."s/".$input['good_id'];
+			$this->session->set_userdata('redirect_url', $redirect);
+		}
 
-		$this->auth->bouncer('1', $redirect);
+		$this->auth->bouncer(1);
 		
 		$this->load->library('market');
 		

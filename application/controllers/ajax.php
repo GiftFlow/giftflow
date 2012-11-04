@@ -133,40 +133,23 @@ class Ajax extends CI_Controller {
 
 	}
 	
-	public function find_people()
+	public function users()
 	{
-	
-		$keyword = $_POST['keyword'];
-		$this->load->library('Search/User_search');
-		$U = new User_search();
-		
-    $options = array('keyword'=> $keyword);
-
-		$this->object = $U->find($options);
+		if(!empty($_POST['term']))
+		{	
+			$keyword = $_POST['term'];
 			
-			if(!empty($this->object))
-			{
-				foreach($this->object as $key=>$val)
-				{
-					$val->html = UI_Results::users(array(
-						"results"=>$val,
-						"include"=>array("created","location"),
-						"row"=>TRUE,
-						"mini" => FALSE
-					));
-				}
-				
-				$data['total_results'] = count($this->object);
-				$data['results'] = ($this->object);
-			}
-			else
-			{
-				return FALSE;
-			}
-		$results = json_encode($data);
-		$this->output->set_header("Content-Type:application/json");
-		$this->output->set_output($results);
-	
+			$query = $this->db->select('Concat(U.screen_name,", ",U.email) AS label, U.email AS value', FALSE)
+						->from('users AS U')
+						->where('U.id !=', $this->data['userdata']['user_id'])
+						->or_like('U.email',$keyword)
+						->or_like('U.screen_name', $keyword)
+						->limit(10)
+						->get();
+			$result = $query->result_array();
+			echo json_encode($result);
+		}
+			
 	}
 	
 	/**

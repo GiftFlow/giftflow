@@ -111,9 +111,9 @@ $(function(){
 	}
 
 
-	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
+	$("img.status_icon").tooltip({ delay: 0, fadein: 0 });
 
-	$('.shareBtn').tipTip({ delay: 0, fadein: 0 });
+	$('.shareBtn').tooltip({ delay: 0, fadein: 0 });
 	
 	$("#delete_gift").click(function(){
 		return confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');

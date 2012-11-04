@@ -56,14 +56,57 @@
 <script type="text/javascript">
 $(function(){
 	
-	<!-- script for logIn dropdown -->
-
+	// logIn dropdown
 	$('.dropdown-toggle').dropdown();
 	$('#login-form').css('left', '-50px');
 	$('.dropdown-menu').find('form').click(function (e) {
 		e.stopPropagation();
 	});
 
+	//header location bar
+	$('#header_location').tooltip({
+		placement: 'bottom',
+	});
+
+	GF.Locations.initialize($('input#header_relocate'));
+
+	$('#header_relocate').click(function() {
+		$(this).val('');
+	});
+
+	$('#header_location').click(function() {
+		$(this).hide();
+		$('#relocate_form').show();
+	});
+	$('#relocate_cancel').click(function() {
+		$('#relocate_form').hide();
+		$('#header_location').show();
+		return false;
+	});
+
+	GF.relocate = function(data) {
+		var updated = data.city+", "+data.state;
+		$('#header_location_text').text(updated);
+		$('#relocate_form').hide();
+		$('#header_location').show();
+	};
+
+	GF.process_relocate = function(locate) {
+		var data = {'location' : locate};
+		$.post("<?php echo site_url('ajax/relocate'); ?>", data, GF.relocate, "json");
+	};
+	$('#relocate').submit(function() {
+		var location_string = $('input#header_relocate').val();
+		console.log('submit!');
+		GF.process_relocate(location_string);
+		return false;
+	});
+
+	$('#relocate_button').click(function() {
+		var location_string = $('input#header_relocate').val();
+		console.log('WHAT'+location_string);
+		GF.process_relocate(location_string);
+	});
 
 	<?php /**
 	*	Follow user button click listener

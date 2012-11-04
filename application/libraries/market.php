@@ -73,6 +73,7 @@ class Market
 		$this->CI->load->library('Search/Transaction_search');
 		$this->CI->load->library('Event_logger');
 		$this->CI->load->library('Notify');
+		$this->data = $this->CI->util->parse_globals();
 	}
 	
 	/**
@@ -193,11 +194,12 @@ class Market
 					"include_messages" => FALSE			
 					)),
 				"note" => $this->note,
-				'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
+				'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id),
+				'notify_id' => $this->Decider->id
 			);
 
 		$E = new Event_logger();
-		$E->transaction_new('transaction_new',$hook_data);
+		$E->basic('transaction_new',$hook_data);
 
 		$N = new Notify();
 		$N->alert_transaction_new('transaction_new',$hook_data);
@@ -275,9 +277,11 @@ class Market
 			"message" => $options['message'],
 			'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 		);
+		$hook_data->notify_id = $hook_data->transaction->decider->id;
 		
+
 		$E = new Event_logger();
-		$E->transaction_cancelled('transaction_cancelled',$hook_data);
+		$E->basic('transaction_cancelled',$hook_data);
 		$this->updated('transaction_cancelled',$hook_data);
 		
 		return TRUE;
@@ -314,7 +318,7 @@ class Market
 			$Transaction->get();
 		}
 		
-		// Change status to cancelled
+		// Change status to decline
 		// @todo encapsulate in Transaction model, create mechanical hook there
 		$Transaction->status = "declined";
 		
@@ -346,10 +350,12 @@ class Market
 			"message" => $options['message'],
 			'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id)
 		);
+
+		$hook_data->notify_id = $hook_data->transaction->demander->id;
 		
 		
 		$E = new Event_logger();
-		$E->transaction_declined('transaction_declined',$hook_data);
+		$E->basic('transaction_declined',$hook_data);
 		$this->updated('transaction_declined',$hook_data);
 		
 		return TRUE;
@@ -397,11 +403,12 @@ class Market
 				"include_messages" => FALSE
 			)),
 			"message" => $options['message'],
-			'return_url' => site_url('you/view_transaction/'.$Transaction->id)	
+			'return_url' => site_url('you/view_transaction/'.$Transaction->id)
 		);
+		$hook_data->notify_id = $hook_data->transaction->demander->id;
 				
 		$E = new Event_logger();
-		$E->transaction_activated('transaction_activated',$hook_data);
+		$E->basic('transaction_activated',$hook_data);
 
 		$N = new Notify();
 		$N->alert_transaction_activated('transaction_activated',$hook_data);
@@ -473,7 +480,8 @@ class Market
 				"include_messages" => FALSE,
 				"include_reviews" => TRUE
 			)),
-			'return_url' => site_url('you/view_transaction/'.$Transaction->id)
+			'return_url' => site_url('you/view_transaction/'.$Transaction->id),
+			'notify_id' => $R->reviewed_id
 		);
 		//iterate over the transaction and add ReviewER and ReviewED user arrays to hook_data
 		foreach($hook_data->transaction->users as $key=>$val)
@@ -574,25 +582,39 @@ class Market
 		}
 		
 		$Message = $Conversation->get_latest_message();
+
+
+		$notify_data = array();
+
+		foreach($Conversation->users as $val) 
+		{
+			if($val->id != $this->data['logged_in_user_id'])
+			{
+				$notify_data['recipient_id'] = $val->id;
+				$notify_data['recipient_email'] = $val->email;
+				$notify_data['recipient'] = $val->screen_name;
+				$notify_data['notify_id'] = $val->id;
+			}
+		}
+
 		
 		// Prep hook data
 		$TS = new Transaction_search;
-		$hook_data = (object) array(
-			"transaction"=> $TS->get(array(
+		$notify_data["transaction"] = $TS->get(array(
 				"transaction_id"=>$options['transaction_id']
-			)),
-			"message_id"=>$Message->id,
-			"conversation"=>$Conversation,
-			'return_url' => site_url('you/view_transaction/'.$options['transaction_id'])
-		);
+			));
+		$notify_data["message"] = $options['body'];
+		$notify_data['return_url'] = site_url('you/view_transaction/'.$options['transaction_id']);
+
+		$notify_data = (object)$notify_data;
 		
 		$E = new Event_logger();
-		$E->transaction_message('transaction_message',$hook_data);
+		$E->basic('transaction_message',$notify_data);
 
 		$N = new Notify();
-		$N->alert_transaction_message('transaction_message',$hook_data);
+		$N->alert_transaction_message('transaction_message',$notify_data);
 
-		$this->updated('transaction_message',$hook_data);
+		$this->updated('transaction_message',$notify_data);
 		
 		return TRUE;
 	}

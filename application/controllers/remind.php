@@ -96,11 +96,11 @@ class Remind extends CI_Controller {
 
 					if($fullTrans->status == 'active')
 					{
-						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. Otherwise, you should write ".$other_user->screen_name." a message.</span>";
+						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. If not, write ".$other_user->screen_name." a message.</span>";
 					} else if ($fullTrans->status == 'pending') { 
 						if($user->role == 'decider')
 						{
-							$content .= "<span class='instructions'>You should accept or decline ".$other_user->screen_name."'s request.</span>";
+							$content .= "<span class='instructions'>You need to accept or decline ".$other_user->screen_name."'s request.</span>";
 						} else {
 							$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
 						}
@@ -112,12 +112,13 @@ class Remind extends CI_Controller {
 			$content .= "</ul>";
 
 			$role = $user->role;	
+			$location = $fullTrans->$role->location;
+
 			$teaser_gifts = $G->find(array(
 				'location' => $fullTrans->$role->location,
+				'radius' => 1000,
 				'sort' => 'newest',
-				'limit' => '10',
-				'radius' => '1000',
-				'status' => 'active'
+				'limit' => '10'
 			));
 
 			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";

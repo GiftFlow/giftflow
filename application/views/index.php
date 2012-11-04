@@ -12,7 +12,7 @@
 <div class='row-fluid' id='home_categories'>
 	<div class='span12'>	
 		<?php for($i=1; $i<13; $i++) { ?>
-		<a href="<?php echo site_url('find/gifts/?category_id='.$i);?>" class='homepage medium-<?php echo $i; ?>'>
+		<a href="<?php echo site_url('find/gifts/?category_id='.$i);?>" title='Browse our Gifts!' class='categoryIcon homepage medium-<?php echo $i;?>'>
 			</a>
 		<?php } ?>
 	</div>
@@ -23,13 +23,21 @@
 <div class='row'>
 	<div  id='home_search' class='span8 offset2'>
 
-			<p class='nicebigtext home_text'>See what we GiftFlowers have to offer.</p>
-		<form class='form-search' method='post' action='<?php echo site_url("find/"); ?>'>
-				<div id='homeInput'>
-				<input name='q'  class='input-large search-query' id='homeSearchInput' type='text' placeholder='Search'>	
-				<input type='hidden' id='searchType' name='type' value='gifts'/>
-				<button value='gift' id='giftSearch' class='typeToggle btn btn-large'>Gifts</button>
-				<button value='need' id='needSearch' class='typeToggle btn btn-large'>Needs</button>
+		<form class='form-search' method='post' action='<?php echo site_url("find/gifts"); ?>'>
+				<div class='homeInput'>
+				<input name='q'  class='homeSearchInput input-large search-query' type='text' placeholder='What do you need?'>	
+				<button value='submit' class='btn btn-large'>Search Gifts</button>
+				</div>
+		</form>
+	</div>
+</div>
+<div class='row'>
+	<div class='home_search span8 offset2'>
+
+		<form class='form-search' method='post' action='<?php echo site_url("find/needs"); ?>'>
+				<div class='homeInput needBar'>
+				<input name='q'  class='homeSearchInput input-large search-query' type='text' placeholder='What can you give?'>	
+				<button value='need' id='needSearch' class='typeToggle btn btn-large'>Search Needs</button>
 				</div>
 		</form>
 	</div>
@@ -48,11 +56,15 @@
 
 <script type='text/javascript'>
 
+$(function () {
+
 $('.typeToggle').click( function() {
 	var type = $(this).attr('value');
 	$('#searchType').val(type); 
 });
 
+$('.categoryIcon').tooltip();
 
+});
 
 </script>

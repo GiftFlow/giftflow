@@ -15,9 +15,7 @@ class People extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 		//$this->load->library('finder');
 		$this->load->library('geo');
 		$this->load->library('datamapper');
@@ -225,7 +223,7 @@ class People extends CI_Controller {
 				$this->_offer();
 				break;
 			case 'thankyou':
-				$this->_thank();
+				$this->thank();
 				break;
 			case 'message':
 				$this->message();
@@ -457,56 +455,6 @@ class People extends CI_Controller {
 	}
 
 
-	/** 
-	 * The thank you function is for the Thank you button on the user profile
-	 * The idea is to enable users to write quick reviews for one another without
-	 * needing to go through the whole transaction process
-	 */
-	function _thank()
-	{
-		$this->auth->bouncer('1');
-
-		//ok lets try the new route. forget working it into the data structure.
-		$form = $this->input->post(NULL,TRUE);
-
-		if($form['recipient_id'] == $this->data['logged_in_user_id'])
-		{
-			$this->session->set_flashdata('error', 'You can not thank yourself!');
-			redirect('');
-		}
-
-		$TY = new Thankyou();
-
-		$TY->thanker_id = $this->data['logged_in_user_id'];
-		$TY->recipient_id = $form['recipient_id'];
-		$TY->gift_title = $form['gift'];
-		$TY->body = $form['body'];
-		$Ty->status = 'pending';
-
-		if(!$TY->save()) {
-			show_error('Error saving Thankyou');
-		} else {
-			// Set flashdata & redirect
-			$this->session->set_flashdata('success', 'Thank sent!');
-
-
-			//Get filled out thankyou object from thankyouSearch 
-			$newThank = new Thankyou_search();
-			
-			$hook_data = $newThank->get(array('id'=>$TY->id));
-			$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
-
-			//record event and send notification
-			$E = new Event_logger();
-			$E->basic('thankyou', $hook_data);
-
-			$N = new Notify();
-			$N->thankyou('thankyou', $hook_data);
-
-			redirect('people/'.$form['recipient_id']);
-		}
-	}
-
 	public function facebook()
 	{
 		if(!empty($this->U->facebook_id))
@@ -672,20 +620,47 @@ class People extends CI_Controller {
 			$C = new Conversation();
 			$C->type ='thread';
 
-			if(!$C->compose(array(
+			$data = array(
 				'body' => $input['body'],
 				'user_id' => $this->data['logged_in_user_id'],
-				'subject' => 'profile_message',
+				'subject' => $this->data['userdata']['screen_name']." wrote you a message.",
 				'recip_id' => $input['recip_id'],
 				'type' => 'thread'
-			))){
-
+			);
+			if(!$C->compose($data)){
 				show_error("Error saving Conversation");
 			}
 
+
+		$notify_data = new stdClass();
+
+		foreach($C->users as $val) 
+		{
+			if($val->id != $this->data['logged_in_user_id'])
+			{
+				$notify_data->recipient_id = $val->id;
+				$notify_data->recipient_email = $val->email;
+				$notify_data->recipient = $val->screen_name;
+				$notify_data->notify_id = $val->id;
+			}
+		}
+		
+		$Message = $C->get_latest_message();
+
+		$notify_data->subject = $this->data['userdata']['screen_name']." wrote you a message.";
+		$notify_data->message = $input['body'];
+		$notify_data->message_id = $Message->id;
+		$notify_data->return_url = site_url('you/inbox');
+
+		$N = new Notify();
+		$N->alert_user_message($notify_data);
+
+		$E = new Event_logger();
+		$E->basic('user_message',$notify_data);
+			
+
 		}
 	}
-
 
 }
 

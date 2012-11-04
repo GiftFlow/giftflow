@@ -1,4 +1,4 @@
-GF.Locations = (function(){
+GF.Users = (function(){
 
 	var api = {};
 	
@@ -18,21 +18,13 @@ GF.Locations = (function(){
 			source: function(request, response){
 				// Extracts last tag from raw CSV string then sends POST request
 				
-				$.post(GF.siteURL("ajax/locations"), { term: request.term }, function(data) { 
+				$.post(GF.siteURL("ajax/users"), { term: request.term }, function(data) { 
 					response(data);
 				}, 'json');
 			},
 			select: function( event, ui ){
 				// Append selected item to list, override default behavior
 				input.val(ui.item.value);
-
-
-				//working with Find index.php scripts here
-				if(GF.Ajax) {
-					GF.Params.set('location', ui.item.value);
-					GF.UI.setLocation(ui.item.value);
-					GF.Ajax.request();
-				}
 				return false;
 			}
 		});

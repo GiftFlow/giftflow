@@ -13,13 +13,62 @@ class Welcome extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
 		$this->load->library('datamapper');
 	}
 
+
+	/**
+	 * Mimics the you::index page except for not logged in users
+	 * Focused on the location
+	 */
+
+	function home()
+	{
+		$this->load->library('Search/Good_search');
+		$this->load->library('Search/User_search');
+		$this->load->library('event_reader');
+
+		//Load most recent users
+		$P = new User_search();
+		$this->data['new_peeps'] = $P->find(array(
+			'limit' => 15,
+			'order_by' => 'U.created',
+			'sort' => 'DESC'
+		));
+
+
+		$this->data['nonprofits'] = $P->find(array(
+			'type' => 'nonprofit',
+			'limit'=> 10
+		));
+
+		$G = new Good_search();
+		$this->data['goods'] = $G->find(array(
+			'type' => NULL,
+			'limit' => 15,
+			'order_by' => 'G.created',
+			'sort' => 'DESC'
+		));
+
+		$this->load->library('event_reader');
+		$E = new Event_reader();
+		$this->data['activity'] = $E->get_events(array(
+			'event_type_id' => array(17,2),
+			'limit' => 40
+		));
+
+
+		$this->data['title'] = "GiftFlow Home";
+		
+		// Load Views
+		$this->load->view('header', $this->data);
+		$this->load->view('home', $this->data);
+		$this->load->view('footer', $this->data);
+		
+	}
+	
 	/**
 	*	Loaded after user first creates GiftFlow account
 	*/

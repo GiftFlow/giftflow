@@ -9,7 +9,7 @@ class You extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals($options = array('geocode_ip' => TRUE));
+		$this->data = $this->util->parse_globals();
 		$this->data['welcome'] = FALSE;
 		$this->load->library('Search/Review_search');
 		$this->load->library('Search/Transaction_search');
@@ -19,105 +19,22 @@ class You extends CI_Controller {
 		$this->load->library('Search/Message_search');
 		$this->load->library('Search/User_search');
 		
+		if(!$this->data['logged_in']) 
+		{
+			$this->session->set_userdata('redirect_url', current_url());
+
+		}
+		$this->auth->bouncer(1);
+		
 	}
 
-	/**
-	*	DEPRECATED - REROUTED TO INBOX
-	*/
 	function index()
 	{
-
-		$this->auth->bouncer(1);
-		return $this->inbox();
-	/*	
-		// Load libraries
-		$GS = new Good_search();
-		
-		$options = array (
-			"location" => $this->data['userdata']['location'], 
-			"limit"=>10, 
-			"type"=>'gift'
-		);
-		
-		$this->data['giftflow'] = $GS->find($options);
-	
-		
-		$this->data['your_gifts'] = $GS->find(array(
-			"type"=>"gift",
-			"user_id"=>$this->data['logged_in_user_id']
-		));
-		
-		$this->data['your_needs'] = $GS->find(array(
-			"type"=>"need",
-			"user_id"=>$this->data['logged_in_user_id']
-		));
-
-
-			//In case they have no transactions
-		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
-
-		// Set view variables
-		$this->data['title'] = "Your Dashboard";
-		$this->data['googlemaps'] = TRUE;
-		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
-		
-		// Load Views
-		$this->load->view('header', $this->data);
-		$this->load->view('you/includes/header',$this->data);
-		$this->load->view('you/inbox', $this->data);
-		$this->load->view('footer', $this->data);
-		
-		Console::logSpeed('You::index(): done.');
-	 */
-	}
-	
-	function welcome()
-	{
-		$this->auth->bouncer(1);
-		//detects when user clicks 'welcome' link in you/menu
-		if(!empty($_GET) && $_GET['welcome'] == 'show')
-		{
-			return $this->show_welcome();
-		}
-		//determine whether to show welcome page when user is logging in/registering
-		else
-		{
-			//Check if they've hidden the welome pag
-			$this->db->select('E.id AS event_id, 
-								E.event_type_id AS event_type,
-								E.user_id AS user_id')
-						->from('events AS E')
-						->where('E.user_id', $this->data['logged_in_user_id'])
-						->where('E.event_type_id',13);
-						$result = $this->db->get()->result();
-			//If event hide_welcome is not there, then show welcome			
-			if(empty($result))
-			{
-				$this->data['welcome'] = TRUE;
-				return $this->show_welcome();
-			}
-			else
-			{
-				redirect('you');
-			}
-		}
-		
-	}
-	
-	function show_welcome()
-	{
-		$this->auth->bouncer(1);
-		$this->data['title'] = "Welcome";
-		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
-		$this->load->view('header', $this->data);
-		$this->load->view('you/includes/header',$this->data);
-		$this->load->view('you/welcome', $this->data);
-		$this->load->view('footer', $this->data);
+		$this->inbox();
 	}
 	
 	/**
 	*	Your gifts
-	*	Takes GET param of type - singular gift or need
 	*/
 	function list_goods($type = 'gift')
 	{
@@ -131,7 +48,6 @@ class You extends CI_Controller {
 			$shareId = (isset($get['id'])) ? $get['id'] : NULL;
 		}
 
-		$this->auth->bouncer(1);
 		Console::logSpeed('You::list_goods()');
 		
 		$G = new Good_search;
@@ -169,7 +85,6 @@ class You extends CI_Controller {
 	
 	function watches()
 	{
-		$this->auth->bouncer(1, 'you/watches');
 		$this->load->model('watch');
 
 		// Execute tag search
@@ -196,7 +111,9 @@ class You extends CI_Controller {
 	public function inbox()
 	{
 		
-		$this->auth->bouncer(1);
+		//mark all messages as read
+		//$this->util->clearActiveInbox($this->data['logged_in_user_id']);
+
 		//Load Thankyou
 		$this->load->library('Search/Thankyou_search');
 		$TY = new Thankyou_search;
@@ -243,28 +160,6 @@ class You extends CI_Controller {
 		$this->data['title'] = "Inbox";
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
-		// Breadcrumbs
-		/*$this->data['breadcrumbs'][0] = array(
-			"title"=>"You", 
-			"href"=>site_url('you')
-		);
-		
-		$this->data['breadcrumbs'][1] = array (
-			"title"=>"Inbox"
-		);
-		
-		// Breadcrumbs for filtered results
-		
-		// Filtering by good ID
-		if(!empty($_GET['good_id']))
-		{
-			$this->data['breadcrumbs'][1]['href'] = site_url('you/inbox');
-			
-			$this->data['breadcrumbs'][2] = array(
-				"title"=>"Good #".$_GET['good_id']
-			);
-		}
-		 */	
 		// Load Views
 		$this->load->view('header', $this->data);
 		$this->load->view('you/includes/header',$this->data);
@@ -275,7 +170,6 @@ class You extends CI_Controller {
 
 	public function view_transaction( $id )
 	{
-		$this->auth->bouncer(1);
 		Console::logSpeed("You::view_transaction()");
 		
 		// Loading libraries
@@ -547,7 +441,6 @@ class You extends CI_Controller {
 	
 	public function reviews($include)
 	{
-		$this->auth->bouncer(1);
 		//$include is a boolean for whether or not to include transactions in results
 		$R = new Review_search();
 		$options = array(
@@ -567,7 +460,6 @@ class You extends CI_Controller {
 
 	public function view_thankyou($id)
 	{
-		$this->auth->bouncer(1);
 		//accept or decline thankyou
 		if(!empty($_POST)) {	
 			$thankyou_id = $this->input->post('thankyou_id');
@@ -632,7 +524,6 @@ class You extends CI_Controller {
 
 	public function view_thread($id) 
 	{
-		$this->auth->bouncer(1);
 		if(!empty($_POST))
 		{
 			$input = $this->input->post();
@@ -679,23 +570,6 @@ class You extends CI_Controller {
 		$this->load->view('footer',$this->data);
 	}
 
-
-	/**
-	 * Routes requests to the add_good function 
-	 *
-	 */
-	public function add_gift()
-	{
-		$type = 'gift';
-		$this->add_good($type);
-	}
-
-	public function add_need()
-	{
-		$type = 'need';
-		$this->add_good($type);
-	}
-
 	/**
 	*	Loads both the Add a Gift and the Add a Need forms.
 	*	Which form is loaded varies based on the $type variable.
@@ -703,13 +577,7 @@ class You extends CI_Controller {
 	*/
 	public function add_good($type = NULL)
 	{
-		$this->auth->bouncer('1', 'you/add_good/'.$type);
 		$this->data['default_location'] = $this->data['userdata']['location']->address;
-
-		if(!empty($_GET['type']))
-		{
-			$type =	$this->input->get('type');
-		} 
 
 		$this->data['add']=TRUE;
 		$this->data['categories'] = $this->db->order_by("name","ASC")

@@ -29,14 +29,6 @@ $hook['following_new'][] = array(
 	'filepath' => 'libraries'
 );
 
-
-$hook['user_registration_manual'][] = array(
-	'class'    => 'Notify',
-	'function' => 'alert_user_registration_manual',
-	'filename' => 'notify.php',
-	'filepath' => 'libraries'
-);
-
 $hook['userdata_updated'][] = array(
 	'class'    => 'Auth',
 	'function' => 'new_session',
@@ -63,12 +55,6 @@ $hook['new_password'][] = array(
 	'filepath' => 'libraries'
 );
 
-$hook['hide_welcome'][] = array(
-	'class'    => 'Event_logger',
-	'function' => 'hide_welcome',
-	'filename' => 'event_logger.php',
-	'filepath' => 'libraries'
-);
 
 $hook['report_error'][] = array(
 	'class'    => 'Notify',

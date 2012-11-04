@@ -43,11 +43,12 @@ class Member extends CI_Controller {
 	function login( $redirect = FALSE )
 	{
 
-		if(!empty($_GET['redirect']))
-		{
+		if(!empty($_GET['redirect'])) {
 			$redirect = $this->input->get('redirect');
+		} else if(!empty($_POST['redirect'])) {
+			$redirect = $this->input->post('redirect');
 		} else {
-			$redirect = 'you';
+			$redirect = 'welcome/home';
 		}
 
 		if(empty($_POST))
@@ -111,7 +112,7 @@ class Member extends CI_Controller {
 	/**
 	*	Registration form display and processing
 	*/
-	function register()
+	function register ()
 	{
 		$this->load->library('recaptcha');
 
@@ -133,7 +134,7 @@ class Member extends CI_Controller {
 			if (!$this->recaptcha->check_answer($this->input->ip_address(),$this->input->post('recaptcha_challenge_field'),$this->input->post('recaptcha_response_field')))
 			{
 				$this->session->set_flashdata('error', "You did not correctly input the words in the image. Please try again.");
-				redirect('register');
+				$this->_register_form($this->input->post());
 			}
 			
 			// Perform registration routine
@@ -151,6 +152,19 @@ class Member extends CI_Controller {
 			// If no errors, send to success form
 			else
 			{
+
+				//check thankyous table to thankInvites
+				$T = new Thankyou();
+				$thanks = $T->where('recipient_email', $this->U->email)->get();
+				if($thanks->exists())
+				{
+					foreach($thanks as $val)
+					{
+						$val->recipient_id = $this->U->id;
+						$val->save();
+					}
+				}
+
 				$this->_register_success();
 			}
 		}
@@ -361,7 +375,7 @@ class Member extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	protected function _register_form()
+	protected function _register_form($oldPost = NULL)
 	{
 		$params = array(
 			'scope' => 'email, user_photos, publish_stream',
@@ -375,7 +389,17 @@ class Member extends CI_Controller {
 		{
 			$this->U = new User();
 		}
+
+		$fields = array('email','screen_name', 'city');
+		
+		$this->data['recaptchaError'] = (empty($oldPost))? FALSE : TRUE;
+
+		foreach($fields as $val) {
+			$this->data['form'][$val] = (empty($oldPost[$val]))? '' : $oldPost[$val];
+		}	
+
 		$this->data['js'][] = 'jquery-validate.php';
+		$this->data['js'][] = 'GF.Locations.js';
 		$this->data['facebook_sdk'] = $this->load->view('includes/facebook_sdk',NULL,TRUE);
 		$this->data['recaptcha'] = $this->recaptcha->get_html();
 		$this->data['u'] = $this->U;

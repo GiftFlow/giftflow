@@ -337,9 +337,10 @@ CREATE TABLE IF NOT EXISTS `thankyous` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `thanker_id` int(10) NOT NULL,
   `recipient_id` int(10) NOT NULL,
+  `recipient_email` varchar(100) NULL,
   `gift_title` varchar(200) NOT NULL,
   `body` varchar(2000) NOT NULL,
-  `status` enum('pending','accepted','declined') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','accepted','declined','invited') NOT NULL DEFAULT 'pending',
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`)
