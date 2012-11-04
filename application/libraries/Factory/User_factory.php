@@ -92,6 +92,11 @@ Class User_factory {
 				}
 				else
 				{
+					if (!isset($user->$object))
+					{
+						$user->$object = new stdClass();
+					}
+					
 					$user->$object->$key = $val;
 				}
 			}

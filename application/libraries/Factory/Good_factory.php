@@ -89,11 +89,17 @@ Class Good_factory {
 				}
 				elseif($object == 'user' && $key == 'photo_url' || $key == 'photo_thumb_url')
 				{
+					if (!isset($item->user->default_photo))
+					{
+						$item->user->default_photo = new stdClass();
+					}
+					
 					if(isset($row->user_photo_url))
 					{
 						$item->user->default_photo->url = base_url($row->user_photo_url);
 						$item->user->default_photo->thumb_url = base_url($row->user_photo_thumb_url);
 					} else {
+
 						$item->user->default_photo->url = base_url()."assets/images/user.png";
 						$item->user->default_photo->thumb_url = base_url()."assets/images/user.png";
 					}
