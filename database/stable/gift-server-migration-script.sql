@@ -566,6 +566,10 @@ CREATE TABLE IF NOT EXISTS `thankyous` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+-- Moved terms from the database to a config file
+-- 11/5/2012
+
+DROP TABLE IF EXISTS `terms` ;
 
 -- ------------------------------------------------------
 -- 2012-10-20

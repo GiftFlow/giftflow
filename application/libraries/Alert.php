@@ -131,24 +131,20 @@ class Alert {
 		if(isset($this->message))
 		{
 			$this->subject = $this->parseables['subject'];
-			return TRUE;
+			return;
 		}
 
-		// Load template from database using template name
-		$Term = new Term();
-		$T = $Term->get_email_template($this->template_name, "en");
+		$this->CI->config->load("email_templates");
+		$templates = $this->CI->config->item('email_templates');
 		
 		// If term not found, show error
-		if(!$T)
+		if (!array_key_exists($this->template_name, $templates) ||
++						!array_key_exists("en", $templates[$this->template_name]))
 		{
 			show_error("Alert::generate(): Email Template `".$this->template_name."` not found.");
 		}
-
-		// Set the subject if not manually defined
-		if(empty($this->subject))
-		{
-			$this->subject = $T->subject;
-		}
+		
+		$T = $templates[$this->template_name]["en"];
 		
 		// Parse template
 		if(!empty($this->parseables) && is_array($this->parseables))
@@ -163,14 +159,13 @@ class Alert {
 				$replace_arr[] = htmlspecialchars($val,ENT_COMPAT,"UTF-8");
 			}
 			// Replace tags with values, set message and subject fields
-			$this->message = str_replace($find_arr, $replace_arr, $T->body);
-			$this->subject = str_replace($find_arr, $replace_arr, $this->subject);
+			$this->message = str_replace($find_arr, $replace_arr, $T);
 		}
 		
 		// If nothing to parse, set message to be body field from database
 		else
 		{
-			$this->message = $T->body;
+			$this->message = $T;
 		}
 	}
 	
