@@ -450,21 +450,6 @@ CREATE TABLE IF NOT EXISTS `user_openids` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_settings`
---
-
-CREATE TABLE IF NOT EXISTS `user_settings` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `notify_messages` int(1) NOT NULL DEFAULT '1',
-  `updated` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=458 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `watches`
 --
 
