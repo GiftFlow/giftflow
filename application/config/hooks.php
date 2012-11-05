@@ -10,15 +10,6 @@
 |
 */
 
-$hook['userdata_updated'][] = array(
-	'class'    => 'Auth',
-	'function' => 'new_session',
-	'filename' => 'auth.php',
-	'filepath' => 'libraries'
-);
-
-
-
 /*
 *	PHP Quick Profiler Hooks
 */

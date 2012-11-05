@@ -70,8 +70,8 @@ class Account extends CI_Controller {
 	}
 	
 	/**
-	*  Function routes to the various location related functions
-	* list, add, edit, default, delete
+	* Function routes to the various location related functions
+	* list, add, default, delete
 	* @param type $segment
 	* @param type $action 
 	*/
@@ -96,10 +96,6 @@ class Account extends CI_Controller {
 				if($action=='delete')
 				{
 					$this->_locations_delete( $segment );
-				}
-				elseif($action=='edit')
-				{
-					$this->_locations_edit( $segment );
 				}
 				elseif($action=="default")
 				{
@@ -572,44 +568,6 @@ class Account extends CI_Controller {
 		}
 	}
 	
-
-	protected function _locations_edit( $id )
-	{
-		if(!empty($_POST))
-		{
-			$L= new Location();
-			$this->load->library('geo');
-			$Geo = new geo();
-			$full_location = $Geo->geocode($this->input->post('location'));
-
-			foreach($full_location as $key=>$val)
-			{
-				$L->$key = $val;
-			}
-
-			$L->user_id = $this->data['logged_in_user_id'];
-			$L->validate();
-			if(!empty($L->duplicate_id))
-			{
-					$L = new Location($L->duplicate_id);
-			}
-			elseif(!$L->save())
-			{
-					echo $L->error->string;
-			}
-			else
-			{
-					$this->U->save($L);
-			}
-
-		}
-		else
-		{
-			$this->hooks->call('userdata_updated');
-			redirect('account/locations');
-		}
-	}
-	
 	protected function _locations_delete( $id )
 	{
 		$L = new Location( $id );
@@ -618,13 +576,17 @@ class Account extends CI_Controller {
 		$this->session->set_flashdata('success', 'Location deleted!');
 		redirect('account/locations');
 	}
+	
 	protected function _locations_default( $id )
 	{
 		$L = new Location( $id );
 		$U = new User($this->data['logged_in_user_id']);
 		$U->save_default_location($L);
 		$this->session->set_flashdata('success', 'Location made default.');
-		$this->hooks->call('userdata_updated');
+		
+		$this->load->library('auth');
+		$this->auth->new_session();
+			
 		redirect('account/locations');
 	}
 
@@ -650,7 +612,8 @@ class Account extends CI_Controller {
 			 
 			if($this->U->save())
 			{
-				$this->hooks->call('userdata_updated');
+				$this->load->library('auth');
+				$this->auth->new_session();
 				$this->session->set_flashdata('success','Photo settings saved successfully.');
 				redirect('account/photos');
 			}
@@ -797,7 +760,8 @@ class Account extends CI_Controller {
 		{
 			show_error("Error saving photo source");
 		} else {
-			$this->hooks->call('userdata_updated');
+			$this->load->library('auth');
+			$this->auth->new_session();
 		}
 
 		redirect('account/photos');
@@ -835,8 +799,9 @@ class Account extends CI_Controller {
 		
 		if($this->U->save())
 		{
-			// Hook: `userdata_updated`
-			$this->hooks->call('userdata_updated');
+			$this->load->library('auth');
+			$this->auth->new_session();
+
 			$this->session->set_flashdata('success', 'Settings saved successfully.');
 		}
 		else
