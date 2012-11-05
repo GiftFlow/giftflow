@@ -320,7 +320,7 @@ class Goods extends CI_Controller {
 			*/
 			// For non-owners, set $requested flag to true if user
 			// has already requested at least once
-			if(!$this->_restrict(FALSE))
+			if(!$this->_restrict(FALSE) && array_key_exists('transactions', $this->data))
 			{
 				foreach($this->data['transactions'] as $val)
 				{

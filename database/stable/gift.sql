@@ -312,24 +312,6 @@ CREATE TABLE IF NOT EXISTS `tags` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `terms`
---
-
-CREATE TABLE IF NOT EXISTS `terms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('alert_template','language') NOT NULL COMMENT 'Acceptable values: ''alert_template'',''language''',
-  `language` enum('en','es','fr','de','it','nl','sv','no','da','fi','is','ru','et','lv','pl','pt','ja') NOT NULL DEFAULT 'en',
-  `name` varchar(255) NOT NULL,
-  `subject` varchar(200) NOT NULL COMMENT 'title/subject of alert notifications',
-  `body` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `name_2` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='`terms` stores alert templates and notifications' AUTO_INCREMENT=12 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `thankyous`
 --
 

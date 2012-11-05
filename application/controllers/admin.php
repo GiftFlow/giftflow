@@ -96,79 +96,7 @@ class Admin extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 
-	function alert_templates()
-	{
-		$this->data['title'] = "Admin | Alert Templates";
-		$template = new Term();
-		$template->where('type','alert_template')->order_by('id', 'asc')->get();
-		$this->data['tags'] = $template->all;
-		$this->data['js'][] = 'jquery-datatables.php';
-		$this->data['js'][] = 'includes/jquery-impromptu.min.php';
-		$this->data['css'][] = 'datatables.css';
-		$this->data['css'][] = 'impromptu.css';
-		$this->load->view('header', $this->data);
-		$this->load->view('admin/includes/header', $this->data);
-		$this->load->view('admin/alert_templates', $this->data);
-		$this->load->view('admin/includes/footer', $this->data);
-		$this->load->view('footer', $this->data);
-
-	}
 	// AJAX functions
-
-	function delete_alert_template()
-	{
-		// Parse $_POST array
-		$template_id = $_POST['template_id'];
-
-		// Load alert template object
-		$template = new Term( $template_id );
-		
-		// Then delete it
-		$template->delete();
-	}
-
-    function is_term_unique()
-    {
-      $template_id = intval($_POST['template_id']);
-      $template_name = $_POST['template_name'];
-      //$template_name = "haloqq";
-      $template = new Term();
-      $isset_template = $template->where('name', $template_name)->get();
-
-      echo ($isset_template->name == "" ||
-           ($template_id != 0 && $template_id == $isset_template->id)) ? "true" : "false";
-
-    }
-
-	function edit_alert_template()
-	{
-		// Parse $_POST array
-		$template_id = $_POST['template_id'];
-		$template_name = $_POST['template_name'];
-		$template_subject = $_POST['template_subject'];
-		$template_body = $_POST['template_body'];
-		
-		// New alert template object
-		$template = new Term($template_id);
-		$template->where('id', $template_id)->update('name', $template_name);
-		$template->where('id', $template_id)->update('subject', $template_subject);
-		$template->where('id', $template_id)->update('body', $template_body);
-	}
-
-	function add_alert_template()
-	{
-		// Parse $_POST array
-		$template_name = $_POST['template_name'];
-		$template_body = $_POST['template_body'];
-		$template_subject = $_POST['template_subject'];
-
-		// New alert template object
-		$template = new Term();
-		$template->name = $template_name;
-		$template->body = $template_body;
-		$template->subject = $template_subject;
-		$template->save();
-	}
 
 	function toggleUserDisable($userId) {
 		$U = new User();

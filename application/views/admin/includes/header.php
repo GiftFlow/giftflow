@@ -8,7 +8,6 @@
 	<li <?php if($segment[2]=="gifts"){ echo 'class="active"'; } ?>><a href='<?php echo site_url('admin/gifts'); ?>'>Gifts</a></li>
 	<li <?php if($segment[2]=="needs"){ echo 'class="active"'; } ?>><a href='<?php echo site_url('admin/needs'); ?>'>Needs</a></li>
 	<li <?php if($segment[2]=="tags"){ echo 'class="active"'; } ?>><a href='<?php echo site_url('admin/tags'); ?>'>Tags</a></li>
-  	<li <?php if($segment[2]=="alert_templates"){ echo 'class="active"'; } ?>><a href='<?php echo site_url('admin/alert_templates'); ?>'>Alert Templates</a></li>
 </ul>
 
 <div class="admin-wrapper">
