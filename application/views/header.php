@@ -135,7 +135,7 @@ if(isset($css))
 					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-home icon-white'></i>Home
 					</a>
-					<a href="<?php echo site_url('find'); ?>" class='btn btn-large btn-success'>
+					<a href="<?php echo site_url('find/gifts'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-search icon-white'></i>Find
 					</a>
 					<a href='#' class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
@@ -153,7 +153,7 @@ if(isset($css))
 											<input type='password' name='password' class='required span3' id='password' value='' />
 										</fieldset>
 										<fieldset id='actions'>
-										<input type='hidden' name='redirect' value="<?php echo $redirect_url; ?>" />
+										<input type='hidden' name='redirect' value="<?php echo $dropdown_login_redirect; ?>" />
 											<input type='submit' class='btn btn-primary btn-large' value="Login" />
 										</fieldset>
 						

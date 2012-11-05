@@ -334,6 +334,16 @@ class Goods extends CI_Controller {
 
 		$this->data['othergoods_type'] = ucfirst($other_goods).'s';
 
+		//Button for visitors
+		$button_text = 'Sign up or Login to ';
+		if($this->G->type == 'need') {
+			$button_text .= "offer to help";
+		} else {
+			$button_text .= "request this gift"; 
+		}
+
+		$this->data['button_text'] = $button_text;
+
 		// Title
 		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
@@ -602,13 +612,13 @@ class Goods extends CI_Controller {
 	function _demand()
 	{
 		$input = $this->input->post();
-	
+/*	
 		if(!$this->data['logged_in']) {
 			// Restrict access to logged in users
 			$redirect = site_url().$input['good_type']."s/".$input['good_id'];
 			$this->session->set_userdata('redirect_url', $redirect);
 		}
-
+ */
 		$this->auth->bouncer(1);
 		
 		$this->load->library('market');
@@ -853,5 +863,19 @@ class Goods extends CI_Controller {
 			'og:country-name' => $this->G->location->country
 		);
 		$this->data['open_graph_tags'] = array_merge($this->data['open_graph_tags'], $extension);
+	}
+
+	/**
+	 * Routes a visitors click to a login page
+	 * Sets login redirect to send them back to the gift/need they were viewing
+	 *
+	 */
+	function visitor_request($type, $id) 
+	{
+		$type = $type .= 's';
+		$redirect = site_url().$type.'/'.$id;
+		//not to be confused with dropdown_login_redirect set in parse::globals
+		$this->session->set_userdata('visitor_redirect_url', $redirect);
+		redirect('login');
 	}
 }

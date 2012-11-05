@@ -38,15 +38,18 @@ class Member extends CI_Controller {
 	/**
 	*	Login page
 	*	@param string $redirect
-	*	redirect can also be passed via a ?redirect GET param
+	*	redirect comes from two places. the hidden input of the header dropdown login form
+	*	and the goods::visitor_redirect function which stores the redirect in the sesssion
 	*/
 	function login( $redirect = FALSE )
 	{
+		//check for redirect in session
+		$sess_redirect = $this->session->userdata('visitor_redirect_url');
 
-		if(!empty($_GET['redirect'])) {
-			$redirect = $this->input->get('redirect');
-		} else if(!empty($_POST['redirect'])) {
+		if(!empty($_POST['redirect'])) {
 			$redirect = $this->input->post('redirect');
+		} else if(!empty($sess_redirect)){
+			$redirect = $sess_redirect;
 		} else {
 			$redirect = 'welcome/home';
 		}
@@ -67,7 +70,7 @@ class Member extends CI_Controller {
 
 				$userObj->redirect = $redirect;
 
-				$this->auth->facebook($userObj);
+				return $this->auth->facebook($userObj);
 			}
 		}
 		// If form data POST is here, process login
@@ -92,12 +95,8 @@ class Member extends CI_Controller {
 			}
 		}
 
-		
 		// If no form data, render login form
-		else
-		{
-			$this->_login_form($redirect);
-		}
+		$this->_login_form($redirect);
 	}
 	
 	/**
@@ -364,6 +363,7 @@ class Member extends CI_Controller {
 			'redirect_uri' => site_url('member/login/?redirect=').$redirect
 		);
 		$loginUrl = $this->facebook->getLoginUrl($params);
+
 
 		$this->data['redirect'] = $redirect;
 

@@ -21,7 +21,7 @@ class You extends CI_Controller {
 		
 		if(!$this->data['logged_in']) 
 		{
-			$this->session->set_userdata('redirect_url', current_url());
+			$this->session->set_userdata('visitor_redirect_url', current_url());
 
 		}
 		$this->auth->bouncer(1);
