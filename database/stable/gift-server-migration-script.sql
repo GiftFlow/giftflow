@@ -571,17 +571,10 @@ CREATE TABLE IF NOT EXISTS `thankyous` (
 
 DROP TABLE IF EXISTS `terms` ;
 
--- ------------------------------------------------------
--- 2012-10-20
--- Thankyous updated to accomodate non-user invite thanks
--- --------------------------------------------------
+-- Removed unused table
+-- 11/5/2012
 
-ALTER TABLE thankyous 
-	MODIFY COLUMN status ENUM('pending','accepted','declined','invited'),
-	ADD COLUMN `recipient_email` VARCHAR( 100 ) NULL AFTER `recipient_id`;
-
-
-
+DROP TABLE IF EXISTS `user_settings`;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

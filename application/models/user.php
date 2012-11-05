@@ -46,8 +46,7 @@ class User extends DataMapperExtension {
 		'default_location' => array(
 			'class' => 'location',
 			'other_field'=>'default_user'
-			),
-		'user_setting'
+			)
 	);
 	
 	/**	
@@ -628,16 +627,12 @@ class User extends DataMapperExtension {
 	*/
 	function facebook_unlink()
 	{
-		if( ! $this->user_setting->exists() )
-		{
-			$this->user_setting->get();
-		}
 		$this->facebook_id = '';
 		$this->facebook_token = '';
 		$this->facebook_data = '';
 		$this->facebook_link = '';
 		$this->photo_source = 'giftflow';
-		if( $this->save() && $this->user_setting->save() )
+		if( $this->save() )
 		{
 			// Hook: 'facebook_unlinked'
 			//$this->hooks->call('facebook_unlinked', $this);

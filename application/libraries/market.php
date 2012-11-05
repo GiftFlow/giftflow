@@ -198,7 +198,7 @@ class Market
 				'notify_id' => $this->Decider->id
 			);
 
-		$this->updated('transaction_new',$event_data);
+		$this->updateTransactionTimestamp($Transaction->id);
 
 		return TRUE;
 	}
@@ -275,7 +275,7 @@ class Market
 		
 		$this->CI->event_logger->transaction_cancelled($event_data);
 		
-		$this->updated('transaction_cancelled',$event_data);
+		$this->updateTransactionTimestamp($Transaction->id);
 		
 		return TRUE;
 	}
@@ -349,7 +349,11 @@ class Market
 		
 		$E = new Event_logger();
 		$E->transaction_declined($event_data);
+<<<<<<< HEAD
 		$this->updated('transaction_declined',$event_data);
+=======
+		$this->updateTransactionTimestamp($Transaction->id);
+>>>>>>> Removed user_settings table since it is not being used.
 		
 		return TRUE;
 	}
@@ -604,8 +608,12 @@ class Market
 
 		$this->CI->event_logger->transaction_message($notify_data);
 
+<<<<<<< HEAD
 		$this->CI->notify->alert_transaction_message($notify_data);
 		$this->updated('transaction_message',$notify_data);
+=======
+		$this->updateTransactionTimestamp($options['transaction_id']);
+>>>>>>> Removed user_settings table since it is not being used.
 		
 		return TRUE;
 	}
@@ -616,9 +624,9 @@ class Market
 	*	@param array $params
 	*	@param object $data
 	*/
-	public function updated($params, $data)
+	public function updateTransactionTimestamp($transactionId)
 	{
-		$this->CI->db->where('id',$data->transaction->id)
+		$this->CI->db->where('id', $transactionId)
 			->update('transactions', array(
 				"updated"=> date("Y-m-d H:i:s")
 			));

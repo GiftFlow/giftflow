@@ -431,14 +431,25 @@ class Account extends CI_Controller {
 	{
 		if( $service == "facebook")
 		{
-			$this->U->facebook_unlink();
-			$this->session->set_flashdata('success', 'Facebook account no longer linked with GiftFlow');
+			if ($this->U->facebook_unlink())
+			{
+				$this->session->set_flashdata('success', 'Facebook account no longer linked with GiftFlow');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'Error unlinking Facebook account');
+			}
 			redirect('account/links');
 		}
 		elseif( $service == "google" )
 		{
-			$this->U->google_unlink();
-			$this->session->set_flashdata('success', 'Google account no longer linked with GiftFlow');
+			if ($this->U->google_unlink()) {
+				$this->session->set_flashdata('success', 'Google account no longer linked with GiftFlow');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'Error unlinking Google account');
+			}
 			redirect('account/links');
 		}
 	}
