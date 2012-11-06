@@ -347,13 +347,9 @@ class Market
 		$event_data->notify_id = $event_data->transaction->demander->id;
 		
 		
-		$E = new Event_logger();
-		$E->transaction_declined($event_data);
-<<<<<<< HEAD
+		$this->event_logger->transaction_declined($event_data);
 		$this->updated('transaction_declined',$event_data);
-=======
 		$this->updateTransactionTimestamp($Transaction->id);
->>>>>>> Removed user_settings table since it is not being used.
 		
 		return TRUE;
 	}
@@ -608,12 +604,8 @@ class Market
 
 		$this->CI->event_logger->transaction_message($notify_data);
 
-<<<<<<< HEAD
 		$this->CI->notify->alert_transaction_message($notify_data);
-		$this->updated('transaction_message',$notify_data);
-=======
 		$this->updateTransactionTimestamp($options['transaction_id']);
->>>>>>> Removed user_settings table since it is not being used.
 		
 		return TRUE;
 	}

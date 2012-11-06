@@ -13,7 +13,8 @@ $config['email_templates'] = array(
 	'thankyou' => array('en' => '<p><b>Hello {{recipient_screen_name}}, </b></p><p><b>{{screen_name}}</b> has thanked you on GiftFlow for: "{{gift_title}}".</p><p>They wrote: <br />"{{body}}"</p><p><a href="{{return_url}}">Click here to Accept or Decline.</a></p>'),
 	'thankyou_updated' => array('en' => '<p><b>Hello {{screen_name}},</b></p><p>{{subject}}</p><p>You thanked them for <b>{{gift_title}}</b>.</p><p>If you would like, you can send them a message through your <a href="{{return_url}}">Inbox</a>.</p>'),
 	'transaction_reminder' => array('en' => ''),
-	'goods_match' => array('en' => '')
+	'goods_match' => array('en' => ''),
+	'user_message' => array('en' => '<p><b>Hello {{recipient_name}},</b></p><p>{{user_screen_name}} has sent you a message.</p><p><b>{{user_screen_name}}</b> wrote: <br/>"{{message}}"</p><p><a href="{{return_url}}"Click Here to Login and Respond</a></p>')
 );
 
 /* End of file email_templates.php */

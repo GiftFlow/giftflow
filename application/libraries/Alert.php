@@ -110,7 +110,7 @@ class Alert {
 		$footer = $this->CI->load->view('email/footer',FALSE,TRUE);
 		$config['message_html'] = $header.$this->message.$footer;
 		
-		$config["to"] = $this->to;
+		$config["to"] = 'hans@giftflow.org';
 		$config["reply_to_email"] = '';
 		$config["reply_to_name"] = '';
 		$config["cc"] = '';
@@ -139,7 +139,7 @@ class Alert {
 		
 		// If term not found, show error
 		if (!array_key_exists($this->template_name, $templates) ||
-+						!array_key_exists("en", $templates[$this->template_name]))
+				!array_key_exists("en", $templates[$this->template_name]))
 		{
 			show_error("Alert::generate(): Email Template `".$this->template_name."` not found.");
 		}
