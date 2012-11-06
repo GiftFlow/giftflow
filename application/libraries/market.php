@@ -197,6 +197,8 @@ class Market
 				'return_url' => site_url('login/?return_url=you/view_transaction/'.$Transaction->id),
 				'notify_id' => $this->Decider->id
 			);
+		$this->event_logger->transaction_new($event_data);
+		$this->notify->alert_transaction_new($event_data);
 
 		$this->updateTransactionTimestamp($Transaction->id);
 
