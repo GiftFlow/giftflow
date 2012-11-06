@@ -3,7 +3,7 @@ class You extends CI_Controller {
 
 	var $data;
 	var $has_reviewed = FALSE;
-	var $hook_data;
+	//var $hook_data;
 	
 	function __construct()
 	{
@@ -220,49 +220,15 @@ class You extends CI_Controller {
 			// New message
 			if($_POST['form_type'] == "transaction_message")
 			{
-				
-				// New Message + Status Change
-				if(!empty($_POST['decision']))
-				{
-					if($_POST['decision'] == "accept")
-					{
-						// Activate / change status to `active`
-						$activated = $this->market->activate(array(
-							"transaction_id"=>$T->id,
-							"message"=>$this->input->post('body')
-						));
-						if($activated)
-						{
-							$this->session->set_flashdata('success','Gift activated.');
-						}
-
-					}
-					elseif($_POST['decision'] == "decline")
-					{
-						// Decline / change status to `declined`
-						$declined = $this->market->decline(array(
-							"transaction_id"=>$T->id,
-							"message"=>$this->input->post('body')
-						));
-						if($declined)
-						{
-							$this->session->set_flashdata('success','Gift  declined.');
-						}
-					}
-				}
-				
 				// New Message + No Status Change
-				else
+				$messaged = $this->market->message(array(
+					"transaction_id"=>$id,
+					"body"=>$_POST['body']
+				));
+				
+				if($messaged)
 				{
-					$messaged = $this->market->message(array(
-						"transaction_id"=>$id,
-						"body"=>$_POST['body']
-					));
-					
-					if($messaged)
-					{
-						$this->session->set_flashdata('success','Message Sent!');
-					}
+					$this->session->set_flashdata('success','Message Sent!');
 				}
 				redirect('you/view_transaction/'.$id);
 			}
@@ -493,15 +459,12 @@ class You extends CI_Controller {
 				$this->load->library('notify');
 
 				$TY = new Thankyou_search();
-				$hook_data = $TY->get(array('id'=> $T->id));
-				$hook_data->decision = $decided;
+				$event_data = $TY->get(array('id'=> $T->id));
+				$event_data->decision = $decided;
 
-				$E = new Event_logger();
-				$N = new Notify();
-
-				$E->basic('thankyou_updated', $hook_data);
-				$N->thankyou_updated('thankyou_updated', $hook_data);
-					
+				$this->event_logger->basic('thankyou_updated', $event_data);
+				$this->notify->thankyou_updated($event_data);
+				
 				$this->session->set_flashdata('success','Thank You '.$decided);
 				redirect('you/view_thankyou/'.$thankyou_id);
 			}

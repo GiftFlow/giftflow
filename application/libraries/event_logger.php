@@ -40,7 +40,8 @@ class Event_logger
 	*/
 	function __call($name,$arguments)
 	{
-		$E = $this->basic($name,$arguments[1]);
+		// TODO: remove this function
+		$E = $this->basic($name,$arguments);
 	}
 	
 	/**
@@ -83,7 +84,7 @@ class Event_logger
 	* $data contains user_id of newly registered user
 	* can't use $this->basic because userdata isn't set yet.
 	*/
-	public function user_new($params,$data)
+	public function user_new($data)
 	{
 		$E = new Event();
 		$E->type = 'user_new';
@@ -97,7 +98,6 @@ class Event_logger
 			return FALSE;
 		}
 		return TRUE;
-	
 	}
 	
 	/**
@@ -105,15 +105,13 @@ class Event_logger
 	*
 	* @todo make the notify user email actual get sent out!
 	*/
-	public function follower_new($params, $data)
+	public function follower_new($data)
 	{
-	
 		$E = $this->basic("follower_new",$data);
 		$E->save();
 		$E->notify_user($data['following_user_id']);
-		
-		
 	}
+	
 	/**
 	*	Saves transaction_id to event object when transaction_new hook
 	*	called and then creates notification db row
@@ -121,8 +119,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	
-	function traasdasdnsaction_new($params,$data)
+	function transaction_new($data)
 	{
 		$data->conversation = NULL;
 		
@@ -142,8 +139,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	
-	function transasdasdaction_activated($params, $data)
+	function transaction_activated($data)
 	{
 		$E = $this->basic("transaction_activated",$data);
 		$E->transaction_id = $data->transaction->id;
@@ -154,14 +150,37 @@ class Event_logger
 	}
 	
 	/**
-	*	Saves transaction_id to event object when transaction_declined hook
+	*	Saves transaction_id to event object when transaction_cancelled hook
 	*	called and then creates notification db row
+	*
+	*	NOTE - the user who made the inital request is the one who cancel
 	*	
 	*	@param array $params
 	*	@param object $data
-	 */
+	*/
+	function transaction_cancelled($data)
+	{
+		$data->conversation = NULL;
+		
+		// Create basic event, and then save transaction_id
+		$E = $this->basic("transaction_cancelled",$data);
+		$E->transaction_id = $data->transaction->id;
+		$E->save();
+		
+		// Deliver notification to the transaction's decider
+		$E->notify_user($data->transaction->decider->id);
+	}
 	
-	function tranasdasaction_declined($params,$data)
+	/**
+	*	Saves transaction_id to event object when transaction_declined hook
+	*	called and then creates notification db row
+	*
+	*	NOTE - the user who received the request can decline it
+	*	
+	*	@param array $params
+	*	@param object $data
+	*/
+	function transaction_declined($data)
 	{
 		$data->conversation = NULL;
 		
@@ -181,7 +200,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_masdadessage($params,$data)
+	function transaction_message($data)
 	{
 		// Make a copy of the data object and remove conversation object
 		// since we don't want to save it to the database
@@ -201,7 +220,7 @@ class Event_logger
 	 * @param array $data
 	 */
 
-	function user_messasasdage($data)
+	function user_messaage($data)
 	{
 		$E = $this->basic('user_message',$data);
 		$E->message_id = $data['message_id'];
@@ -226,4 +245,19 @@ class Event_logger
 	
 	}
 	
+	/**
+	*	called at market::review
+	*	saves Transaction object and notifies reviewED user
+	*
+	*	@param array $params
+	*	@param object $data
+	*/
+	
+	function review_new($data)
+	{
+		$E = $this->basic("review_new",$data);
+		$E->save();
+		$E->notify_user($data->reviewed->id);
+	}
+
 }

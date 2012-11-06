@@ -23,7 +23,6 @@ class Auth
 	public function __construct()
 	{
 		$this->CI =& get_instance();
-		$this->hooks =& load_class('Hooks');
 	}
 	
 	/**
@@ -86,20 +85,18 @@ class Auth
 		// Set IP address
 		$this->U->ip_address = $this->CI->input->ip_address();
 		
-		 
+		
 		// Generate forgotten password code
 		$this->U->forgotten_password_code = sha1('$'.$this->U->ip_address.'$'.microtime(TRUE));
 		
 		// Save new user. If successful....
 		if($this->U->register())
 		{
-				// Deactive user, generate activation code
+			// Deactive user, generate activation code
 			$this->U->deactivate();
 			
-				// Hook: 'user_registration_manual'
 			$this->CI->load->library('notify');
-			$N = new Notify();
-			$N->registration_manual($this->U);
+			$this->CI->notify->alert_user_registration_manual($this);
 		}
 		
 		// Return new user
@@ -159,10 +156,7 @@ class Auth
 		
 		// Validates login info. If valid...
 		if($this->U->login())
-		{
-			// Hook: 'user_logged_in'
-			$this->hooks->call('user_logged_in', $this);
-		
+		{	
 			// ... create new session
 			$this->new_session();
 		}
@@ -179,9 +173,6 @@ class Auth
 	{
 		// Destroy CI session
 		$this->CI->session->sess_destroy();
-		
-		// Hook: 'user_logged_out'
-		$this->hooks->call('user_logged_out', $this);
 	}
 	
 	/**
@@ -450,10 +441,6 @@ class Auth
 			return false;
 		}
 		$this->U = $U;
-		
-		// Hook: 'user_logged_in'
-		$this->hooks->call('user_logged_in', $this);
-		$this->hooks->call('user_logged_in_openid', $this);
 
 		// ... create new session
 		$this->new_session();
@@ -478,10 +465,6 @@ class Auth
 		
 		$this->U = $U;
 		
-		// Hook: 'user_logged_in'
-		$this->hooks->call('user_logged_in', $this);
-		$this->hooks->call('user_logged_in_openid', $this);
-
 		// ... create new session
 		$this->new_session();
 		

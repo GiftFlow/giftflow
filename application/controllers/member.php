@@ -14,7 +14,6 @@ class Member extends CI_Controller {
 		$this->load->library('datamapper');
 		$this->load->library('Search/User_search');
 		$this->data = $this->util->parse_globals();
-		$this->hooks =& load_class('Hooks');
 		$this->config->load('account', TRUE);
 		$fbook = $this->config->config['account'];
 
@@ -200,7 +199,7 @@ class Member extends CI_Controller {
 				// Log user in, redirect to welcome page
 				$this->auth->manual_login($U, FALSE);
 				$this->session->set_flashdata('success','Welcome to GiftFlow!');
-				redirect('welcome');
+				redirect('you');
 			}
 			else
 			{
@@ -231,7 +230,7 @@ class Member extends CI_Controller {
 			
 			if($this->U->email == $email)
 			{
-				$hook_data = array(
+				$event_data = array(
 					"email" => $this->U->email,
 					"screen_name" => $this->U->screen_name,
 					"user_id" => $this->U->id
@@ -240,7 +239,7 @@ class Member extends CI_Controller {
 				if(empty($this->U->forgotten_password_code))
 				{
 					$new_code = sha1('$newpassword%$'.microtime(TRUE));
-					$hook_data['forgotten_password_code'] = $new_code;
+					$event_data['forgotten_password_code'] = $new_code;
 					$U_d = new User();
 					$U_d->where('email', $email)->get();
 					
@@ -254,11 +253,15 @@ class Member extends CI_Controller {
 				}
 				else
 				{
-					$hook_data['forgotten_password_code'] = $this->U->forgotten_password_code;
+					$event_data['forgotten_password_code'] = $this->U->forgotten_password_code;
 				}
 				
+				$this->load->library('event_logger');
+				$this->event_logger->reset_password($event_data);
 				
-				$this->hooks->call('reset_password', $hook_data);
+				$this->load->library('notify');
+				$this->notify->reset_password( $event_data);
+				
 				$this->_reset_password_success();
 			}
 			else  // TODO: Give a better error message for accounts that do not exist
@@ -328,7 +331,6 @@ class Member extends CI_Controller {
 				if($A->reset_password($this->U))
 				{
 					$this->session->set_flashdata('success','New password saved!');
-					$this->hooks->call('new_password', $this->U);
 					redirect('you');
 				}
 			}

@@ -28,7 +28,7 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/User_search');
-		$this->load->library('event_reader');
+		$this->load->library('Search/Event_search');
 
 		//Load most recent users
 		$P = new User_search();
@@ -52,8 +52,7 @@ class Welcome extends CI_Controller {
 			'sort' => 'DESC'
 		));
 
-		$this->load->library('event_reader');
-		$E = new Event_reader();
+		$E = new Event_search();
 		$this->data['activity'] = $E->get_events(array(
 			'event_type_id' => array(17,2),
 			'limit' => 40
@@ -87,21 +86,6 @@ class Welcome extends CI_Controller {
 	function facebook()
 	{
 		redirect('you/welcome');
-	}
-	
-	function hide_welcome()
-	{
-		//form question is 'Show this page at log in?'
-		if($_POST['hide_welcome'] == "no")
-		{
-			$hook_data = array(
-				"user_id" => $this->data['logged_in_user_id']
-				);
-			$this->hooks->call('hide_welcome', $hook_data);
-			$this->session->set_flashdata('success', 'Next time you log in, you won\'t see the Welcome page');
-		}
-
-		redirect('you');
 	}
 	
 }

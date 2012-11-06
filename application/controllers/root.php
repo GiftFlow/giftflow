@@ -25,10 +25,10 @@ class Root extends CI_Controller {
 	function _signup()
 	{
 
-		$this->load->library('event_reader');
+		$this->load->library('Search/Event_search');
 		$this->load->library('Search/Good_search');
 
-		$E = new Event_reader();
+		$E = new Event_search();
 
 		$options = array(
 		  'event_type_id' => array(2,8,4,16),

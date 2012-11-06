@@ -110,7 +110,7 @@ class Alert {
 		$footer = $this->CI->load->view('email/footer',FALSE,TRUE);
 		$config['message_html'] = $header.$this->message.$footer;
 		
-		$config["to"] = $this->to;
+		$config["to"] = 'hans@giftflow.org';
 		$config["reply_to_email"] = '';
 		$config["reply_to_name"] = '';
 		$config["cc"] = '';
@@ -120,7 +120,6 @@ class Alert {
 		$this->email( $config );
 	}
 
-     
 	/** 
 	*	Generate message and subject by parsing the alert template
 	*	and the data found in $this->parseables

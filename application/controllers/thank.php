@@ -66,11 +66,9 @@ class Thank extends CI_Controller {
 			$hook_data->notify_id = $TY->recipient_id;
 
 			//record event and send notification
-			$E = new Event_logger();
-			$E->basic('thankyou', $hook_data);
+			$this->event_logger->basic('thankyou', $hook_data);
 
-			$N = new Notify();
-			$N->thankyou('thankyou', $hook_data);
+			$this->notify->thankyou($hook_data);
 
 			redirect('people/'.$form['recipient_id']);
 	}

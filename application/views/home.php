@@ -105,7 +105,7 @@ $(function() {
 			var blurb = latest.content.replace(/(<([^>]+)>)/ig,"");
 			blurb = blurb.substring(0,150)+'... by '+latest.author;
 			
-			var entry = "<li><span class='entryTitle'><a href='"+latest.link+"'>"+latest.title+"</a></span><span class='entryBlurb'>  "+blurb+"</span></li>";
+			var entry = "<li><span class='entryTitle'><a target='blank' href='"+latest.link+"'>"+latest.title+"</a></span><span class='entryBlurb'>  "+blurb+"</span></li>";
 			$('#blogFeed').append(entry);
 		}
 

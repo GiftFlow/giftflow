@@ -24,19 +24,22 @@ class Account extends CI_Controller {
 		}
 		//to prevent welcome page from opening when editing account
 		$this->data['welcome'] = FALSE;
-                //for Inbox new transaction flag
-                $this->data['trans_check'] = FALSE;
+		//for Inbox new transaction flag
+		$this->data['trans_check'] = FALSE;
 		
 	}
 
-	// Basic account statistics, list of options
+	/**
+	 *  defaults to user profile 
+	 */
 	function index()
 	{
-            $this->profile();
+		$this->profile();
 	}
+
 	/**
-         * This function handles the edit profile form  
-         */
+	* This function handles the edit profile form  
+	*/
 	function profile()
 	{
 		$this->auth->bouncer(1);
@@ -63,15 +66,15 @@ class Account extends CI_Controller {
 		{
 			$this->_profile_edit();
 		}
-			 
+
 	}
 	
 	/**
-         *  Function routes to the various location related functions
-         * list, add, edit, default, delete
-         * @param type $segment
-         * @param type $action 
-         */
+	* Function routes to the various location related functions
+	* list, add, default, delete
+	* @param type $segment
+	* @param type $action 
+	*/
 	function locations( $segment = NULL, $action = NULL  )
 	{
 	
@@ -94,10 +97,6 @@ class Account extends CI_Controller {
 				{
 					$this->_locations_delete( $segment );
 				}
-				elseif($action=='edit')
-				{
-					$this->_locations_edit( $segment );
-				}
 				elseif($action=="default")
 				{
 					$this->_locations_default( $segment );
@@ -107,11 +106,11 @@ class Account extends CI_Controller {
 	}
 	
 	/**
-         *  This function routes to the different photo related functions
-         * list, add, default, delete and edit
-         * @param type $segment
-         * @param type $param 
-         */
+	*  This function routes to the different photo related functions
+	* list, add, default, delete and edit
+	* @param type $segment
+	* @param type $param 
+	*/
 	function photos( $segment = FALSE, $param = FALSE )
 	{
 		$this->auth->bouncer(1);
@@ -143,11 +142,11 @@ class Account extends CI_Controller {
 				break;
 		}
 	}
-        
-       /**
-        *   Loads settings form
-        *   routes to process_settings upon form submission 
-        */
+
+	/**
+	 *   Loads settings form
+	 *   routes to process_settings upon form submission 
+	 */
 	function settings()
 	{
 		$this->auth->bouncer(1);
@@ -308,13 +307,13 @@ class Account extends CI_Controller {
 			);
 				
 			// Configure timezone
-		//	$offset = (get_timezone_offset($this->data['userdata']['timezone'], "UTC")/360);
+			//	$offset = (get_timezone_offset($this->data['userdata']['timezone'], "UTC")/360);
 			
 			// Set view variables
 			$this->data['title'] = "Your Account";
 			$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 			$this->data['active_link'] = 'settings';
-      $this->data['email'] = $this->data['userdata']['email'];
+			$this->data['email'] = $this->data['userdata']['email'];
 			
 			// Breadcrumbs
 			$this->data['breadcrumbs'][] = array(
@@ -443,10 +442,10 @@ class Account extends CI_Controller {
 			redirect('account/links');
 		}
 	}
-        
+
 	/**
-         *  Load proflie edit form 
-         */
+	*  Load proflie edit form 
+	*/
 	protected function _profile_edit()
 	{
 		// Load the htmlform extension, so we can generate the form.
@@ -475,10 +474,10 @@ class Account extends CI_Controller {
 		$this->load->view('account/profile', $this->data);
 		$this->load->view('footer', $this->data );
 	}
-        
-        /**
-         *  List locations
-         */
+
+	/**
+	 *  List locations
+	 */
 	protected function _locations_list()
 	{
 		$this->data['js'][] = 'jquery-validate.php';
@@ -560,49 +559,15 @@ class Account extends CI_Controller {
 		}
 		else
 		{
-		$this->hooks->call('userdata_updated');
-		redirect('account/locations');
+			
+			$this->load->library('auth');	// TODO: move this into local constructor
+			$Auth = new Auth();
+			$Auth->new_session();
+			
+			redirect('account/locations');
 		}
 	}
 	
-        
-	protected function _locations_edit( $id )
-	{
-		if(!empty($_POST))
-		{
-			$L= new Location();
-			$this->load->library('geo');
-			$Geo = new geo();
-			$full_location = $Geo->geocode($this->input->post('location'));
-
-			foreach($full_location as $key=>$val)
-			{
-					$L->$key = $val;
-			}
-
-			$L->user_id = $this->data['logged_in_user_id'];
-			$L->validate();
-			if(!empty($L->duplicate_id))
-			{
-					$L = new Location($L->duplicate_id);
-			}
-			elseif(!$L->save())
-			{
-					echo $L->error->string;
-			}
-			else
-			{
-					$this->U->save($L);
-			}
-            
-		}
-		else
-		{
-                    $this->hooks->call('userdata_updated');
-                    redirect('account/locations');
-
-		}
-	}
 	protected function _locations_delete( $id )
 	{
 		$L = new Location( $id );
@@ -611,23 +576,27 @@ class Account extends CI_Controller {
 		$this->session->set_flashdata('success', 'Location deleted!');
 		redirect('account/locations');
 	}
+	
 	protected function _locations_default( $id )
 	{
 		$L = new Location( $id );
 		$U = new User($this->data['logged_in_user_id']);
 		$U->save_default_location($L);
 		$this->session->set_flashdata('success', 'Location made default.');
-		$this->hooks->call('userdata_updated');
+		
+		$this->load->library('auth');
+		$this->auth->new_session();
+			
 		redirect('account/locations');
 	}
-        
-        /**
-         *  Load the photo view and all a users photos 
-         * redirects to account/photos when called by form submission
-         */
+
+	/**
+	 *  Load the photo view and all a users photos 
+	 * redirects to account/photos when called by form submission
+	 */
 	protected function _photos_list()
 	{
-      
+
 		// Handle POST data
 		if(!empty($_POST) && $_POST['form_type'] = "choose")
 		{
@@ -643,7 +612,8 @@ class Account extends CI_Controller {
 			 
 			if($this->U->save())
 			{
-				$this->hooks->call('userdata_updated');
+				$this->load->library('auth');
+				$this->auth->new_session();
 				$this->session->set_flashdata('success','Photo settings saved successfully.');
 				redirect('account/photos');
 			}
@@ -698,9 +668,9 @@ class Account extends CI_Controller {
 		$this->load->view('footer', $this->data);
 	}
 	/**
-         * Delete a photo and its association to the user
-         * @param type $param 
-         */
+	* Delete a photo and its association to the user
+	* @param type $param 
+	*/
 	protected function _photo_delete($param)
 	{
 
@@ -712,13 +682,13 @@ class Account extends CI_Controller {
 
 		redirect('account/photos');
 	}
-        /**
-         *  Add a photo and associate it with the user 
-         */
+	/**
+	 *  Add a photo and associate it with the user 
+	 */
 	protected function _photos_add()
 	{
 		//Save Photo
-		if($_POST['name'] = "photo_upload")
+		if($_POST['name'] == "photo_upload")
 		{
 			$this->P = new Photo();
 			
@@ -751,7 +721,7 @@ class Account extends CI_Controller {
 			$data = $this->upload->data();
 			$this->P->add($data);
 			
- 		//	If errors while saving, set flashdata and redirect
+			//	If errors while saving, set flashdata and redirect
 			if(!$this->P->save())
 			{
 				$this->session->set_flashdata('error', $this->P->error->string);
@@ -770,10 +740,10 @@ class Account extends CI_Controller {
 			redirect('account/photos');
 		}
 	}
-        /**
-         *  Set which photo should be used as the users profile or default picture
-         * @param type int - the id of the photo chosen
-         */
+	/**
+	 *  Set which photo should be used as the users profile or default picture
+	 * @param type int - the id of the photo chosen
+	 */
 	protected function _default_photo($param)
 	{
 		if($param != 'facebook') {
@@ -790,15 +760,16 @@ class Account extends CI_Controller {
 		{
 			show_error("Error saving photo source");
 		} else {
-			$this->hooks->call('userdata_updated');
+			$this->load->library('auth');
+			$this->auth->new_session();
 		}
 
 		redirect('account/photos');
 	}
 
-        /**
-         *  This function saves changes to a users profile 
-         */
+	/**
+	 *  This function saves changes to a users profile 
+	 */
 	function _process_settings()
 	{
 		if(!empty($_POST['email']))
@@ -828,8 +799,9 @@ class Account extends CI_Controller {
 		
 		if($this->U->save())
 		{
-			// Hook: `userdata_updated`
-			$this->hooks->call('userdata_updated');
+			$this->load->library('auth');
+			$this->auth->new_session();
+
 			$this->session->set_flashdata('success', 'Settings saved successfully.');
 		}
 		else
@@ -843,9 +815,9 @@ class Account extends CI_Controller {
 	
 	/**
 	*   Loads the delete user view then redirects to logout upon form submission	
-        *   Set's user status to 'disabled'
+	*   Set's user status to 'disabled'
 	*   Disables all the user's goods and every uncompleted transactions
-        *       
+	*
 	*
 	*/
 	protected function delete_user() 
