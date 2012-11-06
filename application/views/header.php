@@ -67,16 +67,34 @@ if(isset($css))
 	<div class='wrapper clearfix'>
 
 <!--- NOTE MUCH OF THE JAVASCRIPT FOR THESE UI ELEMENTS SUCH AS THE DROPDOWN AND LOCATION BAR IS IN footer.php -->		
+	<div id='session' class='row'>
+		<div id='header_logo' class='span2'>
+			<!-- Logo -->
+			<a href="<?php echo site_url(); ?>" id='logo'>
+				<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
+			</a>
+		</div>
+		<div id='header_location_form' class='span4'>
 
-		<!-- Logo -->
-		<a href="<?php echo site_url(); ?>" id='logo'>
-			<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
-		</a>
-		<div id='session'>
-			
+			<a class='btn btn-large btn-success' title= 'Click here' id='header_location' href="#">
+					<span id='header_location_text'><?php echo $header_location; ?></span>
+			</a>
+		
+
+			<div style='display:none;' id ='relocate_form'>
+			<form name='relocate' class='find_form' id="relocate" method="post" action="">
+					<div class='input-append'>
+					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="location" />
+						<button  id='relocate_button' type='submit' class='btn btn-medium btn-primary'><i class= 'icon-refresh icon-white'></i>Relocate</button>
+						<button id='relocate_cancel' class='btn btn-small btn-primary'><i class='icon-remove icon-white'></i></button>
+					</div>
+				</form>
+			</div>
+		</div>
+
 			<?php if(!empty($logged_in) AND $logged_in){ ?>
 
-				<div class='btn-group' id='header_actions'>
+			<div id='header_actions' class='span6 btn-group'>
 					<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
 						<i class='icon-plus icon-white'></i>Add
 					</a>
@@ -127,11 +145,11 @@ if(isset($css))
 						</li>
 					</ul>
 
-				</div>
+			</div> <!-- close header actions-->
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
 										
-				<div class='btn-group'>
+				<div class='btn-group span6' id='visitor_buttons'>
 					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-home icon-white'></i>Home
 					</a>
@@ -174,32 +192,11 @@ if(isset($css))
 					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-large btn-success'>
 						Sign Up
 					</a>
-				</div>
+				</div><!-- close visitor buttons -->
 			<?php } ?>
-		</div><!-- close session -->
-
-		<!-- Main Menu -->
-		<ul id='nav'>
-			<li>
-
-			<a class='btn btn-success' title= 'Click here' id='header_location' href="#">
-					<span id='header_location_text'><?php echo $header_location; ?></span><i style='margin: 3px 0px 0px 7px;' class='icon-refresh icon-white'></i>
-			</a>
-		
-
-			<div style='display:none;' id ='relocate_form'>
-			<form name='relocate' class='find_form' id="relocate" method="post" action="">
-					<div class='input-append'>
-					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="location" />
-						<button  id='relocate_button' type='submit' class='btn btn-medium'><i class= 'icon-refresh'></i>Relocate</button>
-						<button id='relocate_cancel' class='btn btn-small'><i class='icon-remove'></i></button>
-					</div>
-				</form>
-			</div>
-			</li>	
-		</ul>
-	</div>		
-</div>
+		</div>		
+	</div>
+</div><!-- close header -->
 
 
 <!-- Main Wrapper -->

@@ -63,11 +63,13 @@ input[type=text], textarea{
 }
 
 #relocate_form {
-	margin-top: 10px;
-}
-ul#nav li a#header_location {
 	margin: 5px 0px 5px 0px;
-	padding: 8px;
+}
+
+#session div#header_location_form a {
+	min-height:15px;
+	height:15px;
+	font-size: 0.8em;
 }
 
 .need {
@@ -163,7 +165,6 @@ a#logo img{
 	width:110px;
 }
 #session {
-	float:right;
   padding-bottom:3px;
   margin-top: 8px;
   font-size:14px;
@@ -249,6 +250,7 @@ ul#nav li a:active{
 	color: #fff;
 }
 
+
 #header_actions a {
 	height:15px;
 }
@@ -256,7 +258,7 @@ ul#nav li a:active{
 	height:14px;
 }
 #header_actions i {
-	margin-right: 4px;
+	margin: 0px 4px 2px 0px;
 }
 #header_actions ul.dropdown_menu {
 	float:right;
