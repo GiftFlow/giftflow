@@ -34,6 +34,32 @@ class Find extends CI_Controller {
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/User_search');
 	}
+
+	/**
+	 * loads find/cover.php form for find page
+	 * routes input to _items
+	 */
+
+	function simple_find()
+	{
+		if(!empty($_POST))
+		{
+			$type = $this->input->post('type');
+			$this->_items($type);
+
+		} else {
+		
+			// Load categories
+			$this->data['categories'] = $this->db->order_by("name","ASC")
+				->get("categories")
+				->result();
+			
+			$this->data['title'] = 'Find';
+			$this->load->view('header', $this->data);
+			$this->load->view('find/cover', $this->data);
+			$this->load->view('footer', $this->data);
+		}
+	}
 	
 	function gifts()
 	{
@@ -124,7 +150,7 @@ class Find extends CI_Controller {
 
 		// Load views
 		$this->load->view('header',$this->data);
-		$this->load->view('find/includes/header',$this->data);
+		//$this->load->view('find/includes/header',$this->data);
 		$this->load->view('find/index', $this->data);
 		$this->load->view('footer', $this->data);
 		

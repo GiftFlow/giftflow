@@ -104,7 +104,7 @@ if(isset($css))
 							</i>Inbox
 					</a>
 
-					<a href="<?php echo site_url('find/gifts'); ?>" class='btn btn-large btn-success'>
+					<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-search icon-white'></i>Find
 					</a>
 
@@ -153,7 +153,7 @@ if(isset($css))
 					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-home icon-white'></i>Home
 					</a>
-					<a href="<?php echo site_url('find/gifts'); ?>" class='btn btn-large btn-success'>
+					<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-search icon-white'></i>Find
 					</a>
 					<a href='#' class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
