@@ -18,7 +18,7 @@ INSERT INTO `event_types` (`id`, `title`) VALUES
 (17, 'thankyou'),
 (18, 'thankyou_updated'),
 (19, 'thank_invite'),
-(20, 'user_message')
+(20, 'user_message');
 
 
 INSERT INTO `categories` (`id`, `name`, `parent_category_id`) VALUES

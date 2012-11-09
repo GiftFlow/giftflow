@@ -27,7 +27,7 @@
 							  </a>
 								
 							<div class="metadata left watchword">
-								<a id='keyword' title='Click to Search' href='<?php echo site_url("find/".$val->keyword); ?>'>
+								<a id='keyword' title='Click to Search' href='<?php echo site_url("find/gifts/".$val->keyword); ?>'>
 									<?php echo $val->keyword; ?>
 								</a>
 							</div>

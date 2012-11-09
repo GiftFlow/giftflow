@@ -34,7 +34,7 @@ class You extends CI_Controller {
 	}
 	
 	/**
-	*	Your gifts
+	*	Your gifts or needs
 	*/
 	function list_goods($type = 'gift')
 	{
@@ -176,7 +176,7 @@ class You extends CI_Controller {
 		$this->load->library('Messaging/Conversation');
 		$this->load->helper('form');
 		$this->load->helper('language');
-		$this->lang->load("transactions","en");
+//		$this->lang->load("transactions","en");
 		
 		// Load Transaction, User & Review Data
 		

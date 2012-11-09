@@ -214,11 +214,11 @@ if(isset($css))
 
 			<ul id='addActions'>
 				<li>
-				<a href="<?php echo site_url('you/add_good/?type=gift');?>" class='btn btn-large'>Add Gift</a>
+				<a href="<?php echo site_url('you/add_good/gift');?>" class='btn btn-large'>Add Gift</a>
 					<span>What can you offer the GiftFlow community?</span>
 				</li>
 				<li>
-				<a href="<?php echo site_url('you/add_good/?type=need');?>" class='btn btn-large btn-danger'>Add Need</a>
+				<a href="<?php echo site_url('you/add_good/need');?>" class='btn btn-large btn-danger'>Add Need</a>
 					<span>What do you need? Ask away!</span>
 				</li>
 				<li>

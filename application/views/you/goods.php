@@ -4,7 +4,7 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
-		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="btn btn-large btn-success">Add a <?php echo ucfirst($type); ?></a>
+		<a href="<?php echo site_url('you/add_good/'.$type);?>" id='add_good' class="btn btn-large btn-success">Add a <?php echo ucfirst($type); ?></a>
 		<ul class ="transactions goods_list list_menu float_right">
 			<?php if(!empty($goods)) { ?>
 				<?php foreach($goods as $val) { ?>
