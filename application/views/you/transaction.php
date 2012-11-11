@@ -81,8 +81,8 @@
 								<a href='#' class='user_image medium css_left'>
 									<img src="<?php echo $use->default_photo->thumb_url; ?>" alt="<?php echo $use->screen_name;?>" />
 								</a>
-								<div class = 'text clearfix css_left' href='<?php echo site_url('people/'.$use->id); ?>'>
-									<a href='<?php echo site_url("people/profile/").$use->id; ?>' >
+								<div class = 'text clearfix css_left'>
+									<a href="<?php echo site_url('people/profile/'.$use->id); ?>" >
 										<?php echo $use->screen_name;?>
 									 </a>
 									<div class='body'>
@@ -97,7 +97,6 @@
 					<?php } ?>
 				<?php } ?>
 			<?php } ?>
-
 			<!-- review form -->
 			<?php if($transaction->status == "active" && !$has_reviewed) { ?>
 				<li class='transaction_form message review' id='review_new' style='display:none;'>

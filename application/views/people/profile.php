@@ -53,14 +53,13 @@
 				<p class='nicebigtext'>Bio</p>
 
 					<?php if(!empty($u->location)) { ?>
-								Location:
+							<b>	Location:</b>
 									<?php if(!empty($u->location->city)) { echo $u->location->city.','; } ?>
 									<?php if(!empty($u->location->state)) { echo $u->location->state; } ?>
 									<?php if(!empty($u->location->country)) { echo $u->location->country.', '; } ?>
 						<?php }  ?>
 					<p>
-							<?php echo 'Member since '.user_date($u->created,"F jS Y"); ?>
-							<?php //echo $u->type; ?>
+						<b>Member since: </b><?php echo user_date($u->created,"F jS Y"); ?>
 					</p>
 		
 				<p><?php if(!empty($u->bio)) { echo $u->bio; } ?></p>

@@ -11,7 +11,7 @@
 		<a href="<?php echo site_url("you");?>" class="user_image medium left">
 			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
 		</a>
-		<p class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
+		<p style='margin-left: 80px;' class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
 	</div>
 	<div class='span8'>
 		<div class='btn-group profile_actions'>

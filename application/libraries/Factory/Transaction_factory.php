@@ -269,6 +269,14 @@ class Transaction_factory {
 			
 			if(!empty($this->Transactions[$review->transaction_id]))
 			{
+
+				//reviews should be assigned the user who wrote them
+				foreach($this->Transactions[$review->transaction_id]->users as $use) {
+					if($review->reviewer_id == $use->id) {
+						$review->reviewer = $use;
+					}
+				}
+
 				$this->Transactions[$review->transaction_id]->reviews[] = $review;
 			}
 		}

@@ -52,8 +52,6 @@ p{
 a {
 	color: #6cb6e2;
 	text-decoration: none;
-	font-weight: bold;
-	text-shadow: .75px .75px .25px #084197;
 }
 a:hover{
 	color: #000;
@@ -1303,6 +1301,9 @@ ul#edit_good_photos li:hover .edit_dialog a:hover{
 }
 ul.results_list li a.thankimg img{
 	vertical-align:top;
+}
+.thankimg {
+	margin: 0px -15px 0px 5px;
 }
 
 #profile_left{
@@ -3067,4 +3068,10 @@ div.simpleFind {
 }
 #category_box {
 	padding-left: 30px;
+}
+.spaced {
+	margin: 5px 0px 0px 0px;
+}
+.entry_body {
+	padding: 15px;
 }

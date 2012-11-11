@@ -106,6 +106,11 @@ class UI_results
 		Console::logSpeed("UI_Results::goods(): done.");
 		return $view;
 	}
+
+	/**
+	 * This function takes a set of transaction_search() results 
+	 * and turns them into review UI rows
+	 */
 	
 	function reviews($options = array())
 	{
@@ -128,7 +133,7 @@ class UI_results
 		{
 			$options['results'] = array($options['results']);
 		}
-		
+
 		// Load View
 		$view = $CI->load->view('reviews/includes/results',$options,TRUE);
 		

@@ -226,15 +226,6 @@ class People extends CI_Controller {
 		// Generate stats about the user
 		$U_model->stats();
 
-		//Load user's thank yous - transactions without goods or demands
-		$R = new Transaction_search();
-		$review_options = array(
-			'user_id' => $U->id,
-			'transaction_status' => 'completed'
-		);
-		//to be appended to gifts_given list in view
-		$this->data['reviews'] = $R->find($review_options);
-
 		// Load user's completed Transactions - to get reviews
 		$T_s = new Transaction_search();
 		$search_options = array(
@@ -242,7 +233,7 @@ class People extends CI_Controller {
 			"transaction_status" => "completed",
 			"limit" => 20
 			);
-		$this->data['transactions'] = $T_s->find($search_options);
+		$this->data['reviews'] = $T_s->find($search_options);
 
 		$T_y = new Thankyou_search();
 		$search_options_thank = array('recipient_id' => $U->id, 'status'=>'accepted');
