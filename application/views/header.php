@@ -120,7 +120,7 @@ if(isset($css))
 						<span class='caret'></span>
 					</button>
 
-						<ul class='dropdown-menu'>
+						<ul class='dropdown-menu' id='logged_in_dropdown'>
 							<li>
 								<a href='<?php echo site_url(''); ?>'>
 									Dashboard
@@ -149,7 +149,7 @@ if(isset($css))
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
 										
-				<div class='btn-group span6' id='visitor_buttons'>
+				<div class='btn-group span4 offset2' id='visitor_buttons'>
 					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
 						<i class='icon-home icon-white'></i>Home
 					</a>

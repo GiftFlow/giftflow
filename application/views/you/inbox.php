@@ -6,7 +6,7 @@
 	<!-- Sidebar Menu -->
 	<?php echo $menu; ?>
 	<div class='right_content'>
-		<?php if(!empty($thankyous) || !empty($transactions) || !empty($threads)) { ?>
+		<?php if(!empty($thanks) || !empty($transactions) || !empty($threads)) { ?>
 			<ul class='transactions'>
 		
 				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->

@@ -338,6 +338,7 @@ class User_search extends Search
 			U.status AS user_status,
 			U.created AS user_created,
 			U.bio As user_bio,
+			U.url AS user_url,
 			P.id AS photo_id,
 			P.url AS photo_url,
 			P.thumb_url AS photo_thumb_url")

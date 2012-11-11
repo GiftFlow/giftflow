@@ -51,7 +51,7 @@
 			<!--Open transaction completed -->
 				<div class='row-fluid'>
 				<?php if($mini) { ?>
-					<div class='span2'>
+					<div class='span1'>
 					<!-- Image -->
 						<a href="<?php echo site_url('gifts/'.$val->transaction->demands[0]->good->id);?>" class="result_image" title="<?php echo $val->transaction->demands[0]->good->title;?>">
 							<?php if(!isset($val->transaction->demands[0]->good->default_photo->thumb_url)) { ?>	
@@ -62,10 +62,15 @@
 							<?php }?>
 						</a>
 					</div>
-					<div class='span10 result_meta clearfix'>
+					<div class='span9 result_meta clearfix'>
 					  <span class='title'>
-						<?php echo($val->transaction->language->overview_summary); ?>
+						<?php echo $val->transaction->language->overview_summary; ?>
 					  </span> 
+					</div>
+					<div class='span2 result_meta'>
+						<span class= 'minidata'>
+							<?php echo user_date($val->event_created, "F js Y"); ?>
+						</span>
 					</div>
 
 				<?php } else { ?>
@@ -132,25 +137,22 @@
 	<?php } else if($val->event_type_id == 17) { ?>
 	<!-- open thankyou -->
 		<div class='row-fluid'>
-			<div class='span2'>
+			<div class='span1'>
 				<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
 					 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
 				</a>
 			</div>
-			<div class='span10 result_meta clearfix'>
+			<div class='span9 result_meta clearfix'>
 				<span class = 'title'>
 					<?php echo $val->thank->summary;?>
 				</span>                  
-				<span class = 'metadata created'>
+			</div>
+			<div class='span2'>
+				<span class='minidata'>
 					<?php echo user_date($val->event_created,"F jS Y"); ?>
 				</span>
-			<?php if(!$mini) { ?>
-					<span class='event_text'>
-					  <?php echo substr($val->thank->body, 0, 120)."..."; ?>
-					</span>
-				</div>
-			<?php } ?>
 			</div>
+		</div>
 	<?php } ?>
 
 

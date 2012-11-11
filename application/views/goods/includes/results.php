@@ -73,9 +73,9 @@
 						
 					<?php } ?>
 					</div>
-					<?php if(!$mini) { ?>
+					<?php if(!$mini && !empty($G->description)) { ?>
 						<div class='span4'>
-							<span class='metadata'>
+							<span class='metadata row_description'>
 								<b>Description:</b> <?php echo substr($G->description, 0, 150); ?>
 							</span>
 						</div>

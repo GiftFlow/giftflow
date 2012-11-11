@@ -22,7 +22,7 @@
 					
 				<!-- Metadata -->
 				</div>
-				<div class='span8 result_meta clearfix'>
+				<div class='span10 result_meta clearfix'>
 					
 							<!-- Title -->
 							

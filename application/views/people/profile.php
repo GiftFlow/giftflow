@@ -64,7 +64,11 @@
 					</p>
 		
 				<p><?php if(!empty($u->bio)) { echo $u->bio; } ?></p>
-				<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
+				<p><?php if(!empty($u->url)) { ?>
+					<a href="<?php echo $u->url; ?>"> <?php echo $u->url; ?></a>
+				</p><?php } ?>
+
+
 		</div> <!-- close profile info -->
 
 		<div id='profile_photos' class='profile_chunk thumb_grid'>

@@ -28,9 +28,9 @@
 	</div><!-- close header row -->
 
 <div class='row chunk' id='dashboard'>
-		<div class='span8'>	
-		<div class='row'>
-			<div class='span6' id='homeBlog'>
+		<div class='span6'>	
+		<div class='row-fluid dash_left'>
+			<div class='span12' id='dashBlog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
 
 				<!-- Loading Message -->
@@ -44,17 +44,49 @@
 				</ul>
 			</div>
 		</div>
-		<div class='row-fluid'>
-		<div class='span4 dashList'>
-			<h3>Top Users</h3>
-				<?php echo UI_Results::users(array(
-					"results" => $new_peeps,
-					"mini" => TRUE,
-					"border" => FALSE,
-					"follow" => FALSE
-				)); ?>
+		<div class='row-fluid dash_left' id='dashFeatured'>
+			<div class='media'>	
+				<!-- Image -->
+				<a class='pull-left user_image' id='featured_image' href='<?php echo site_url('people/'.$featured->id); ?>'>
+					<img class='media-object' src='<?php if(isset($featured->photo->url)) { echo $featured->photo->thumb_url; } else { echo $featured->default_photo->thumb_url; }?>'>
+				</a>
+				<div class='media-body'>
+
+				
+					<h3 class='media-heading'>Featured User - <a href="<?php echo site_url('people/'.$featured->id);?>">
+											<?php echo $featured->screen_name; ?></a>
+					</h3>
+					<div class='media'> 
+					<p><b>Member since:</b> <?php echo user_date($featured->created, "F jS Y"); ?></p>
+						<p><b>Location:</b> <?php echo $featured->location->city.', '.$featured->location->state; ?></p>
+						<p><b>Bio:</b>  <?php echo $featured->bio; ?></p>
+						
+						<?php if(!empty($featured->gifts)) { ?>			
+							<p><b>Gifts</b>:
+								<?php foreach($featured->gifts as $val) { ?>
+										<a href="<?php echo site_url($val->type.'s/'.$val->id); ?>">
+											<?php echo $val->title; ?>
+										</a>
+								<?php } ?>
+							</p>
+						<?php } ?>
+						<?php if(!empty($featured->needs)) { ?>
+							<p><b>Needs</b>:
+								<?php foreach($featured->needs as $val) { ?>
+										<a href="<?php echo site_url($val->type.'s/'.$val->id); ?>">
+											<?php echo $val->title; ?>
+										</a>
+								<?php } ?>
+							</p>
+						<?php } ?>
+
+					</div>
+				</div>
+			</div>
+
 		</div>
-		<div class='span4 dashList'>
+		<div class='row-fluid dash_left'>
+		<div class='span6 dashList'>
 		<h3>Nonprofits</h3>
 			<?php echo UI_Results::users(array(
 				'results' => $nonprofits,
@@ -63,7 +95,7 @@
 				"follow" => FALSE
 			)); ?>
 		</div>
-		<div class='span4 dashList'>
+		<div class='span6 dashList'>
 		<h3>Gifts + Needs</h3>
 			<?php echo UI_Results::goods(array(
 				"results" => $goods,
@@ -75,7 +107,7 @@
 		</div>
 	</div>
 	
-	<div class='span4 dashList'>
+	<div class='span6 dashList' id='dash_activity'>
 			<h3>Recent Activity</h3>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,
@@ -123,7 +155,7 @@ $(function() {
 
 	//On page load, show loading gif and get blog RSS feed
 	$('.results_loading').show();
-	parseRSS(url, logfeed);
+//	parseRSS(url, logfeed);
 
 
 });
