@@ -51,6 +51,7 @@ class Location_search extends Search
 			$result->postal_code = $L->postal_code;
 			$result->state = $L->state;
 			$result->country = $L->country;
+			$result->id = $L->id;
 			return $result;			
 		}
 			

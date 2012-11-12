@@ -91,6 +91,7 @@
 			</div>
 		</div>
 		<div class='modal-footer'>
+			<a href="<?php echo site_url($type.'s/'.$shareId.'/photos'); ?>" class='btn pull-left'>Add Photos</a>
 			<a href='#' data-dismiss='modal' class='btn'>Close</a>
 		</div>
 	</div>

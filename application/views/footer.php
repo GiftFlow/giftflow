@@ -63,6 +63,8 @@ $(function(){
 		e.stopPropagation();
 	});
 
+	$('#logged_in_dropdown').css('left', 250);
+
 	//header location bar
 	$('#header_location').tooltip({
 		placement: 'bottom',

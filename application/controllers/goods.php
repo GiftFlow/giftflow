@@ -607,13 +607,6 @@ class Goods extends CI_Controller {
 	function _demand()
 	{
 		$input = $this->input->post();
-/*	
-		if(!$this->data['logged_in']) {
-			// Restrict access to logged in users
-			$redirect = site_url().$input['good_type']."s/".$input['good_id'];
-			$this->session->set_userdata('redirect_url', $redirect);
-		}
- */
 		$this->auth->bouncer(1);
 		
 		$this->load->library('market');

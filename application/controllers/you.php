@@ -540,6 +540,13 @@ class You extends CI_Controller {
 	*/
 	public function add_good($type = NULL)
 	{
+		if(!empty($_GET['type'])) {
+			$type = $this->input->get('type');
+		}
+		if(empty($type)) {
+			show_error('Error determining type');
+		}
+
 		$this->data['default_location'] = $this->data['userdata']['location']->address;
 
 		$this->data['add']=TRUE;
@@ -549,7 +556,7 @@ class You extends CI_Controller {
 		$this->data['type'] = $type;
 		$this->data['question'] = ($type == 'gift') ? 'What do you want to give?' : 'What do you need?';
 		$this->data['title'] = ($type == 'gift') ? 'Add a Gift' : 'Add a Need';
-		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
+		$this->data['default_location'] = $this->data['userdata']['location']->address;
 		
 		// Load Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
