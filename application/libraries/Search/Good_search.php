@@ -519,7 +519,8 @@ class Good_search extends Search
 			L.latitude AS location_latitude,
 			L.longitude AS location_longitude,
 			L.postal_code AS location_postal_code,
-			L.country AS location_country
+			L.country AS location_country,
+			L.street_address AS location_street_address
 			")
 			->join("locations AS L ","G.location_id = L.id",$type);
 	}
