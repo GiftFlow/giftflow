@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 
 CREATE TABLE IF NOT EXISTS `demands` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('give','take','borrow','share','fulfill','thank') NOT NULL,
+  `type` enum('give','take','borrow','share') NOT NULL,
   `transaction_id` int(10) unsigned NOT NULL,
   `good_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
@@ -260,18 +260,6 @@ CREATE TABLE IF NOT EXISTS `photos` (
   KEY `good_id` (`good_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='The `photos` data model stores information about photos for ' AUTO_INCREMENT=83 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `redirects`
---
-
-CREATE TABLE IF NOT EXISTS `redirects` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `url` varchar(100) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores redirects so user can be sent to place they were inte' AUTO_INCREMENT=1227 ;
 
 -- --------------------------------------------------------
 
