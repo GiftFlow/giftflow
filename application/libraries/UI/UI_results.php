@@ -42,7 +42,8 @@ class UI_results
 			"mini"=>FALSE,
 			"include"=>array("location"),
 			"row"=>FALSE,
-			"follow" => TRUE
+			"follow" => TRUE,
+			"home_results" => FALSE
 		);
 		$options = array_merge($default_options, $options);
 		
@@ -53,8 +54,13 @@ class UI_results
 			$options['results'] = array($options['results']);
 		}
 		
+		
 		// Load View
-		$view = $CI->load->view('people/includes/results',$options,TRUE);
+		if($options['home_results']) {
+			$view = $CI->load->view('people/includes/home_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('people/includes/results',$options,TRUE);
+		}
 		
 		// Return HTML string
 		Console::logSpeed("UI_Results::users(): done.");

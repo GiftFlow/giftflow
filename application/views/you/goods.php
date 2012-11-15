@@ -25,7 +25,7 @@
 								
 								<a href="<?php echo site_url('goods/'.$val->id);?>" class="result_image left" title="<?php echo $val->title;?>">
 									<?php if(!isset($val->default_photo->thumb_url)) { ?>	
-										<a class="<?php echo $val->default_photo->thumb_class; ?>">
+										<a href='#' class="<?php echo $val->default_photo->thumb_class; ?>">
 										</a>
 									<?php } else { ?>
 										<img src="<?php echo $val->default_photo->thumb_url; ?>"/>

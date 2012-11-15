@@ -56,7 +56,7 @@ class Find extends CI_Controller {
 			
 			$this->data['title'] = 'Find';
 			$this->load->view('header', $this->data);
-			$this->load->view('find/cover', $this->data);
+			$this->load->view('find/simple_find', $this->data);
 			$this->load->view('footer', $this->data);
 		}
 	}

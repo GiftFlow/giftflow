@@ -347,7 +347,7 @@ class Goods extends CI_Controller {
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
 			"title"=>ucfirst($this->G->type)."s", 
-			"href"=>site_url($this->G->type."s")
+			"href"=>site_url("find/".$this->G->type."s")
 		);
 		
 		$this->data['breadcrumbs'][] = array (
@@ -416,7 +416,7 @@ class Goods extends CI_Controller {
 			->get("categories")
 			->result();
 		
-		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
+		$this->data['default_location'] = $this->data['userdata']['location']->address;
 		
 		$this->data['breadcrumbs'][] = array (
 			"title"=>$this->G->title,
@@ -789,7 +789,7 @@ class Goods extends CI_Controller {
 			{
 				$this->session->set_flashdata('success', $this->G->title." was deleted successfully."); 
 				
-				redirect("you/".$this->G->type."s");
+				redirect("you/list_goods/".$this->G->type);
 			}
 			
 		}

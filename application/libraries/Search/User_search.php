@@ -224,9 +224,11 @@ class User_search extends Search
 	{
 		Console::logSpeed("User_search::following()");
 		$this->_basic_query();
+		$this->_join_locations('left');
 		$result = $this->CI->db->select("FU.id IS NOT NULL AS user_am_following")
 			->join('followings_users AS FU ','U.id=FU.following_id')
 			->where('FU.user_id',$options['user_id'])
+			->limit(10)
 			->get()
 			->result();
 

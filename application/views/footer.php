@@ -72,17 +72,29 @@ $(function(){
 
 	GF.Locations.initialize($('input#header_relocate'));
 
+	GF.header_switch = function(form) {
+		if(form) {
+			$('#header_location_form').hide();
+			$('#home_find_buttons').hide();
+			$('#relocate_form').show();
+		} else {
+			$('#relocate_form').hide();
+			$('#home_find_buttons').show();
+			$('#header_location_form').show();
+		}
+	};
+
+
 	$('#header_relocate').click(function() {
 		$(this).val('');
 	});
 
 	$('#header_location').click(function() {
-		$(this).hide();
-		$('#relocate_form').show();
+		GF.header_switch(1);
 	});
+
 	$('#relocate_cancel').click(function() {
-		$('#relocate_form').hide();
-		$('#header_location').show();
+		GF.header_switch(0);
 		return false;
 	});
 
@@ -90,7 +102,8 @@ $(function(){
 		var updated = data.city+", "+data.state;
 		$('#header_location_text').text(updated);
 		$('#relocate_form').hide();
-		$('#header_location').show();
+		$('#home_find_buttons').show();
+		$('#header_location_form').show();
 	};
 
 	GF.process_relocate = function(locate) {

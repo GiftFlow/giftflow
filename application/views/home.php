@@ -27,10 +27,10 @@
 <?php } ?>
 	</div><!-- close header row -->
 
-<div class='row chunk' id='dashboard'>
+<div class='row' id='dashboard'>
 		<div class='span6'>	
 		<div class='row-fluid dash_left'>
-			<div class='span12' id='dashBlog'>
+			<div class='span12 chunk' id='dashBlog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
 
 				<!-- Loading Message -->
@@ -45,15 +45,15 @@
 			</div>
 		</div>
 		<div class='row-fluid dash_left' id='dashFeatured'>
-			<div class='media'>	
+			<div class='media span12 chunk'>	
 				<!-- Image -->
 				<a class='pull-left user_image' id='featured_image' href='<?php echo site_url('people/'.$featured->id); ?>'>
 					<img class='media-object' src='<?php if(isset($featured->photo->url)) { echo $featured->photo->thumb_url; } else { echo $featured->default_photo->thumb_url; }?>'>
 				</a>
 				<div class='media-body'>
 
-				
-					<h3 class='media-heading'>Featured User - <a href="<?php echo site_url('people/'.$featured->id);?>">
+					<p>Featured User:</p>	
+					<h3 class='media-heading'><a href="<?php echo site_url('people/'.$featured->id);?>">
 											<?php echo $featured->screen_name; ?></a>
 					</h3>
 					<div class='media'> 
@@ -86,16 +86,18 @@
 
 		</div>
 		<div class='row-fluid dash_left'>
-		<div class='span6 dashList'>
+<?php if(!$logged_in) { ?>
+		<div class='span6 dashList chunk'>
 		<h3>Nonprofits</h3>
 			<?php echo UI_Results::users(array(
 				'results' => $nonprofits,
 				"mini" => TRUE,
 				"border" => FALSE,
-				"follow" => FALSE
+				"follow" => FALSE,
+				"home_results" => TRUE
 			)); ?>
 		</div>
-		<div class='span6 dashList'>
+		<div class='span6 dashList chunk'>
 		<h3>Gifts + Needs</h3>
 			<?php echo UI_Results::goods(array(
 				"results" => $goods,
@@ -104,10 +106,33 @@
 				"home_results" => TRUE
 			)); ?>
 		</div>
+	<?php } else { ?>
+		
+		<div class='span6 dashList chunk'>
+		<h3>Following</h3>
+			<?php echo UI_Results::users(array(
+				'results' => $following,
+				"mini" => TRUE,
+				"border" => FALSE,
+				"follow" => FALSE,
+				"home_results" => TRUE
+			)); ?>
 		</div>
+		<div class='span6 dashList chunk'>
+		<h3>Your GiftFlow</h3>
+		<span class='minidata'>(Posted by those you follow)</span>
+			<?php echo UI_Results::goods(array(
+				"results" => $following_goods,
+				"mini" => TRUE,
+				"border" => FALSE,
+				"home_results" => TRUE
+			)); ?>
+		</div>
+	<?php } ?>
+	</div>
 	</div>
 	
-	<div class='span6 dashList' id='dash_activity'>
+	<div class='span5 chunk dashList' id='dash_activity'>
 			<h3>Recent Activity</h3>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,
@@ -155,7 +180,7 @@ $(function() {
 
 	//On page load, show loading gif and get blog RSS feed
 	$('.results_loading').show();
-//	parseRSS(url, logfeed);
+	parseRSS(url, logfeed);
 
 
 });

@@ -21,12 +21,12 @@
 					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
 				<?php } else { ?>
 					<?php if(!isset($userdata['bio'])) { ?>
-						<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a>
+						<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-user'></i>Update profile</a>
 					<?php } ?>
-						<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
-						<a class='btn' href="<?php echo site_url('you/list_goods/need'); ?>"><i class='icon-plus'></i>Your Needs</a>
-						<a class='btn' href="<?php echo site_url('you/list_goods/gift'); ?>"><i class='icon-plus'></i>Your Gifts</a>
-						<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
+						<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-camera'></i>Upload photos</a>
+						<a class='btn' href="<?php echo site_url('you/list_goods/need'); ?>"><i class='icon-minus-sign'></i>Your Needs</a>
+						<a class='btn' href="<?php echo site_url('you/list_goods/gift'); ?>"><i class='icon-gift'></i>Your Gifts</a>
+						<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-time'></i>Your Watches</a>
 				<?php } ?>
 			</div>
 				
@@ -80,7 +80,6 @@
 				<?php } ?>
 				
 				</p>
-				<!--<button class='btn' href='#photoModal' role='button' data-toggle='modal'>BUTTON</button>-->
 				<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
 					<div class='modal-header'>
 						<h3 id='photoModalLabel'>Photo of <?php echo $u->screen_name; ?></h3>
@@ -105,7 +104,7 @@
 				<div class='thumb_grid'>
 				<?php foreach($followers as $val) { ?>
 				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
-				<img src='<?php echo $val->default_photo->thumb_url;?>' />
+					<img src='<?php echo $val->default_photo->thumb_url;?>' />
 				</a>
 			 <?php } ?>
 				</div>

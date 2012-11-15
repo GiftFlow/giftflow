@@ -228,7 +228,7 @@
 	background: url(../images/categories/miniSprites.png) no-repeat;
 	z-index: 0;
 	position:absolute;
-	margin:5px;
+	margin:6px 15px 0px 0px;
 }
 
 .mini-1{

@@ -124,8 +124,8 @@ class Factory
 			} 
 			elseif($ty->photo_source == "facebook" && !empty( $ty->facebook_id ))
 			{
-				$ty->default_photo->thumb_url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=large";
-				$ty->default_photo->url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=large";
+				$ty->default_photo->thumb_url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=square";
+				$ty->default_photo->url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=square";
 			}
 			$ty->summary = '<a href="'.site_url("people/".$ty->thanker_id).'">'.$ty->screen_name.'</a> thanked <a href="'.site_url("people/".$ty->recipient_id).'">'.$ty->recipient_screen_name.'</a> for "'.$ty->gift_title.'"';
 		}

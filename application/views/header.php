@@ -67,34 +67,44 @@ if(isset($css))
 	<div class='wrapper clearfix'>
 
 <!--- NOTE MUCH OF THE JAVASCRIPT FOR THESE UI ELEMENTS SUCH AS THE DROPDOWN AND LOCATION BAR IS IN footer.php -->		
-	<div id='session' class='row'>
+	<div id='session' class='row-fluid'>
 		<div id='header_logo' class='span2'>
 			<!-- Logo -->
 			<a href="<?php echo site_url(); ?>" id='logo'>
 				<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
 			</a>
 		</div>
-		<div id='header_location_form' class='span4'>
+		<div class='span2' id='home_find_buttons'>
+			<div class='btn-group'>
+				<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
+					<i class='icon-search icon-white'></i>Find
+				</a>
+
+				<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
+					<i class='icon-home icon-white'></i>Home
+				</a>
+			</div>
+		</div>
+
+		<div id='header_location_form' class='span3'>
 
 			<a class='btn btn-large btn-success' title= 'Click here' id='header_location' href="#">
 					<span id='header_location_text'><?php echo $header_location; ?></span>
 			</a>
-		
-
-			<div style='display:none;' id ='relocate_form'>
+		</div>
+		<div style='display:none;' class='span4'  id ='relocate_form'>
 			<form name='relocate' class='find_form' id="relocate" method="post" action="">
 					<div class='input-append'>
 					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="location" />
-						<button  id='relocate_button' type='submit' class='btn btn-medium btn-primary'><i class= 'icon-refresh icon-white'></i>Relocate</button>
-						<button id='relocate_cancel' class='btn btn-small btn-primary'><i class='icon-remove icon-white'></i></button>
+						<button  id='relocate_button' type='submit' class='btn btn-medium btn-success'><i class= 'icon-refresh icon-white'></i>Relocate</button>
+						<button id='relocate_cancel' class='btn btn-small btn-success'><i class='icon-remove icon-white'></i></button>
 					</div>
 				</form>
-			</div>
 		</div>
 
 			<?php if(!empty($logged_in) AND $logged_in){ ?>
-
-			<div id='header_actions' class='span6 btn-group'>
+			<div id='header_actions' class='span5'>
+				<div class='btn-group'>
 					<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
 						<i class='icon-plus icon-white'></i>Add
 					</a>
@@ -103,17 +113,12 @@ if(isset($css))
 						<i class="icon-envelope icon-white <?php if(!$activeInbox) { echo 'empty';}?>">
 							</i>Inbox
 					</a>
-
-					<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
-						<i class='icon-search icon-white'></i>Find
-					</a>
-
-					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
-						<i class='icon-home icon-white'></i>Home
-					</a>
 					<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
-							<?php if(!empty($userdata['default_photo_thumb_url'])){echo "<img src='".$userdata['default_photo_thumb_url']."' id='you_img' />";}?>
-							<?php echo substr($userdata['screen_name'],0,25); ?>
+							<?php if(!empty($userdata['default_photo_thumb_url'])){ ?>
+								<img src="<?php echo $userdata['default_photo_thumb_url']; ?>" id='you_img'/>
+							<?php } ?>
+							<?php echo substr($userdata['screen_name'],0,14); ?>
+							
 					</a>
 
 					<button class='btn btn-success dropdown-toggle' data-toggle='dropdown'>
@@ -144,18 +149,14 @@ if(isset($css))
 							</a>
 						</li>
 					</ul>
-
+				</div>
 			</div> <!-- close header actions-->
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
 										
-				<div class='btn-group span4 offset2' id='visitor_buttons'>
-					<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
-						<i class='icon-home icon-white'></i>Home
-					</a>
-					<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
-						<i class='icon-search icon-white'></i>Find
-					</a>
+				<div class= 'span4' id='visitor_buttons'>
+					<div class='btn-group'>
+				
 					<a href='#' class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
 						Login
 						<b class='caret'></b>
@@ -166,9 +167,9 @@ if(isset($css))
 								<form id='drop_login' action="<?php echo site_url('member/login'); ?>" method='post'>
 										<fieldset id='inputs'>
 											<label for='email'>Email</label>
-											<input type="text" name='email' class='required email span3' id='email' value='' />
+											<input type="text" name='email' class='required email input-medium' id='email' value='' />
 											<label for='password'>Password</label>
-											<input type='password' name='password' class='required span3' id='password' value='' />
+											<input type='password' name='password' class='required input-medium' id='password' value='' />
 										</fieldset>
 										<fieldset id='actions'>
 										<input type='hidden' name='redirect' value="<?php echo $dropdown_login_redirect; ?>" />
@@ -192,6 +193,7 @@ if(isset($css))
 					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-large btn-success'>
 						Sign Up
 					</a>
+					</div>
 				</div><!-- close visitor buttons -->
 			<?php } ?>
 		</div>		

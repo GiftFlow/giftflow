@@ -32,6 +32,6 @@ class UI
 	*/
 	public function tag_url($tag, $type)
 	{
-		return site_url('find/'.$type.'/?q='.urlencode(trim($tag)));
+		return site_url('find/'.$type.'s/?q='.urlencode(trim($tag)));
 	}
 }

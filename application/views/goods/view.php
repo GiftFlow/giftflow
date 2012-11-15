@@ -83,7 +83,7 @@
 				</span>
 			</p>
 			<?php }?>
-		<?php if(!$is_owner && $logged_in){ ?>
+		<?php if($logged_in && !$is_owner){ ?>
 			<?php if($is_gift){ ?>
 			
 				<!-- Request Gift Button -->
@@ -95,7 +95,7 @@
 				<a href="#" id='offer_gift_button' class='open'></a>
 		
 			<?php }?>
-		<?php } else { ?>
+		<?php } else if(!$is_owner) { ?>
 				<a href="<?php echo site_url('goods/visitor_request/'.$G->type.'/'.$G->id);?>" class='btn btn-primary btn-large'><?php echo $button_text; ?></a>
 		<?php } ?>
 		</div>	

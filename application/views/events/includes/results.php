@@ -62,12 +62,12 @@
 							<?php }?>
 						</a>
 					</div>
-					<div class='span9 result_meta clearfix'>
+					<div class='span8 result_meta clearfix'>
 					  <span class='title'>
 						<?php echo $val->transaction->language->overview_summary; ?>
 					  </span> 
 					</div>
-					<div class='span2 result_meta'>
+					<div class='span3 result_meta'>
 						<span class= 'minidata'>
 							<?php echo user_date($val->event_created, "F js Y"); ?>
 						</span>
@@ -142,12 +142,12 @@
 					 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
 				</a>
 			</div>
-			<div class='span9 result_meta clearfix'>
+			<div class='span8 result_meta clearfix'>
 				<span class = 'title'>
 					<?php echo $val->thank->summary;?>
 				</span>                  
 			</div>
-			<div class='span2'>
+			<div class='span3'>
 				<span class='minidata'>
 					<?php echo user_date($val->event_created,"F jS Y"); ?>
 				</span>

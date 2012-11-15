@@ -50,7 +50,7 @@ class Ajax extends CI_Controller {
 
 		if(!empty($keyword))
 		{
-			$query = $this->db->select("CONCAT(L.city, ', ', L.state) AS label", FALSE, 'L.address AS value')
+			$query = $this->db->select("DISTINCT(CONCAT(L.city, ', ', L.state)) AS label", FALSE, 'L.address AS value')
 					->from('locations AS L')
 					->where('L.latitude !=', 'NULL')
 					->where('L.longitude !=', 'NULL')

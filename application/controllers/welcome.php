@@ -16,6 +16,8 @@ class Welcome extends CI_Controller {
 		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
 		$this->load->library('datamapper');
+		$this->load->library('Search/Good_search');
+		$this->load->library('Search/User_search');
 	}
 
 
@@ -26,30 +28,34 @@ class Welcome extends CI_Controller {
 
 	function home()
 	{
-		$this->load->library('Search/Good_search');
-		$this->load->library('Search/User_search');
 		$this->load->library('Search/Event_search');
+		$location = $this->data['userdata']['location'];
 
 		//Load most recent users
 		$P = new User_search();
-		$this->data['new_peeps'] = $P->find(array(
-			'limit' => 15,
-			'order_by' => 'U.created',
-			'sort' => 'DESC'
-		));
 
+		//load followers
+		if($this->data['logged_in']) {
+			$this->data['following'] = $P->following(array(
+				'user_id'=>$this->data['userdata']['user_id'],
+				'limit' => 12
+			));
 
-		$this->data['nonprofits'] = $P->find(array(
+			$this->data['following_goods'] = $this->following_goods();
+		}
+
+		
+		$this->data['non_profits'] = $P->find(array(
 			'type' => 'nonprofit',
-			'limit'=> 10
+			'limit'=> 9,
+			'location' => $location
 		));
 
 		$G = new Good_search();
 		$this->data['goods'] = $G->find(array(
-			'type' => NULL,
-			'limit' => 15,
+			'limit' => 9,
 			'order_by' => 'G.created',
-			'sort' => 'DESC'
+			'location' => $location
 		));
 
 		$E = new Event_search();
@@ -58,9 +64,11 @@ class Welcome extends CI_Controller {
 			'limit' => 40
 		));
 
+
+			
 		//For now the id of the featured user will just be hardcoded, edited inline. 
 		//@todo make this something in the admin interface
-		$this->data['featured'] = $P->get(array('user_id' => 9));
+		$this->data['featured'] = $P->get(array('user_id' => 1329));
 		$this->data['featured']->gifts = $G->find(array('user_id' => 9, 'type' => 'gift'));
 		$this->data['featured']->needs = $G->find(array('user_id' => 9, 'type' => 'need'));
 
@@ -93,5 +101,37 @@ class Welcome extends CI_Controller {
 	{
 		redirect('you/welcome');
 	}
-	
+
+	function following_goods()
+	{
+
+		$U = new User_search();
+		$G = new Good_search();
+		$goods = array();
+
+		$following_users = $U->following(array(
+			'user_id' => $this->data['logged_in_user_id']));
+
+		$following_user_ids = array();
+
+		foreach($following_users as $val)
+		{
+			$following_user_ids[] = $val->id;
+		}
+
+		if(!empty($following_user_ids))
+		{
+			$options = array(
+				"user_id" => $following_user_ids,
+				"order_by" => 'created',
+				'limit' => 9,
+				'status'=> 'active'
+			);
+			$goods = $G->find($options);
+		}
+
+		return $goods;
+
+	}
+
 }

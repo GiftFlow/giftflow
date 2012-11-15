@@ -22,16 +22,12 @@
 					
 				<!-- Metadata -->
 				</div>
-				<div class='span10 result_meta clearfix'>
-					
-							<!-- Title -->
-							
-							<a class="title sideBarTitle <?php if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
-								<span class= "title">
-									<?php echo substr($G->title, 0, 30); ?>
-								</span>
-							</a>
-						<span class='metadata'>posted by <?php echo $G->user->screen_name; ?></span>
+				<div class='span10'>
+						<a class="title <?php if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+								<?php echo$G->title; ?>
+						</a>
+					<span class='minidata'>posted by <?php echo $G->user->screen_name; ?> on <?php echo user_date($G->created, 'n/j/o'); ?> near <?php echo $G->location->city.', '.$G->location->state; ?></span>
+				
 				</div>
 			</li>
 			<!-- eof Result Row -->

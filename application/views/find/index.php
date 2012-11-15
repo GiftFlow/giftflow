@@ -30,7 +30,7 @@
 						
 					<?php foreach($categories as $key=>$val){ ?>
 						<li>
-							<a href="<?php echo site_url("find/{$type}s")."/?category_id=".$val->id;?>" rel="<?php echo $val->id;?>">
+							<a id="category_<?php echo $val->id;?>" href="<?php echo site_url("find/{$type}s")."/?category_id=".$val->id;?>" rel="<?php echo $val->id;?>">
 								<?php echo $val->name; ?>
 							</a>
 						</li>
@@ -120,12 +120,14 @@
 
 $(function(){
 
+	//preload category and types
 	var preload_type = "<?php echo $args['type']; ?>";
+	var preload_category = "<?php echo $args['category_id']; ?>";
+	$('#category_'+preload_category).css('color','#6CB6E2');
+	console.log(preload_category);
+
 	$('.find_'+preload_type).show();
 	$('#type_'+preload_type).addClass('disabled');
-	console.log(preload_type);
-
-
 
 	GF.Locations.initialize($('input#find_location'));
 
@@ -154,7 +156,7 @@ $(function(){
 		var api = {};
 		
 		var data = {
-			type: '',
+			type: "<?php echo $args['type']; ?>",
 			q: '',
 			profile_type:"<?php echo $args['profile_type'];?>",
 			order_by: "<?php echo $args['order_by'];?>",
@@ -320,9 +322,7 @@ $(function(){
 		$('.'+menu).show();
 
 		GF.Params.set('type', type);
-		console.log(type);
 		GF.Ajax.request();
-			
 
 	});
 

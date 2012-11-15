@@ -14,7 +14,7 @@ class Root extends CI_Controller {
 	{
 		if(!$this->auth->validate(1))
 		{
-			$this->_signup();
+			$this->_landing_page();
 		}
 		else
 		{
@@ -22,31 +22,13 @@ class Root extends CI_Controller {
 		}
 	}
 	
-	function _signup()
+	function _landing_page()
 	{
-
-		$this->load->library('Search/Event_search');
-		$this->load->library('Search/Good_search');
-
-		$E = new Event_search();
-
-		$options = array(
-		  'event_type_id' => array(2,8,4,16),
-		  'limit' => 6,
-		  );
-
-		$this->data['events'] = $E->get_events($options);
-
-		$G = new Good_search();
-
-		$options = array(
-			'sort' => 'newest',
-			'limit' => '6',
-                        'status' => 'active'
-		);
-		$this->data['goods'] = $G->find($options);
-
-				
+		
+		// Load categories
+		$this->data['categories'] = $this->db->order_by("name","ASC")
+			->get("categories")
+			->result();
 
 		$this->data['title'] = "Welcome";
 		$this->load->view('header', $this->data);
