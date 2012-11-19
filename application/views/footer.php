@@ -137,9 +137,13 @@ $(function(){
 		return false;
 	});
 
-
+	/* Redirect to link whenever results_list row clicked */
 	$("ul.results_list li, ul.transactions li").live("click",function(){
-		window.location.href = $(this).find("a.title").attr("href");
+		if($(this).find("a.title").length >= 1){
+			window.location.href = $(this).find("a.title").attr("href");
+		} else {
+			return false;
+		}
 	});
 
 	function notify_success(){

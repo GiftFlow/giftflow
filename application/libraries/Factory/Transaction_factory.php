@@ -453,7 +453,7 @@ class Transaction_factory {
 			foreach($val->demands as $demand)
 			{
 				$brief = "";
-				$thing = " <a href='".site_url($demand->good->type.'s/'.$demand->good->id)."'>".$demand->good->title."</a>";
+				$thing = " <a href='".site_url($demand->good->type.'s/'.$demand->good->id)."' class='title'>".$demand->good->title."</a>";
 				
 				if($demand->type != "fulfill")
 				{
