@@ -11,6 +11,9 @@
 	</td>
 </tr>
 <tr>
+
+	<?php if(!empty($fbookUrl)){ ?>
+	<!-- Facebook Login Button -->
 	<td style='vertical-align: top;'>
 		<p>
 			<a style='border-bottom: 0px;' href='<?php echo $fbookUrl; ?>'>
@@ -19,6 +22,10 @@
 		</p>
 	</td>
 	<td></td>
+
+	<!-- eof Facebook Login Button -->
+	<?php } ?>
+	
 	<td class="span6">
 		<form action="<?php echo site_url('member/login'); ?>" method="post">
 			<fieldset>

@@ -56,8 +56,10 @@ class Geo
 		{
 			$geocoded = $this->geocode($location->address);
 
-			foreach ($geocoded as $key=>$value) 
-			  $location->$key = $value;
+			foreach ($geocoded as $key=>$value)
+			{
+				$location->$key = $value;
+			}
 		}
 		
 		// Make sure latitude and longitude are present
