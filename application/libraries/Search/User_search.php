@@ -213,6 +213,8 @@ class User_search extends Search
 		{
 			return $result[0];
 		}
+		
+		return new stdClass();
 	}
 		
 	/**

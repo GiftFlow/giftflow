@@ -98,7 +98,7 @@ class Util
 			// Set Location Data
 			
 			// Iterate over list of location fields, setting Location field if data
-			$globals['userdata']['location'] = (object) array();
+			$globals['userdata']['location'] = new stdClass(); //(object) array();
 
 			$location_fields = array("longitude","latitude","address","city","state");
 
@@ -164,6 +164,8 @@ class Util
 		//session location is set, but globals is not
 		else if(empty($globals['userdata']['location']))
 		{
+			$globals['userdata']['location'] = new stdClass();
+			
 			$properties = array(
 				"latitude","longitude","address","city","state","country"
 			);

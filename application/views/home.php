@@ -44,12 +44,16 @@
 				</ul>
 			</div>
 		</div>
+		
+		<?php if(!empty($featured->id)) { ?>
 		<div class='row-fluid dash_left' id='dashFeatured'>
 			<div class='media span12 chunk'>	
 				<!-- Image -->
 				<a class='pull-left user_image' id='featured_image' href='<?php echo site_url('people/'.$featured->id); ?>'>
 					<img class='media-object' src='<?php if(isset($featured->photo->url)) { echo $featured->photo->thumb_url; } else { echo $featured->default_photo->thumb_url; }?>'>
 				</a>
+				
+				
 				<div class='media-body'>
 
 					<p>Featured User:</p>	
@@ -61,7 +65,7 @@
 						<p><b>Location:</b> <?php echo $featured->location->city.', '.$featured->location->state; ?></p>
 						<p><b>Bio:</b>  <?php echo $featured->bio; ?></p>
 						
-						<?php if(!empty($featured->gifts)) { ?>			
+						<?php if(!empty($featured->gifts)) { ?>
 							<p><b>Gifts</b>:
 								<?php foreach($featured->gifts as $val) { ?>
 										<a href="<?php echo site_url($val->type.'s/'.$val->id); ?>">
@@ -85,6 +89,8 @@
 			</div>
 
 		</div>
+		<?php } ?>
+			
 		<div class='row-fluid dash_left'>
 <?php if(!$logged_in) { ?>
 		<div class='span6 dashList chunk'>
