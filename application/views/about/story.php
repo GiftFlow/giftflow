@@ -1,10 +1,6 @@
 <div  id='about_our_story' class='two_panels'>
 <?php echo $menu; ?>
 	<div id='about_content' class='right_content'>
-<p> Watch co-founder Hans Schoenburg at TEDxNewhaven.</p>
-<div id='video'>
-	<iframe width="640" height="360" src="http://www.youtube.com/embed/6iCfJ3AZtxU" frameborder="0" allowfullscreen></iframe>
-</div>
 
 <p style='margin-top:20px;'>
 By posting what you need and what you have 

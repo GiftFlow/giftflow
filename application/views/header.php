@@ -74,7 +74,7 @@ if(isset($css))
 				<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
 			</a>
 		</div>
-		<div class='span2' id='home_find_buttons'>
+		<div class='span3' id='home_find_buttons'>
 			<div class='btn-group'>
 				<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
 					<i class='icon-search icon-white'></i>Find
@@ -83,10 +83,13 @@ if(isset($css))
 				<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
 					<i class='icon-home icon-white'></i>Home
 				</a>
+				<a href="<?php echo site_url('about/index'); ?>" class='btn btn-large btn-success'>
+					<i class='icon-heart icon-white'></i>About
+				</a>
 			</div>
 		</div>
 
-		<div id='header_location_form' class='span3'>
+		<div id='header_location_form' class='span2'>
 
 			<a class='btn btn-large btn-success' title= 'Click here' id='header_location' href="#">
 					<span id='header_location_text'><?php echo $header_location; ?></span>
@@ -117,7 +120,7 @@ if(isset($css))
 							<?php if(!empty($userdata['default_photo_thumb_url'])){ ?>
 								<img src="<?php echo $userdata['default_photo_thumb_url']; ?>" id='you_img'/>
 							<?php } ?>
-							<?php echo substr($userdata['screen_name'],0,14); ?>
+							<?php echo $userdata['display_name']; ?>
 							
 					</a>
 

@@ -45,7 +45,7 @@ class Welcome extends CI_Controller {
 		}
 
 		
-		$this->data['non_profits'] = $P->find(array(
+		$this->data['nonprofits'] = $P->find(array(
 			'type' => 'nonprofit',
 			'limit'=> 9,
 			'location' => $location

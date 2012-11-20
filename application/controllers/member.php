@@ -70,6 +70,8 @@ class Member extends CI_Controller {
 				$userObj->redirect = $redirect;
 
 				return $this->auth->facebook($userObj);
+			} else {
+				$this->_login_form($redirect);
 			}
 		}
 		// If form data POST is here, process login
@@ -95,7 +97,7 @@ class Member extends CI_Controller {
 		}
 
 		// If no form data, render login form
-		$this->_login_form($redirect);
+		//$this->_login_form($redirect);
 	}
 	
 	/**

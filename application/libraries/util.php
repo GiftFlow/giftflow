@@ -95,6 +95,23 @@ class Util
 				$globals['userdata']['first_name'] = $globals['userdata']['screen_name'];
 			}
 			
+
+			//Set display name
+			
+			$display_name = '';
+			if(strlen($globals['userdata']['screen_name']) > 12) {
+				$names_array = mb_split(" ",$globals['userdata']['screen_name']);
+				if(strlen($names_array[0]) < 12) {
+					$display_name = $names_array[0];
+				} else {
+					$display_name = 'You';
+				}
+			} else {
+				$display_name = $globals['userdata']['screen_name'];
+			}
+			$globals['userdata']['display_name'] = $display_name;
+
+			
 			// Set Location Data
 			
 			// Iterate over list of location fields, setting Location field if data

@@ -67,9 +67,9 @@
 						<?php echo $val->transaction->language->overview_summary; ?>
 					  </span> 
 					</div>
-					<div class='span3 result_meta'>
+					<div class='span3 result_meta event_date'>
 						<span class= 'minidata'>
-							<?php echo user_date($val->event_created, "F js Y"); ?>
+							<?php echo user_date($val->event_created, "n/j/o"); ?>
 						</span>
 					</div>
 
@@ -147,9 +147,9 @@
 					<?php echo $val->thank->summary;?>
 				</span>                  
 			</div>
-			<div class='span3'>
+			<div class='span3 event_date'>
 				<span class='minidata'>
-					<?php echo user_date($val->event_created,"F jS Y"); ?>
+					<?php echo user_date($val->event_created,"n/j/o"); ?>
 				</span>
 			</div>
 		</div>

@@ -2465,13 +2465,9 @@ ul#linked_accounts li span {
 	height: 250px;
 	display: block;
 }
-#about_press a img{
+.about_press a img{
 	border: none;
 	width: 280px;
-}
-#about_donate a img, #about_future a img{
-	border: none;
-	width: 250px;
 }
 #your_transactions .sidebar{
 	width: 220px;

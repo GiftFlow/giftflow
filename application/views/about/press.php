@@ -1,7 +1,13 @@
-<div  id='about_press' class='two_panels'>
+<div class='two_panels'>
 <?php echo $menu; ?>
-	<div id='about_content' class='right_content'>
+	<div id='about_content' class='right_content about_press'>
 		<h1>In the Press</h1>
+
+		 <div id='video' style='margin: 20px;'>
+			<p> Watch co-founder Hans Schoenburg at TEDxNewhaven (sorry for the invisible slides!)</p>
+			<iframe width="640" height="360" src="http://www.youtube.com/embed/6iCfJ3AZtxU" frameborder="0" allowfullscreen></iframe>
+		</div>
+
 		<p class='nicebigtext' style='font-style: italic;'>&ldquo;Like couchsurfing.org on crack, the savvy crew of Brandon Jackson and Hans Schoenburg (both students at Yale) have created a monster of a site.&rdquo; &mdash;The Mantle</p>
 		<p>
 			<a href="http://www.good.is/post/giftflow-when-collaborative-consumption-isn-t-enough-try-collaborative-production/">
