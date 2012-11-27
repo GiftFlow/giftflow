@@ -9,6 +9,8 @@
 	</td>
 </tr>
 <tr>
+	<?php if(!empty($registerUrl)){ ?>
+	<!-- Facebook Registration Section -->
 	<td style='vertical-align: top;'>
 		<p>
 			<a style='border-bottom: 0px;' href='<?php echo $registerUrl; ?>'>
@@ -20,6 +22,9 @@
 		</p>
 	</td>
 	<td></td>
+	<!-- eof Facebook Registration Section -->
+	<?php } ?>
+	
 	<td class="span6"><?php if(!$recaptchaError) { echo form_errors(); } else  { echo "<ul class='alert_error'><li><p>You did not input the words in the image correctly. Please try again.</p></li></ul><br/>";}?>
 	<form name='register' id='register' method="post">
 		<div class="control-group">

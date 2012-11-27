@@ -68,9 +68,11 @@ class Welcome extends CI_Controller {
 			
 		//For now the id of the featured user will just be hardcoded, edited inline. 
 		//@todo make this something in the admin interface
-		$this->data['featured'] = $P->get(array('user_id' => 1329));
-		$this->data['featured']->gifts = $G->find(array('user_id' => 9, 'type' => 'gift'));
-		$this->data['featured']->needs = $G->find(array('user_id' => 9, 'type' => 'need'));
+		$featured_user_id = 1329;
+		
+		$this->data['featured'] = $P->get(array('user_id' => $featured_user_id));
+		$this->data['featured']->gifts = $G->find(array('user_id' => $featured_user_id, 'type' => 'gift'));
+		$this->data['featured']->needs = $G->find(array('user_id' => $featured_user_id, 'type' => 'need'));
 
 
 		$this->data['title'] = "GiftFlow Home";

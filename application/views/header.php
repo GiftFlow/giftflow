@@ -185,11 +185,16 @@ if(isset($css))
 									</form>
 								</a>
 							</li>
+							<?php if(!empty($fbookUrl)) { ?>
+							<!-- Facebook Link -->
 							<li>	
 								<a href="<?php echo $fbookUrl; ?>"  class='noborder' id='dropfbook'>
 									<img class='noborder' src='<?php echo site_url("assets/images/facebook_logo.jpeg");?>' style='border: 0; width:100px;' />
 								</a>
 							</li>
+							<!-- eof Facebook Link -->
+							<?php } ?>
+							
 							<li id='dropforgot'>
 								<a href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
 								</a>

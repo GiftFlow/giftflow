@@ -18,13 +18,16 @@ class Member extends CI_Controller {
 		$fbook = $this->config->config['account'];
 
 		//load the facebook sdk
-		require_once('assets/facebook-php-sdk/src/facebook.php');
-		$config = array (	
-			"appId"=> FBOOK_APP_ID,
-			"secret"=> FBOOK_SECRET,
-			"fileUpload"=>true
-		);
-		$this->facebook = new Facebook($config);
+		if(defined('FBOOK_APP_ID') && defined('FBOOK_SECRET'))
+		{
+			require_once('assets/facebook-php-sdk/src/facebook.php');
+			$config = array (	
+				"appId"=> FBOOK_APP_ID,
+				"secret"=> FBOOK_SECRET,
+				"fileUpload"=>true
+			);
+			$this->facebook = new Facebook($config);
+		}
 
 	}
 
@@ -53,7 +56,7 @@ class Member extends CI_Controller {
 			$redirect = 'welcome/home';
 		}
 
-		if(empty($_POST))
+		if(empty($_POST) && isset($this->facebook))
 		{
 
 			//check if user is facebook authorized
@@ -116,7 +119,7 @@ class Member extends CI_Controller {
 	{
 		$this->load->library('recaptcha');
 
-		if(!empty($_GET['code']))
+		if(!empty($_GET['code']) && isset($this->facebook))
 		{
 			$user_info = $this->facebook->api('/me','GET');
 			$user_info['token'] = $this->facebook->getAccessToken();
@@ -362,16 +365,19 @@ class Member extends CI_Controller {
 	
 	protected function _login_form($redirect)
 	{
-		$params = array(
-			'scope' => 'email, user_photos, publish_stream',
-			'redirect_uri' => site_url('member/login/?redirect=').$redirect
-		);
-		$loginUrl = $this->facebook->getLoginUrl($params);
-
-
-		$this->data['redirect'] = $redirect;
-
-		$this->data['fbookUrl'] = $loginUrl;
+	
+		if(isset($this->facebook))
+		{
+			$params = array(
+				'scope' => 'email, user_photos, publish_stream',
+				'redirect_uri' => site_url('member/login/?redirect=').$redirect
+			);
+			$loginUrl = $this->facebook->getLoginUrl($params);
+	
+			$this->data['redirect'] = $redirect;
+	
+			$this->data['fbookUrl'] = $loginUrl;
+		}
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['title'] = "Login";
 		$this->load->view('header', $this->data);
@@ -381,13 +387,15 @@ class Member extends CI_Controller {
 
 	protected function _register_form($oldPost = NULL)
 	{
-		$params = array(
-			'scope' => 'email, user_photos, publish_stream',
-			'redirect_uri' => site_url('member/register')
-		);
-
-		$this->data['registerUrl'] = $this->facebook->getLoginUrl($params);
-
+		if(isset($this->facebook))
+		{
+			$params = array(
+				'scope' => 'email, user_photos, publish_stream',
+				'redirect_uri' => site_url('member/register')
+			);
+	
+			$this->data['registerUrl'] = $this->facebook->getLoginUrl($params);
+		}
 
 		if(empty($this->U))
 		{

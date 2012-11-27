@@ -115,7 +115,7 @@ class Util
 			// Set Location Data
 			
 			// Iterate over list of location fields, setting Location field if data
-			$globals['userdata']['location'] = (object) array();
+			$globals['userdata']['location'] = new stdClass(); //(object) array();
 
 			$location_fields = array("longitude","latitude","address","city","state");
 
@@ -138,20 +138,23 @@ class Util
 			$fbook = $this->CI->config->config['account'];
 
 			//load the facebook sdk
-			require_once('assets/facebook-php-sdk/src/facebook.php');
-			$config = array (	
-				"appId"=> FBOOK_APP_ID,
-				"secret"=> FBOOK_SECRET,
-				"fileUpload"=>true
-			);
-
-			$this->facebook = new Facebook($config);
-			$params = array(
-				'scope' => 'email, user_photos, publish_stream',
-				'redirect_uri' => site_url('member/login/?redirect=').$this->CI->uri->uri_string()
-			);
-
-			$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
+			if(defined('FBOOK_APP_ID') && defined('FBOOK_SECRET'))
+			{
+				require_once('assets/facebook-php-sdk/src/facebook.php');
+				$config = array (	
+					"appId"=> FBOOK_APP_ID,
+					"secret"=> FBOOK_SECRET,
+					"fileUpload"=>true
+				);
+	
+				$this->facebook = new Facebook($config);
+				$params = array(
+					'scope' => 'email, user_photos, publish_stream',
+					'redirect_uri' => site_url('member/login/?redirect=').$this->CI->uri->uri_string()
+				);
+	
+				$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);
+			}
 			
 			//redirect URL for logins
 			//This is overriden by action use cases, like where a user tries to request a good
@@ -170,6 +173,7 @@ class Util
 		{
 			$this->CI->load->library('geo');
 			$this->CI->load->library('auth');
+			//die("processing location");
 			$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
 			$this->CI->auth->update_session_location($globals['userdata']['location']);
 
@@ -177,6 +181,8 @@ class Util
 		//session location is set, but globals is not
 		else if(empty($globals['userdata']['location']))
 		{
+			$globals['userdata']['location'] = new stdClass();
+			
 			$properties = array(
 				"latitude","longitude","address","city","state","country"
 			);
@@ -217,10 +223,14 @@ class Util
 		
 		// Set Default Facebook Open Graph Tags
 		$globals['open_graph_tags'] = array(
-			'fb:app_id' => FBOOK_APP_ID,
 			'og:url' => current_url(),
 			'og:site_name' => 'GiftFlow'
 		);
+		
+		if(defined('FBOOK_APP_ID'))
+		{
+			$globals['open_graph_tags']['fb:app_id']= FBOOK_APP_ID;
+		}
 		
 		Console::logSpeed('end Util::parse_globals()');
 		
