@@ -41,7 +41,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
 
-<?php if(!empty($googlemaps)&&$googlemaps==TRUE){ ?>
+<?php if(!empty($googlemaps)&&$googlemaps==TRUE && !$localhost){ ?>
 	<!-- Google Maps API -->
 	<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false'></script>
 	<script type='text/javascript' src="<?php echo  base_url();?>assets/javascript/fluster.php"></script>
@@ -56,14 +56,70 @@
 <script type="text/javascript">
 $(function(){
 	
-	<!-- script for logIn dropdown -->
-
+	// logIn dropdown
 	$('.dropdown-toggle').dropdown();
 	$('#login-form').css('left', '-50px');
 	$('.dropdown-menu').find('form').click(function (e) {
 		e.stopPropagation();
 	});
 
+	$('#logged_in_dropdown').css('left', 250);
+
+	//header location bar
+	$('#header_location').tooltip({
+		placement: 'bottom',
+	});
+
+	GF.Locations.initialize($('input#header_relocate'));
+
+	GF.header_switch = function(form) {
+		if(form) {
+			$('#header_location_form').hide();
+			$('#home_find_about').hide();
+			$('#relocate_form').show();
+		} else {
+			$('#relocate_form').hide();
+			$('#home_find_about').show();
+			$('#header_location_form').show();
+		}
+	};
+
+
+	$('#header_relocate').click(function() {
+		$(this).val('');
+	});
+
+	$('#header_location').click(function() {
+		GF.header_switch(1);
+	});
+
+	$('#relocate_cancel').click(function() {
+		GF.header_switch(0);
+		return false;
+	});
+
+	GF.relocate = function(data) {
+		var updated = data.city+", "+data.state;
+		$('#header_location').text(updated);
+		$('#relocate_form').hide();
+		$('#home_find_about').show();
+		$('#header_location_form').show();
+	};
+
+	GF.process_relocate = function(locate) {
+		var data = {'location' : locate};
+		$.post("<?php echo site_url('ajax/relocate'); ?>", data, GF.relocate, "json");
+	};
+	$('#relocate').submit(function() {
+		var location_string = $('input#header_relocate').val();
+		GF.process_relocate(location_string);
+		return false;
+	});
+
+	$('#relocate_button').click(function() {
+		var location_string = $('input#header_relocate').val();
+		GF.process_relocate(location_string);
+	});
 
 	<?php /**
 	*	Follow user button click listener
@@ -79,9 +135,13 @@ $(function(){
 		return false;
 	});
 
-
+	/* Redirect to link whenever results_list row clicked */
 	$("ul.results_list li, ul.transactions li").live("click",function(){
-		window.location.href = $(this).find("a.title").attr("href");
+		if($(this).find("a.title").length >= 1){
+			window.location.href = $(this).find("a.title").attr("href");
+		} else {
+			return false;
+		}
 	});
 
 	function notify_success(){

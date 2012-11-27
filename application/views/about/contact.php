@@ -1,14 +1,6 @@
-<div class='two_panels'>
+<div class='row'>
 
-	<div class="left_content">
-	
-		<h2>Contact GiftFlow </h2>
-		
-		<p>GiftFlow is based in New Haven, CT.</p>
-				
-	</div>
-
-	<div class="right_content">
+	<div class="span8">
 	
 		<h3>Send all inquiries to :</h3>  <h2>info@giftflow.org </h2>
 		

@@ -24,19 +24,22 @@ class Account extends CI_Controller {
 		}
 		//to prevent welcome page from opening when editing account
 		$this->data['welcome'] = FALSE;
-                //for Inbox new transaction flag
-                $this->data['trans_check'] = FALSE;
+		//for Inbox new transaction flag
+		$this->data['trans_check'] = FALSE;
 		
 	}
 
-	// Basic account statistics, list of options
+	/**
+	 *  defaults to user profile 
+	 */
 	function index()
 	{
-            $this->profile();
+		$this->profile();
 	}
+
 	/**
-         * This function handles the edit profile form  
-         */
+	* This function handles the edit profile form  
+	*/
 	function profile()
 	{
 		$this->auth->bouncer(1);
@@ -63,15 +66,16 @@ class Account extends CI_Controller {
 		{
 			$this->_profile_edit();
 		}
-			 
+
 	}
 	
 	/**
-         *  Function routes to the various location related functions
-         * list, add, edit, default, delete
-         * @param type $segment
-         * @param type $action 
-         */
+	 * Function routes to the various location related functions
+	 * list, add, default, delete
+	 * 
+	 * @param type $segment
+	 * @param type $action
+	 */
 	function locations( $segment = NULL, $action = NULL  )
 	{
 	
@@ -84,21 +88,17 @@ class Account extends CI_Controller {
 				break;
 				
 			// Add new location
-			case "add":
+			case 'add':
 				$this->_locations_add();
 				break;
 				
 			// Edit location of ID passed in 3rd segment
 			default:
-				if($action=='delete')
+				if($action==='delete')
 				{
 					$this->_locations_delete( $segment );
 				}
-				elseif($action=='edit')
-				{
-					$this->_locations_edit( $segment );
-				}
-				elseif($action=="default")
+				elseif($action==='default')
 				{
 					$this->_locations_default( $segment );
 				}
@@ -107,11 +107,11 @@ class Account extends CI_Controller {
 	}
 	
 	/**
-         *  This function routes to the different photo related functions
-         * list, add, default, delete and edit
-         * @param type $segment
-         * @param type $param 
-         */
+	*  This function routes to the different photo related functions
+	* list, add, default, delete and edit
+	* @param type $segment
+	* @param type $param 
+	*/
 	function photos( $segment = FALSE, $param = FALSE )
 	{
 		$this->auth->bouncer(1);
@@ -124,16 +124,16 @@ class Account extends CI_Controller {
 				break;
 				
 			// Add new photo
-			case "add":
+			case 'add':
 				$this->_photos_add();
 				break;
 				
 			//Choose profile photo source
-			case "default_photo":
+			case 'default_photo':
 				$this->_default_photo($param);
 				break;
 
-			case "photo_delete":
+			case 'photo_delete':
 				$this->_photo_delete($param);
 				break;	
 				
@@ -143,11 +143,11 @@ class Account extends CI_Controller {
 				break;
 		}
 	}
-        
-       /**
-        *   Loads settings form
-        *   routes to process_settings upon form submission 
-        */
+
+	/**
+	 *   Loads settings form
+	 *   routes to process_settings upon form submission 
+	 */
 	function settings()
 	{
 		$this->auth->bouncer(1);
@@ -308,25 +308,25 @@ class Account extends CI_Controller {
 			);
 				
 			// Configure timezone
-		//	$offset = (get_timezone_offset($this->data['userdata']['timezone'], "UTC")/360);
+			//	$offset = (get_timezone_offset($this->data['userdata']['timezone'], "UTC")/360);
 			
 			// Set view variables
-			$this->data['title'] = "Your Account";
-			$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+			$this->data['title'] = 'Your Account';
+			$this->data['menu'] = $this->load->view('you/includes/menu', $this->data, TRUE);
 			$this->data['active_link'] = 'settings';
-      $this->data['email'] = $this->data['userdata']['email'];
+			$this->data['email'] = $this->data['userdata']['email'];
 			
 			// Breadcrumbs
 			$this->data['breadcrumbs'][] = array(
-				"title"=>"You", 
-				"href"=>site_url('you')
+				'title'=>'You', 
+				'href'=>site_url('you')
 			);
 			$this->data['breadcrumbs'][] = array (
-				"title"=>"Your Account",
-				"href"=>site_url('account')
+				'title'=>'Your Account',
+				'href'=>site_url('account')
 			);
 			$this->data['breadcrumbs'][] = array (
-				"title"=>"Settings"
+				'title'=>'Settings'
 			);
 			
 			// Load views
@@ -343,7 +343,7 @@ class Account extends CI_Controller {
 	{
 		$this->auth->bouncer(1);
 
-		$this->data['title'] = "Manage Linked Accounts";
+		$this->data['title'] = 'Manage Linked Accounts';
 		$this->data['active_link'] = 'links';
 
 		if( !empty( $this->U->facebook_id ) )
@@ -369,15 +369,15 @@ class Account extends CI_Controller {
 		
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
-			"title"=>"You", 
-			"href"=>site_url('you')
+			'title'=>'You', 
+			'href'=>site_url('you')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Your Account",
-			"href"=>site_url('account')
+			'title'=>'Your Account',
+			'href'=>site_url('account')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Linked Accounts"
+			'title'=>'Linked Accounts'
 		);
 
 		$this->load->view('header', $this->data);
@@ -392,11 +392,11 @@ class Account extends CI_Controller {
 	*/
 	function link( $service, $step = NULL )
 	{
-		if( $service == "facebook" )
+		if( $service === 'facebook' )
 		{
 			redirect('member/facebook');
 		}
-		elseif( $service == "google" )
+		elseif( $service === "google" )
 		{
 			$this->load->helper('url');
 			
@@ -415,7 +415,7 @@ class Account extends CI_Controller {
 			$this->U->save();
 			
 			// Set flashdata and redirect
-			if($step==2)
+			if($step===2)
 			{
 				$this->session->set_flashdata('success', 'Google account now linked with GiftFlow');
 				redirect('account/links');
@@ -430,44 +430,55 @@ class Account extends CI_Controller {
 	*/
 	function unlink( $service )
 	{
-		if( $service == "facebook")
+		if( $service === 'facebook')
 		{
-			$this->U->facebook_unlink();
-			$this->session->set_flashdata('success', 'Facebook account no longer linked with GiftFlow');
+			if ($this->U->facebook_unlink())
+			{
+				$this->session->set_flashdata('success', 'Facebook account no longer linked with GiftFlow');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'Error unlinking Facebook account');
+			}
 			redirect('account/links');
 		}
-		elseif( $service == "google" )
+		elseif( $service === 'google' )
 		{
-			$this->U->google_unlink();
-			$this->session->set_flashdata('success', 'Google account no longer linked with GiftFlow');
+			if ($this->U->google_unlink()) {
+				$this->session->set_flashdata('success', 'Google account no longer linked with GiftFlow');
+			}
+			else
+			{
+				$this->session->set_flashdata('error', 'Error unlinking Google account');
+			}
 			redirect('account/links');
 		}
 	}
-        
+
 	/**
-         *  Load proflie edit form 
-         */
-	protected function _profile_edit()
+	*  Load proflie edit form 
+	*/
+	function _profile_edit()
 	{
 		// Load the htmlform extension, so we can generate the form.
 		$this->data['U'] = $this->U;
-		$this->data['individual'] = ($this->U->type == 'individual') ? TRUE : FALSE;
+		$this->data['individual'] = ($this->U->type === 'individual') ? TRUE : FALSE;
 
 		// Set view variables
-		$this->data['title'] = "Edit Profile";
+		$this->data['title'] = 'Edit Profile';
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
-			"title"=>"You", 
-			"href"=>site_url('you')
+			'title'=>'You', 
+			'href'=>site_url('you')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Your Account",
-			"href"=>site_url('account')
+			'title'=>'Your Account',
+			'href'=>site_url('account')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Edit Profile"
+			'title'=>'Edit Profile'
 		);
 		
 		// Load Views
@@ -475,11 +486,11 @@ class Account extends CI_Controller {
 		$this->load->view('account/profile', $this->data);
 		$this->load->view('footer', $this->data );
 	}
-        
-        /**
-         *  List locations
-         */
-	protected function _locations_list()
+
+	/**
+	 *  List locations
+	 */
+	function _locations_list()
 	{
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['googlemaps'] = TRUE;
@@ -489,35 +500,35 @@ class Account extends CI_Controller {
 		foreach ( $this->U->location->all as $loc)
 		{
 			$data = array (
-				"id" => $loc->id,
-				"address" => $loc->address,
-				"city" => $loc->city,
-				"state" => $loc->state,
-				"title" => $loc->title,
-				"default"=>FALSE,
-				"latitude"=>$loc->latitude,
-				"longitude"=>$loc->longitude
+				'id' => $loc->id,
+				'address' => $loc->address,
+				'city' => $loc->city,
+				'state' => $loc->state,
+				'title' => $loc->title,
+				'default'=>FALSE,
+				'latitude'=>$loc->latitude,
+				'longitude'=>$loc->longitude
 				);
-			if($this->U->default_location->id == $loc->id)
+			if($this->U->default_location->id === $loc->id)
 			{
 				$data['default'] = TRUE;
 			}
 			$this->data['locations'][] = $data;
 		}
-		$this->data['title'] = "Edit Locations";
+		$this->data['title'] = 'Edit Locations';
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
-			"title"=>"You", 
-			"href"=>site_url('you')
+			'title'=>'You', 
+			'href'=>site_url('you')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Your Account",
-			"href"=>site_url('account')
+			'title'=>'Your Account',
+			'href'=>site_url('account')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Locations"
+			'title'=>"Locations"
 		);
 		
 		$this->load->view('header', $this->data);
@@ -529,81 +540,47 @@ class Account extends CI_Controller {
 	{
 		if(!empty($_POST))
 		{
-			$L= new Location();
+			$location= new Location();
 			$this->load->library('geo');
 			$Geo = new geo();
 			$full_location = $Geo->geocode($this->input->post('location'));
 			
 			foreach($full_location as $key=>$val)
 			{
-				$L->$key = $val;
+				$location->$key = $val;
 			}
 			
-			$L->user_id = $this->data['logged_in_user_id'];
-			$L->validate();
-			if(!empty($L->duplicate_id))
+			$location->user_id = $this->data['logged_in_user_id'];
+			$location->validate();
+			if(!empty($location->duplicate_id))
 			{
-				$L = new Location($L->duplicate_id);
+				$location = new Location($location->duplicate_id);
 			}
-			elseif(!$L->save())
+			elseif(!$location->save())
 			{
-				echo $L->error->string;
+				echo $location->error->string;
 			}
 			else
 			{
-				$this->U->save($L);
+				$this->U->save($location);
 			}
 		}
 		if($this->input->is_ajax_request())
 		{
-			echo "location added";
+			echo 'location added';
 		}
 		else
 		{
-		$this->hooks->call('userdata_updated');
-		redirect('account/locations');
+			
+			$this->load->library('auth');	// TODO: move this into local constructor
+			$Auth = new Auth();
+			$Auth->new_session();
+			
+			redirect('account/locations');
 		}
 	}
 	
-        
-	protected function _locations_edit( $id )
-	{
-		if(!empty($_POST))
-		{
-			$L= new Location();
-			$this->load->library('geo');
-			$Geo = new geo();
-			$full_location = $Geo->geocode($this->input->post('location'));
-
-			foreach($full_location as $key=>$val)
-			{
-					$L->$key = $val;
-			}
-
-			$L->user_id = $this->data['logged_in_user_id'];
-			$L->validate();
-			if(!empty($L->duplicate_id))
-			{
-					$L = new Location($L->duplicate_id);
-			}
-			elseif(!$L->save())
-			{
-					echo $L->error->string;
-			}
-			else
-			{
-					$this->U->save($L);
-			}
-            
-		}
-		else
-		{
-                    $this->hooks->call('userdata_updated');
-                    redirect('account/locations');
-
-		}
-	}
-	protected function _locations_delete( $id )
+	function _locations_delete( $id )
 	{
 		$L = new Location( $id );
 		$L->user_id = NULL;
@@ -611,40 +588,45 @@ class Account extends CI_Controller {
 		$this->session->set_flashdata('success', 'Location deleted!');
 		redirect('account/locations');
 	}
-	protected function _locations_default( $id )
+	
+	function _locations_default( $id )
 	{
 		$L = new Location( $id );
 		$U = new User($this->data['logged_in_user_id']);
 		$U->save_default_location($L);
 		$this->session->set_flashdata('success', 'Location made default.');
-		$this->hooks->call('userdata_updated');
+		
+		$this->load->library('auth');
+		$this->auth->new_session();
+			
 		redirect('account/locations');
 	}
-        
-        /**
-         *  Load the photo view and all a users photos 
-         * redirects to account/photos when called by form submission
-         */
-	protected function _photos_list()
+
+	/**
+	 * Load the photo view and all a users photos 
+	 * redirects to account/photos when called by form submission
+	 */
+	function _photos_list()
 	{
-      
+
 		// Handle POST data
-		if(!empty($_POST) && $_POST['form_type'] = "choose")
+		if(!empty($_POST) && $_POST['form_type'] === 'choose')
 		{
 			
 			if(isset($_POST['source']))
 			{
-			 	$this->U->photo_source = $_POST['source'];
+				$this->U->photo_source = $_POST['source'];
 			}
 			elseif(isset($_POST['default_photo_id']))
 			{
 				$this->U->default_photo_id = $_POST['default_photo_id'];
 			}
-			 
+			
 			if($this->U->save())
 			{
-				$this->hooks->call('userdata_updated');
-				$this->session->set_flashdata('success','Photo settings saved successfully.');
+				$this->load->library('auth');
+				$this->auth->new_session();
+				$this->session->set_flashdata('success', 'Photo settings saved successfully.');
 				redirect('account/photos');
 			}
 		}
@@ -675,20 +657,20 @@ class Account extends CI_Controller {
 		$this->data['U'] = $this->U;
 		
 		// Set view variables
-		$this->data['title'] = "Photos";
-		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['title'] = 'Photos';
+		$this->data['menu'] = $this->load->view('you/includes/menu', $this->data, TRUE);
 		
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
-			"title"=>"You", 
-			"href"=>site_url('you')
+			'title'=>'You', 
+			'href'=>site_url('you')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Your Account",
-			"href"=>site_url('account')
+			'title'=>'Your Account',
+			'href'=>site_url('account')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>"Photos"
+			'title'=>'Photos'
 		);
 		
 		// Load Views
@@ -697,11 +679,12 @@ class Account extends CI_Controller {
 		$this->load->view('account/photos', $this->data);
 		$this->load->view('footer', $this->data);
 	}
+	
 	/**
-         * Delete a photo and its association to the user
-         * @param type $param 
-         */
-	protected function _photo_delete($param)
+	* Delete a photo and its association to the user
+	* @param type $param 
+	*/
+	function _photo_delete($param)
 	{
 
 		$P = new Photo;
@@ -712,13 +695,14 @@ class Account extends CI_Controller {
 
 		redirect('account/photos');
 	}
-        /**
-         *  Add a photo and associate it with the user 
-         */
-	protected function _photos_add()
+	
+	/**
+	 *  Add a photo and associate it with the user 
+	 */
+	function _photos_add()
 	{
 		//Save Photo
-		if($_POST['name'] = "photo_upload")
+		if($_POST['name'] === 'photo_upload')
 		{
 			$this->P = new Photo();
 			
@@ -751,7 +735,7 @@ class Account extends CI_Controller {
 			$data = $this->upload->data();
 			$this->P->add($data);
 			
- 		//	If errors while saving, set flashdata and redirect
+			//	If errors while saving, set flashdata and redirect
 			if(!$this->P->save())
 			{
 				$this->session->set_flashdata('error', $this->P->error->string);
@@ -770,35 +754,39 @@ class Account extends CI_Controller {
 			redirect('account/photos');
 		}
 	}
-        /**
-         *  Set which photo should be used as the users profile or default picture
-         * @param type int - the id of the photo chosen
-         */
+	
+	/**
+	 *  Set which photo should be used as the users profile or default picture
+	 * @param int - the id of the photo chosen
+	 */
 	protected function _default_photo($param)
 	{
-		if($param != 'facebook') {
+		if($param !== 'facebook') {
 			$this->U->photo_source = 'giftflow';
 			$P = new Photo();
 			$P->where('id', $param)->get();
 			$this->U->save_default_photo($P);
-		} else {
+		}
+		else
+		{
 			$this->U->photo_source = 'facebook';
 			$this->U->default_photo_id = NULL;
 		}
 
 		if(!$this->U->save())
 		{
-			show_error("Error saving photo source");
+			show_error('Error saving photo source');
 		} else {
-			$this->hooks->call('userdata_updated');
+			$this->load->library('auth');
+			$this->auth->new_session();
 		}
 
 		redirect('account/photos');
 	}
 
-        /**
-         *  This function saves changes to a users profile 
-         */
+	/**
+	 *  This function saves changes to a users profile 
+	 */
 	function _process_settings()
 	{
 		if(!empty($_POST['email']))
@@ -828,8 +816,9 @@ class Account extends CI_Controller {
 		
 		if($this->U->save())
 		{
-			// Hook: `userdata_updated`
-			$this->hooks->call('userdata_updated');
+			$this->load->library('auth');
+			$this->auth->new_session();
+
 			$this->session->set_flashdata('success', 'Settings saved successfully.');
 		}
 		else
@@ -843,12 +832,10 @@ class Account extends CI_Controller {
 	
 	/**
 	*   Loads the delete user view then redirects to logout upon form submission	
-        *   Set's user status to 'disabled'
+	*   Set's user status to 'disabled'
 	*   Disables all the user's goods and every uncompleted transactions
-        *       
-	*
 	*/
-	protected function delete_user() 
+	function delete_user() 
 	{
 	
 		$this->auth->bouncer(1);
@@ -876,7 +863,7 @@ class Account extends CI_Controller {
 					$G_bye->status = 'disabled';
 					if(!$G_bye->save())
 					{
-						$this->session->set_flashdata('error', "Encountered problems deleting your account. Please try again.");
+						$this->session->set_flashdata('error', 'Encountered problems deleting your account. Please try again.');
 						redirect("you");
 					}
 				}
@@ -888,15 +875,15 @@ class Account extends CI_Controller {
 				{
 					foreach($transactions as $row)
 					{
-						if($row->status != 'completed')
+						if($row->status !== 'completed')
 						{
 							$GT = new Transaction();
 							$GT->where('id', $row->id)->get();
 							$GT->status = 'disabled';
 							if(!$GT->save())
 							{
-								$this->session->set_flashdata('error', "Encountered problems deleting your account. Please try again.");
-								redirect("you");
+								$this->session->set_flashdata('error', 'Encountered problems deleting your account. Please try again.');
+								redirect('you');
 							}
 						}
 					}
@@ -905,19 +892,19 @@ class Account extends CI_Controller {
 			if(!$this->U->save())
 			{
 				echo $this->U->error->string;
-				$this->session->set_flashdata('error','We are sorry. An error has occured. Please try again');
+				$this->session->set_flashdata('error', 'We are sorry. An error has occured. Please try again');
 				redirect('you');
 			}
 			else
 			{	
-				$this->session->set_flashdata('success','Account deleted');
+				$this->session->set_flashdata('success', 'Account deleted');
 				redirect('logout');
 			}
 		}
 		else
 		{
-			$this->data['title'] = "Delete Account";
-			$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+			$this->data['title'] = 'Delete Account';
+			$this->data['menu'] = $this->load->view('you/includes/menu', $this->data, TRUE);
 			$this->load->view('header', $this->data);
 			$this->load->view('account/delete', $this->data);
 			$this->load->view('footer', $this->data);
@@ -925,3 +912,6 @@ class Account extends CI_Controller {
 	
 	}
 }
+
+/* End of file account.php */
+/* Location: ./controllers/account.php */

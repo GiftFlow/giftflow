@@ -149,7 +149,7 @@ class User_search extends Search
 		if(!empty($options->location))
 		{
 			$this->_join_locations("inner");
-			$this->_geosearch_clauses($options);
+			$this->geosearch_query($options);
 		}
 		
 		// Else simply include location for those who have it
@@ -213,6 +213,8 @@ class User_search extends Search
 		{
 			return $result[0];
 		}
+		
+		return new stdClass();
 	}
 		
 	/**
@@ -224,9 +226,11 @@ class User_search extends Search
 	{
 		Console::logSpeed("User_search::following()");
 		$this->_basic_query();
+		$this->_join_locations('left');
 		$result = $this->CI->db->select("FU.id IS NOT NULL AS user_am_following")
 			->join('followings_users AS FU ','U.id=FU.following_id')
 			->where('FU.user_id',$options['user_id'])
+			->limit(10)
 			->get()
 			->result();
 
@@ -338,6 +342,7 @@ class User_search extends Search
 			U.status AS user_status,
 			U.created AS user_created,
 			U.bio As user_bio,
+			U.url AS user_url,
 			P.id AS photo_id,
 			P.url AS photo_url,
 			P.thumb_url AS photo_thumb_url")
@@ -358,50 +363,6 @@ class User_search extends Search
 			L.latitude AS location_latitude,
 			L.longitude AS location_longitude")
 			->join("locations AS L ","U.default_location_id = L.id",$type);
-	}
-
-	/**
-	*	Adds where clauses that limit results to a specific geographic area
-	*
-	*	Calculates bounds by determining how many degrees of latitude and 
-	*	longitude the search radius encompasses. This is not a complete 
-	*	solution, however, since the shape of the bounds is a square, not a 
-	*	circle. Thus to be truly accurate another where clause limiting results 
-	*	by the calculated distance field should be used.
-	*
-	*	@param object $options				Location object
-	*	@param float $options->latitude		Latitude
-	*	@param float $options->longitude	Longitude
-	*	@param float $options->address		Formatted address
-	*	@return boolean
-	*/
-	protected function _geosearch_clauses($options)
-	{
-		$this->CI->load->library('geo');
-		$this->CI->geo->radius = $options->radius;
-		$location = $options->location;
-		$location->radius = $options->radius;
-		
-		
-		// Process Location object (geocodes if needed, generates bounds)
-		if(!isset($location->bounds) || empty($location->bounds))
-		{
-			$location = $this->CI->geo->process($location);
-		}
-		
-		// Assemble SQL Clauses
-		
-		// Add latitude WHERE BETWEEN clause
-		$this->CI->db->where("L.latitude BETWEEN ".$location->bounds['latitude']['min']." AND ".$location->bounds['latitude']['max']);
-		
-		// Add longitude WHERE BETWEEN clause
-		$this->CI->db->where("L.longitude BETWEEN ".$location->bounds['longitude']['min']." AND ".$location->bounds['longitude']['max']);
-		
-		// Add default_location_id WHERE clause
-		// $this->CI->db->where("U.default_location_id IS NOT NULL");
-		
-		// Add location_distance SELECT clause
-		$this->CI->db->select("( 3959 * acos( cos( radians( ".$location->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$location->longitude.") ) + sin( radians(".$location->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
 	}
 }
 /*

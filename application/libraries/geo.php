@@ -56,8 +56,10 @@ class Geo
 		{
 			$geocoded = $this->geocode($location->address);
 
-			foreach ($geocoded as $key=>$value) 
-			  $location->$key = $value;
+			foreach ($geocoded as $key=>$value)
+			{
+				$location->$key = $value;
+			}
 		}
 		
 		// Make sure latitude and longitude are present
@@ -196,7 +198,8 @@ class Geo
 		
 		// If localhost, manually override IP address to be one from within the
 		// Yale network for testing purposes
-    if($ip=="0.0.0.0" || $ip = "127.0.0.1")
+
+		if($ip=="0.0.0.0" || $ip = "127.0.0.1")
 		{
 			$ip = "128.36.160.90";
 		}

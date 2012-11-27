@@ -13,13 +13,77 @@ class Welcome extends CI_Controller {
 	{
 		parent::__construct();
 		$this->util->config();
-		$this->data = $this->util->parse_globals(array(
-			"geocode_ip"=>TRUE
-		));
+		$this->data = $this->util->parse_globals();
 		$this->hooks =& load_class('Hooks');
 		$this->load->library('datamapper');
+		$this->load->library('Search/Good_search');
+		$this->load->library('Search/User_search');
 	}
 
+
+	/**
+	 * Mimics the you::index page except for not logged in users
+	 * Focused on the location
+	 */
+
+	function home()
+	{
+		$this->load->library('Search/Event_search');
+		$location = $this->data['userdata']['location'];
+
+		//Load most recent users
+		$P = new User_search();
+
+		//load followers
+		if($this->data['logged_in']) {
+			$this->data['following'] = $P->following(array(
+				'user_id'=>$this->data['userdata']['user_id'],
+				'limit' => 12
+			));
+
+			$this->data['following_goods'] = $this->following_goods();
+		}
+
+		
+		$this->data['nonprofits'] = $P->find(array(
+			'type' => 'nonprofit',
+			'limit'=> 9,
+			'location' => $location
+		));
+
+		$G = new Good_search();
+		$this->data['goods'] = $G->find(array(
+			'limit' => 9,
+			'order_by' => 'G.created',
+			'location' => $location
+		));
+
+		$E = new Event_search();
+		$this->data['activity'] = $E->get_events(array(
+			'event_type_id' => array(17,2),
+			'limit' => 40
+		));
+
+
+			
+		//For now the id of the featured user will just be hardcoded, edited inline. 
+		//@todo make this something in the admin interface
+		$featured_user_id = 1329;
+		
+		$this->data['featured'] = $P->get(array('user_id' => $featured_user_id));
+		$this->data['featured']->gifts = $G->find(array('user_id' => $featured_user_id, 'type' => 'gift'));
+		$this->data['featured']->needs = $G->find(array('user_id' => $featured_user_id, 'type' => 'need'));
+
+
+		$this->data['title'] = "GiftFlow Home";
+		
+		// Load Views
+		$this->load->view('header', $this->data);
+		$this->load->view('home', $this->data);
+		$this->load->view('footer', $this->data);
+		
+	}
+	
 	/**
 	*	Loaded after user first creates GiftFlow account
 	*/
@@ -39,20 +103,37 @@ class Welcome extends CI_Controller {
 	{
 		redirect('you/welcome');
 	}
-	
-	function hide_welcome()
+
+	function following_goods()
 	{
-		//form question is 'Show this page at log in?'
-		if($_POST['hide_welcome'] == "no")
+
+		$U = new User_search();
+		$G = new Good_search();
+		$goods = array();
+
+		$following_users = $U->following(array(
+			'user_id' => $this->data['logged_in_user_id']));
+
+		$following_user_ids = array();
+
+		foreach($following_users as $val)
 		{
-			$hook_data = array(
-				"user_id" => $this->data['logged_in_user_id']
-				);
-			$this->hooks->call('hide_welcome', $hook_data);
-			$this->session->set_flashdata('success', 'Next time you log in, you won\'t see the Welcome page');
+			$following_user_ids[] = $val->id;
 		}
 
-		redirect('you');
+		if(!empty($following_user_ids))
+		{
+			$options = array(
+				"user_id" => $following_user_ids,
+				"order_by" => 'created',
+				'limit' => 9,
+				'status'=> 'active'
+			);
+			$goods = $G->find($options);
+		}
+
+		return $goods;
+
 	}
-	
+
 }

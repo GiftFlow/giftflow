@@ -9,7 +9,7 @@
 
 
 
-class Event_reader
+class Event_search extends Search
 {
 	/**
 	*	CodeIgniter super-object
@@ -19,8 +19,8 @@ class Event_reader
 	protected $CI;
 	
 	
-//	List of event types with their event_type_ids
-// Class-wide variables created for those events considered relavant
+    //List of event types with their event_type_ids
+    // Class-wide variables created for those events considered relavant
 
 	var $transaction_completed = array();
 	var $user_new = array();
@@ -51,10 +51,11 @@ class Event_reader
 		$this->CI->load->library('datamapper');
 	}
 	
-	/*
-	*	Get 20 most recent events, pass them to process_events
-	*
-	*/
+	/**
+         * Gets events according to options params
+         * @param type $options
+         * @return array 
+         */
 	
 	public function get_events($options = NULL)
 	{
@@ -73,8 +74,8 @@ class Event_reader
 		
 		$this->basic_query();
 	  if(!empty($options->location))
-    {
-		    //$this->_geosearch_clauses($options->location);
+		{
+		    //$this->geosearch_query($options);
 		}
 		
 		if(!empty($options->event_type_id))
@@ -105,6 +106,10 @@ class Event_reader
 	
 	}
 	
+        /**
+         *  Builds event objects with needed data
+         * @return type 
+         */
 	function process_events()
 	{
 		$this->CI->load->library('Search/User_search');
@@ -163,14 +168,14 @@ class Event_reader
 										
 						if(!empty($json_data->transaction->id))
 						{
-							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => FALSE));
-							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id));
+							$trans = $T->get($options = array('transaction_id' => $json_data->transaction->id, 'include_reviews' => TRUE));
+							$review = $R->find($options = array('transaction_id' => $json_data->transaction->id, 'include_transactions' => TRUE));
 						}
 						//append transaction object to transaction event
 						if(!empty($trans))
 						{
 							$event->transaction = $trans;
-							$event->review = $review;
+							//$event->review = $review;
 							$event->location = $trans->demands[0]->good->location;
 							$this->events[] = $event;
 						}
@@ -190,12 +195,7 @@ class Event_reader
 				}
 				
 			}
-			
-			//So folks, this is what we have so far -- $this->events is an array of event objects,
-			// each one with it's attached good, user or transaction
-			//The next step is to translate each one of these into a list element. 
-			//Should I make one view or three?
-			
+		
 			return $this->events;
 		}
 		else
@@ -220,46 +220,8 @@ class Event_reader
 				->from('events AS E')
 				->join('event_types AS ET','E.event_type_id = ET.id','left');
 	}
-			
-	/** COPIED STRAIGHT FROM GOOD_SEACH
-	*	Adds clauses to query which limit search to a geographic area
-	*	The $location object is just the $options object from the find() method,
-	*	however since the schema of its location-related data is the same 
-	*	as the standard location object, we call it that here for simplicity.
-	*
-	*	@param object $location		Standard location object w/ radius property
-	*/
-	protected function _geosearch_clauses($location)
-	{
-		$this->CI->load->library('geo');
-		
-		// Process Location object (geocodes if needed, generates bounds)
-		if(!isset($location->bounds) || empty($location->bounds))
-		{
-			$location = $this->CI->geo->process($location);
-		}
-		
-		// Assemble SQL Clauses
-		
-		// Add latitude WHERE BETWEEN clause
-		$this->CI->db->where("L.latitude BETWEEN ".$location->bounds['latitude']['min']." AND ".$location->bounds['latitude']['max']);
-		
-		// Add longitude WHERE BETWEEN clause
-		$this->CI->db->where("L.longitude BETWEEN ".$location->bounds['longitude']['min']." AND ".$location->bounds['longitude']['max']);
-		
-		// Add default_location_id WHERE clause
-		// $this->CI->db->where("U.default_location_id IS NOT NULL");
-		
-		// Add location_distance SELECT clause
-		$this->CI->db->select("( 3959 * acos( cos( radians( ".$location->latitude." ) ) * cos( radians( L.latitude ) ) * cos( radians( L.longitude ) - radians(".$location->longitude.") ) + sin( radians(".$location->latitude.") ) * sin( radians( L.latitude ) ) ) ) AS location_distance");
-	}
 	
-	/** COPIED STRAIGHT FROM GOOD_SEARCH
-	*	Assembles basic SELECT and JOIN clauses related to the location
-	*	components of a query.
-	*
-	*	@param string $type		type of join (left, right, inner, outer)
-	*/
+	
 	public function _join_locations($id)
 	{
 		$this->CI->db->select("L.address AS location_address,

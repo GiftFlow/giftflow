@@ -1,10 +1,9 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
-*	Conversations object
-*	A component of the Messaging library
+*   Misc processing functions
+*   prepares data for display 
 *	
-*	@author Brandon Jackson
-*	@package Messaging
+*
 */
 
 class Factory
@@ -25,6 +24,13 @@ class Factory
 	}
 
 
+   /**
+    * Creates html for each result row  
+    *  appends html to data and returns for display via ajax
+    * @param type $results
+    * @param type $sort
+    * @return type 
+    */
   function users_ajax($results, $sort)
   {
     if(!empty($results))
@@ -58,7 +64,12 @@ class Factory
 
 
 
-	
+  /**
+   *    same as above, creates html row for display
+   * @param type $results
+   * @param type $sort
+   * @return type 
+   */
 	function goods_ajax($results, $sort)
 	{
 		if(!empty($results))
@@ -88,6 +99,12 @@ class Factory
 		return $results;
 	}
 
+         /**
+          * Preps thankyou row for display
+          * Does not involve ajax
+          * @param type $results
+          * @return type 
+          */
 	function thankyou($results) 
 	{
 		//set thanker's photo source
@@ -107,8 +124,8 @@ class Factory
 			} 
 			elseif($ty->photo_source == "facebook" && !empty( $ty->facebook_id ))
 			{
-				$ty->default_photo->thumb_url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=large";
-				$ty->default_photo->url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=large";
+				$ty->default_photo->thumb_url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=square";
+				$ty->default_photo->url = "http://graph.facebook.com/".$ty->facebook_id."/picture?type=square";
 			}
 			$ty->summary = '<a href="'.site_url("people/".$ty->thanker_id).'">'.$ty->screen_name.'</a> thanked <a href="'.site_url("people/".$ty->recipient_id).'">'.$ty->recipient_screen_name.'</a> for "'.$ty->gift_title.'"';
 		}

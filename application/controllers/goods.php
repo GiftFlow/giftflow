@@ -66,7 +66,6 @@ class Goods extends CI_Controller {
 
 		// Load external classes
 		$this->load->helper('elements');
-		$this->hooks =& load_class('Hooks');		
 		$this->load->library('Search/Good_search');
 		$this->load->library('Event_logger');
 	
@@ -103,6 +102,7 @@ class Goods extends CI_Controller {
 	*/
 	function view()
 	{
+		//User has requested the gift/offered to help with need
 		if(!empty($_POST))
 		{
 			if($_POST['method'] == "demand")
@@ -134,14 +134,14 @@ class Goods extends CI_Controller {
 				'limit' => 5,
 				'type' => 'gift',
 				'exclude' => $this->good_id,
-                                'status' => 'active'
+				'status' => 'active'
 			));
 			$this->data['needs'] = $Good_search->find(array(
 				'keyword' => $this->G->title,
 				'limit' => 5,
 				'type' => 'need',
 				'exclude' => $this->good_id,
-                                'status' => 'active'
+				'status' => 'active'
 			));
 		} else {
 			redirect('find/gifts');
@@ -246,13 +246,12 @@ class Goods extends CI_Controller {
 				}
 				
 				// Hook: 'good_new'
-				$hook_data = array(
+				$event_data = array(
 					"good_id" => $this->G->id,
 					"user_id" => $U->id
 					);
-				$E = new Event_logger();
-				$E->basic('good_new',$hook_data);
-        
+				$this->event_logger->basic('good_new', $event_data);
+
 				// scan the watch list to see if anyone should get notified
 				
 				$this->load->model('watch');
@@ -295,54 +294,69 @@ class Goods extends CI_Controller {
 		// Is this the good's owner? And is it a gift?
 		$this->data['is_owner'] = $this->_restrict(FALSE);
 		$this->data['is_gift'] = ($this->G->type=="gift");
+
+		$this->data['demand'] = ($this->data['is_gift']) ? 'take' : 'offer';
+		$this->data['demand_text'] = ($this->data['is_gift']) ? 'Request this Gift' : 'Offer to help';
 		
 		// Set default value of requested flag, will be updated below
 		$this->data['requested'] = FALSE;
-		
-		if(!empty($this->data['logged_in_user_id']))
-		{
-			// Set user_id to pass to transactions search function
-			// For non-owners, results are filtered by user
-			$user_id = ($this->_restrict(FALSE)) ? NULL : $this->data['logged_in_user_id'];
 
-			// Search for transactions
-			$G = new Good_search;
-			$G->good_id = $this->good_id;
-			$this->data['transactions'] = array(
-				"pending" => $G->pending_transactions($user_id),
-				"active" => $G->active_transactions($user_id),
-				"completed" => $G->completed_transactions($user_id),
-				"declined" => $G->declined_transactions($user_id),
-				"cancelled" => $G->cancelled_transactions($user_id)
-			);
-			
-			// For non-owners, set $requested flag to true if user
-			// has already requested at least once
-			if(!$this->_restrict(FALSE))
-			{
-				foreach($this->data['transactions'] as $val)
-				{
-					if(count($val)>0)
-					{
-						$this->data['requested'] = TRUE;
-						break;
-					}
-				}
-			}
+		// Search for transactions
+		$G = new Good_search;
+
+		$other_goods = '';
+		//Load matches for sidebar
+		if($this->data['is_owner'])
+		{
+			$other_goods = ($this->data['is_gift'])? 'need' :'gift';
+		} else {
+			$other_goods = ($this->data['is_gift'])? 'gift' : 'need';
 		}
-			
+
+		$this->data['other_goods'] = $G->find(array(
+			'keyword' => $this->G->title,
+			'limit' => 5,
+			'type' => $other_goods,
+			'exclude' => $this->good_id,
+			'status' => 'active'
+		));
+		
+		//load goods even if there are no keyword matches
+		if(empty($this->data['other_goods']))
+		{
+			$this->data['other_goods'] = $G->find(array(
+				'limit' => 5,
+				'type' => $other_goods,
+				'exclude' => $this->good_id,
+				'status' => 'active'
+			));
+		}
+		$this->data['othergoods_type'] = ucfirst($other_goods).'s';
+
+		//Button for visitors
+		$button_text = 'Sign up or Login to ';
+		if($this->G->type == 'need') {
+			$button_text .= "offer to help";
+		} else {
+			$button_text .= "request this gift"; 
+		}
+		
+		$this->data['button_text'] = $button_text;
+
 		// Title
 		$this->data['title'] = $this->G->title." | A ".ucfirst($this->G->type)." from ".$this->G->user->screen_name;
 		
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
 			"title"=>ucfirst($this->G->type)."s", 
-			"href"=>site_url($this->G->type."s")
+			"href"=>site_url("find/".$this->G->type."s")
 		);
 		
 		$this->data['breadcrumbs'][] = array (
 			"title"=>$this->G->title
 		);
+
+		$this->data['demand_form'] = $this->load->view('goods/demand_form', $this->data, TRUE);
 		
 		// Load views
 		$this->load->view('header', $this->data);
@@ -406,7 +420,7 @@ class Goods extends CI_Controller {
 			->get("categories")
 			->result();
 		
-		$this->data['user_default_location'] = $this->data['userdata']['location']->address;
+		$this->data['default_location'] = $this->data['userdata']['location']->address;
 		
 		$this->data['breadcrumbs'][] = array (
 			"title"=>$this->G->title,
@@ -574,8 +588,6 @@ class Goods extends CI_Controller {
 		$this->load->library('datamapper');
 		$G = new Good;
 		$P = new Photo;
-		$P_d = new Photo;
-		
 		
 		$G->where('id', $this->good_id)->get();
 		$P->where('id', $this->param)->get();
@@ -593,15 +605,13 @@ class Goods extends CI_Controller {
 	
 	/**
 	*	User makes a demand
+	*	Important note - 'type' here denotes the type of demand (give/take) 
+	*	NOT the type of good (gift/need)
 	*/
 	function _demand()
 	{
 		$input = $this->input->post();
-	
-		// Restrict access to logged in users
-		$redirect = $input['type'].'/'.$this->G->id;
-
-		$this->auth->bouncer('1', $redirect);
+		$this->auth->bouncer(1);
 		
 		$this->load->library('market');
 		
@@ -731,13 +741,12 @@ class Goods extends CI_Controller {
 		// Save relationship to User
 		$U->save_good($this->G);
 		
-		// Hook: 'good_edited'
-		$hook_data = array(
+		$event_data = array(
 			"good_id" => $this->G->id,
 			"user_id" => $U->id
 			);
-		$E = new Event_logger();
-		$E->basic('good_edited',$hook_data);
+
+		$this->event_logger->basic('good_edited', $event_data);
 
 		// Set flashdata
 		$this->session->set_flashdata('success','Changes saved successfully.');
@@ -783,10 +792,8 @@ class Goods extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('success', $this->G->title." was deleted successfully."); 
-				// Hook: 'good_deleted'
-				//$this->hooks->call('good_deleted', $this);
 				
-				redirect("you/".$this->G->type."s");
+				redirect("you/list_goods/".$this->G->type);
 			}
 			
 		}
@@ -845,5 +852,19 @@ class Goods extends CI_Controller {
 			'og:country-name' => $this->G->location->country
 		);
 		$this->data['open_graph_tags'] = array_merge($this->data['open_graph_tags'], $extension);
+	}
+
+	/**
+	 * Routes a visitors click to a login page
+	 * Sets login redirect to send them back to the gift/need they were viewing
+	 *
+	 */
+	function visitor_request($type, $id) 
+	{
+		$type = $type .= 's';
+		$redirect = site_url().$type.'/'.$id;
+		//not to be confused with dropdown_login_redirect set in parse::globals
+		$this->session->set_userdata('visitor_redirect_url', $redirect);
+		redirect('login');
 	}
 }

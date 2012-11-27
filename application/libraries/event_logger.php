@@ -40,7 +40,8 @@ class Event_logger
 	*/
 	function __call($name,$arguments)
 	{
-		$E = $this->basic($name,$arguments[1]);
+		// TODO: remove this function
+		$E = $this->basic($name,$arguments);
 	}
 	
 	/**
@@ -61,11 +62,18 @@ class Event_logger
 		if(!empty($data->transaction_id)) {
 			$E->transaction_id = $data->transaction_id;
 		}
+		if(!empty($data->message_id)) {
+			$E->message_id = $data->message_id;
+		}
 		
 		if(!$E->save())
 		{
 			echo $E->error->string;
 			return FALSE;
+		}
+		if(!empty($data->notify_id))
+		{
+			$E->notify_user($data->notify_id);
 		}
 		return $E;
 	}
@@ -76,7 +84,7 @@ class Event_logger
 	* $data contains user_id of newly registered user
 	* can't use $this->basic because userdata isn't set yet.
 	*/
-	public function user_new($params,$data)
+	public function user_new($data)
 	{
 		$E = new Event();
 		$E->type = 'user_new';
@@ -90,7 +98,6 @@ class Event_logger
 			return FALSE;
 		}
 		return TRUE;
-	
 	}
 	
 	/**
@@ -98,15 +105,13 @@ class Event_logger
 	*
 	* @todo make the notify user email actual get sent out!
 	*/
-	public function follower_new($params, $data)
+	public function follower_new($data)
 	{
-	
 		$E = $this->basic("follower_new",$data);
 		$E->save();
 		$E->notify_user($data['following_user_id']);
-		
-		
 	}
+	
 	/**
 	*	Saves transaction_id to event object when transaction_new hook
 	*	called and then creates notification db row
@@ -114,7 +119,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_new($params,$data)
+	function transaction_new($data)
 	{
 		$data->conversation = NULL;
 		
@@ -134,7 +139,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_activated($params, $data)
+	function transaction_activated($data)
 	{
 		$E = $this->basic("transaction_activated",$data);
 		$E->transaction_id = $data->transaction->id;
@@ -144,15 +149,16 @@ class Event_logger
 		$E->notify_user($data->transaction->demander->id);
 	}
 	
-	
 	/**
 	*	Saves transaction_id to event object when transaction_cancelled hook
 	*	called and then creates notification db row
+	*
+	*	NOTE - the user who made the inital request is the one who cancel
 	*	
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_cancelled($params,$data)
+	function transaction_cancelled($data)
 	{
 		$data->conversation = NULL;
 		
@@ -168,11 +174,13 @@ class Event_logger
 	/**
 	*	Saves transaction_id to event object when transaction_declined hook
 	*	called and then creates notification db row
+	*
+	*	NOTE - the user who received the request can decline it
 	*	
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_declined($params,$data)
+	function transaction_declined($data)
 	{
 		$data->conversation = NULL;
 		
@@ -184,7 +192,7 @@ class Event_logger
 		// Deliver notification to the transaction's demander
 		$E->notify_user($data->transaction->demander->id);
 	}
-
+	 
 	/**
 	*	Saves transaction_id and message_id to event object when 
 	*	transaction_message hook called, and then creates notification db row
@@ -192,7 +200,7 @@ class Event_logger
 	*	@param array $params
 	*	@param object $data
 	*/
-	function transaction_message($params,$data)
+	function transaction_message($data)
 	{
 		// Make a copy of the data object and remove conversation object
 		// since we don't want to save it to the database
@@ -204,16 +212,23 @@ class Event_logger
 		$E->transaction_id = $data->transaction->id;
 		$E->message_id = $data->message_id;
 		$E->save();
-		
-		// Deliver notification to the message's recipients
-		foreach($data->conversation->users as $user)
-		{
-			if($user->id != $E->user_id)
-			{
-				$E->notify_user($user->id);
-			}
-		}
 	}
+	
+	/**
+	 * saves event for a message sent via the form on a users profile
+	 * calls notify user
+	 * @param array $data
+	 */
+
+	function user_messaage($data)
+	{
+		$E = $this->basic('user_message',$data);
+		$E->message_id = $data['message_id'];
+		$E->user_id = $data['sender_id'];
+		$E->save();
+	}
+
+
 	
 	function reset_password($params, $data)
 	{
@@ -238,7 +253,7 @@ class Event_logger
 	*	@param object $data
 	*/
 	
-	function review_new($params, $data)
+	function review_new($data)
 	{
 		$E = $this->basic("review_new",$data);
 		$E->save();

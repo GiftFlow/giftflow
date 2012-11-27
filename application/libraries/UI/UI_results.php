@@ -41,7 +41,8 @@ class UI_results
 			"results"=>array(),
 			"mini"=>FALSE,
 			"include"=>array("location"),
-			"row"=>FALSE
+			"row"=>FALSE,
+			"follow" => TRUE,
 		);
 		$options = array_merge($default_options, $options);
 		
@@ -52,8 +53,13 @@ class UI_results
 			$options['results'] = array($options['results']);
 		}
 		
+		
 		// Load View
-		$view = $CI->load->view('people/includes/results',$options,TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('people/includes/mini_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('people/includes/results',$options,TRUE);
+		}
 		
 		// Return HTML string
 		Console::logSpeed("UI_Results::users(): done.");
@@ -78,10 +84,9 @@ class UI_results
 		$default_options = array(
 			"results"=>array(),
 			"mini"=>FALSE,
-			"grid"=>FALSE,
 			"include"=>array("location","created"),
 			"row"=>FALSE,
-			'sidebar' => FALSE
+			
 		);
 		$options = array_merge($default_options, $options);
 		
@@ -93,12 +98,21 @@ class UI_results
 		}
 		
 		// Load View
-		$view = $CI->load->view('goods/includes/results',$options,TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('goods/includes/mini_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('goods/includes/results',$options,TRUE);
+		}
 		
 		// Return HTML string
 		Console::logSpeed("UI_Results::goods(): done.");
 		return $view;
 	}
+
+	/**
+	 * This function takes a set of transaction_search() results 
+	 * and turns them into review UI rows
+	 */
 	
 	function reviews($options = array())
 	{
@@ -121,9 +135,13 @@ class UI_results
 		{
 			$options['results'] = array($options['results']);
 		}
-		
+
 		// Load View
-		$view = $CI->load->view('reviews/includes/results',$options,TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('reviews/includes/mini_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('reviews/includes/results',$options,TRUE);
+		}
 		
 		// Return HTML string
 		Console::logSpeed("UI_Results::reviews(): done.");
@@ -160,13 +178,25 @@ class UI_results
 		//Compile options
 		$default_options = array(
 			"results" => array(),
-			"row" => FALSE
+			"row" => FALSE,
+			'mini' => FALSE
 		);
 		
 		$options = array_merge($default_options, $options);
 
+		 // If set to return single row, place in array so the view's foreach
+		// loop iterates over it properly
+		if($options['row'] && !is_array($options['results']))
+		{
+			$options['results'] = array($options['results']);
+		}
+
 		//Load View
-		$view = $CI->load->view('thanks/includes/results', $options, TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('thanks/includes/mini_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('thanks/includes/results', $options, TRUE);
+		}
 
 		//Return HTML string
 		Console::logspeed("UI_Results::thanks() done.");

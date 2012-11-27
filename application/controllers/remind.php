@@ -112,12 +112,13 @@ class Remind extends CI_Controller {
 			$content .= "</ul>";
 
 			$role = $user->role;	
+			$location = $fullTrans->$role->location;
+
 			$teaser_gifts = $G->find(array(
 				'location' => $fullTrans->$role->location,
+				'radius' => 1000,
 				'sort' => 'newest',
-				'limit' => '10',
-				'radius' => '1000',
-				'status' => 'active'
+				'limit' => '10'
 			));
 
 			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";
@@ -143,7 +144,7 @@ class Remind extends CI_Controller {
 		$N = new Notify();
 		foreach($this->users as $user)
 		{
-			$N->remind('transaction_reminder',$user->data);
+			$N->remind($user->data);
 			echo 'reminder sent to '.$user->data['screen_name'].'<br/>';
 		}
 		
@@ -343,7 +344,7 @@ class Remind extends CI_Controller {
 		$N = new Notify();
 		foreach($stack as $user)
 		{
-			$N->send_matches('goods_match',$user);
+			$N->send_matches($user);
 			echo 'reminder sent to '.$user->screen_name.'<br/>';
 		}
 		

@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 
 CREATE TABLE IF NOT EXISTS `demands` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('give','take','borrow','share','fulfill','thank') NOT NULL,
+  `type` enum('give','take','borrow','share') NOT NULL,
   `transaction_id` int(10) unsigned NOT NULL,
   `good_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
@@ -260,18 +260,6 @@ CREATE TABLE IF NOT EXISTS `photos` (
   KEY `good_id` (`good_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='The `photos` data model stores information about photos for ' AUTO_INCREMENT=83 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `redirects`
---
-
-CREATE TABLE IF NOT EXISTS `redirects` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `url` varchar(100) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Stores redirects so user can be sent to place they were inte' AUTO_INCREMENT=1227 ;
 
 -- --------------------------------------------------------
 
@@ -312,24 +300,6 @@ CREATE TABLE IF NOT EXISTS `tags` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `terms`
---
-
-CREATE TABLE IF NOT EXISTS `terms` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` enum('alert_template','language') NOT NULL COMMENT 'Acceptable values: ''alert_template'',''language''',
-  `language` enum('en','es','fr','de','it','nl','sv','no','da','fi','is','ru','et','lv','pl','pt','ja') NOT NULL DEFAULT 'en',
-  `name` varchar(255) NOT NULL,
-  `subject` varchar(200) NOT NULL COMMENT 'title/subject of alert notifications',
-  `body` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `name_2` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='`terms` stores alert templates and notifications' AUTO_INCREMENT=12 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `thankyous`
 --
 
@@ -337,9 +307,10 @@ CREATE TABLE IF NOT EXISTS `thankyous` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `thanker_id` int(10) NOT NULL,
   `recipient_id` int(10) NOT NULL,
+  `recipient_email` varchar(100) NULL,
   `gift_title` varchar(200) NOT NULL,
   `body` varchar(2000) NOT NULL,
-  `status` enum('pending','accepted','declined') NOT NULL DEFAULT 'pending',
+  `status` enum('pending','accepted','declined','invited') NOT NULL DEFAULT 'pending',
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -468,21 +439,6 @@ CREATE TABLE IF NOT EXISTS `user_openids` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_settings`
---
-
-CREATE TABLE IF NOT EXISTS `user_settings` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `notify_messages` int(1) NOT NULL DEFAULT '1',
-  `updated` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=458 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `watches`
 --
 
@@ -595,12 +551,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_openids`
   ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
--- Constraints for table `user_settings`
---
-ALTER TABLE `user_settings`
-  ADD CONSTRAINT `user_settings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `watches`

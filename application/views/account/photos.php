@@ -1,9 +1,11 @@
-<div id='account_photos' class='two_panels'>
+<div class='row'>
 	
-	<!-- Sidebar Menu -->
-	<?php echo $menu; ?>
+	<div class='span2 chunk'>
+		<!-- Sidebar Menu -->
+		<?php echo $menu; ?>
+	</div>
 	
-	<div class='right_content'>
+	<div class='span8 chunk'>
 	<legend>Manage Photos </legend>
 		<ul class="thumbnails photos-list">
 			<?php foreach($photos as $key=>$photo){ ?>
@@ -64,10 +66,7 @@
 
 			
 	</div>
-	<!-- eof div.right_content -->
-
 </div>
-<!-- eof div.two_panels -->
 
 <script type='text/javascript'>
 $(function(){

@@ -4,35 +4,27 @@
 	<?php echo $menu; ?>
 	
 	<div class='right_content'>
-		<a href="<?php echo site_url('you/add_good/?type='.$type);?>" id='add_good' class="btn btn-large btn-success">Add a <?php echo ucfirst($type); ?></a>
-		<ul class ="transactions goods_list list_menu float_right">
+		<a href="<?php echo site_url('you/add_good/'.$type);?>" id='add_good' class="btn btn-large btn-success">Add a <?php echo ucfirst($type); ?></a>
+		<ul class ="results_list">
 			<?php if(!empty($goods)) { ?>
 				<?php foreach($goods as $val) { ?>
 					<?php 
 						if($val->status !='disabled')
 						{?>
-							<li class="clearfix">
-							
-								<!-- Options Dropdown Menu -->
-								<div class="btn-group css_right good_buttons">
-									<a href="http://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http://giftflow.org/gifts/<?php echo $val->id; ?>" class='btn shareBtn' title='on Facebook'>Share</a>
-									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit'); ?>" class='btn'>Edit</a>
-									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/photos'); ?>" class='btn'>Add Photos</a>
-									<a href="<?php echo site_url('gifts/'.$val->id.'/disable');?>" class='btn'>Delete</a>
-
+							<li class='result_row clearfix'>
+							<div class='row-fluid'>
+								<div class='span2'>	
+									<a href="<?php echo site_url('goods/'.$val->id);?>" class="result_image" title="<?php echo $val->title;?>">
+										<?php if(!isset($val->default_photo->thumb_url)) { ?>	
+											<a href='#' class="<?php echo $val->default_photo->thumb_class; ?>">
+											</a>
+										<?php } else { ?>
+											<img src="<?php echo $val->default_photo->thumb_url; ?>"/>
+										<?php }?>
+									</a>
 								</div>
-								<!-- eof Options Dropdown Menu -->
-								
-								<a href="<?php echo site_url('goods/'.$val->id);?>" class="result_image left" title="<?php echo $val->title;?>">
-									<?php if(!isset($val->default_photo->thumb_url)) { ?>	
-										<a class="<?php echo $val->default_photo->thumb_class; ?>">
-										</a>
-									<?php } else { ?>
-										<img src="<?php echo $val->default_photo->thumb_url; ?>"/>
-									<?php }?>
-								</a>
 					
-								<div class="metadata left">
+								<div class="span4 metadata">
 									<a href="<?php echo site_url($val->type.'s/'.$val->id);?>" class="title">
 									 <?php echo $val->title; ?>
 									</a>
@@ -41,14 +33,17 @@
 									</span>
 								</div>
 								
-								<!--<span class="status left">
-									<?php echo $val->status; ?>
-								</span>-->
-							<!--	
-								<span class="updated css_right">
-									<?php echo user_date($val->created,"n/j/o");?>
-								</span>
-							-->
+								<!-- Options Dropdown Menu -->
+								<div class="span6 btn-group good_buttons">
+									<a href="http://api.addthis.com/oexchange/0.8/forward/facebook/offer?url=http://giftflow.org/gifts/<?php echo $val->id; ?>" class='btn shareBtn' title='on Facebook'>Share</a>
+									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/edit'); ?>" class='btn'>Edit</a>
+									<a href="<?php echo site_url($val->type.'s/'.$val->id.'/photos'); ?>" class='btn'>Add Photos</a>
+									<a href="<?php echo site_url('gifts/'.$val->id.'/disable');?>" class='btn'>Delete</a>
+
+								</div>
+								<!-- eof Options Dropdown Menu -->
+							</div>
+								
 						</li>
 						
 						
@@ -91,6 +86,7 @@
 			</div>
 		</div>
 		<div class='modal-footer'>
+			<a href="<?php echo site_url($type.'s/'.$shareId.'/photos'); ?>" class='btn pull-left'>Add Photos</a>
 			<a href='#' data-dismiss='modal' class='btn'>Close</a>
 		</div>
 	</div>
@@ -111,9 +107,9 @@ $(function(){
 	}
 
 
-	$("img.status_icon").tipTip({ delay: 0, fadein: 0 });
+	$("img.status_icon").tooltip({ delay: 0, fadein: 0 });
 
-	$('.shareBtn').tipTip({ delay: 0, fadein: 0 });
+	$('.shareBtn').tooltip({ delay: 0, fadein: 0 });
 	
 	$("#delete_gift").click(function(){
 		return confirm('Are you sure you want to delete this gift? Doing so will cancel all transactions involving this gift');

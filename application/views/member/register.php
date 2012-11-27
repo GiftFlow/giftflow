@@ -9,6 +9,8 @@
 	</td>
 </tr>
 <tr>
+	<?php if(!empty($registerUrl)){ ?>
+	<!-- Facebook Registration Section -->
 	<td style='vertical-align: top;'>
 		<p>
 			<a style='border-bottom: 0px;' href='<?php echo $registerUrl; ?>'>
@@ -20,19 +22,22 @@
 		</p>
 	</td>
 	<td></td>
-	<td class="span6"><?php echo form_errors(); ?>
+	<!-- eof Facebook Registration Section -->
+	<?php } ?>
+	
+	<td class="span6"><?php if(!$recaptchaError) { echo form_errors(); } else  { echo "<ul class='alert_error'><li><p>You did not input the words in the image correctly. Please try again.</p></li></ul><br/>";}?>
 	<form name='register' id='register' method="post">
 		<div class="control-group">
 			<label for="email">Email Address</label>
-			<input maxlength="255" size="30" class="email span6 required" type="text" name="email" id="email" value="" />
+			<input maxlength="255" size="30" class="email span6 required" type="text" name="email" id="email" value="<?php echo $form['email'];?>" />
 		</div>
 		<div class="control-group">
 			<label for="screen_name">Name</label>
-			<input maxlength="75" size="30" class="required span6" type="text" name="screen_name" id="screen_name" value=""/>
+			<input maxlength="35" size="30" class="required span6" type="text" name="screen_name" id="screen_name" value="<?php echo $form['screen_name'];?>"/>
 		</div>
 		<div class="control-group">
-			<label for="zipcode">Zip Code</label>
-			<input maxlength="20" class="span6" size="10" type="text" name="zipcode" id="zipcode" value=""/>
+			<label for="city">City</label>
+			<input  class="span6" size="10" type="text" name="city" id="city" value="<?php echo $form['city'];?>"/>
 		</div>
 		<div class="control-group">			
 			<label for="profile_type">Profile Type</label>
@@ -44,7 +49,7 @@
 		</div>
 		<div class="control-group">
 			<label for="password">Password</label>
-			<input maxlength="45" size="30" class="span6 required" type="password" name="password" id="register_password" value="" />			
+			<input maxlength="45" size="30" class="span6 required" type="password" minlength='7' name="password" id="register_password" value="" />			
 		</div>
 		<div class="control-group">
 			<label for="confirm_password">Confirm Password</label>
@@ -68,6 +73,9 @@
 <?php //echo $facebook_sdk; ?>
 <script type='text/javascript'>
 $(function(){
+
+	GF.Locations.initialize($('input#city'));
+
 	$("#register").validate({
 		rules: { 
 			confirm_password: {

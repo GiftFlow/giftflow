@@ -22,15 +22,15 @@ class User extends DataMapperExtension {
 	var $updated_field = 'updated';
 	
 	var $error_prefix = ' ';
-   	var $error_suffix = ' ';
-   	
-   	var $total_completed_gifts;
-   	var $total_completed_requests;
-   	var $total_interactions;
-   	var $total_followers;
-   	var $total_following;
-   	
-   	var $hooks;
+	var $error_suffix = ' ';
+
+	var $total_completed_gifts;
+	var $total_completed_requests;
+	var $total_interactions;
+	var $total_followers;
+	var $total_following;
+
+//   	var $hooks;
 
 
 	/**	
@@ -39,15 +39,14 @@ class User extends DataMapperExtension {
 	*/	
 
 	var $has_one = array(
-        	'default_photo' => array(
+			'default_photo' => array(
 			'class' => 'photo',
 			'other_field'=>'default_user'
 			),
 		'default_location' => array(
 			'class' => 'location',
 			'other_field'=>'default_user'
-			),
-		'user_setting'
+			)
 	);
 	
 	/**	
@@ -156,7 +155,7 @@ class User extends DataMapperExtension {
 		parent::__construct( $id );
 		Console::logMemory();
 		Console::logSpeed("creating User");
-		$this->hooks =& load_class('Hooks');
+//		$this->hooks =& load_class('Hooks');
 		$this->CI =& get_instance();
 	}
 	
@@ -216,36 +215,27 @@ class User extends DataMapperExtension {
 				return TRUE;
 			}
 		}
-    	
-    	/**
-    	*	This function should be used when a new user is being saved (as 
-    	*	opposed to being updated. This is so we can call the user_new hook.
-    	*
-    	*	@return boolean
-    	*/
+
+		/**
+		*	This function should be used when a new user is being saved (as 
+		*	opposed to being updated. This is so we can call the user_new hook.
+		*
+		*	@return boolean
+		*/
 		function register()
-    	{
-    		// This stores the existing ID of this User object. If 
-    		// it is empty, that means that this is a new user. If 
-    		// not, then it is an update.
-    		$id = $this->id;
-    		
-    		// Save the user
+		{
+			// This stores the existing ID of this User object. If 
+			// it is empty, that means that this is a new user. If 
+			// not, then it is an update.
+			
+			// Save the user
 			if($this->save())
 			{
 				// If truly a new registration...
-				if(empty($id))
+				if(empty($this->id))
 				{
-					// Create new user settings object and save it
-					$S = new User_setting();
-					$S->user_id = $this->id;
-					$S->save();
-	
-					// Hook: 'user_new'
-					$hook_data = array(
-						"user_id"=> $this->id
-						);
-					$this->hooks->call('user_new', $hook_data);
+					$this->load->library('event_logger');
+					$this->CI->event_logger->user_new(array("user_id"=> $this->id));
 				}
 				
 				// Return true if saved/updated successfully
@@ -591,10 +581,10 @@ class User extends DataMapperExtension {
 			if($this->register())
 			{
 				// Hook: 'user_registration_facebook'
-				$this->hooks->call('user_registration_facebook', $this);
+				//$this->hooks->call('user_registration_facebook', $this);
 				
 				// Hook: 'facebook_linked'
-				$this->hooks->call('facebook_linked', $this);
+				//$this->hooks->call('facebook_linked', $this);
 
 				return TRUE;
 			}
@@ -613,12 +603,12 @@ class User extends DataMapperExtension {
 				if($newly_linked)
 				{
 					// Hook: 'facebook_linked'
-					$this->hooks->call('facebook_linked', $this);
+					//$this->hooks->call('facebook_linked', $this);
 				}
 				else
 				{
 					// Hook: 'facebook_synced'
-					$this->hooks->call('facebook_synced', $this);
+					//$this->hooks->call('facebook_synced', $this);
 				}
 				return TRUE;
 			}
@@ -637,19 +627,15 @@ class User extends DataMapperExtension {
 	*/
 	function facebook_unlink()
 	{
-		if( ! $this->user_setting->exists() )
-		{
-			$this->user_setting->get();
-		}
 		$this->facebook_id = '';
 		$this->facebook_token = '';
 		$this->facebook_data = '';
 		$this->facebook_link = '';
 		$this->photo_source = 'giftflow';
-		if( $this->save() && $this->user_setting->save() )
+		if( $this->save() )
 		{
 			// Hook: 'facebook_unlinked'
-			$this->hooks->call('facebook_unlinked', $this);
+			//$this->hooks->call('facebook_unlinked', $this);
 			
 			return TRUE;
 		}
@@ -668,7 +654,7 @@ class User extends DataMapperExtension {
 		if( $this->save() )
 		{
 			// Hook: 'google_unlinked'
-			$this->hooks->call('google_unlinked', $this);
+			//$this->hooks->call('google_unlinked', $this);
 			
 			return TRUE;
 		}

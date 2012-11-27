@@ -1,6 +1,10 @@
-<div  id="about_future" class="two_panels">
-<?php echo $menu; ?>
-	<div id="about_content" class='right_content'>
+<div class="row about_page">
+
+	<div class='span2 chunk'>
+		<?php echo $menu; ?>
+	</div>
+
+	<div class='span9 chunk'>
 		<h1>Frequently Asked Questions</h1>
 		
 		<h4>Is GiftFlow a barter system?</h4>

@@ -1,4 +1,4 @@
-				<form name = 'thankyou' id='thankyouform' method='post'>
+<form name = 'thankyou' id='thankyouform' method='post' action="<?php echo site_url('thank/profileThank'); ?>">
 					<p>
 					<label for='gift'>What did <?php echo $u->screen_name; ?> give you? (brief title)</label>
 					</p>

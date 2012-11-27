@@ -49,17 +49,18 @@
 						</span>
 					<?php } ?>
 				</div>
-				
-				<!-- Follow / Following Button -->
-				<?php if(isset($val->am_following) && $val->am_following){ ?>
-					<div class='css_right'>
-						<i class='icon-ok'></i> Following
-					</div>
-				<?php } else { ?>
-					<button class="btn follow css_right" rel="<?php echo $val->id; ?>">
-						<i class="icon-plus"></i>
-						Follow
-					</button>
+				<?php if($follow) { ?>	
+					<!-- Follow / Following Button -->
+					<?php if(isset($val->am_following) && $val->am_following){ ?>
+						<div class='css_right'>
+							<i class='icon-ok'></i> Following
+						</div>
+					<?php } else { ?>
+						<button class="btn follow css_right" rel="<?php echo $val->id; ?>">
+							<i class="icon-plus"></i>
+							Follow
+						</button>
+					<?php } ?>
 				<?php } ?>
 				
 			</li>

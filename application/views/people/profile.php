@@ -1,15 +1,15 @@
 <!-- profile is divided into two columns! -->
-<div class = 'row-fluid' id='profile_header'>
+<div class = 'row-fluid' class='profile_header'>
 
-	<div class='profile_column span4' id='profile_masthead'>
+	<div class='span4' id='profile_masthead'>
 
 			<a href="<?php echo current_url();?>" class="user_image left medium">
 				<img src="<?php echo $profile_thumb; ?>" />
 			</a>	
 			
-			<h1 id='profile_name'><?php echo $u->screen_name; ?></h1>
+			<p class='nicebigtext' id='profile_name'><?php echo $u->screen_name; ?></p>
 	</div>
-	<div class='span4'>
+	<div class='span8'>
 			<div class='btn-group profile_actions'>
 				<?php if($visitor) { ?>
 					<?php if(isset($is_following) &&($is_following)) { ?>
@@ -19,6 +19,14 @@
 					<?php } ?>
 					<a href='#' id='message_button' class='btn profile_action btn-medium <?php if(empty($logged_in_user_id)) { echo "disabled";}?>'><i class='icon-pencil'></i> Message</a>
 					<a href='#' id='thank_button' class='btn profile_action btn-medium btn-success <?php if(empty($logged_in_user_id)){echo "disabled";}?>'><i class='icon-gift icon-white'></i> Thank</a>
+				<?php } else { ?>
+					<?php if(!isset($userdata['bio'])) { ?>
+						<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-user'></i>Update profile</a>
+					<?php } ?>
+						<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-camera'></i>Upload photos</a>
+						<a class='btn' href="<?php echo site_url('you/list_goods/need'); ?>"><i class='icon-minus-sign'></i>Your Needs</a>
+						<a class='btn' href="<?php echo site_url('you/list_goods/gift'); ?>"><i class='icon-gift'></i>Your Gifts</a>
+						<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-time'></i>Your Watches</a>
 				<?php } ?>
 			</div>
 				
@@ -27,7 +35,7 @@
 </div> <!-- close profile_header row -->
 
 
-<div class='row-fluid' id='buttonFormRow'>
+<div class='row-fluid'>
 	<div class='span6'>
 			<div class='profile_form' id='profile_thank_form'style='display:none;' >
 				<?php echo $thankform; ?>
@@ -39,43 +47,45 @@
 
 </div><!-- close formButtonRow -->
 
-<div class='row-fluid' id='profile_top' -->
+<div class='row-fluid'>
 	<div class='span4'>
-		<div class='profile_chunk'id='profile_info'>
+		<div class='chunk'>
 				<p class='nicebigtext'>Bio</p>
 
 					<?php if(!empty($u->location)) { ?>
-								Location:
+							<b>	Location:</b>
 									<?php if(!empty($u->location->city)) { echo $u->location->city.','; } ?>
 									<?php if(!empty($u->location->state)) { echo $u->location->state; } ?>
 									<?php if(!empty($u->location->country)) { echo $u->location->country.', '; } ?>
 						<?php }  ?>
 					<p>
-							<?php echo 'Member since '.user_date($u->created,"F jS Y"); ?>
-							<?php //echo $u->type; ?>
+						<b>Member since: </b><?php echo user_date($u->created,"F jS Y"); ?>
 					</p>
 		
 				<p><?php if(!empty($u->bio)) { echo $u->bio; } ?></p>
-				<p><?php if(!empty($u->url)) { echo $u->url; } ?></p>
+				<p><?php if(!empty($u->url)) { ?>
+					<a href="<?php echo $u->url; ?>"> <?php echo $u->url; ?></a>
+				</p><?php } ?>
+
+
 		</div> <!-- close profile info -->
 
-		<div id='profile_photos' class='profile_chunk thumb_grid'>
+		<div class='chunk thumb_grid'>
 				<p class='nicebigtext'>Photos</p>
 				<p>
 				<?php foreach($u->photos as $val) { ?>
-				<a class='photoMod' style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+				<a class='photo_mod' id="<?php echo site_url($val->url); ?>" href='#photo_modal' role='button' data-toggle='modal'>
 						<img src='<?php echo site_url($val->thumb_url);?>' />
 					</a>
 				<?php } ?>
 				
 				</p>
-				<!--<button class='btn' href='#photoModal' role='button' data-toggle='modal'>BUTTON</button>-->
-				<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
+				<div class='modal hide' id='photo_modal' tabindex='-1' role='dialog' aria-labelledby='photo_modal_label' aria-hidden='true'>
 					<div class='modal-header'>
-						<h3 id='photoModalLabel'>Photo of <?php echo $u->screen_name; ?></h3>
+						<h3 id='photo_modal_label'>Photo of <?php echo $u->screen_name; ?></h3>
 					</div>
 					<div class='modal-body'>
-						<img src='' id = 'modImage'/>
+						<img src='' id = 'mod_image'/>
 					</div>
 					<div class='modal-footer'>
 						<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
@@ -83,7 +93,7 @@
 				</div>
 		</div>
 
-		<div class='profile_chunk'>
+		<div class='chunk'>
 			<p class='nicebigtext'>Followers</p>
 				<span class='metadata'>
 					<?php echo count($following).' Following';?>
@@ -94,7 +104,7 @@
 				<div class='thumb_grid'>
 				<?php foreach($followers as $val) { ?>
 				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
-				<img src='<?php echo $val->default_photo->thumb_url;?>' />
+					<img src='<?php echo $val->default_photo->thumb_url;?>' />
 				</a>
 			 <?php } ?>
 				</div>
@@ -102,7 +112,7 @@
 	</div><!-- close span -->
 	<div class = 'span4'>
 			<!--- Gifts and Needs Column -->
-		<div id='profile_gifts' class='profile_chunk'>
+		<div class='chunk'>
 
 				<span class='nicebigtext'>Gifts</span>
 			<?php if(!empty($gifts)) { ?>
@@ -120,7 +130,7 @@
 
 
 		<!-- NEEDS column -->
-		<div id='profile_needs' class='profile_chunk'>
+		<div class='chunk'>
 				<span class='nicebigtext'> Needs</span>	
 			<?php if(!empty($needs)) { ?>
 
@@ -137,7 +147,7 @@
 
 	<div class='span4'><!-- open right content column -->
 
-		<div id='profile_reviews' class='profile_chunk'>
+		<div class='chunk'>
 			<span class='nicebigtext'>Reviews</span>
 
 				<?php if(!empty($reviews)) { ?>
@@ -151,7 +161,7 @@
 
 		</div><!--close reviews_list -->
 
-		<div id='profile_thanks' class='profile_chunk'>
+		<div class='chunk'>
 			<span class='nicebigtext'>Thanks</span>	
 
 			<?php if(!empty($thanks)) { ?>
@@ -169,19 +179,15 @@
 <script type='text/javascript'>
 $(function() {
 
-	var isLogd;
-
-if(<?php echo json_encode($logged_in_user_id); ?>){
-	isLogd = 'TRUE';
-}
+var logged_in = <?php echo json_encode($logged_in); ?>;
 
 
-$('#photoModal').modal({show:false});
+$('#photo_modal').modal({show:false});
 
-$('.photoMod').click(function() {
+$('.photo_mod').click(function() {
 	var imgUrl = $(this).attr('id');
 	console.log(imgUrl);
-	$('#modImage').attr('src',imgUrl);
+	$('#mod_image').attr('src',imgUrl);
 });
 
 var fadeSection = function(param) {
@@ -192,7 +198,7 @@ var fadeSection = function(param) {
 		$('#profile_top').css('opacity',0.5);
 	}
 };
-if(isLogd) {
+if(logged_in) {
 	$('.profile_action').click( function() {
 		fadeSection('out');
 		$('.profile_form').hide();
