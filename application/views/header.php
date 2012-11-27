@@ -18,7 +18,7 @@
 
 	<title>GiftFlow | <?php echo $title; ?></title>
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/bootstrap/bootstrap.min.css' />
-	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/new.css' />
+	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/style.css' />
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/categorySprites.css' />
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/silver/jquery-ui.php' />
 	
