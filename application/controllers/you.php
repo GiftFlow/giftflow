@@ -476,6 +476,7 @@ class You extends CI_Controller {
 	
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['title'] = 'Thank you';
 		
 		$this->load->view('header',$this->data);
 		$this->load->view('you/includes/header', $this->data);

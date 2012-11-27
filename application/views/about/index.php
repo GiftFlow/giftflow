@@ -1,10 +1,9 @@
-<div  id='about_index' class='two_panels'>
-<?php echo $menu; ?>
-	<div id='about_content' class='right_content'>
-		<p class='nicebigtext'><span style='color:black; font-weight: bold;'></span></p>
+<div class='row about_page'>
+	<div class='span2 chunk'>
+		<?php echo $menu; ?>
+	</div>
+	<div class='span9 chunk'>
+		CONTENT GOES EHRE
 
-	HERE is where the HOW IT WORKS graphic will go
-
-</div>
-
+	</div>
 </div>

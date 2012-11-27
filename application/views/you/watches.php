@@ -1,36 +1,33 @@
-<div id="your_watches" class="two_panels">
-
-	<!-- Sidebar Menu -->
-	<?php echo $menu; ?>
+<div class='row'>
+	<div class='span2 chunk'>
+		<!-- Sidebar Menu -->
+		<?php echo $menu; ?>
+	</div>
 	
 	
-	<div class='right_content'>
+	<div class='span8 chunk'>
 		<h3>Watch a Keyword</h3>
 
 		<?php echo $form; ?>
 		
 		
 		<?php if(!empty($watches)) { ?>
-			<ul class ="transactions goods_list list_menu float_right" id='watch_list'>
+			<ul class='interaction'>
 				<li class='section_header'>
-					<h3 class='messages_title'>Currently Watching</h3>
+					<h3 class='inbox_title'>Currently Watching</h3>
 				</li>
 				<?php 
 					foreach($watches as $val) 
 					{ ?>
-					
-							<li class="clearfix">
+						<li class='watch'>
+						
+						  <a class="btn btn-mini delete_watch" href="<?php echo site_url('watches/'.$val->id.'/delete'); ?>" title='click to delete'>
+							<i class="icon-trash"></i>
+						  </a>
 							
-							<!-- Options Dropdown Menu -->
-							  <a class="css_right btn btn-large delete_watch" href="<?php echo site_url('watches/'.$val->id.'/delete'); ?>">
-								<i class="icon-trash"></i>
-							  </a>
-								
-							<div class="metadata left watchword">
-								<a id='keyword' title='Click to Search' href='<?php echo site_url("find/gifts/".$val->keyword); ?>'>
-									<?php echo $val->keyword; ?>
-								</a>
-							</div>
+							<a class='keyword' title='Click to Search' href='<?php echo site_url("find/gifts/".$val->keyword); ?>'>
+								<?php echo $val->keyword; ?>
+							</a>
 								
 						</li>
 				<?php } ?>
@@ -44,21 +41,13 @@
 		<?php } ?>
 		
 	</div>
-	<!-- eof div.right_content -->
 	
-
 </div>
-<!-- eof div.two_panels -->
 
 <script type='text/javascript'>
 $(function(){
-/*
-	$('#keyword').tipTip({
-		defaultPosition: "right",
-		delay: 0,
-		fadein: 0,
-		keepAlive:'true'
-	});
- */	
+
+$('.delete_watch').tooltip();
+
 });
 </script>

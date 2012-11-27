@@ -5,7 +5,6 @@
 		</a>
 	</li>
 	<li>
-		<p>Follow Us</p>
 			<div class="addthis_toolbox addthis_32x32_style addthis_default_style">
 			<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
 			<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>

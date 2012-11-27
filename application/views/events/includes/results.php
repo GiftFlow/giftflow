@@ -9,7 +9,6 @@
 	<?php } ?>
 		
 	<?php foreach($results as $key=>$val) {?>
-		  <li class='result_row event clearfix'>
 			<!-- Result Row start -->
 			
 
@@ -47,57 +46,14 @@
 					</span>
 				</div>
 			<!-- close user new -->
-		   <?php } else if($val->event_type_id == 2) { ?>
-			<!--Open transaction completed -->
-				<div class='row-fluid'>
-				<?php if($mini) { ?>
-					<div class='span1'>
-					<!-- Image -->
-						<a href="<?php echo site_url('gifts/'.$val->transaction->demands[0]->good->id);?>" class="result_image" title="<?php echo $val->transaction->demands[0]->good->title;?>">
-							<?php if(!isset($val->transaction->demands[0]->good->default_photo->thumb_url)) { ?>	
-								<a class="<?php if(!$mini) { echo $val->transaction->demands[0]->good->default_photo->thumb_class; } else { echo $val->transaction->demands[0]->good->default_photo->mini_class; } ?>">
-								</a>
-							<?php } else { ?>
-								<img src="<?php echo $val->transaction->demands[0]->good->default_photo->thumb_url; ?>"/>
-							<?php }?>
-						</a>
-					</div>
-					<div class='span8 result_meta clearfix'>
-					  <span class='title'>
-						<?php echo $val->transaction->language->overview_summary; ?>
-					  </span> 
-					</div>
-					<div class='span3 result_meta event_date'>
-						<span class= 'minidata'>
-							<?php echo user_date($val->event_created, "n/j/o"); ?>
-						</span>
-					</div>
-
-				<?php } else { ?>
-				<?php foreach($val->transaction->users as $user) { ?>
-					<div class='span2'>
-						<a class='result_image' href = '<?php echo site_url("people/".$user->id);?>'>
-								<img src='<?php echo $user->default_photo->thumb_url; ?>'>
-						</a>
-					</div>
-					  
-							<?php foreach($val->review['reviews'] as $review) { ?>
-							   <span class='event_review'>
-								  <?php if($review->reviewer_id == $user->id) {
-									echo $review->user_reviewer_name." gave a ";
-									echo "<span class='".$review->rating."'>";
-									echo $review->rating;
-									echo "</span> rating. They wrote: \"";
-									echo substr($review->body, 0,50)."...\"";?>
-									<a href='<?php echo site_url("people/".$review->reviewer_id); ?>'>read more</a>
-								  <?php } ?>
-								</span>
-							 <?php } ?>
-						<?php } ?>
-					</span>
-				<?php } ?>
-			</div> <!-- close row -->
-					
+   <?php } else if($val->event_type_id == 2) { ?>
+	<!--Open transaction completed -->
+		<?php echo UI_Results::reviews(array(
+			'results' => $val,
+			'row' => TRUE,
+			'mini'=> TRUE
+		));?>
+								
 	<!-- close trans_completed -->
 
 	<?php } else if($val->event_type_id == 8) { ?>
@@ -136,28 +92,16 @@
     <!-- close good_new -->
 	<?php } else if($val->event_type_id == 17) { ?>
 	<!-- open thankyou -->
-		<div class='row-fluid'>
-			<div class='span1'>
-				<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
-					 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
-				</a>
-			</div>
-			<div class='span8 result_meta clearfix'>
-				<span class = 'title'>
-					<?php echo $val->thank->summary;?>
-				</span>                  
-			</div>
-			<div class='span3 event_date'>
-				<span class='minidata'>
-					<?php echo user_date($val->event_created,"n/j/o"); ?>
-				</span>
-			</div>
-		</div>
+		<?php echo UI_Results::thanks(array(
+			'results'=> $val,
+			'mini' => TRUE,
+			'row' => TRUE
+		)); ?>
+
 	<?php } ?>
 
 
 	<!-- eof Result Row -->
-	</li>
 	<?php } ?>
 	<!-- close thankyou -->
 

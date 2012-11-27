@@ -42,10 +42,10 @@
 
 	<div class='span9'>
 	<!-- Search Form Module -->
-	<div class='row' id='findNav'>
-		<div class='findBar span9 chunk goodsBar'>
+	<div class='row chunk' id='find_nav'>
+		<div class=' span9'>
 
-		<span class='navForm clearfix'>
+		<span class='nav_form clearfix'>
 
 		
 			<form name='changeLocation' class='find_form' id="editLocation" method="post" action="">

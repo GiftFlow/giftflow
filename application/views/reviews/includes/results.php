@@ -8,13 +8,13 @@
 		<!-- Title --> 	
 			<div class='span12'>
 			<span class='metadata'><?php echo user_date($R->created, 'n/j/o'); ?></span>
-			<span class="title small"><?php echo ($R->language->overview_summary); ?></span>
+			<span class="title"><?php echo ($R->language->overview_summary); ?></span>
 			</div>
 		</div>
 	<?php foreach($R->reviews as $rev) { ?>
 		<div class='row-fluid'>
 			<div class='span4'>
-				<a class='result_image thankimg' href="<?php echo site_url('people/'.$rev->reviewer_id); ?>">
+				<a class='user_image' href="<?php echo site_url('people/'.$rev->reviewer_id); ?>">
 					<img src="<?php echo $rev->reviewer->default_photo->thumb_url;?>"/>
 				</a>
 			</div>

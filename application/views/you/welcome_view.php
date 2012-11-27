@@ -10,7 +10,7 @@
 				</div>
 				
 				<div class="welcome_block" id="needs">
-					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
+					<img src="<?php echo base_url();?>assets/images/categories/16.png" style="width:150px;"/>
 				 <p>What do you need? Help in your garden? A pair of gloves? Don't be afraid to ask.</p>
 				 <p><a href="<?php echo site_url("you/add_good/?type=need");?>"  class="button btn">Add a Need</a></p>
 				</div>

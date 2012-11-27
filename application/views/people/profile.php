@@ -1,7 +1,7 @@
 <!-- profile is divided into two columns! -->
 <div class = 'row-fluid' class='profile_header'>
 
-	<div class='profile_column span4' id='profile_masthead'>
+	<div class='span4' id='profile_masthead'>
 
 			<a href="<?php echo current_url();?>" class="user_image left medium">
 				<img src="<?php echo $profile_thumb; ?>" />
@@ -35,7 +35,7 @@
 </div> <!-- close profile_header row -->
 
 
-<div class='row-fluid' id='buttonFormRow'>
+<div class='row-fluid'>
 	<div class='span6'>
 			<div class='profile_form' id='profile_thank_form'style='display:none;' >
 				<?php echo $thankform; ?>
@@ -47,9 +47,9 @@
 
 </div><!-- close formButtonRow -->
 
-<div class='row-fluid' id='profile_top' -->
+<div class='row-fluid'>
 	<div class='span4'>
-		<div class='profile_chunk'id='profile_info'>
+		<div class='chunk'>
 				<p class='nicebigtext'>Bio</p>
 
 					<?php if(!empty($u->location)) { ?>
@@ -70,22 +70,22 @@
 
 		</div> <!-- close profile info -->
 
-		<div id='profile_photos' class='profile_chunk thumb_grid'>
+		<div class='chunk thumb_grid'>
 				<p class='nicebigtext'>Photos</p>
 				<p>
 				<?php foreach($u->photos as $val) { ?>
-				<a class='photoMod' style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+				<a class='photo_mod' id="<?php echo site_url($val->url); ?>" href='#photo_modal' role='button' data-toggle='modal'>
 						<img src='<?php echo site_url($val->thumb_url);?>' />
 					</a>
 				<?php } ?>
 				
 				</p>
-				<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
+				<div class='modal hide' id='photo_modal' tabindex='-1' role='dialog' aria-labelledby='photo_modal_label' aria-hidden='true'>
 					<div class='modal-header'>
-						<h3 id='photoModalLabel'>Photo of <?php echo $u->screen_name; ?></h3>
+						<h3 id='photo_modal_label'>Photo of <?php echo $u->screen_name; ?></h3>
 					</div>
 					<div class='modal-body'>
-						<img src='' id = 'modImage'/>
+						<img src='' id = 'mod_image'/>
 					</div>
 					<div class='modal-footer'>
 						<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
@@ -93,7 +93,7 @@
 				</div>
 		</div>
 
-		<div class='profile_chunk'>
+		<div class='chunk'>
 			<p class='nicebigtext'>Followers</p>
 				<span class='metadata'>
 					<?php echo count($following).' Following';?>
@@ -112,7 +112,7 @@
 	</div><!-- close span -->
 	<div class = 'span4'>
 			<!--- Gifts and Needs Column -->
-		<div id='profile_gifts' class='profile_chunk'>
+		<div class='chunk'>
 
 				<span class='nicebigtext'>Gifts</span>
 			<?php if(!empty($gifts)) { ?>
@@ -130,7 +130,7 @@
 
 
 		<!-- NEEDS column -->
-		<div id='profile_needs' class='profile_chunk'>
+		<div class='chunk'>
 				<span class='nicebigtext'> Needs</span>	
 			<?php if(!empty($needs)) { ?>
 
@@ -147,7 +147,7 @@
 
 	<div class='span4'><!-- open right content column -->
 
-		<div id='profile_reviews' class='profile_chunk'>
+		<div class='chunk'>
 			<span class='nicebigtext'>Reviews</span>
 
 				<?php if(!empty($reviews)) { ?>
@@ -161,7 +161,7 @@
 
 		</div><!--close reviews_list -->
 
-		<div id='profile_thanks' class='profile_chunk'>
+		<div class='chunk'>
 			<span class='nicebigtext'>Thanks</span>	
 
 			<?php if(!empty($thanks)) { ?>
@@ -182,12 +182,12 @@ $(function() {
 var logged_in = <?php echo json_encode($logged_in); ?>;
 
 
-$('#photoModal').modal({show:false});
+$('#photo_modal').modal({show:false});
 
-$('.photoMod').click(function() {
+$('.photo_mod').click(function() {
 	var imgUrl = $(this).attr('id');
 	console.log(imgUrl);
-	$('#modImage').attr('src',imgUrl);
+	$('#mod_image').attr('src',imgUrl);
 });
 
 var fadeSection = function(param) {

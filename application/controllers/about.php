@@ -28,30 +28,7 @@ class About extends CI_Controller {
 		$this->load->view('about/faq', $this->data);
 		$this->load->view('footer', $this->data);
 	}
-	
-	public function tour()
-	{
-		$this->data['title'] = 'The Tour';
-		$this->load->view('header', $this->data);
-		$this->load->view('about/tour', $this->data);
-		$this->load->view('footer', $this->data);
-	}
-	
-	public function future()
-	{
-		$this->data['title'] = 'Future';
-		$this->load->view('header', $this->data);
-		$this->load->view('about/future', $this->data);
-		$this->load->view('footer', $this->data);
-	}
-	
-	public function story()
-	{
-		$this->data['title'] = 'Our Story';
-		$this->load->view('header', $this->data);
-		$this->load->view('about/story', $this->data);
-		$this->load->view('footer', $this->data);
-	}
+
 	public function press()
 	{
 		$this->data['title'] = 'In The Press';

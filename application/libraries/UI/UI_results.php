@@ -43,7 +43,6 @@ class UI_results
 			"include"=>array("location"),
 			"row"=>FALSE,
 			"follow" => TRUE,
-			"home_results" => FALSE
 		);
 		$options = array_merge($default_options, $options);
 		
@@ -56,8 +55,8 @@ class UI_results
 		
 		
 		// Load View
-		if($options['home_results']) {
-			$view = $CI->load->view('people/includes/home_results', $options, TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('people/includes/mini_results', $options, TRUE);
 		} else {
 			$view = $CI->load->view('people/includes/results',$options,TRUE);
 		}
@@ -85,11 +84,8 @@ class UI_results
 		$default_options = array(
 			"results"=>array(),
 			"mini"=>FALSE,
-			"grid"=>FALSE,
 			"include"=>array("location","created"),
 			"row"=>FALSE,
-			"sidebar"	=> FALSE,
-			"home_results" => FALSE
 			
 		);
 		$options = array_merge($default_options, $options);
@@ -102,8 +98,8 @@ class UI_results
 		}
 		
 		// Load View
-		if($options['home_results']) {
-			$view = $CI->load->view('goods/includes/home_results', $options, TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('goods/includes/mini_results', $options, TRUE);
 		} else {
 			$view = $CI->load->view('goods/includes/results',$options,TRUE);
 		}
@@ -141,7 +137,11 @@ class UI_results
 		}
 
 		// Load View
-		$view = $CI->load->view('reviews/includes/results',$options,TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('reviews/includes/mini_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('reviews/includes/results',$options,TRUE);
+		}
 		
 		// Return HTML string
 		Console::logSpeed("UI_Results::reviews(): done.");
@@ -178,13 +178,25 @@ class UI_results
 		//Compile options
 		$default_options = array(
 			"results" => array(),
-			"row" => FALSE
+			"row" => FALSE,
+			'mini' => FALSE
 		);
 		
 		$options = array_merge($default_options, $options);
 
+		 // If set to return single row, place in array so the view's foreach
+		// loop iterates over it properly
+		if($options['row'] && !is_array($options['results']))
+		{
+			$options['results'] = array($options['results']);
+		}
+
 		//Load View
-		$view = $CI->load->view('thanks/includes/results', $options, TRUE);
+		if($options['mini']) {
+			$view = $CI->load->view('thanks/includes/mini_results', $options, TRUE);
+		} else {
+			$view = $CI->load->view('thanks/includes/results', $options, TRUE);
+		}
 
 		//Return HTML string
 		Console::logspeed("UI_Results::thanks() done.");

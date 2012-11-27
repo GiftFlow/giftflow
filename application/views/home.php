@@ -7,11 +7,13 @@
 
 <?php } else { ?>
 
-	<div class='span4'>
+	<div class='span1'>
 		<a href="<?php echo site_url("you");?>" class="user_image medium left">
 			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
 		</a>
-		<p style='margin-left: 80px;' class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
+	</div>
+	<div class='span2'>
+		<p  class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
 	</div>
 	<div class='span8'>
 		<div class='btn-group profile_actions'>
@@ -27,10 +29,10 @@
 <?php } ?>
 	</div><!-- close header row -->
 
-<div class='row' id='dashboard'>
+<div class='row' id='home_page'>
 		<div class='span6'>	
-		<div class='row-fluid dash_left'>
-			<div class='span12 chunk' id='dashBlog'>
+		<div class='row-fluid home__left'>
+			<div class='span12 chunk' id='home_blog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
 
 				<!-- Loading Message -->
@@ -38,13 +40,13 @@
 					<img src="<?php echo base_url();?>assets/images/loading.gif" alt="Loading" />
 				</div>
 		
-				<ul id='blogFeed'>
+				<ul id='blog_feed'>
 					<span id='post_title'></span>
 					<span id='post_blurb'></span>
 				</ul>
 			</div>
 		</div>
-		<div class='row-fluid dash_left' id='dashFeatured'>
+		<div class='row-fluid home__left' id='home_featured'>
 			<div class='media span12 chunk'>	
 				<!-- Image -->
 				<a class='pull-left user_image' id='featured_image' href='<?php echo site_url('people/'.$featured->id); ?>'>
@@ -85,9 +87,9 @@
 			</div>
 
 		</div>
-		<div class='row-fluid dash_left'>
+		<div class='row-fluid home__left'>
 <?php if(!$logged_in) { ?>
-		<div class='span6 dashList chunk'>
+		<div class='span6 home_list chunk'>
 		<h3>Nonprofits</h3>
 			<?php echo UI_Results::users(array(
 				'results' => $nonprofits,
@@ -97,7 +99,7 @@
 				"home_results" => TRUE
 			)); ?>
 		</div>
-		<div class='span6 dashList chunk'>
+		<div class='span6 home_list chunk'>
 		<h3>Gifts + Needs</h3>
 			<?php echo UI_Results::goods(array(
 				"results" => $goods,
@@ -108,7 +110,7 @@
 		</div>
 	<?php } else { ?>
 		
-		<div class='span6 dashList chunk'>
+		<div class='span6 home_list chunk'>
 		<h3>Following</h3>
 			<?php echo UI_Results::users(array(
 				'results' => $following,
@@ -118,7 +120,7 @@
 				"home_results" => TRUE
 			)); ?>
 		</div>
-		<div class='span6 dashList chunk'>
+		<div class='span6 home_list chunk'>
 		<h3>Your GiftFlow</h3>
 		<span class='minidata'>(Posted by those you follow)</span>
 			<?php echo UI_Results::goods(array(
@@ -132,7 +134,7 @@
 	</div>
 	</div>
 	
-	<div class='span5 chunk dashList' id='dash_activity'>
+	<div class='span5 chunk' id='home_activity'>
 			<h3>Recent Activity</h3>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,
@@ -162,8 +164,8 @@ $(function() {
 			var blurb = latest.content.replace(/(<([^>]+)>)/ig,"");
 			blurb = blurb.substring(0,150)+'... by '+latest.author;
 			
-			var entry = "<li><span class='entryTitle'><a target='blank' href='"+latest.link+"'>"+latest.title+"</a></span><span class='entryBlurb'>  "+blurb+"</span></li>";
-			$('#blogFeed').append(entry);
+			var entry = "<li><span class='entry_title'><a target='blank' href='"+latest.link+"'>"+latest.title+"</a></span><span class='entry_blurb'>  "+blurb+"</span></li>";
+			$('#blog_feed').append(entry);
 		}
 
 	};

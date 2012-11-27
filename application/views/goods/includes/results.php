@@ -1,50 +1,33 @@
 <?php if(!empty($results)) { ?>
 
 	<?php if(!$row) { ?>
-		<ul id="goods_includes_results" class='results_list goods <?php if($mini){ echo "mini"; } elseif($grid){ echo "grid clearfix"; } ?>'>
+		<ul  class='results_list'>
 	<?php } ?>
 	
 	<?php foreach($results as $G){ ?>
-		<?php if($G->status == 'active') { ?>
 			<!-- Result Row -->
-			<li class='result_row clearfix'>
-			<div class='row-fluid'>			
-			<div class='span2'>
-					<?php if(!in_array("no_pic",$include)){ ?>
-					<!-- Image -->
-					<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
-						<?php if(!isset($G->default_photo->thumb_url)) { ?>	
-							<a href='#' class="<?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>">
-							</a>
-						<?php } else { ?>
-							<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
-						<?php }?>
-					</a>
-					<?php } ?>
-					
-			<!-- Metadata -->
-			</div>
-			<?php if(!$mini) { ?>
-				<div class='span6'>
-			<?php } else { ?>
-				<div class='span10 result_meta clearfix'>
-			<?php } ?>
-					
-						<!-- Title -->
-						
-						<a class="title <?php if($sidebar) { echo 'sidebarTitle ';} if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
-							<span class= "title">
-								<?php echo substr($G->title, 0, 30); ?>
-							</span>
+			<li class='clearfix result_row'>
+				<div class='row-fluid'>			
+					<div class='span2'>
+							<?php if(!in_array("no_pic",$include)){ ?>
+							<!-- Image -->
+							<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
+								<?php if(!isset($G->default_photo->thumb_url)) { ?>	
+									<a href='#' class="<?php echo $G->default_photo->thumb_class;?>">
+									</a>
+							<?php } else { ?>
+								<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
+							<?php }?>
 						</a>
-					<?php if(in_array("requests",$include)){ ?>
-					
-						<!-- # Times Requested -->
-						<span class='metadata requests'>
-							<em>requested</em> <?php echo count($G->requests->all);?> times
-						</span>
+						<?php } ?>
 						
-					<?php } ?>
+					</div>
+					<div class='span6'>
+						
+						<a class="title <?php if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+								<?php echo $G->title; ?>
+						</a>
+
 					<?php if(in_array("author", $include) && !empty($G->user)){ ?>
 					
 						<!-- Author -->
@@ -56,7 +39,7 @@
 						</span>
 					
 					<?php } ?>
-					<?php if( in_array("location", $include) && !empty($G->location->city) && !empty($G->location->state) ) { ?>
+					<?php if(in_array("location", $include)) { ?>
 						
 						<!-- Location -->
 						<span class='metadata location'>
@@ -73,10 +56,10 @@
 						
 					<?php } ?>
 					</div>
-					<?php if(!$mini && !empty($G->description)) { ?>
+					<?php if(!empty($G->description)) { ?>
 						<div class='span4'>
 							<span class='metadata row_description'>
-								<b>Description:</b> <?php echo substr($G->description, 0, 150); ?>
+								<b>Description:</b> <?php echo substr($G->description, 0, 150)."..."; ?>
 							</span>
 						</div>
 					<?php } ?>
@@ -84,7 +67,6 @@
 			</li>
 			<!-- eof Result Row -->
 		<?php } ?>
-	<?php } ?>
 
 	<?php if(!$row) { ?>
 		</ul>

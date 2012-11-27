@@ -18,7 +18,7 @@
 
 	<title>GiftFlow | <?php echo $title; ?></title>
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/bootstrap/bootstrap.min.css' />
-	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/style.css' />
+	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/new.css' />
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/categorySprites.css' />
 	<link rel='stylesheet' href='<?php echo base_url(); ?>assets/css/silver/jquery-ui.php' />
 	
@@ -74,26 +74,29 @@ if(isset($css))
 				<img src="<?php echo base_url(); ?>assets/images/gift_flow_beta.png" />
 			</a>
 		</div>
-		<div class='span3' id='home_find_buttons'>
-			<div class='btn-group'>
-				<a href="<?php echo site_url('find/simple_find'); ?>" class='btn btn-large btn-success'>
-					<i class='icon-search icon-white'></i>Find
-				</a>
-
-				<a href="<?php echo site_url('welcome/home'); ?>" class='btn btn-large btn-success'>
-					<i class='icon-home icon-white'></i>Home
-				</a>
-				<a href="<?php echo site_url('about/index'); ?>" class='btn btn-large btn-success'>
-					<i class='icon-heart icon-white'></i>About
-				</a>
-			</div>
-		</div>
-
-		<div id='header_location_form' class='span2'>
-
-			<a class='btn btn-large btn-success' title= 'Click here' id='header_location' href="#">
-					<span id='header_location_text'><?php echo $header_location; ?></span>
-			</a>
+		<div class='span6' id='home_find_about'>
+			<ul id='nav'>
+				<li>
+					<a href="<?php echo site_url('find/simple_find'); ?>">
+						<i class='icon-search icon-white'></i>Find
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo site_url('welcome/home'); ?>">
+						<i class='icon-home icon-white'></i>Home
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo site_url('about/index'); ?>">
+						<i class='icon-gift icon-white'></i>About
+					</a>
+				</li>
+				<li>
+					<a href='#' title='Change Location' id='header_location'>
+						<i class='icon-white icon-map-marker'></i><?php echo $header_location; ?>
+					</a>
+				</li>
+			</ul>
 		</div>
 		<div style='display:none;' class='span4'  id ='relocate_form'>
 			<form name='relocate' class='find_form' id="relocate" method="post" action="">
@@ -106,8 +109,8 @@ if(isset($css))
 		</div>
 
 			<?php if(!empty($logged_in) AND $logged_in){ ?>
-			<div id='header_actions' class='span5'>
-				<div class='btn-group'>
+			<div id='header_actions' class='span4'>
+				<div class='btn-group pull_right'>
 					<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
 						<i class='icon-plus icon-white'></i>Add
 					</a>
@@ -157,8 +160,8 @@ if(isset($css))
 			<?php } else { ?>
 				<!-- Anonymous User Links -->
 										
-				<div class= 'span4' id='visitor_buttons'>
-					<div class='btn-group'>
+				<div class= 'span3' id='visitor_buttons'>
+					<div class='btn-group pull_right'>
 				
 					<a href='#' class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
 						Login
@@ -217,7 +220,7 @@ if(isset($css))
 		</div>
 		<div class='modal-body'>
 
-			<ul id='addActions'>
+			<ul id='add_actions'>
 				<li>
 				<a href="<?php echo site_url('you/add_good/gift');?>" class='btn btn-large'>Add Gift</a>
 					<span>What can you offer the GiftFlow community?</span>

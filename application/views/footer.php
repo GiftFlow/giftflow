@@ -41,7 +41,7 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
 <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
 
-<?php if(!empty($googlemaps)&&$googlemaps==TRUE){ ?>
+<?php if(!empty($googlemaps)&&$googlemaps==TRUE && !$localhost){ ?>
 	<!-- Google Maps API -->
 	<script type='text/javascript' src='http://maps.google.com/maps/api/js?sensor=false'></script>
 	<script type='text/javascript' src="<?php echo  base_url();?>assets/javascript/fluster.php"></script>
@@ -75,11 +75,11 @@ $(function(){
 	GF.header_switch = function(form) {
 		if(form) {
 			$('#header_location_form').hide();
-			$('#home_find_buttons').hide();
+			$('#home_find_about').hide();
 			$('#relocate_form').show();
 		} else {
 			$('#relocate_form').hide();
-			$('#home_find_buttons').show();
+			$('#home_find_about').show();
 			$('#header_location_form').show();
 		}
 	};
@@ -100,9 +100,9 @@ $(function(){
 
 	GF.relocate = function(data) {
 		var updated = data.city+", "+data.state;
-		$('#header_location_text').text(updated);
+		$('#header_location').text(updated);
 		$('#relocate_form').hide();
-		$('#home_find_buttons').show();
+		$('#home_find_about').show();
 		$('#header_location_form').show();
 	};
 
@@ -112,14 +112,12 @@ $(function(){
 	};
 	$('#relocate').submit(function() {
 		var location_string = $('input#header_relocate').val();
-		console.log('submit!');
 		GF.process_relocate(location_string);
 		return false;
 	});
 
 	$('#relocate_button').click(function() {
 		var location_string = $('input#header_relocate').val();
-		console.log('WHAT'+location_string);
 		GF.process_relocate(location_string);
 	});
 

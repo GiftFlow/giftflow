@@ -15,16 +15,16 @@
 					<input name='type' type='hidden' id='find_type' value='gift'/>
 				</div>
 			</div>
-			<div class='control-group simpleFind'>
+			<div class='control-group simple_find'>
 				<label class='control-label' for='simple_location'>Near: </label>
 				<div class='controls'>
-					<input class='simpleInput' type='text' name='location' id='simple_location' value="<?php echo $header_location; ?>"/>
+					<input class='simple_input' type='text' name='location' id='simple_location' value="<?php echo $header_location; ?>"/>
 				</div>
 			</div>
-			<div class='control-group simpleFind'>
+			<div class='control-group simple_find'>
 				<label class='control-label' for='simple_keywords'>Keywords:</label>
 				<div class='controls'>
-				<input class='simpleInput' type='text' name='q' id='simple_keywords' value='' placeholder="repair, help, conversation, etc..."/>
+				<input class='simple_input' type='text' name='q' id='simple_keywords' value='' placeholder="repair, help, conversation, etc..."/>
 				</div>
 			</div>
 			<div class='control-group'>
@@ -40,7 +40,7 @@
 		<h1>Browse Categories</h1>
 			<div id='category_box' class='center'>
 				<?php foreach($categories as $val) { ?>
-				<a href="<?php echo site_url('find/gifts/?category_id='.$val->id);?>"  class='categoryIcon homepage medium-<?php echo $val->id;?>' title="<?php echo $val->name; ?>">
+				<a href="<?php echo site_url('find/gifts/?category_id='.$val->id);?>"  class='category_icon homepage medium-<?php echo $val->id;?>' title="<?php echo $val->name; ?>">
 					</a>
 				<?php } ?>
 			</div>
@@ -54,7 +54,7 @@
 
 $(function() {
 
-	$('.categoryIcon').tooltip();
+	$('.category_icon').tooltip();
 
 	$('.type_control').click(function() {
 		$('.type_control').removeClass('active');

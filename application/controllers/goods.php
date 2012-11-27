@@ -66,7 +66,6 @@ class Goods extends CI_Controller {
 
 		// Load external classes
 		$this->load->helper('elements');
-		$this->hooks =& load_class('Hooks');		
 		$this->load->library('Search/Good_search');
 		$this->load->library('Event_logger');
 	
@@ -295,6 +294,9 @@ class Goods extends CI_Controller {
 		// Is this the good's owner? And is it a gift?
 		$this->data['is_owner'] = $this->_restrict(FALSE);
 		$this->data['is_gift'] = ($this->G->type=="gift");
+
+		$this->data['demand'] = ($this->data['is_gift']) ? 'take' : 'offer';
+		$this->data['demand_text'] = ($this->data['is_gift']) ? 'Request this Gift' : 'Offer to help';
 		
 		// Set default value of requested flag, will be updated below
 		$this->data['requested'] = FALSE;
@@ -353,6 +355,8 @@ class Goods extends CI_Controller {
 		$this->data['breadcrumbs'][] = array (
 			"title"=>$this->G->title
 		);
+
+		$this->data['demand_form'] = $this->load->view('goods/demand_form', $this->data, TRUE);
 		
 		// Load views
 		$this->load->view('header', $this->data);

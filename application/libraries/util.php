@@ -188,9 +188,13 @@ class Util
 		}
 
 		$header_location = (isset($globals['userdata']['location']->city)) ? $globals['userdata']['location']->city : 'Add your location';
-		if(isset($globals['userdata']['location']->state))
-		{
-			$header_location .= ", ".$globals['userdata']['location']->state;
+
+		if(strlen($header_location) < 12) {
+
+			if(isset($globals['userdata']['location']->state) && strlen($globals['userdata']['location']->state) < 3) 
+			{
+				$header_location .= ", ".$globals['userdata']['location']->state;
+			}
 		}
 
 		$globals['header_location'] = $header_location;
