@@ -36,7 +36,7 @@
 		</form>
 	</div><!-- close search form -->
 	<div class='row'>
-		<div class='span6 offset3' id='simple_categories'>
+		<div class='span6 offset2' id='simple_categories'>
 		<h1>Browse Categories</h1>
 			<div id='category_box' class='center'>
 				<?php foreach($categories as $val) { ?>

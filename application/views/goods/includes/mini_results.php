@@ -4,7 +4,7 @@
 	<?php foreach($results as $G){ ?>
 		<?php if($G->status == 'active') { ?>
 			<!-- Result Row -->
-			<li class='clearfix'>
+			<li>
 						
 			<div class='row-fluid'>			
 			<div class='span2'>
@@ -20,12 +20,16 @@
 					
 				<!-- Metadata -->
 				</div>
-				<div class='span10'>
-						<a class="title <?php if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
-								<?php echo$G->title; ?>
-						</a>
-					<span class='minidata'>posted by <?php echo $G->user->screen_name; ?> on <?php echo user_date($G->created, 'n/j/o'); ?> near <?php echo $G->location->city.', '.$G->location->state; ?></span>
-				
+				<div class='span8 metadata'>
+					<a class="title proper_title <?php if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
+						<?php echo$G->title; ?>
+					</a>
+					<span class='minidata'>
+						<a href="<?php echo site_url('people/'.$G->user->id);?>"><?php echo $G->user->screen_name; ?></a> 
+					</span>
+					<span class='minidata result_date'>
+						posted <?php echo user_date($G->created, 'n/j/o'); ?>
+					</span>
 				</div>
 			</li>
 			<!-- eof Result Row -->

@@ -31,7 +31,7 @@
 
 <div class='row' id='home_page'>
 		<div class='span6'>	
-		<div class='row-fluid home__left'>
+		<div class='row-fluid home_left'>
 			<div class='span12 chunk' id='home_blog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
 
@@ -46,7 +46,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class='row-fluid home__left' id='home_featured'>
+		<div class='row-fluid home_left' id='home_featured'>
 			<div class='media span12 chunk'>	
 				<!-- Image -->
 				<a class='pull-left user_image' id='featured_image' href='<?php echo site_url('people/'.$featured->id); ?>'>
@@ -87,25 +87,25 @@
 			</div>
 
 		</div>
-		<div class='row-fluid home__left'>
+		<div class='row-fluid home_left'>
 <?php if(!$logged_in) { ?>
 		<div class='span6 home_list chunk'>
+		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
 		<h3>Nonprofits</h3>
 			<?php echo UI_Results::users(array(
 				'results' => $nonprofits,
 				"mini" => TRUE,
 				"border" => FALSE,
 				"follow" => FALSE,
-				"home_results" => TRUE
 			)); ?>
 		</div>
 		<div class='span6 home_list chunk'>
+		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
 		<h3>Gifts + Needs</h3>
 			<?php echo UI_Results::goods(array(
 				"results" => $goods,
 				"mini" => TRUE,
 				"border" => FALSE,
-				"home_results" => TRUE
 			)); ?>
 		</div>
 	<?php } else { ?>
@@ -135,7 +135,7 @@
 	</div>
 	
 	<div class='span5 chunk' id='home_activity'>
-			<h3>Recent Activity</h3>
+			<h3>Recent Activity</h3> for <span class='minidata'><?php echo $userdata['location']->city; ?></span>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,
 				"row" => FALSE,

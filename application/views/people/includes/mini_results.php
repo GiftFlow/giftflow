@@ -15,20 +15,15 @@
 					</a>
 				</div>
 					
-				<div class='span10'>
+				<div class='span8 metadata'>
 				
 					<!-- Screen Name -->
-					<a href='<?php echo site_url('people/'.$val->id); ?>' class='title'>
+					<a href='<?php echo site_url('people/'.$val->id); ?>' class='title proper_title'>
 						<?php echo $val->screen_name;?>
 					</a>
-					
-					<!-- Location -->
-					<span class='minidata'>
-						<?php echo $val->location->address; ?> 
-					</span>
-						
+										
 					<!-- Created -->
-					<span class="minidata">
+					<span class="minidata result_date">
 						joined <?php echo user_date($val->created,"n/j/o");?>
 					</span>
 					</div>

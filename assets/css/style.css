@@ -64,6 +64,9 @@ a:hover{
 .title {
 	word-wrap:break-word;
 }
+.proper_title {
+	display:block;
+}
 
 
 input[type=text], textarea{
@@ -260,13 +263,14 @@ span.key{
 
 #session {
   padding-bottom:3px;
-  margin-top: 8px;
+  margin-top: 7px;
   font-size:14px;
 }
 
 #session a{
 	color: #FFF;
-	font-size: .8em;
+	font-size: .9em;
+	font-weight:bold;
 	text-decoration: none;
 	min-height:15px;
 }
@@ -475,32 +479,6 @@ ul.sidebar_menu li.active ul li.active a{
 	line-height: 32px;
 	font-size: 22px;
 	color: #666;
-}
-#home_page .home_list ul.results_list a {
-	font-size:12px;
-}
-#home_page .home_list ul.results_list.mini li a.title {
-	display:block;
-	padding: 1px;
-	font-size:14px;
-	clear:both;
-	word-wrap:break-word;
-}
-#home_page .home_list ul.results_list span.minidata {
-	line-height:14px;
-	float:left;
-	text-align:left;
-}
-#home_page .home_list ul {
-	margin: 0px;
-}
-#home_page .home_list ul.results_list.mini li {
-	padding:2px;
-	border: none;
-	font-size:12px;
-}
-#home_page ul.results_list.events.mini li {
-	padding: 5px;
 }
 #home_page div.home_list.chunk {
 	padding: 15px;
@@ -718,6 +696,7 @@ ul.results_list li:hover{
 	cursor: pointer;
 }
 ul.results_list li a.title{
+	color: #587498;
 	font-weight: 500;
 	display: block;
 	border-bottom: none;
@@ -734,10 +713,6 @@ ul.results_list li .metadata{
 	color: #666;
 	display: block;
 } 
-ul.results_list li .metadata a{
-	color: #666;
-	font-weight: normal;
-}
 
 ul.results_list li .metadata em{
 	font-family: georgia, times, serif;
@@ -761,20 +736,37 @@ ul.results_list li a.user_image a.result_image img{
 	z-index:0;
 }
 
+ul.results_list li .result_date span {
+	float:right;
+	font-size: .8em;
+}
+/*float the other way for goods */
+ul.results_list li span.result_date {
+	font-size:.8em;
+	display:block;
+}
+
+
 
 /*
 * Minified version
 */
 ul.results_list.mini li{
-	padding: 7px 10px;
+	padding: 7px 0px;
 }
 ul.results_list.mini li a.title{
-	width: auto;
+	width:100%;
+	font-size: 1em;
+	font-weight: 500;
+	display:inline;
+}
+ul.results_list.mini li a.proper_title {
+	display:block;
 }
 ul.results_list.mini li {
 	display:block;
 	font-size:1em;
-	margin-left:10px;
+	margin-left:5px;
 	margin-top:3px;
 }
 
@@ -789,8 +781,15 @@ ul.results_list.mini li a.result_image img{
 	width: 25px;
 	margin: 0;
 }
-.minidata { 
+ul.results_list.mini li .metadata { 
+	font-size: 1em;
+	display:inline;
+	color:#666;
+	margin-left: 20px;
+}
+ul.results_list.mini .minidata { 
 	font-size: 10px;
+	line-height: 12px;
 	color:#666666;
 }
 /* end of minified version */

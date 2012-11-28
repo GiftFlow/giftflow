@@ -10,13 +10,13 @@
 						 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
 					</a>
 				</div>
-				<div class='span8 result_meta'>
+				<div class='span8 metadata'>
 					<span class = 'title'>
 						<?php echo $val->thank->summary;?>
 					</span>                  
 				</div>
-				<div class='span3 event_date'>
-					<span class='minidata'>
+				<div class='span2 metadata result_date'>
+					<span>
 						<?php echo user_date($val->event_created,"n/j/o"); ?>
 					</span>
 				</div>
