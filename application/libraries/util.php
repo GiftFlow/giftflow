@@ -201,6 +201,8 @@ class Util
 			{
 				$header_location .= ", ".$globals['userdata']['location']->state;
 			}
+		} else {
+			$header_location = substr($header_location, 0,12)."...";
 		}
 
 		$globals['header_location'] = $header_location;

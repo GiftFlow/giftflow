@@ -911,6 +911,39 @@ class Account extends CI_Controller {
 		}
 	
 	}
+
+
+	/*
+	 * called by header location form
+	 * passed a POST array of user-submitted string and a redirect url
+	 * gets new location, updates session data and redirects back to page
+	 */ 
+	function relocate() 
+	{
+		if(!empty($_POST)) {
+			$location = $this->input->post('header_relocation');
+			$redirect = $this->input->post('relocate_redirect');
+
+			$redirect = (!empty($redirect))? $redirect : 'welcome/home';
+
+			
+			// Geocode user input
+			$this->load->library('geo');				
+			$location = $this->geo->geocode($location);
+			
+			if(empty($location))
+			{
+				redirect($redirect);		
+			} else {
+				// Update user's session with new location
+				$this->auth->update_session_location($location);
+			}
+			redirect($redirect);
+		} else {
+			redirect("welcome/home");
+		}
+	}
+
 }
 
 /* End of file account.php */

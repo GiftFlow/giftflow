@@ -66,7 +66,7 @@ $(function(){
 	$('#logged_in_dropdown').css('left', 250);
 
 	//header location bar
-	$('#header_location').tooltip({
+	$('#change_location').tooltip({
 		placement: 'bottom',
 	});
 
@@ -98,28 +98,6 @@ $(function(){
 		return false;
 	});
 
-	GF.relocate = function(data) {
-		var updated = data.city+", "+data.state;
-		$('#header_location').text(updated);
-		$('#relocate_form').hide();
-		$('#home_find_about').show();
-		$('#header_location_form').show();
-	};
-
-	GF.process_relocate = function(locate) {
-		var data = {'location' : locate};
-		$.post("<?php echo site_url('ajax/relocate'); ?>", data, GF.relocate, "json");
-	};
-	$('#relocate').submit(function() {
-		var location_string = $('input#header_relocate').val();
-		GF.process_relocate(location_string);
-		return false;
-	});
-
-	$('#relocate_button').click(function() {
-		var location_string = $('input#header_relocate').val();
-		GF.process_relocate(location_string);
-	});
 
 	<?php /**
 	*	Follow user button click listener
@@ -134,7 +112,6 @@ $(function(){
 		$(this).remove();
 		return false;
 	});
-
 	/* Redirect to link whenever results_list row clicked */
 	$("ul.results_list li, ul.transactions li").live("click",function(){
 		if($(this).find("a.title").length >= 1){
@@ -143,7 +120,6 @@ $(function(){
 			return false;
 		}
 	});
-
 	function notify_success(){
 		$.notifyBar({ 
 			html: alert_success, 

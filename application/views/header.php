@@ -92,19 +92,20 @@ if(isset($css))
 					</a>
 				</li>
 				<li>
-					<a href='#' title='Change Location' id='header_location'>
-						<i class='icon-white icon-map-marker'></i><?php echo $header_location; ?>
+					<a href='#' id='change_location' title='Change Location'>
+						<i class='icon-white icon-map-marker'></i><span id='header_location'><?php echo $header_location; ?></span>
 					</a>
 				</li>
 			</ul>
 		</div>
 		<div style='display:none;' class='span4'  id ='relocate_form'>
-			<form name='relocate' class='find_form' id="relocate" method="post" action="">
+		<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
 					<div class='input-append'>
-					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="location" />
+					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
 						<button  id='relocate_button' type='submit' class='btn btn-medium btn-success'><i class= 'icon-refresh icon-white'></i>Relocate</button>
 						<button id='relocate_cancel' class='btn btn-small btn-success'><i class='icon-remove icon-white'></i></button>
 					</div>
+					<input type='hidden' name='relocate_redirect' value="<?php echo current_url(); ?>"/>
 				</form>
 		</div>
 
