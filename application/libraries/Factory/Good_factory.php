@@ -70,9 +70,13 @@ Class Good_factory {
 						$item->default_photo->url = base_url($row->photo_url);
 						$item->default_photo->thumb_url = base_url($row->photo_thumb_url);
 					} else {
-						// Use category photo or default photo if no category set
-						if(!empty($row->category_id)) 
+
+						if($row->user_photo_source == "facebook" && !empty($row->user_facebook_id ))
 						{
+							$item->default_photo->thumb_url = "http://graph.facebook.com/".$row->user_facebook_id."/picture?type=square";
+							$item->default_photo->url = "http://graph.facebook.com/".$row->user_facebook_id."/picture?type=large";
+
+						} elseif(!empty($row->category_id)) {
 							$item->default_photo->thumb_url = NULL;
 							$item->default_photo->url = NULL;
 							$item->default_photo->mini_class = 'mini-'.$row->category_id;
@@ -98,6 +102,11 @@ Class Good_factory {
 					{
 						$item->user->default_photo->url = base_url($row->user_photo_url);
 						$item->user->default_photo->thumb_url = base_url($row->user_photo_thumb_url);
+					} else if($row->user_photo_source == "facebook" && !empty($row->user_facebook_id ))
+					{
+						$item->user->default_photo->thumb_url = "http://graph.facebook.com/".$row->user_facebook_id."/picture?type=square";
+						$item->user->default_photo->url = "http://graph.facebook.com/".$row->user_facebook_id."/picture?type=large";
+
 					} else {
 
 						$item->user->default_photo->url = base_url()."assets/images/user.png";
