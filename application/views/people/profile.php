@@ -1,12 +1,13 @@
 <!-- profile is divided into two columns! -->
 <div class = 'row-fluid' class='profile_header'>
 
-	<div class='span4' id='profile_masthead'>
+	<div class='span1' id='profile_masthead'>
 
 			<a href="<?php echo current_url();?>" class="user_image left medium">
 				<img src="<?php echo $profile_thumb; ?>" />
 			</a>	
-			
+	</div>
+	<div class='span3'>
 			<p class='nicebigtext' id='profile_name'><?php echo $u->screen_name; ?></p>
 	</div>
 	<div class='span8'>
@@ -118,7 +119,7 @@
 			<?php if(!empty($gifts)) { ?>
 				<?php echo UI_Results::goods(array(
 					"results"=> $gifts,
-					'mini' => TRUE,
+					'size' => "medium",
 					'border'=> FALSE
 				)); ?>
 				
@@ -136,7 +137,7 @@
 
 				<?php echo UI_Results::goods(array(
 				"results"=> $needs,
-				'mini' => TRUE
+				'size' => "medium",
 				)); ?>
 				
 			<?php } else { ?>

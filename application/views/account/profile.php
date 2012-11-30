@@ -5,7 +5,7 @@
 	</div>
 	<div class='span8 chunk'>
 	
-		<form  class='account_form' action="<?php echo site_url('account/profile'); ?>" method="post">
+		<form  class='form_wrapper' action="<?php echo site_url('account/profile'); ?>" method="post">
 			<div class='control-group'>
 				<label for="screen_name" class='control-label'>
 					Screen Name:</label>

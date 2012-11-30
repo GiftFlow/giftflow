@@ -77,13 +77,13 @@ if(isset($css))
 		<div class='span6' id='home_find_about'>
 			<ul id='nav'>
 				<li>
-					<a href="<?php echo site_url('find/simple_find'); ?>">
-						<i class='icon-search icon-white'></i>Find
+					<a href="<?php echo site_url('welcome/home'); ?>">
+						<i class='icon-home icon-white'></i>Home
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo site_url('welcome/home'); ?>">
-						<i class='icon-home icon-white'></i>Home
+					<a href="<?php echo site_url('find/simple_find'); ?>">
+						<i class='icon-search icon-white'></i>Find
 					</a>
 				</li>
 				<li>

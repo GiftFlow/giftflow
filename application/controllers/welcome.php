@@ -38,7 +38,7 @@ class Welcome extends CI_Controller {
 		if($this->data['logged_in']) {
 			$this->data['following'] = $P->following(array(
 				'user_id'=>$this->data['userdata']['user_id'],
-				'limit' => 12
+				'limit' => 14
 			));
 
 			$this->data['following_goods'] = $this->following_goods();
@@ -47,13 +47,13 @@ class Welcome extends CI_Controller {
 		
 		$this->data['nonprofits'] = $P->find(array(
 			'type' => 'nonprofit',
-			'limit'=> 9,
+			'limit'=> 12,
 			'location' => $location
 		));
 
 		$G = new Good_search();
 		$this->data['goods'] = $G->find(array(
-			'limit' => 9,
+			'limit' => 12,
 			'order_by' => 'G.created',
 			'location' => $location
 		));

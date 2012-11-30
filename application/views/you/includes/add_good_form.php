@@ -1,12 +1,12 @@
 <h3><?php if($add){ echo $is_ajax ? $title : $question; }
 		  else { echo "Edit ".$G->title; } ?></h3>
-<form id='add_good_form' name='add_good' action="<?php if($add){ echo site_url('goods/add'); } ?>" method='post' class="form-horizontal">
+<form  id='add_good_form' name='add_good' action="<?php if($add){ echo site_url('goods/add'); } ?>" method='post' class="form-horizontal form_wrapper">
 	<fieldset>
 	
     <div class="control-group">
     	<label class="control-label" for="title">Title</label>
     	<div class="controls">
-    		<input type="text" name="title" id="title" value="<?php if(isset($G) && !empty($G->title)){ echo $G->title; } ?>" class="required input-xlarge" maxlength='25'/>	
+    		<input class='big-border' type="text" name="title" id="title" value="<?php if(isset($G) && !empty($G->title)){ echo $G->title; } ?>" class="required input-xlarge" maxlength='25'/>	
     	</div>
     </div>
     
@@ -14,7 +14,7 @@
     <div class="control-group">
     	<label class="control-label" for="description">Description</label>
     	<div class="controls">
-    		<textarea rows="5" name="description" id="description" value="" class="required"><?php if(isset($G) && !empty($G->description)){ echo $G->description; }?></textarea>
+    		<textarea rows="5" name="description" id="description" value="" class="big-border required"><?php if(isset($G) && !empty($G->description)){ echo $G->description; }?></textarea>
     	</div>
     </div>
 	<?php } ?>
@@ -39,7 +39,7 @@
     <div class="control-group">
     	<label class="control-label" for="title">Tags</label>
     	<div class="controls">
-			<input type="text" value='<?php if(isset($G) && !empty($G->tags)){ echo implode($G->tags,", "); } ?>' name='tags' id='tags' class="required input-xlarge"/>
+			<input class='big-border' type="text" value='<?php if(isset($G) && !empty($G->tags)){ echo implode($G->tags,", "); } ?>' name='tags' id='tags' class="required input-xlarge"/>
 			<label class="error" for="tags" style="display: none;">Please enter at least one tag</label>
 			<p class="help-block">e.g. sweater, wool, knit, clothes (separate with commas)</p>
     	</div>
@@ -49,7 +49,7 @@
     <div class="control-group">
     	<label class="control-label" for="location">Location</label>
     	<div class="controls">
-		<input type="text" name="location" id="location" value="<?php echo $default_location;?>" class="required input-xlarge" />
+		<input class='big-border' type="text" name="location" id="location" value="<?php echo $default_location;?>" class="required input-xlarge" />
 			<p class="help-block">e.g city or zip code</p>
     	</div>
     </div>

@@ -7,16 +7,16 @@
 			<li>
 						
 			<div class='row-fluid'>			
-			<div class='span2'>
+			<div class='span2 result_image'>
 					<!-- Image -->
-					<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
 						<?php if(!isset($G->default_photo->thumb_url)) { ?>	
-							<a class="<?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>">
+							<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image <?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>">
 							</a>
 						<?php } else { ?>
+							<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
 							<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
+							</a>
 						<?php }?>
-					</a>
 					
 				<!-- Metadata -->
 				</div>

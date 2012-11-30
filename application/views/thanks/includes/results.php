@@ -15,7 +15,7 @@
 						<?php echo user_date($Y->created, "n/j/o"); ?>
 					</span>
 					<!-- Title --> 
-					<p class="title"><?php echo $Y->summary; ?></p>
+					<p><?php echo $Y->summary; ?></p>
 			</div>
 			<div class='row-fluid'>
 				<div class='span12 entry_body'>

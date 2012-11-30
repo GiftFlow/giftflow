@@ -4,14 +4,14 @@
 		<div class='row'>
 			<div class='span3'>
 				<!-- Image -->
-				<a href="<?php echo site_url('gifts/'.$G->id);?>" class="good_image" title="<?php echo $G->title;?>">
 					<?php if(!isset($G->default_photo->thumb_url)) { ?>	
-						<a href='#' class="good_icon <?php echo $G->default_photo->class;?>">
+						<a href='#' class="result_image good_icon <?php echo $G->default_photo->class;?>">
 						</a>
 				<?php } else { ?>
-					<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
+					<a href="<?php echo site_url('gifts/'.$G->id);?>" class="good_icon" title="<?php echo $G->title;?>">
+					<img src="<?php echo $G->default_photo->url; ?>"/>
+					</a>
 				<?php }?>
-				</a>
 			</div>
 			<div class='span4'>	
 				<h1 class="<?php if($G->type == 'need') { echo 'need'; } ?>" >
@@ -114,7 +114,7 @@
 					<p class='nicebigtext'>More Photos</p>
 					<p>
 						<?php foreach($G->photos as $val) { ?>
-						<a class='photoMod' style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+						<a class='photoMod'	style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
 								<img src='<?php echo site_url($val->thumb_url);?>' />
 							</a>
 						<?php } ?>
@@ -141,24 +141,25 @@
 <div class='span4'><!-- open sidebar -->
 	<?php if(!$is_owner) { ?>
 		<div class='row-fluid'>
-			<div class='span10 chunk sidebar_chunk'>
+			<div class='span10 chunk posted_by'>
 			<!-- More About This Person Sidebar-->
-				<h2>More About This Person</h2>
-				
+				<h3>Posted By</h3>
 					<!-- Image -->
 					<a  class='user_image' href="<?php echo site_url('people/'.$G->user->id);?>">
 						<img src="<?php echo $G->user->default_photo->thumb_url; ?>" />
 					</a>
-					
+					</p>	
 					<!-- Name -->
-					<a href="<?php echo site_url('people/'.$G->user->id);?>">
-						<?php echo $G->user->screen_name; ?>
+					<a class='title' href="<?php echo site_url('people/'.$G->user->id);?>">
+						<h3><?php echo $G->user->screen_name; ?></h3>
 					</a>
-					
+					</p>
+				
+					<p>			
 					<!-- Location -->
-					<span class="location">
 						<?php echo $G->location->city.", ".$G->location->state;?>
-					</span>
+						<br />Joined <?php echo user_date($G->user->created, "n/j/o"); ?>
+					</p>
 			</div>
 		</div><!-- close row -->
 	<?php } ?>
@@ -172,9 +173,8 @@
 			</h2>
 				<?php echo UI_Results::goods(array(
 					"results"=> $other_goods,
-					'mini' => TRUE,
-					'border'=> FALSE,
-					'sidebar' => TRUE
+					"size" => "medium"
+
 				)); ?>
 			</div>
 		</div>

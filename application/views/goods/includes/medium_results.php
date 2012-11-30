@@ -1,14 +1,14 @@
 <?php if(!empty($results)) { ?>
 
 	<?php if(!$row) { ?>
-		<ul  class='results_list'>
+		<ul  class='results_list medium'>
 	<?php } ?>
 	
 	<?php foreach($results as $G){ ?>
 			<!-- Result Row -->
 			<li class='clearfix'>
 				<div class='row-fluid'>			
-					<div class='span2'>
+					<div class='span4'>
 							<!-- Image -->
 								<?php if(!isset($G->default_photo->thumb_url)) { ?>	
 									<a href='#' class="result_sprite <?php echo $G->default_photo->thumb_class;?>">
@@ -20,7 +20,7 @@
 							<?php }?>
 						
 					</div>
-					<div class='span6 result_text'>
+					<div class='span8'>
 						
 						<a class="title <?php if($G->type == 'need') { echo 'need'; } ?>" href="<?php echo site_url($G->type.'s/'.$G->id);?>">
 								<?php echo $G->title; ?>
@@ -54,13 +54,6 @@
 						
 					<?php } ?>
 					</div>
-					<?php if(!empty($G->description)) { ?>
-						<div class='span4'>
-							<span class='metadata row_description'>
-								<b>Description:</b> <?php echo substr($G->description, 0, 150)."..."; ?>
-							</span>
-						</div>
-					<?php } ?>
 				</div>
 			</li>
 			<!-- eof Result Row -->

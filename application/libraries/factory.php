@@ -92,7 +92,8 @@ class Factory
 				$results[$key]->html = UI_Results::goods(array(
 					"results"=>$val,
 					"include"=> $include,
-					"row"=>TRUE
+					"row"=>TRUE,
+					"size" => 'large'
 				));
 			}
 		}

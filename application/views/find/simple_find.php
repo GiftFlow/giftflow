@@ -38,9 +38,9 @@
 	<div class='row'>
 		<div class='span6 offset2' id='simple_categories'>
 		<h1>Browse Categories</h1>
-			<div id='category_box' class='center'>
+			<div class='center category_box'>
 				<?php foreach($categories as $val) { ?>
-				<a href="<?php echo site_url('find/gifts/?category_id='.$val->id);?>"  class='category_icon homepage medium-<?php echo $val->id;?>' title="<?php echo $val->name; ?>">
+				<a href="<?php echo site_url('find/gifts/?category_id='.$val->id);?>"  class='category_icon result_sprite medium-<?php echo $val->id;?>' title="<?php echo $val->name; ?>">
 					</a>
 				<?php } ?>
 			</div>

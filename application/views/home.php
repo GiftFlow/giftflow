@@ -102,9 +102,10 @@
 		<div class='span6 home_list chunk'>
 		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
 		<h3>Gifts + Needs</h3>
+		
 			<?php echo UI_Results::goods(array(
 				"results" => $goods,
-				"mini" => TRUE,
+				"size" => 'mini',
 				"border" => FALSE,
 			)); ?>
 		</div>
@@ -135,7 +136,7 @@
 	</div>
 	
 	<div class='span5 chunk' id='home_activity'>
-			<h3>Recent Activity</h3> for <span class='minidata'><?php echo $userdata['location']->city; ?></span>
+			<h3>Recent Activity</h3>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,
 				"row" => FALSE,

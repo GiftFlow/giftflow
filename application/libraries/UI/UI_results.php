@@ -83,9 +83,9 @@ class UI_results
 		// Compile options
 		$default_options = array(
 			"results"=>array(),
-			"mini"=>FALSE,
 			"include"=>array("location","created"),
 			"row"=>FALSE,
+			"size" => "large"
 			
 		);
 		$options = array_merge($default_options, $options);
@@ -96,12 +96,20 @@ class UI_results
 		{
 			$options['results'] = array($options['results']);
 		}
-		
 		// Load View
-		if($options['mini']) {
-			$view = $CI->load->view('goods/includes/mini_results', $options, TRUE);
-		} else {
-			$view = $CI->load->view('goods/includes/results',$options,TRUE);
+		switch($options['size']) {
+			case "mini":
+				$view = $CI->load->view('goods/includes/mini_results', $options, TRUE);
+				break;
+			case "medium":
+				$view = $CI->load->view('goods/includes/medium_results', $options, TRUE);
+				break;
+			case "large":
+				$view= $CI->load->view('goods/includes/results',$options,TRUE);
+				break;
+			default:
+				$view= $CI->load->view('goods/includes/results',$options,TRUE);
+				break;
 		}
 		
 		// Return HTML string

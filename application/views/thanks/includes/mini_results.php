@@ -11,7 +11,7 @@
 					</a>
 				</div>
 				<div class='span8 metadata'>
-					<span class = 'title'>
+					<span>
 						<?php echo $val->thank->summary;?>
 					</span>                  
 				</div>
