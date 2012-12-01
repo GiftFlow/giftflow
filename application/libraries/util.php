@@ -193,19 +193,21 @@ class Util
 			}
 		}
 
-		$header_location = (isset($globals['userdata']['location']->city)) ? $globals['userdata']['location']->city : 'Add your location';
+		/* Get and trim location for header */
+		$header_location = (isset($globals['userdata']['location']->city)) ? $globals['userdata']['location']->address: 'Add your location';
+		$locate_array = explode(" ",$header_location);
 
-		if(strlen($header_location) < 12) {
-
-			if(isset($globals['userdata']['location']->state) && strlen($globals['userdata']['location']->state) < 3) 
-			{
-				$header_location .= ", ".$globals['userdata']['location']->state;
+		$i=0;
+		$rebuild = '';
+		while($i < count($locate_array)) {
+			if(strlen($rebuild.$locate_array[$i]) < 14) {
+				$rebuild .= " ".$locate_array[$i];
+				$i++;
+			} else {
+				$i = 100;
 			}
-		} else {
-			$header_location = substr($header_location, 0,12)."...";
 		}
-
-		$globals['header_location'] = $header_location;
+		$globals['header_location'] = rtrim($rebuild, ",");
 
 		$globals['alert_success'] = "";
 		$globals['alert_error'] = "";

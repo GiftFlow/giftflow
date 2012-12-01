@@ -23,14 +23,16 @@ class Ajax extends CI_Controller {
 		{	
 			$keyword = $_POST['term'];
 			
-			$query = $this->db->select('Concat(U.screen_name,", ",U.email) AS label, U.email AS value', FALSE)
-						->from('users AS U')
-						->where('U.id !=', $this->data['userdata']['user_id'])
-						->or_like('U.email',$keyword)
-						->or_like('U.screen_name', $keyword)
-						->limit(10)
-						->get();
-			$result = $query->result_array();
+				$query = "SELECT CONCAT(U.screen_name,', ',U.email) AS label, U.email as value
+						FROM users AS U 
+						WHERE U.id !=".$this->data['userdata']['user_id']."
+						AND U.status = 'active'
+						AND (U.screen_name LIKE '%".$keyword."%'
+						OR U.email LIKE '%".$keyword."%')
+						LIMIT 10";
+
+
+			$result = $this->db->query($query)->result_array();
 			echo json_encode($result);
 		}
 			

@@ -845,6 +845,14 @@ class Account extends CI_Controller {
 			$new_email = sha1('~'.$this->U->email.'~'.microtime(TRUE));
 			$this->U->status = 'disabled';
 			$this->U->email =  $new_email.'@disabled.com';
+			$this->U->password = '1';
+			$this->U->ip_address = '2';
+			$this->U->facebook_id = '3';
+			$this->U->facebook_token = '4';
+			$this->U->google_token  = '5';
+			$this->U->google_token_secret = '6';
+			
+
 			
 			//Disable all goods and uncompleted transactions
 			$this->load->library('datamapper');
