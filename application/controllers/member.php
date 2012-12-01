@@ -47,9 +47,16 @@ class Member extends CI_Controller {
 	{
 		//check for redirect in session
 		$sess_redirect = $this->session->userdata('visitor_redirect_url');
-
+		
 		if(!empty($_POST['redirect'])) {
+
 			$redirect = $this->input->post('redirect');
+
+			//if loggin in from index, redirect to welcome
+			if($redirect = site_url()) {
+				$redirect ='welcome/home';
+			}
+
 		} else if(!empty($sess_redirect)){
 			$redirect = $sess_redirect;
 		} else {

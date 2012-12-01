@@ -244,8 +244,8 @@ if(isset($css))
 					<span>Receive custom notifications.</span>
 				</li>
 				<li>
-					<a href='#' class='btn btn-large btn-primary'>Invite Friends</a>
-					<span>The more the merrier.</span>
+					<a href='#' class='btn btn-large btn-primary disabled'>Invite Friends</a>
+					<span>Coming Soon!</span>
 				</li>
 			</ul>
 

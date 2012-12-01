@@ -73,6 +73,10 @@ a:hover{
 	display:block;
 }
 
+.page_wrapper {
+	margin-top:30px;
+}
+
 
 input[type=text], textarea{
 	font-family:'helvetica neue', helvetica, arial;
@@ -212,6 +216,10 @@ ul#nav li i {
 	margin: 4px 4px 0px 0px;
 }
 
+#logo img {
+	margin-top: 5px;
+}
+
 
 
 /* Styles for images */
@@ -319,6 +327,10 @@ span.key{
 #session ul.dropdown-menu a {
 	color:#000;
 	font-size:12px;
+	font-weight: normal;
+}
+#session ul.dropdown-menu {
+	left:200px;
 }
 #relocate_form {
 	margin-left: 160px;
@@ -392,7 +404,7 @@ span.key{
 
 /* BEGIN Landing page aka index.php style */
 div#landing_page {
-	margin-left:-50px;
+	margin-left:-30px;
 }
 
 #landing_header {
@@ -540,6 +552,10 @@ ul.sidebar_menu li.active ul li.active a{
 }
 #blog_feed li {
 	margin: 10px 0px 5px 0px;
+}
+#blog_feed span.entry_title {
+	font-weight:bold;
+	font-size:14px;
 }
 #featured_image {
 	margin: 0px 10px 1px 0px;
@@ -735,9 +751,6 @@ div.simple_find {
 .about h1{
 	margin-top: 9px;
 }
-.about_page {
-	margin-top:50px;
-}
 
 /* END about style */
 
@@ -900,6 +913,12 @@ ul.simplePagerNav li.currentPage a{
  * includes gifts, needs, watches, inbox and account
  */
 
+.you_dashboard {
+	margin-bottom: 20px;
+}
+.you_dashboard p {
+	margin: 0px 0px 0px 0px;
+}
 ul.inbox {
 	list-style: none;
 	padding: 0;

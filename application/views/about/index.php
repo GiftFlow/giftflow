@@ -1,4 +1,4 @@
-<div class='row about_page'>
+<div class='row page_wrapper'>
 	<div class='span2 chunk'>
 		<?php echo $menu; ?>
 	</div>
