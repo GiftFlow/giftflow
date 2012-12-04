@@ -17,9 +17,9 @@ This application is based on the CodeIgniter (version 2.0.0) framework which req
 
 * Apache with 'mod_rewrite' and 'mcrypt' modules enabled.
 
-* PHP 5.3 (not 5.4) with the 'GD' or 'iMagick' extensions. Depending on your PHP version, you might need to set date.timezone to something like 'America/New_York' in your php.ini file.
+* PHP 5.3 or newer with the 'GD' or 'iMagick' extensions. Depending on your PHP version, you might need to set date.timezone to something like 'America/New_York' in your php.ini file.
 
-* MySQL
+* MySQL 5.1 (5.5 is not recommended due to a LEFT JOIN parsing bug)
 
 ### Configuration
 
