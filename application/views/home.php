@@ -46,6 +46,8 @@
 				</ul>
 			</div>
 		</div>
+			
+		<?php if(!empty($featured->id)) { ?>
 		<div class='row-fluid home_left' id='home_featured'>
 			<div class='media span12 chunk'>	
 				<!-- Image -->
@@ -87,6 +89,7 @@
 			</div>
 
 		</div>
+		<?php } ?>
 		<div class='row-fluid home_left'>
 <?php if(!$logged_in) { ?>
 		<div class='span6 home_list chunk'>

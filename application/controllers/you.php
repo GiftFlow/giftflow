@@ -55,7 +55,7 @@ class You extends CI_Controller {
 			"user_id" => $this->data['logged_in_user_id'],
 			"count_transactions" => TRUE,
 			"type"=>$type,
-            'status' => 'active'
+			'status' => 'active'
 		));
 		
 		// Set view variables
