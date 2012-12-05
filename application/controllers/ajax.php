@@ -21,7 +21,7 @@ class Ajax extends CI_Controller {
 	{
 		if(!empty($_POST['term']))
 		{	
-			$keyword = $_POST['term'];
+			$keyword = $this->db->escape_like_str($_POST['term']);
 			
 				$query = "SELECT CONCAT(U.screen_name,', ',U.email) AS label, U.email as value
 						FROM users AS U 
@@ -46,7 +46,7 @@ class Ajax extends CI_Controller {
 	public function locations()
 	{
 		$post = $this->input->post();
-		$keyword = trim($post['term']);
+		$keyword = $this->db->escape_like_str(trim($post['term']));
 
 		$result=array();
 
@@ -73,7 +73,7 @@ class Ajax extends CI_Controller {
 	*/
 	public function tags()
 	{
-		$keyword = trim($_POST['term']);
+		$keyword = $this->db->escape_like_str(trim($_POST['term']));
 		
 		$result = array();
 		
@@ -163,4 +163,4 @@ class Ajax extends CI_Controller {
 	}
 	
 
-}
+
