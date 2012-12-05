@@ -65,7 +65,7 @@
 		
 				<p><?php if(!empty($u->bio)) { echo $u->bio; } ?></p>
 				<p><?php if(!empty($u->url)) { ?>
-					<a href="<?php echo $u->url; ?>"> <?php echo $u->url; ?></a>
+					<a href="<?php echo "http://".$u->url; ?>"> <?php echo $u->url; ?></a>
 				</p><?php } ?>
 
 

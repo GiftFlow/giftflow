@@ -40,7 +40,7 @@
 						</div>
 					</form>
 				</div>
-			<p>Accepting this 'thank you' will display it on your profile</p>
+			<p>Accepting this thank will display it on your profile</p>
 		</div>
 	</div>
 </div>
@@ -48,15 +48,5 @@
 
 <script type='text/javascript'>
 $(function(){
-$("table tr:even").addClass("odd");
-$("table tr:odd").addClass("even");
-$("form#review").validate({
-	highlight: function(label) {
-		$(label).closest('.control-group').addClass('error').removeClass('success');
-	},
-	success: function(label) {
-		label.hide().closest('.control-group').addClass('success');
-	}
-});
 });
 </script>

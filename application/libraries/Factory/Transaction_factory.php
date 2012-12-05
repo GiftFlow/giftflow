@@ -442,10 +442,6 @@ class Transaction_factory {
 			
 			$this->Transactions[$key]->language->demander_summary = $demander_summary;
 			
-			//Overview_summary
-			//Hans - I think the only time we would use the overview summary is in a 'news feed'
-			// like context. I don't think it is a good idea to publish active transactions in the news feed, but completed ones should be fine
-			// So I re-wrote this to be completed overview, refering to transactions in past tense
 			$overview_summary = "";
 			$overview_summary_demands = array();
 			

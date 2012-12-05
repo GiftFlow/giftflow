@@ -37,7 +37,7 @@ class People extends CI_Controller {
 
 	public function index()
 	{
-					redirect('find/people');
+					redirect('find/?type=people');
 	}
 
 	/**

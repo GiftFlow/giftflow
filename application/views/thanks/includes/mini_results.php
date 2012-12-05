@@ -15,7 +15,7 @@
 						<?php echo $val->thank->summary;?>
 					</span>                  
 				</div>
-				<div class='span2 metadata result_date'>
+				<div class='span1 result_date'>
 					<span>
 						<?php echo user_date($val->event_created,"n/j/o"); ?>
 					</span>

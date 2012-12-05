@@ -169,7 +169,7 @@ ul#nav {
 	float:left;
 	list-style:none;
 	margin-left: 0;
-	margin-top: 5px;
+	margin-top: 9px;
 	padding:0;
 	height: 50px;
 	text-align:center;
@@ -324,16 +324,22 @@ span.key{
 	min-height:15px;
 }
 
-#session ul.dropdown-menu a {
+#header_actions ul.dropdown-menu a {
 	color:#000;
 	font-size:12px;
 	font-weight: normal;
 }
-#session ul.dropdown-menu {
+#header_actions ul.dropdown-menu {
 	left:200px;
 }
-#relocate_form {
-	margin-left: 160px;
+#home_find_about ul.dropdown-menu {
+	padding: 5px 8px 5px 8px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius:4px;
+    -moz-box-shadow:0 0 5px #CCC;
+    -webkit-box-shadow:0 0 5px #CCC;
+    box-shadow:0 0 5px #CCC;
 }
 
 #you_img{
@@ -802,14 +808,9 @@ ul.results_list li .metadata em{
 	font-style: italic;
 }
 
-ul.results_list li .result_date span {
-	float:right;
-	font-size: .8em;
-}
-/*float the other way for goods */
-ul.results_list li span.result_date {
-	font-size:.8em;
-	display:block;
+ul.results_list li .result_date {
+	font-size: .7em;
+	text-align: right;
 }
 
 /*
@@ -1016,3 +1017,36 @@ ul#linked_accounts li span {
 	display: inline-block;
 	margin-top: 5px;
 }
+
+/*
+notifyBar 
+*/
+
+.jquery-notify-bar {
+  width:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:32768;
+  background-color:#efefef;
+  font-size:18px;
+  color:#000;
+  text-align:center;
+  font-family: Arial, Verdana, sans-serif;
+  padding:25px 0px;
+  border-bottom:1px solid #bbb;
+}
+.jquery-notify-bar.error {
+  color:#f00;
+  background-color:#fdd;
+}
+.jquery-notify-bar.success {
+  color:#060;
+  background-color:#BBFFB6;
+}
+.notify-bar-close {
+  position:absolute;
+  left:95%;
+  font-size:11px;
+}
+

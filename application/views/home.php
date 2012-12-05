@@ -30,7 +30,7 @@
 	</div><!-- close header row -->
 
 <div class='row' id='home_page'>
-		<div class='span6'>	
+		<div class='span7'>	
 		<div class='row-fluid home_left'>
 			<div class='span12 chunk' id='home_blog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
@@ -116,29 +116,37 @@
 		
 		<div class='span6 home_list chunk'>
 		<h3>Following</h3>
-			<?php echo UI_Results::users(array(
-				'results' => $following,
-				"mini" => TRUE,
-				"border" => FALSE,
-				"follow" => FALSE,
-				"home_results" => TRUE
-			)); ?>
+			<?php if(!empty($following)) { ?>		
+				<?php echo UI_Results::users(array(
+					'results' => $following,
+					"mini" => TRUE,
+					"border" => FALSE,
+					"follow" => FALSE,
+					"home_results" => TRUE
+				)); ?>
+			<?php } else { ?>
+			<span class='empty_text'>You are not yet following anyone. Click the Follow button next to a users name to follow them. </span>
+			<?php } ?>
 		</div>
 		<div class='span6 home_list chunk'>
 		<h3>Your GiftFlow</h3>
-		<span class='minidata'>(Posted by those you follow)</span>
-			<?php echo UI_Results::goods(array(
-				"results" => $following_goods,
-				"mini" => TRUE,
-				"border" => FALSE,
-				"home_results" => TRUE
-			)); ?>
+			<?php if(!empty($following_goods)) { ?>
+				<span class='minidata'>(Posted by those you follow)</span>
+				<?php echo UI_Results::goods(array(
+					"results" => $following_goods,
+					"mini" => TRUE,
+					"border" => FALSE,
+					"size" => "medium"
+				)); ?>
+			<?php } else { ?>
+				<span class='empty_text'>The Gifts and Needs posted by the users you follow will show up here. </span>
+			<?php } ?>
 		</div>
 	<?php } ?>
 	</div>
 	</div>
 	
-	<div class='span5 chunk' id='home_activity'>
+	<div class='span4 chunk' id='home_activity'>
 			<h3>Recent Activity</h3>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,

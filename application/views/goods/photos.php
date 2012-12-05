@@ -1,10 +1,11 @@
-<div id="manage_photos" class="two_panels">
+<div id="manage_photos" class="row">
 
-	<!-- Sidebar Menu -->
-	<?php echo $menu; ?>
-	
+	<div class='span2'>
+		<!-- Sidebar Menu -->
+		<?php echo $menu; ?>
+	</div>
 	<!-- Main Content -->
-	<div class='right_content'>
+	<div class='span8 chunk'>
 	<legend>Manage Photos for <?php echo $G->title;?></legend>
 		<ul class="thumbnails photos-list">
 			<?php foreach($photos as $key=>$photo){ ?>
@@ -66,10 +67,7 @@
 
 			
 	</div>
-	<!-- eof div.right_content -->
-
 </div>
-<!-- eof div.two_panels -->
 <script type='text/javascript'>
 $(function(){
 	

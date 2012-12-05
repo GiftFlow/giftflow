@@ -63,6 +63,9 @@ GF.Locations = (function(){
 			select: function( event, ui ){
 				// Append selected item to list, override default behavior
 				input.val(ui.item.value);
+				if(input.selector === '#header_relocate'){
+					$('#relocate').submit();
+				}
 
 
 				//working with Find index.php scripts here

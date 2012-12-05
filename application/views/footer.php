@@ -56,45 +56,25 @@
 <script type="text/javascript">
 $(function(){
 	
+	GF.Locations.initialize($('#header_relocate'));
 	// logIn dropdown
-	$('.dropdown-toggle').dropdown();
 	$('#login-form').css('left', '-50px');
 	$('.dropdown-menu').find('form').click(function (e) {
 		e.stopPropagation();
 	});
 
+
+
 	//header location bar
 	$('#change_location').tooltip({
-		placement: 'bottom',
+		placement: 'bottom'
 	});
-
-	GF.Locations.initialize($('input#header_relocate'));
-
-	GF.header_switch = function(form) {
-		if(form) {
-			$('#header_location_form').hide();
-			$('#home_find_about').hide();
-			$('#relocate_form').show();
-		} else {
-			$('#relocate_form').hide();
-			$('#home_find_about').show();
-			$('#header_location_form').show();
-		}
-	};
-
-
-	$('#header_relocate').click(function() {
-		$(this).val('');
-	});
-
-	$('#header_location').click(function() {
-		GF.header_switch(1);
-	});
-
-	$('#relocate_cancel').click(function() {
-		GF.header_switch(0);
-		return false;
-	});
+	/* Redirect to link whenever results_list row clicked */
+	$("ul.results_list li, ul.transactions li").live("click",function(){
+		if($(this).find("a.title").length >= 1 && !$(this).parent('ul').hasClass('events')) {
+	       window.location.href = $(this).find("a.title").attr("href");
+	   }
+	 });
 
 
 	<?php /**
@@ -109,14 +89,6 @@ $(function(){
 		$(this).after("<div class='css_right'><i class='icon-ok'></i>  Following</div>");
 		$(this).remove();
 		return false;
-	});
-	/* Redirect to link whenever results_list row clicked */
-	$("ul.results_list li, ul.transactions li").live("click",function(){
-		if($(this).find("a.title").length >= 1){
-			window.location.href = $(this).find("a.title").attr("href");
-		} else {
-			return false;
-		}
 	});
 	function notify_success(){
 		$.notifyBar({ 
@@ -144,6 +116,25 @@ $(function(){
 		setTimeout(notify_error, 50);
 	}
 });
+
+/*jquery Google analytics, push events for Add buttons */
+function trackEvent(category, action, label) {
+  window._gaq.push(['_trackEvent', category, action, label])
+}
+
+$("#add_button").click(function(e) {
+  var element = $(this)
+  var label = "Add"
+  trackEvent("button", "Click", label)
+});
+
+$("ul#add_actions li a").click(function(e) {
+  var element = $(this)
+  var label = element.attr("href")
+  trackEvent("add_menu", "Click", label)
+});
+
+
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 try {

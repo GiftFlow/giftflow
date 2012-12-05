@@ -1,6 +1,6 @@
 <ul id='about_menu' class='sidebar_menu'>
 	<li>
-		<a href="<?php echo site_url('about/index'); ?>">
+		<a href="<?php echo site_url('about/press'); ?>">
 			<img alt="About" src="<?php echo base_url();?>assets/images/headings/about_menu.png">
 		</a>
 	</li>

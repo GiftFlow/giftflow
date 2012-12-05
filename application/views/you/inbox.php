@@ -6,7 +6,7 @@
 </div>
 <div class='span9 chunk'>
 		<?php if(!empty($thanks) || !empty($transactions) || !empty($threads)) { ?>
-			<ul class='inbox'>
+			<ul class='inbox results_list'>
 		
 				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->
 				<?php if(!empty($thanks)) { ?>

@@ -78,41 +78,45 @@ if(isset($css))
 			<ul id='nav'>
 				<li>
 					<a href="<?php echo site_url('welcome/home'); ?>">
-						<i class='icon-home icon-white'></i>Home
+						Home
 					</a>
 				</li>
 				<li>
 					<a href="<?php echo site_url('find/simple_find'); ?>">
-						<i class='icon-search icon-white'></i>Find
+						Find
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo site_url('about/index'); ?>">
-						<i class='icon-gift icon-white'></i>About
+					<a href="<?php echo site_url('about/press'); ?>">
+						About
 					</a>
 				</li>
 				<li>
-					<a href='#' id='change_location' title='Change Location'>
-						<i class='icon-white icon-map-marker'></i><span id='header_location'><?php echo $header_location; ?></span>
+					<div class='dropdown' id='drop_locate'>
+					<a data-target='#' class='dropdown-toggle' data-toggle='dropdown' id='change_location' title='Change Location'>
+						<span id='header_location'><?php echo $header_location; ?></span>
 					</a>
+						<ul class='dropdown-menu well' id='header_form'>
+							<li>
+								<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
+									<div class='control group'>
+									<label for="header_relocate">New Location</label>
+									<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
+									<input type='submit' value='submit'/>
+									</div>
+									<input type='hidden' name='relocate_redirect' value="<?php echo current_url(); ?>"/>
+								</form>
+							</li>
+						</ul>
+					</div>
 				</li>
 			</ul>
-		</div>
-		<div style='display:none;' class='span4'  id ='relocate_form'>
-		<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
-					<div class='input-append'>
-					<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
-						<button  id='relocate_button' type='submit' class='btn btn-medium btn-success'><i class= 'icon-refresh icon-white'></i>Relocate</button>
-						<button id='relocate_cancel' class='btn btn-small btn-success'><i class='icon-remove icon-white'></i></button>
-					</div>
-					<input type='hidden' name='relocate_redirect' value="<?php echo current_url(); ?>"/>
-				</form>
-		</div>
+			</div>
 
 			<?php if(!empty($logged_in) AND $logged_in){ ?>
 			<div id='header_actions' class='span4'>
 				<div class='btn-group pull_right'>
-					<a href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
+					<a id='add_button' href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
 						<i class='icon-plus icon-white'></i>Add
 					</a>
 
