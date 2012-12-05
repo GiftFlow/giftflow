@@ -223,15 +223,20 @@ ul#nav li i {
 
 
 /* Styles for images */
-
+.thumb_grid {
+	margin-bottom: 20px;
+}
 .thumb_grid a{
 	border-bottom: 0px;
+}
+.thumb_grid a:hover {
+	color: white;
 }
 .thumb_grid a img{
 	border: 1px solid #ccc;
 	width: 40px;
 }
-.photo_mod img:hover {
+.thumb_grid img:hover, .photo_mod img:hover {
 	opacity: .5;
 }
 a.photo_mod:hover {

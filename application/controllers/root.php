@@ -12,14 +12,7 @@ class Root extends CI_Controller {
 
 	function index()
 	{
-		if(!$this->auth->validate(1))
-		{
 			$this->_landing_page();
-		}
-		else
-		{
-			redirect('you');
-		}
 	}
 	
 	function _landing_page()

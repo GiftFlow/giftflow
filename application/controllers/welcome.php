@@ -31,25 +31,30 @@ class Welcome extends CI_Controller {
 		$this->load->library('Search/Event_search');
 		$location = $this->data['userdata']['location'];
 
+
+		//Abstract bottom to lists
+		$list_one = array();
+		$list_two = array();
+
 		//Load most recent users
 		$P = new User_search();
 
 		//load followers
 		if($this->data['logged_in']) {
-			$this->data['following'] = $P->following(array(
+			$list_one['data'] = $P->following(array(
 				'user_id'=>$this->data['userdata']['user_id'],
 				'limit' => 14
 			));
+			$list_one['title'] = "Following";
 
-			$this->data['following_goods'] = $this->following_goods();
+		} else {
+			$list_one['data']  = $P->find(array(
+				'type' => 'nonprofit',
+				'limit'=> 12,
+				'location' => $location
+			));
+			$list_one['title'] = "Nonprofits";
 		}
-
-		
-		$this->data['nonprofits'] = $P->find(array(
-			'type' => 'nonprofit',
-			'limit'=> 12,
-			'location' => $location
-		));
 
 		$G = new Good_search();
 		$this->data['goods'] = $G->find(array(

@@ -100,7 +100,7 @@ if(isset($css))
 							<li>
 								<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
 									<div class='control group'>
-									<label for="header_relocate">New Location</label>
+									<label for="header_relocate">Change Your City</label>
 									<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
 									<input type='submit' value='submit'/>
 									</div>

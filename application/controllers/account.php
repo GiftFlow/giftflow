@@ -43,13 +43,14 @@ class Account extends CI_Controller {
 	function profile()
 	{
 		$this->auth->bouncer(1);
-		
+		$input = $this->input->post();
+
 		// Save changes
-		if(!empty($_POST))
+		if(!empty($input))
 		{
-			foreach($_POST as $key=>$val)
+			foreach($input as $key=>$val)
 			{
-				$this->U->{$key} = $val;
+				$this->U->{$key} = $this->db->escape($val);
 			}
 			if ( $this->U->save() )
 			{
@@ -335,7 +336,7 @@ class Account extends CI_Controller {
 			$this->load->view('footer', $this->data);
 		}
 	}
-	
+
 	/**
 	*	Manage linked accounts such as Facebook
 	*/
@@ -345,6 +346,7 @@ class Account extends CI_Controller {
 
 		$this->data['title'] = 'Manage Linked Accounts';
 		$this->data['active_link'] = 'links';
+
 
 		if( !empty( $this->U->facebook_id ) )
 		{
@@ -702,8 +704,9 @@ class Account extends CI_Controller {
 	function _photos_add()
 	{
 		//Save Photo
-		if($_POST['name'] === 'photo_upload')
+		if(!empty($_POST))
 		{
+			$input = $this->input->post();
 			$this->P = new Photo();
 			
 			$config['upload_path'] = './uploads/';
@@ -723,9 +726,9 @@ class Account extends CI_Controller {
 			
 			// Upload successful, Saving Photo object
 			$this->P->user_id = $this->U->id;
-			if(!empty($_POST['caption']))
+			if(!empty($input['caption']))
 			{
-				$this->P->caption = $_POST['caption'];
+				$this->P->caption = $input['caption'];
 			}
 			else
 			{

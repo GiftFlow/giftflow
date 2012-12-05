@@ -1,5 +1,7 @@
 <?php
 
+/* DEPRECATED -- this library uses finder, which was destroyed long ago */
+
 class Rss extends CI_Controller {
 	
 	/**

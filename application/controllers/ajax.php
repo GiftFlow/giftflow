@@ -19,7 +19,7 @@ class Ajax extends CI_Controller {
 	
 	public function users()
 	{
-		if(!empty($_POST['term']))
+		if(!empty($_POST))
 		{	
 			$keyword = $this->db->escape_like_str($_POST['term']);
 			
@@ -162,5 +162,5 @@ class Ajax extends CI_Controller {
 		return $this->util->json(json_encode($location));
 	}
 	
-
+}
 

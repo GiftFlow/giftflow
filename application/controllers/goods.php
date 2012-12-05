@@ -840,7 +840,7 @@ class Goods extends CI_Controller {
 	{
 		@$extension = array(
 			'og:image' => $this->G->default_photo->thumb_url,
-			'og:title' => $this->G->title,
+			'og:title' => "My latest ".ucfirst($this->G->type)." on GiftFlow:  ".$this->G->title,
 			'og:description' => $this->G->description,
 			'og:type' => "product",
 			'og:latitude' => $this->G->location->latitude,

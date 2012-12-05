@@ -42,7 +42,7 @@ class Watches extends CI_Controller {
 		if(!empty($_POST))
 		{			
 			$W = new Watch();
-			$W->keyword = $this->input->post('keyword');
+			$W->keyword = $this->db->escape($this->input->post('keyword'));
 			$W->user_id = $this->data['logged_in_user_id'];
 			
 			if ( $W->save() )
