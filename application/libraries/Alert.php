@@ -128,11 +128,7 @@ class Alert {
 	{
 
 		//this is used for sending emails where entire body is prepared beforehand like remind
-		if(isset($this->message))
-		{
-			$this->subject = $this->parseables['subject'];
-			return;
-		}
+		$this->subject = $this->parseables['subject'];
 
 		$this->CI->config->load("email_templates");
 		$templates = $this->CI->config->item('email_templates');

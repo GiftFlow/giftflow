@@ -117,7 +117,7 @@ if(isset($css))
 			<div id='header_actions' class='span4'>
 				<div class='btn-group pull_right'>
 					<a id='add_button' href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
-						<i class='icon-plus icon-white'></i>Add
+						<i class='icon-plus icon-white'></i>Post
 					</a>
 
 					<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'>

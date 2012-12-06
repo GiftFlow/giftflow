@@ -42,9 +42,9 @@ class Find extends CI_Controller {
 
 	function simple_find()
 	{
-		if(!empty($_POST))
+		if(!empty($_GET))
 		{
-			$type = $this->input->post('type');
+			$type = $this->input->get('type');
 			$this->_items($type);
 
 		} else {

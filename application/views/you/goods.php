@@ -11,12 +11,13 @@
 						<li class='clearfix'>
 						<div class='row-fluid'>
 							<div class='span2'>	
-								<a href="<?php echo site_url($type.'s/'.$val->id);?>" class="result_image" title="<?php echo $val->title;?>">
 									<?php if(!isset($val->default_photo->thumb_url)) { ?>	
-										<a href='#' class="<?php echo $val->default_photo->thumb_class; ?>">
+										<a href='#' class="result_image <?php echo $val->default_photo->thumb_class; ?>">
 										</a>
 									<?php } else { ?>
+										<a href="<?php echo site_url($type.'s/'.$val->id);?>" class="result_image" title="<?php echo $val->title;?>">
 										<img src="<?php echo $val->default_photo->thumb_url; ?>"/>
+										</a>
 									<?php }?>
 								</a>
 							</div>

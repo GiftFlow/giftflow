@@ -49,15 +49,7 @@ class User_search extends Search
 	function find($options = array())
 	{
 		Console::logSpeed("User_search::find()");
-		
-		// Build $options object using defaults
-		// $default_like_options = array(
-// 			"screen_name"=>"", 
-// 			"first_name"=>"", 
-// 			"last_name"=>"", 
-// 			"bio"=>"",
-// 			"occupation"=>""
-// 		);
+
 		$default_options = array(
 			"user_id"=>NULL,
 			"email"=>NULL,
@@ -77,7 +69,6 @@ class User_search extends Search
 			'radius' => 100
 		);
 		$options = (object) array_merge(
-			//$default_like_options, 
 			$default_options, 
 			$options
 		);	
@@ -117,27 +108,7 @@ class User_search extends Search
 		// Filter text fields by WHERE LIKE
 		if(!empty($options->keyword))
 		{
-			$keywords = explode(' ',$options->keyword);
-			$likewhere = '(';
-			
-			$i = 0;
-			$len = count($keywords);
-			foreach($keywords as $word) {
-				$i++;
-				$word = $this->CI->db->escape_like_str($word);
-				$word = "'%".$word."%'";
-
-				$likewhere .= "U.screen_name LIKE ".$word.
-								" OR U.bio LIKE ".$word.
-								" OR U.email LIKE ".$word.
-								" OR U.occupation LIKE ".$word." ";
-				if($i != $len){
-					$likewhere.= ' OR ';
-				}
-			}
-			$likewhere .= ")";
-
-			$this->CI->db->where($likewhere);
+			return $this->find_by_keyword($options);
 		}	
 		if(!empty($options->type))
 		{
@@ -323,7 +294,50 @@ class User_search extends Search
 		return $overlap_users;
 		
 	}
+
+	/**
+	 * Seperate keyword search into seperate function to simplify filtering
+	 */
+
+	function find_by_keyword($options) 
+	{
+			
+		// Filter text fields by WHERE LIKE
+		$keywords = explode(' ',$options->keyword);
+		$likewhere = '(';
+		
+		$i = 0;
+		$len = count($keywords);
+		foreach($keywords as $word) {
+			$i++;
+			$word = $this->CI->db->escape_like_str($word);
+			$word = "'%".$word."%'";
+
+			$likewhere .= "K.screen_name LIKE ".$word.
+							" OR K.bio LIKE ".$word.
+							" OR K.email LIKE ".$word.
+							" OR K.occupation LIKE ".$word." ";
+			if($i != $len){
+				$likewhere.= ' OR ';
+			}
+		}
+		$likewhere .= ")";
+		
+		$this->CI->db->select('K.id')
+			->from('users AS K')
+			->where($likewhere)
+			->limit(100);
 	
+		
+		$results = $this->CI->db->get()->result_array();
+		$next_options = array(
+			'user_id' => array_map(function($user) { return $user['id']; }, $results),
+		);
+		
+		return $this->find($next_options);
+
+	}
+
 	/**
 	*	Assembles basic SELECT query. The resulting SQL provides
 	*	a foundation for more complex queries. Conceptually it's similar

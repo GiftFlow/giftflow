@@ -287,17 +287,7 @@ class Good_search extends Search
 			// @todo move to get_ids() utility function
 			$tag_ids = array_map( function($tag){ return $tag['id']; }, $tags);
 		}
-		
-		// Process location data one time only
-		// Leave lcoation out for keyword search
-		/*
-		if(!empty($options->location)) {			
-			$this->CI->load->library('geo');
-			$this->CI->geo->radius = $options->radius;
-			$options->location = $this->CI->geo->process($options->location);
-		}
-		 */
-
+	
 		$queries = array(
 			"keyword"=>"",
 			"tag"=>""
@@ -357,17 +347,7 @@ class Good_search extends Search
 			{
 				$this->CI->db->where("G.category_id",$options->category_id);
 			}
-			
-			if(!empty($options->location->bounds))
-			{
-				//$this->CI->db->join("locations AS L ","G.location_id = L.id");
-				//$this->_geosearch_clauses($options);
-			}
-			
-			// NB! get_compiled_select() manually added to end of core active 
-			// record  library. The source code was taken directly from the 
-			// codeigniter development branch
-			
+	
 			$queries[$query_type] = $this->CI->db->get_compiled_select();
 		}
 		

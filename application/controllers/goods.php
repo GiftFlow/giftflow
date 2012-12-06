@@ -186,6 +186,7 @@ class Goods extends CI_Controller {
 		
 		if(!empty($_POST))
 		{
+			$post = $this->input->post();
 			// Create location object and then try to save it
 
 			$this->load->library('geo');
@@ -193,7 +194,7 @@ class Goods extends CI_Controller {
 
 			$L = new Location();
 			
-			$new_location = $Geo->geocode($this->input->post('location'));
+			$new_location = $Geo->geocode($post['location']);
 
 			if(empty($new_location))
 			{
@@ -217,13 +218,13 @@ class Goods extends CI_Controller {
 			
 			// Create Good object
 			$this->G = new Good();
-			$this->G->title = $this->input->post("title");
-			$this->G->category_id = $this->input->post("category");
-			$this->G->type = $this->input->post("type");
+			$this->G->title = $post["title"];
+			$this->G->category_id = $post["category"];
+			$this->G->type = $post["type"];
 			$this->G->save();
 			if(!empty($_POST['description']))
 			{
-				$this->G->description = $this->input->post('description');
+				$this->G->description = $post['description'];
 			}
 			
 			// If location and user successfully saved to good, save
@@ -239,7 +240,7 @@ class Goods extends CI_Controller {
 				}
 				
 				// Save tags
-				$tags = explode(",", $_POST['tags']);
+				$tags = explode(",", $post['tags']);
 				foreach ( $tags as $tag )
 				{
 					$this->G->add_tag( trim($tag) );

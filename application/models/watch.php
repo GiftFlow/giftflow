@@ -53,6 +53,11 @@ class Watch extends DataMapperExtension {
 		
 		// find all watches wich matching keyword that belong a user in the same city as the good in question
 
+		//escape strings for database queries
+		$title = $this->CI->db->escape_like_str($Good->title);
+		$description = $this->CI->db->escape_like_str($Good->description);
+	
+
 		$query = $this->CI->db
 			->select('*')
 			->from('watches AS W')
@@ -62,7 +67,7 @@ class Watch extends DataMapperExtension {
 			->where('L.city', $good_location->city)
 			->where('L.state', $good_location->state)
 			->where('U.status', 'active')
-			->where('("' . $Good->title . '" LIKE concat("%",W.keyword,"%") OR "'. $Good->description .'" LIKE concat("%",W.keyword,"%"))', NULL, false)
+			->where('("' . $title . '" LIKE concat("%",W.keyword,"%") OR "'. $description .'" LIKE concat("%",W.keyword,"%"))', NULL, false)
 			->get();
 		
 		return $query->result();

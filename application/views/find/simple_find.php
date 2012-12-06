@@ -4,7 +4,7 @@
 	<div class='span6 offset2'>
 		<h1>Search GiftFlow</h1>
 		
-		<form class='form-horizontal' id='simple_find_form' method='post' action="<?php echo site_url('find/simple_find'); ?>"  name='simple_find_form'>
+		<form class='form-horizontal' id='simple_find_form' method='get' action="<?php echo site_url('find/'); ?>"  name='simple_find_form'>
 			<div class='control-group'>	
 				<label for='simple_type' class='control-label'>I am looking for: </label>
 				<div id='simple_type' class='controls'>
