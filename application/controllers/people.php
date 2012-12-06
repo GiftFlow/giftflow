@@ -209,7 +209,6 @@ class People extends CI_Controller {
 		$G = new Good_search;
 		$this->data['gifts'] = $G->find( array(
 			"user_id" => $U->id, 
-			"count_transactions" => FALSE, 
 			"type"=>"gift",
 			"status" => 'active'
 		
@@ -218,7 +217,6 @@ class People extends CI_Controller {
 		// Load user's needs
 		$this->data['needs'] = $G->find( array(
 			"user_id" => $U->id, 
-			"count_transactions" => FALSE, 
 			"type"=>"need",
 			"status" => 'active'	
 		));

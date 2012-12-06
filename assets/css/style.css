@@ -1055,3 +1055,8 @@ notifyBar
   font-size:11px;
 }
 
+span.error{
+	margin-top: 8px;
+	color: red;
+	display: block;
+}

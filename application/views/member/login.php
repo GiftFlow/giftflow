@@ -27,6 +27,7 @@
 	<?php } ?>
 	
 	<td class="span6">
+		<span class='error'><?php echo $error_string; ?> </span>
 		<form action="<?php echo site_url('member/login'); ?>" method="post">
 			<fieldset>
 			<div class="control-group">

@@ -6,6 +6,7 @@ class Member extends CI_Controller {
 	var $U;
 	var $code;
 	var $facebook;
+	var $error_string = ' ';
 	
 	function __construct()
 	{
@@ -47,13 +48,13 @@ class Member extends CI_Controller {
 	{
 		//check for redirect in session
 		$sess_redirect = $this->session->userdata('visitor_redirect_url');
-		
+
 		if(!empty($_POST['redirect'])) {
 
 			$redirect = $this->input->post('redirect');
 
 			//if loggin in from index, redirect to welcome
-			if($redirect = site_url()) {
+			if($redirect == site_url() || $redirect == site_url('member/login')) {
 				$redirect ='welcome/home';
 			}
 
@@ -88,8 +89,6 @@ class Member extends CI_Controller {
 		else if(!empty($_POST))
 		{
 			$this->U = $this->auth->login();
-			$redirect = $this->input->post('redirect');
-			
 			
 			// Check for errors
 			
@@ -97,6 +96,7 @@ class Member extends CI_Controller {
 			if(count($this->U->error->all) > 0)
 			{
 				$this->session->set_flashdata('error', $this->U->error->string);
+				$this->error_string = $this->U->error->string;
 				$this->_login_form($redirect);
 			}
 			// No errors. Proceed.
@@ -104,10 +104,11 @@ class Member extends CI_Controller {
 			{
 				redirect($redirect);
 			}
-		}
+		} else {
 
-		// If no form data, render login form
-		//$this->_login_form($redirect);
+			// If no form data, render login form
+			$this->_login_form($redirect);
+		}
 	}
 	
 	/**
@@ -385,8 +386,10 @@ class Member extends CI_Controller {
 	
 			$this->data['fbookUrl'] = $loginUrl;
 		}
+
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['title'] = "Login";
+		$this->data['error_string'] = $this->error_string;
 		$this->load->view('header', $this->data);
 		$this->load->view('member/login', $this->data);
 		$this->load->view('footer', $this->data);

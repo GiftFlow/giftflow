@@ -53,7 +53,6 @@ class You extends CI_Controller {
 		$G = new Good_search;
 		$this->data['goods'] = $G->find(array(
 			"user_id" => $this->data['logged_in_user_id'],
-			"count_transactions" => TRUE,
 			"type"=>$type,
 			'status' => 'active'
 		));

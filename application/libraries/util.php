@@ -102,7 +102,7 @@ class Util
 			if(strlen($globals['userdata']['screen_name']) > 12) {
 				$names_array = mb_split(" ",$globals['userdata']['screen_name']);
 				if(strlen($names_array[0]) < 12) {
-					$display_name = $names_array[0];
+					$display_name = trim($names_array[0]);
 				} else {
 					$display_name = 'You';
 				}

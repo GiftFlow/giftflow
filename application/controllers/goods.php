@@ -264,9 +264,6 @@ class Goods extends CI_Controller {
 					$this->notify->alert_user_watch_match($thiswatch, $this->G);
 				}
 
-				// Set flashdata
-				$flash = ($this->G->type == 'gift') ? 'Gift Saved!' : 'Need Saved!';
-				$this->session->set_flashdata('success',$flash);			
 			}
 			else
 			{
