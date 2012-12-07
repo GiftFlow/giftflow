@@ -161,7 +161,6 @@ class User_search extends Search
 		// Return result
 		$result = $this->CI->db->get()->result();
 
-		
 		// Hydrate & return results
 		Console::logSpeed("User_search::find(): done.");
 		$UF = new User_factory();
@@ -333,8 +332,13 @@ class User_search extends Search
 		$next_options = array(
 			'user_id' => array_map(function($user) { return $user['id']; }, $results),
 		);
-		
-		return $this->find($next_options);
+
+		//just return empty array if no user_ids were found
+		if(count($next_options['user_id']) > 0) {	
+			return $this->find($next_options);
+		} else {
+			return $next_options['user_id'];
+		}
 
 	}
 
