@@ -327,6 +327,8 @@ $(function(){
 	});
 
 });
-		
+/*specific crazy egg tracking */
+var CE_SNAPSHOT_NAME = "full_find";
+
 </script>
 		
