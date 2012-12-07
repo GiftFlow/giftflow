@@ -220,12 +220,16 @@ class Event_logger
 	 * @param array $data
 	 */
 
-	function user_messaage($data)
+	function user_message($data)
 	{
+		$E = new Event();
 		$E = $this->basic('user_message',$data);
-		$E->message_id = $data['message_id'];
-		$E->user_id = $data['sender_id'];
-		$E->save();
+		$E->message_id = $data->message_id;
+		$E->user_id = $data->sender_id;
+		if(!$E->save()) {
+			echo $E->error->string;
+			return FALSE;
+		}
 	}
 
 

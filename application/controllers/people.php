@@ -459,16 +459,15 @@ class People extends CI_Controller {
 				$notify_data->recipient_email = $val->email;
 				$notify_data->recipient = $val->screen_name;
 				$notify_data->notify_id = $val->id;
-			}
+			} 
 		}
 		
 		$Message = $C->get_latest_message();
-
+		$notify_data->sender_id = $this->data['logged_in_user_id'];
 		$notify_data->subject = $this->data['userdata']['screen_name']." wrote you a message.";
 		$notify_data->message = $input['body'];
 		$notify_data->message_id = $Message->id;
 		$notify_data->return_url = site_url('you/inbox');
-
 
 		$this->notify->alert_user_message($notify_data);
 		$this->event_logger->user_message($notify_data);

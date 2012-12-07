@@ -54,7 +54,7 @@ class Member extends CI_Controller {
 			$redirect = $this->input->post('redirect');
 
 			//if loggin in from index, redirect to welcome
-			if($redirect == site_url() || $redirect == site_url('member/login')) {
+			if($redirect == site_url() || $redirect == site_url('member/login') || $redirect == site_url('register')) {
 				$redirect ='welcome/home';
 			}
 
