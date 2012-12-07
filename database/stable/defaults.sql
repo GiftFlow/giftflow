@@ -1,4 +1,6 @@
+SET FOREIGN_KEY_CHECKS = 0;
 
+TRUNCATE TABLE event_types;
 INSERT INTO `event_types` (`id`, `title`) VALUES
 (1, 'transaction_new'),
 (2, 'transaction_completed'),
@@ -21,6 +23,7 @@ INSERT INTO `event_types` (`id`, `title`) VALUES
 (20, 'user_message');
 
 
+TRUNCATE TABLE categories;
 INSERT INTO `categories` (`id`, `name`, `parent_category_id`) VALUES
 (1, 'Arts & Crafts', NULL),
 (2, 'Books', NULL),
@@ -39,3 +42,4 @@ INSERT INTO `categories` (`id`, `name`, `parent_category_id`) VALUES
 (15, 'Video Games', NULL),
 (16, 'Other', NULL);
 
+SET FOREIGN_KEY_CHECKS = 1;

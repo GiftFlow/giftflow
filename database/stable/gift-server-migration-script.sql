@@ -576,6 +576,9 @@ DROP TABLE IF EXISTS `terms` ;
 
 DROP TABLE IF EXISTS `user_settings`;
 
+--Add column to thankyous table, enabling thanking of non-users
+ALTER table thankyous ADD COLUMN recipient_email VARCHAR(60) NULL AFTER recipient_id;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
