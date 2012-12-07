@@ -961,6 +961,9 @@ ul.inbox li img.status_icon, .inbox_summary img.status_icon {
 ul.interaction {
 	list-style:none;
 }
+ul.interaction li {
+	margin-bottom: 15px;
+}
 .message_form {
 	width: 80%;
 }	

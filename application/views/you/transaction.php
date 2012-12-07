@@ -75,21 +75,19 @@
 						<?php if($use->id == $rev->reviewer_id) { ?>
 							<li>
 								<div class='row-fluid'>
-									<div class='span4'>
+									<div class='span2'>
 										<a href='#' class='user_image medium css_left'>
 											<img src="<?php echo $use->default_photo->thumb_url; ?>" alt="<?php echo $use->screen_name;?>" />
 										</a>
 									</div>
-									<div class='span8'>
+									<div class='span6 result_text'>
+									<p>
 										<a href="<?php echo site_url('people/profile/'.$use->id); ?>" >
 											<?php echo $use->screen_name;?>
 										 </a>
-									</div>
-								</div>
-								<div class='row-fluid'>
-									<div class='span12 body'>
+									</p>
 										<?php echo $rev->body; ?>
-									<p class='metadata-date left'>
+									<p>
 											Rating: <?php echo ucfirst($rev->rating); ?>
 									</p>
 								</div>
