@@ -343,22 +343,23 @@ class Account extends CI_Controller {
 	function links()
 	{
 		$this->auth->bouncer(1);
+		$U = new User($this->data['logged_in_user_id']);
 
 		$this->data['title'] = 'Manage Linked Accounts';
 		$this->data['active_link'] = 'links';
 
 
-		if( !empty( $this->U->facebook_id ) )
+		if( !empty( $U->facebook_id ) )
 		{
 			$this->data['links']['facebook']['enabled'] = TRUE;
-			$this->data['links']['facebook']['id'] = $this->U->facebook_id;
+			$this->data['links']['facebook']['id'] = $U->facebook_id;
 		}
 		else
 		{
 			$this->data['links']['facebook']['enabled'] = FALSE;
 		}
 		
-		if( !empty( $this->U->google_token))
+		if( !empty( $U->google_token))
 		{
 			$this->data['links']['google']['enabled'] = TRUE;
 		}
