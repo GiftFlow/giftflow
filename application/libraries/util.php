@@ -150,7 +150,7 @@ class Util
 				$this->facebook = new Facebook($config);
 				$params = array(
 					'scope' => 'email, user_photos, publish_stream',
-					'redirect_uri' => site_url('member/login/?redirect=').$this->CI->uri->uri_string()
+					'redirect_uri' => site_url('member/facebook/').'?redirect='.$this->CI->uri->uri_string()
 				);
 	
 				$globals['fbookUrl'] = $this->facebook->getLoginUrl($params);

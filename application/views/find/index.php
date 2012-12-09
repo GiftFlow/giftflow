@@ -98,7 +98,7 @@
 		</div>
 		
 		<!-- Loading Message -->
-		<div class="results_empty" style="display: none;">
+		<div class="results_empty" style="<?php if($display == 'results') { echo 'display:none'; } ?>">
 			<h3>No Results Found</h3>
 			<p>Oops! No results were found that matched your query.</p>
 			<?php if($args['type'] != 'people') { ?>

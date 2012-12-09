@@ -61,6 +61,22 @@ h1, h2, h3 {
 a:hover{
 	color: #000;
 }
+.alert_success {
+	background: url('../../assets/images/notice_checkmark.png') no-repeat 1% 50% #75bb6e;
+	border:1px solid green;
+	color: #fff;
+	padding:15px 15px 12px 50px;
+}
+.alert_error {
+	background: #ffd7d7;
+	padding: 10px;
+	border: 1px solid red;
+	margin: 15px 0px;
+}
+ul.alert_error{
+	list-style: none;
+	margin-bottom: 0px;
+}
 
 /* IMPORTANT NOTE 
  * Javascript in the footer looks for a.title and makes the region 
@@ -1062,4 +1078,38 @@ span.error{
 	margin-top: 8px;
 	color: red;
 	display: block;
+}
+
+/* welcome page style */
+
+#welcome_header{
+	display:block;
+	width:100%;
+	margin: 5px 5px 5px 5px;
+}
+.welcome_block{
+	display:block;
+	width:30%;
+	font-weight:300;
+	font-size:16px;
+	text-align:center;
+	float:left;
+	margin: 5px 10px 5px 10px;
+}
+#welcome_three{
+	display:block;
+	width:100%;
+}
+
+#need_pic{
+	display:block;
+	margin: 23px 12px 0px 12px;
+}
+
+#hyperlocal
+{
+	width:100%;
+	display:block;
+	margin-top: 20px;
+	float:left;
 }

@@ -39,11 +39,13 @@
 					Locations
 				</a>
 			</li>
+<!--
 			<li <?php if($segment[2]=='links'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/links");?>">
 					Linked Accounts
 				</a>
 			</li>
+-->
 			<li <?php if($segment[2]=='settings'){ echo  "class='active'"; } ?>>
 				<a href="<?php echo site_url("account/settings");?>">
 					Settings

@@ -155,16 +155,9 @@ class User extends DataMapperExtension {
 		parent::__construct( $id );
 		Console::logMemory();
 		Console::logSpeed("creating User");
-//		$this->hooks =& load_class('Hooks');
 		$this->CI =& get_instance();
 	}
 	
-	function test()
-	{
-		Console::logSpeed("static!");
-		//die();
-	}
-	 
 	/**
 	*	Checks to see if login credentials provided match the user's
 	*	database entry
@@ -245,6 +238,7 @@ class User extends DataMapperExtension {
 			// Return FALSE if failed
 			else
 			{
+				show_error("user model: error saving new user");
 				return FALSE;
 			}
     	}
@@ -495,10 +489,10 @@ class User extends DataMapperExtension {
 		// Check to see if Facebook ID is already stored.
 		// If not, then mark as "newly linked". This will be used later when the user is saved
 		// so we can call the facebook_linked hook instead of the facebook_synced callback.
-		if(!empty($data->id)&&empty($this->facebook_id))
+		if(!empty($data['id'])&&empty($this->facebook_id))
 		{
 			$newly_linked = TRUE;
-			$this->facebook_id = $data->id;
+			$this->facebook_id = $data['id'];
 		}
 		else
 		{
@@ -507,34 +501,34 @@ class User extends DataMapperExtension {
 			
 		// Sync various properties
 		
-		if(!empty($data->token)&&empty($this->facebook_token))
+		if(!empty($data['token'])&&empty($this->facebook_token))
 		{
-			$this->facebook_token = $data->token;
+			$this->facebook_token = $data['token'];
 		}
 		
-		if(!empty($data->email)&&empty($this->email))
+		if(!empty($data['email'])&&empty($this->email))
 		{
-			$this->email = $data->email;
+			$this->email = $data['email'];
 		}
 		
-		if(!empty($data->name)&&empty($this->screen_name))
+		if(!empty($data['name'])&&empty($this->screen_name))
 		{
-			$this->screen_name = $data->name;
+			$this->screen_name = $data['name'];
 		}
 		
-		if(!empty($data->first_name)&&empty($this->first_name))
+		if(!empty($data['first_name'])&&empty($this->first_name))
 		{
-			$this->first_name = $data->first_name;
+			$this->first_name = $data['first_name'];
 		}
 		
-		if(!empty($data->last_name)&&empty($this->last_name))
+		if(!empty($data['last_name'])&&empty($this->last_name))
 		{
-			$this->last_name = $data->last_name;
+			$this->last_name = $data['last_name'];
 		}
 		
-		if(!empty($data->link)&&empty($this->facebook_link))
+		if(!empty($data['link'])&&empty($this->facebook_link))
 		{
-			$this->facebook_link = $data->link;			
+			$this->facebook_link = $data['link'];			
 		}
 		
 		if(empty($this->facebook_data))
@@ -580,17 +574,11 @@ class User extends DataMapperExtension {
 			// Register user
 			if($this->register())
 			{
-				// Hook: 'user_registration_facebook'
-				//$this->hooks->call('user_registration_facebook', $this);
-				
-				// Hook: 'facebook_linked'
-				//$this->hooks->call('facebook_linked', $this);
-
 				return TRUE;
 			}
 			else
 			{
-				// Regisration failure
+				show_error('user::facebook_synch error registering via facebook');
 				return FALSE;
 			}
 		}
@@ -602,19 +590,13 @@ class User extends DataMapperExtension {
 			{
 				if($newly_linked)
 				{
-					// Hook: 'facebook_linked'
-					//$this->hooks->call('facebook_linked', $this);
+					return TRUE;
 				}
-				else
-				{
-					// Hook: 'facebook_synced'
-					//$this->hooks->call('facebook_synced', $this);
-				}
-				return TRUE;
 			}
 			else
 			{
 				// Data did not save
+				show_error('user::facebook_sync Error saving facebook data');
 				return FALSE;
 			}
 		}
@@ -634,12 +616,11 @@ class User extends DataMapperExtension {
 		$this->photo_source = 'giftflow';
 		if( $this->save() )
 		{
-			// Hook: 'facebook_unlinked'
-			//$this->hooks->call('facebook_unlinked', $this);
-			
 			return TRUE;
+		} else {
+			show_error("Error unlinking from facebook");
+			return FALSE;
 		}
-		return FALSE;
 	}
 	
 	/**

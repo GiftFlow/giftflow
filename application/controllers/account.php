@@ -436,6 +436,7 @@ class Account extends CI_Controller {
 		{
 			if ($this->U->facebook_unlink())
 			{
+				$this->auth->new_session();
 				$this->session->set_flashdata('success', 'Facebook account no longer linked with GiftFlow');
 			}
 			else

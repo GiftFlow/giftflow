@@ -108,25 +108,7 @@ class Find extends CI_Controller {
 		// Cases 1 & 2: Tags / Tags + No Results Message
 		if(empty($this->data['results']))
 		{
-			// Load and instantiate Tag_search library
-			$this->load->library('Search/Tag_search');
-			$T = new Tag_search;
-						
-			// Get popular tags
-			$this->data['tags'] = $T->popular_tags(array(
-				"location"=>$this->data['userdata']['location'],
-				"type"=>"gift"
-			));
-			
-			// Set display type
-			if(empty($this->data['keyword']))
-			{
-				$this->data['display'] = 'tags';
-			}
-			elseif(!empty($this->data['keyword']))
-			{
-				$this->data['display'] = 'no_results';
-			}
+			$this->data['display'] = 'no_results';
 		}
 		elseif(!empty($this->data['results']))
 		{

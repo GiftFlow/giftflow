@@ -94,6 +94,7 @@
 <?php if(!$logged_in) { ?>
 		<div class='span6 home_list chunk'>
 		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
+	<?php if(!empty($nonprofits)) { ?>
 		<h3>Nonprofits</h3>
 			<?php echo UI_Results::users(array(
 				'results' => $nonprofits,
@@ -101,6 +102,7 @@
 				"border" => FALSE,
 				"follow" => FALSE,
 			)); ?>
+	<?php } ?>
 		</div>
 		<div class='span6 home_list chunk'>
 		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
