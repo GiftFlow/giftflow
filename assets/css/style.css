@@ -36,7 +36,8 @@ body {
 	height: 53px;
 }
 #main {
-	background-image: url('../images/textures/grey.png');
+	background-color: #fcfcfc;
+	background-image: url('../images/textures/grey.gif');
 	padding: 20px 0 50px 0;
 	min-height: 488px;
 }
