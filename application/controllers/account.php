@@ -15,7 +15,6 @@ class Account extends CI_Controller {
 		parent::__construct();
 		$this->load->library('parser');
 		$this->load->library('datamapper');
-		//$this->load('output');
 		$this->data = $this->util->parse_globals();
 		$this->util->config();
 		
@@ -54,11 +53,12 @@ class Account extends CI_Controller {
 		{
 			foreach($input as $key=>$val)
 			{
-				$this->U->{$key} = $this->db->escape($val);
+				$this->U->{$key} = $val;
 			}
 			if ( $this->U->save() )
 			{
 				$this->session->set_flashdata('success', 'Your profile has been updated.');
+				$this->auth->new_session();
 				redirect('account/profile');
 			}
 			else
