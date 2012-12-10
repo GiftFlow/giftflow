@@ -15,6 +15,7 @@ class Account extends CI_Controller {
 		parent::__construct();
 		$this->load->library('parser');
 		$this->load->library('datamapper');
+		//$this->load('output');
 		$this->data = $this->util->parse_globals();
 		$this->util->config();
 		
@@ -26,6 +27,9 @@ class Account extends CI_Controller {
 		$this->data['welcome'] = FALSE;
 		//for Inbox new transaction flag
 		$this->data['trans_check'] = FALSE;
+
+		//disable browser caching
+		$this->output->no_cache();
 		
 	}
 
@@ -80,6 +84,9 @@ class Account extends CI_Controller {
 	function locations( $segment = NULL, $action = NULL  )
 	{
 	
+		//disable browser caching
+		$this->output->no_cache();
+		
 		$this->auth->bouncer(1);
 		switch( $segment )
 		{
@@ -342,6 +349,9 @@ class Account extends CI_Controller {
 	*/
 	function links()
 	{
+		//disable browser caching
+		$this->output->no_cache();
+		
 		$this->auth->bouncer(1);
 		$U = new User($this->data['logged_in_user_id']);
 

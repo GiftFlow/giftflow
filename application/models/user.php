@@ -560,11 +560,8 @@ class User extends DataMapperExtension {
 		{
 			$this->registration_type = 'facebook';
 		}
-		
-		if(empty($this->photo_source))
-		{
-			$this->photo_source = "facebook";
-		}
+		//automatically switch to facebook photo	
+		$this->photo_source = "facebook";
 		
 		$this->validate();
 		

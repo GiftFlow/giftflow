@@ -15,7 +15,7 @@
 			<?php } else { ?>
 			<li>
 				<span>Facebook: Not Linked</span>
-				<a  class='btn link pull_right' href='<?php echo site_url('member/facebook'); ?>'><i class="icon-plus"></i>   Link</a>
+				<a  class='btn link pull_right' href='<?php echo site_url('account/link/facebook'); ?>'><i class="icon-plus"></i>   Link</a>
 			</li>
 			
 			<?php } ?>
