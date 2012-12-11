@@ -56,8 +56,12 @@
 					<?php if ($transaction->status == 'active' || $transaction->status =='completed') { ?>
 									<a href="#" class="left btn" id="write_message">Write Message</a>
 									<?php if(!$has_reviewed) { ?>
-										<a href="#" id="write_review" class="left btn btn">Write Review</a>
+										<a href="#" id="write_review" class="left btn">Write Review</a>
 									<?php } ?>
+					<?php } ?>
+					<?php if($transaction->status == 'completed' && $has_reviewed && $is_owner) { ?>
+						<p><?php echo $delete_prompt; ?></p>
+						<a href="<?php echo $delete_link; ?>" class='left btn'>Delete <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
 					<?php } ?>
 			<?php } ?>
 			</div>

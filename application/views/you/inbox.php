@@ -5,123 +5,97 @@
 	<?php echo $menu; ?>
 </div>
 <div class='span9 chunk'>
-		<?php if(!empty($thanks) || !empty($transactions) || !empty($threads)) { ?>
-			<ul class='inbox results_list'>
-		
-				<!-- put thank yous on top followed by transactions, they'll disappear once approved -->
-				<?php if(!empty($thanks)) { ?>
-					<li class='section_header'><h3 class='inbox_title'>Thanks</h3></li>
-					<?php foreach($thanks as $val) { ?>
-						<li>
-							<div class='row-fluid'>	
-								<div class='span1'>	
-									<img src="<?php echo base_url()."assets/images/status_icons/".$val->status.".png";?>" title="<?php echo ucfirst($val->status);?>" alt="<?php echo ucfirst($val->status);?>" class="left status_icon" />
-								</div>
-								<div class='span2'>
-									<a href="#" class="user_image medium left">
-										<img src="<?php echo $val->default_photo->thumb_url; ?>" alt="<?php echo $val->screen_name;?>" />
-									</a>
-								</div>
-								<div class='span9 metadata'>	
-										<a href="<?php echo site_url('you/view_thankyou/'.$val->id);?>" class="title">
-											Thank you from <?php echo $val->screen_name; ?>
-										</a>
-										<span class="summary">
-											For: " <?php echo $val->gift_title; ?>"
-										</span>
-									
-									<span class="updated">
-										<?php echo user_date($val->updated,"n/j/o");?>
-									</span>
-								</div>
-							</div>
-						</li>
-					<?php } ?>
-				<?php } ?>
-
-				<?php if(!empty($transactions)) { ?>	
-					<li class='section_header'><h3 class='inbox_title'>Gifts</h3></li>
-					<?php foreach($transactions as $val) 
-					{
-						if($val->demander->id == $this->data['logged_in_user_id'])
-							{
-								$demander = TRUE;
-								$other_user = $val->decider;
-							} 
-							else 
-							{
-								$demander = FALSE;
-								$other_user = $val->demander;
-							} ?>
-
-						<li class="<?php if($val->unread) { echo "unread"; } ?>">
-							<div class='row-fluid'>
-								<div class='span1'>
-									<img src="<?php echo base_url()."assets/images/status_icons/".$val->status.".png";?>" title="<?php echo ucfirst($val->status);?>" alt="<?php echo ucfirst($val->status);?>" class="left status_icon" />
-								</div>
-								<div class='span2'>
-									<a href="#" class="user_image medium left">
-										<img src="<?php echo $other_user->default_photo->thumb_url;?>" alt="<?php echo $other_user->screen_name;?>" />
-									</a>		
-								</div>
-								<div class='span9 metadata'>
-									<a href="<?php echo site_url('you/view_transaction/'.$val->id);?>" class="title">
-										Request <?php echo $demander ? "to":"from"; echo " ".$other_user->screen_name;?>
-									</a>
-									<span class="summary">
-										<?php echo strip_tags($demander ? $val->language->demander_summary : $val->language->decider_summary); ?>
-									</span>
-									<span class="updated">
-										<?php echo user_date($val->updated,"n/j/o");?>
-									</span>
-								</div>
-							</div>
-						</li>
-				<?php } ?>
-			<?php } ?>
-			<?php if(!empty($threads)) { ?>
-					<li class='section_header'><h3 class='inbox_title'>Messages</h3></li>
-				<?php foreach($threads as $T) { ?>
-					<?php if(!empty($T->messages)) { ?>
-					<li>
-						<div class='row-fluid'>		
-							<div class='span1'>
-								<img src="<?php echo base_url()."assets/images/status_icons/active.png";?>" title="" alt="" class="left status_icon" />
-							</div>
-							<div class='span2'>
-								<a class='user_image medium left' href='<?php echo site_url('people/'.$T->other_user->id); ?>'>
-									<img src="<?php echo $T->other_user->default_photo->thumb_url;?>"/>
-								</a>
-							</div>
-							<!-- Metadata -->
-							<div class='span9 metadata'>
-								<!-- Title --> 
-								<a href="<?php echo site_url('you/view_thread/'.$T->thread_id);?>" class="title">Conversation with <?php echo $T->other_user->screen_name; ?></a>
-								<span class='summary'>
-									<?php echo substr($T->recent->message_body, 0, 150); ?>
-								</span>
-								<span class='updated'>	
-									<?php echo user_date($T->recent->message_created, "n/j/o"); ?>
-								</span>
-							</div>
-						</li>
-					<?php }?>
-				<?php } ?>
-			<?php }?>
-			</ul>
-			<?php } else { ?>	
-
-
+		<?php if($show_welcome) { ?>
 				<!--welcome view -->
 				<p class='nicebigtext'> You don't have any messages! It's time to get with the flow.</p>
 				<?php echo $welcome_view; ?>
-			<?php } ?>
+		<?php } else { ?>
+			<ul class= 'nav nav-tabs inbox_nav' id='inbox_tabs' data-tabs='tabs'>
+			<li><a href="#gifts_pane" data-toggle="tab">Gifts (<?php echo $counts['gifts']['total'];?>)</a></li>
+			<li><a href="#thanks_pane" data-toggle="tab">Thanks (<?php echo $counts['thanks']['total'];?>)</a></li>
+			<li><a href="#messages_pane" data-toggle="tab">Conversations (<?php echo $counts['conversations']; ?>)</a></li>
+			</ul>
+			<div class='tab-content'>
+				
+				<!-- gifts/transactions tab pane -->
+				<!-- jquery for showing results at bottom of file -->
+				<div class="tab-pane" id="gifts_pane">
+					<ul class="nav nav-pills" id='gifts_nav'>
+						<li class='active'><a href="#all">All</a></li>
+						<?php foreach($trans_status as $key=>$val) { ?>
+							<li><a href="#<?php echo $key;?>"><?php echo ucfirst($key);?> (<?php echo $counts['gifts'][$key]; ?>)</a></li>
+						<?php } ?>
+					</ul>
+					
+					<?php if(!empty($transactions)) { ?>
+						<?php echo UI_Results::inbox(array(
+							"results" => $transactions,
+							"type" => "transaction",
+							"row" => FALSE
+						)); ?>
+					<?php } ?>
 
-		</div>
+				</div> <!-- close gifts/transactions tab-pane -->
+
+
+				<div class='tab-pane' id='thanks_pane'>
+				
+					<ul class="nav nav-pills" id='thanks_nav'>
+						<li class='active'><a href="#all">All</a></li>
+						<?php foreach($thank_status as $key=>$val) { ?>
+							<li><a href="#<?php echo $key;?>"><?php echo ucfirst($key);?> (<?php echo $counts['thanks'][$key]; ?>)</a></li>
+						<?php } ?>
+					</ul>
+					<?php if(!empty($thanks)) { ?>
+						<?php echo UI_Results::inbox(array(
+							"results" => $thanks,
+							"type" => 'thank',
+							"row" => FALSE
+						));?>
+					<?php } ?>
+				</div><!-- close thanks tab-pane -->
+				<div class='tab-pane' id='messages_pane'>
+					<?php if(!empty($threads)) { ?>
+				
+						<?php echo UI_Results::inbox(array(
+							"results" => $threads,
+							"type" => "thread",
+							'row' => FALSE
+						)); ?>
+
+					<?php } ?>
+				</div><!-- close threads -->
+			</div>
+		<?php } ?>
+	</div>
 </div>
 
 <script type='text/javascript'>
 $(function(){
+
+	GF.pills = function(tab, row) {
+		$('#'+tab+" li a").click(function() {
+			var stat = $(this).attr('href').substring(1);
+			if(stat == 'all') {
+				$('.'+row).show();
+			} else {	
+				$('.'+row).hide();
+				$('.'+row+'.'+stat).show();
+				console.log('.'+stat+'.'+row);
+			}
+			$('#'+tab+" li").removeClass('active');
+
+			$(this).parent('li').addClass('active');
+
+		});
+	};
+
+
+	GF.pills('gifts_nav','transaction_row');
+	GF.pills('thanks_nav', 'thank_row');
+
+
+	$('#inbox_tabs').tab();
 	$("img.status_icon").tooltip();
 });
 </script>

@@ -211,4 +211,50 @@ class UI_results
 		return $view;	
 	
 	}
+
+
+	/*
+	 * Handles the inbox rows for transactions, messages and thanks
+	 * param $options['type'] determines type of row. 
+	 * types are thread, thank and transaction
+	 * param $options['results'] is row data
+	 */
+
+	function inbox($options = array())
+	{
+
+		//Compile options
+		$default_options = array(
+			"results" => array(),
+			"row" => FALSE,
+			'type' => ''
+		);
+		
+		$options = array_merge($default_options, $options);
+	
+		// If set to return single row, place in array so the view's foreach
+		// loop iterates over it properly
+		if($options['row'] && !is_array($options['results']))
+		{
+			$options['results'] = array($options['results']);
+		}
+
+		switch($options['type']) {
+
+		case 'thread':
+			$view = $this->load->view('messages/includes/inbox_results', $options, TRUE);
+			break;
+		case 'thank':
+			$view = $this->load->view('thanks/includes/inbox_results',$options, TRUE);
+			break;
+		case 'transaction':
+			$view = $this->load->view('transactions/includes/inbox_results', $options, TRUE);
+			break;
+		}
+
+		return $view;
+	}
+
+
+
 }

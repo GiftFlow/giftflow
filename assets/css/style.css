@@ -672,6 +672,38 @@ a.good_icon {
 
 
 /* BEGIN Find style */
+
+.brick { 
+	max-width: 120px;
+	margin:5px;
+	float:left;
+	min-height:25px;
+	padding: 10px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 1px 3px 0px;
+	background-color: white;
+	border-radius: 5px;
+	border: 1px solid rgba(0,0,0,0.199219);
+	border-bottom-width: 1px;
+	box-shadow: rgba(0, 0, 0, 0.199219) 0px 1px 3px 0px;
+}
+.brick_wall a.title {
+	color: #587498;
+	font-weight: 500;
+	display: block;
+	font-size: 18px;
+	margin-bottom: 10px;
+	text-align:center;
+
+}
+.brick_wall a.result_image, .brick_wall a.result_sprite {
+	margin:auto;
+}
+
+.brick_wall span.metadata  {
+	color: #666;
+	font-size:10px;
+	line-height:11px;
+}
  
 #find_page {
 	margin-top: 30px;
@@ -806,7 +838,7 @@ ul.results_list li:hover{
 	background: #fcfcfc;
 	cursor: pointer;
 }
-ul.results_list li a.title{
+ul.results_list li a.title {
 	color: #587498;
 	font-weight: 500;
 	display: block;
@@ -942,6 +974,11 @@ ul.simplePagerNav li.currentPage a{
 .you_dashboard p {
 	margin: 0px 0px 0px 0px;
 }
+.inbox_nav li a {
+	font-weight:bold;
+	font-size:14px;
+}
+
 ul.inbox {
 	list-style: none;
 	padding: 0;
@@ -963,6 +1000,10 @@ ul.inbox li img.status_icon, .inbox_summary img.status_icon {
 	margin: 20px 20px 0 12px;
 	width: 22px;
 	height: 23px;
+}
+
+.inbox_summary p {
+	margin-top: 10px;
 }
 
 .updated{

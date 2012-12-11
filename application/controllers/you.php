@@ -105,7 +105,10 @@ class You extends CI_Controller {
 	}
 
 
-	//opens the Inbox 
+	/*
+	 * Manages user inbox
+	 * three main objects - transactions (aka gifts), thanks and messages
+	 */	
 
 	public function inbox()
 	{
@@ -116,44 +119,92 @@ class You extends CI_Controller {
 		//Load Thankyou
 		$this->load->library('Search/Thankyou_search');
 		$TY = new Thankyou_search;
-		$this->data['thanks'] = $TY->find(array(
-			'recipient_id'=>$this->data['logged_in_user_id']
+		$thank_status = array(
+			'pending'=> 0,
+			'accepted'=>0,
+			'declined'=> 0
+		);
+		$this->data['thank_status'] = $thank_status;
+	
+		$thanks = $TY->find(array(
+			'recipient_id'=>$this->data['logged_in_user_id'],
+			'status' => array_keys($thank_status),
 		));
 
+		foreach($thanks as $val) {
+			$thank_status[$val->status] += 1;
+		}
+		$this->data['thanks'] = $thanks;
+
+
 		//Load Threads
+		//@todo Threads need an easy way to identify if they are unread or not
 		$M = new Message_search();
-		$this->data['threads'] = $M->get_threads(array('user_id'=> $this->data['logged_in_user_id']));
+		$threads = $M->get_threads(array(
+			'user_id'=> $this->data['logged_in_user_id']
+		));
+		$this->data['threads'] = $threads;
+
+
 
 		//Load Transactions		
 		// Load Libraries
 		$TS = new Transaction_search;
 		
+		//some last minute arranging of the transactions
+		$trans_status = array(
+			"active" => 0,
+			"pending" => 0,
+			"completed" => 0,
+			"cancelled" => 0,
+			"declined" => 0
+		);
+		$this->data['trans_status'] = $trans_status;
+				
 		// Compile Search Options
 		$options = array(
 			"user_id"=>$this->data['logged_in_user_id'],
-			"transaction_status"=>array(
-				"active",
-				"pending",
-				"completed"
-			),
+			"transaction_status"=>array_keys($trans_status),
 			"limit"=> '2000'
 		);
-		if(!empty($_GET['good_id']))
-		{
-			$options['good_id'] = $_GET['good_id'];
-		}
-		if(!empty($_GET['status']))
-		{
-			$options['transaction_status'] = $_GET['status'];
-		}
+		$transactions = $TS->find($options);
+					
+		foreach($transactions as $val) {
+			
+			$trans_status[$val->status] += 1;
 
-		$this->data['transactions'] = $TS->find($options);
+			if($val->demander->id == $this->data['logged_in_user_id']) {
+				$val->is_demander = TRUE;
+				$val->other_user = $val->decider;
+			} else {
+				$val->is_demander = FALSE;
+				$val->other_user = $val->demander;
+			}
+		}
+		$this->data['transactions'] = $transactions;
 
+
+		//create flag for whether inbox is empty and should be replaced by welcome view
+		$this->data['show_welcome'] = (count($thanks) + count($threads) + count($transactions) < 1)? TRUE : FALSE;
 		$this->data['welcome_view'] = $this->load->view('you/welcome_view', $this->data, TRUE);
 
-		//Messaging system IN PROGRESS!!!!
-		$M = new Message_search();
-		$this->data['threads'] = $M->get_threads(array('user_id'=> $this->data['logged_in_user_id']));
+		$this->data['counts'] = array(
+			'gifts' => array(
+				'total' => count($transactions),
+				'active' => $trans_status['active'],
+				'pending' => $trans_status['pending'],
+				'completed' => $trans_status['completed'],
+				'cancelled' => $trans_status['cancelled'],
+				'declined' => $trans_status['declined']
+			),
+			'thanks' => array(
+				'total' => count($thanks),
+				'pending' => $thank_status['pending'],
+				'accepted' => $thank_status['accepted'],
+				'declined' => $thank_status['declined']
+			),
+			'conversations' => count($threads),
+		);
 
 		// Set view variables
 		$this->data['title'] = "Inbox";
@@ -183,18 +234,19 @@ class You extends CI_Controller {
 		$U = new User($this->data['logged_in_user_id']);
 
 		//Load Transaction model
-		$T = new Transaction($id);
+		$T_model = new Transaction($id);
 				
 		// Load Transaction data object
 		$TS = new Transaction_search;
-		$this->data['transaction'] = $TS->get(array(
+		$T_result = $TS->get(array(
 			"transaction_id"=>$id,
 			"include_events"=>TRUE
 		));
+		$this->data['transaction'] = $T_result;
 		
 		
 		//Check for already existing review written by logged in user
-		$this->data['has_reviewed'] = $T->has_review_by_user($U->id);
+		$this->data['has_reviewed'] = $T_model->has_review_by_user($U->id);
 		
 		//If existing review found, load it
 		if($this->data['has_reviewed'])
@@ -203,10 +255,16 @@ class You extends CI_Controller {
 			$this->data['reviews'] = $RS->find(array(
 				"transaction_id" => $id
 			));
-		}
+		}		
+		
+		//Set data for delete link, allowing user to easily delete good after transaction is over	
+		$this->data['delete_link'] = site_url()."/".$T_result->demands[0]->good->type."s/".$T_result->demands[0]->good->id."/disable";
+		$this->data['is_owner'] = ($T_result->demands[0]->good->user->id == $this->data['logged_in_user_id'])? TRUE : FALSE;
+		$this->data['delete_prompt'] = ($T_result->demands[0]->good->type == 'gift')? "Can you give this gift again? If not, click this button to delete it." : "Has your need been fulfilled? If so, click this button to delete it.";
+
 		
 		//Check if both users have submitted a review
-		$this->data['both_reviews'] = $T->has_both_reviews();
+		$this->data['both_reviews'] = $T_model->has_both_reviews();
 
 		// Done Loading Data
 		
