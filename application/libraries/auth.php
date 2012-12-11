@@ -424,7 +424,7 @@ class Auth
 			
 			// Set success message, redirect back to Manage Linked Accounts page
 			$this->CI->session->set_flashdata('success', 'Facebook account now linked with GiftFlow');
-			redirect('you');
+			redirect('account/links');
 		}
 	}
 

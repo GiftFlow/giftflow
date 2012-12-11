@@ -71,8 +71,7 @@ class Member extends CI_Controller {
 				return $this->auth->facebook($user_info);
 
 		}else {
-			print_r($user);
-			die();
+			$this->session->set_flashdata('error', "Error connecting with Facebook");
 			redirect('member/login');
 		}
 	}
