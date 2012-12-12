@@ -36,7 +36,7 @@
 
 					<li>
 						<div class='row-fluid'>
-							<div class='span2'	
+							<div class='span2'>
 								<a href="#" class="user_image medium css_left">
 									<img src="<?php echo $author->default_photo->thumb_url; ?>" alt="<?php echo $author->screen_name;?>" />
 								</a>					

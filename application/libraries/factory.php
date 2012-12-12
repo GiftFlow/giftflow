@@ -93,7 +93,7 @@ class Factory
 					"results"=>$val,
 					"include"=> $include,
 					"row"=>TRUE,
-					"size" => 'large'
+					"size" => 'bricks'
 				));
 			}
 		}

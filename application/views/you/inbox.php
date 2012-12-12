@@ -11,7 +11,7 @@
 				<?php echo $welcome_view; ?>
 		<?php } else { ?>
 			<ul class= 'nav nav-tabs inbox_nav' id='inbox_tabs' data-tabs='tabs'>
-			<li><a href="#gifts_pane" data-toggle="tab">Gifts (<?php echo $counts['gifts']['total'];?>)</a></li>
+			<li><a  href="#gifts_pane" data-toggle="tab">Gifts (<?php echo $counts['gifts']['total'];?>)</a></li>
 			<li><a href="#thanks_pane" data-toggle="tab">Thanks (<?php echo $counts['thanks']['total'];?>)</a></li>
 			<li><a href="#messages_pane" data-toggle="tab">Conversations (<?php echo $counts['conversations']; ?>)</a></li>
 			</ul>
@@ -19,7 +19,7 @@
 				
 				<!-- gifts/transactions tab pane -->
 				<!-- jquery for showing results at bottom of file -->
-				<div class="tab-pane" id="gifts_pane">
+				<div class="tab-pane active" id="gifts_pane">
 					<ul class="nav nav-pills" id='gifts_nav'>
 						<li class='active'><a href="#all">All</a></li>
 						<?php foreach($trans_status as $key=>$val) { ?>
@@ -55,6 +55,7 @@
 					<?php } ?>
 				</div><!-- close thanks tab-pane -->
 				<div class='tab-pane' id='messages_pane'>
+					<ul class='nav nav-pills' style='height:34px;'></ul>
 					<?php if(!empty($threads)) { ?>
 				
 						<?php echo UI_Results::inbox(array(

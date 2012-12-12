@@ -49,6 +49,9 @@ body {
 	border-top: 2px solid #666;
 }
 
+.need {
+	color: #AB58BE;
+}
 p {
 	font-weight: 400;
 }
@@ -672,44 +675,89 @@ a.good_icon {
 
 
 /* BEGIN Find style */
+.brick_wall {
+	margin:0 auto;
+	width:auto;
+	z-index: 0;
+}
 
 .brick { 
-	max-width: 120px;
+	max-width: 130px;
+	min-width:130px;
 	margin:5px;
 	float:left;
 	min-height:25px;
-	padding: 10px;
 	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 1px 3px 0px;
 	background-color: white;
-	border-radius: 5px;
 	border: 1px solid rgba(0,0,0,0.199219);
 	border-bottom-width: 1px;
 	box-shadow: rgba(0, 0, 0, 0.199219) 0px 1px 3px 0px;
 }
+
+
+.brick:hover {
+	-webkit-box-shadow: 0px 1px 4px 2px #587498;
+	box-shadow: 0px 1px 4px 2px #587498;
+	border: 1px solid #587498;
+}
 .brick_wall a.title {
-	color: #587498;
 	font-weight: 500;
 	display: block;
 	font-size: 18px;
-	margin-bottom: 10px;
+	margin:5px 0px 10px 0px;
 	text-align:center;
 
+}
+.brick_wall a.author {
+	color: #587498;
+	font-weight:400;
+	display:block;
+	font-size: 10px;
+	margin: 5px 0px 5px 0px;
+	text-align:center;
 }
 .brick_wall a.result_image, .brick_wall a.result_sprite {
 	margin:auto;
 }
 
 .brick_wall span.metadata  {
-	color: #666;
+	color: #666666;
 	font-size:10px;
 	line-height:11px;
 }
+.brick_bottom {
+	padding:5%;
+	background-color:#F2F0F0;
+	width: 90%;
+	max-height: 100px;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.brick_bottom span.metadata {
+	display:block;
+	color:#8C7E7E;
+}
+.brick_top {
+	padding:5%;
+	width:90%;
+	text-align:center;
+}
+
  
 #find_page {
 	margin-top: 30px;
 }
 #find_header {
 	margin: 20px 0px 30px 20px;
+}
+.find_header {
+	margin-left: 0px;
+}
+.find_header h1 {
+	display:inline;
+}
+.find_header p {
+	display:inline;
+	margin-left: 20px;
 }
 
 /* find sidebar style */
@@ -754,6 +802,9 @@ ul#categories {
 span.nav_form{
 	margin-top:5px;
 }
+.nav_form div {
+	display:inline-block;
+}
 .find_form div.input-append {
 	display:inline;
 }
@@ -762,6 +813,66 @@ span.nav_form{
 }
 
 /* END find style */
+
+/* new masonry find style */
+#masonry_nav {
+	margin: 20px 0px 20px 0px;
+	border-radius:0px;
+	border-bottom: 2px solid #CCCCCC;
+	z-index:10;
+	padding:5px 0px 0px 0px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 4px 3px 0px;
+	box-shadow: rgba(0, 0, 0, 0.199219) 0px 4px 3px 0px;
+}
+#masonry_nav div {
+	display:inline-block;
+	margin: 0px 0px 5px 10px;
+}
+.search_elements select {
+	height:37px;
+	font-size:15px;
+	margin-top:4px;
+}
+#masonry_nav .btn-group {
+	padding-top:5px;
+}
+.masonry_input {
+	height:25px;
+   border: 2px solid #CCCCCC;
+   font-size:16px;
+   color:#555;
+}   
+.radius_label {
+	display:inline;
+	font-size: 16px;
+	color:#CCCCCC;
+}
+.nav_wrapper {
+	margin: 20px 0px 20px 0px;
+}
+.affix {
+	position:fixed;
+	top:-20px;
+	left:78px;
+	z-index:10;
+}
+.search_elements select, .search_elements form {
+	margin-left:10px;
+	padding-top:5px;
+}
+.search_elements button {
+	margin-left:10px;
+}
+
+li.subcategory {
+	font-size:12px;
+	padding:2px;
+}
+li.subcategory:hover {
+	color:#587498;
+	background-color:#9BBBE4;
+	cursor:pointer;
+}
 
 /* BEGIN simple_find style */
 

@@ -66,15 +66,6 @@ GF.Locations = (function(){
 				if(input.selector === '#header_relocate'){
 					$('#relocate').submit();
 				}
-
-
-				//working with Find index.php scripts here
-				if(GF.Ajax) {
-					GF.Params.set('location', ui.item.value);
-					GF.UI.setLocation(ui.item.value);
-					GF.Ajax.request();
-				}
-				return false;
 			}
 		});
 	};

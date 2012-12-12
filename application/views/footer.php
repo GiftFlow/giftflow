@@ -70,9 +70,10 @@ $(function(){
 		placement: 'bottom'
 	});
 	/* Redirect to link whenever results_list row clicked */
-	$("ul.results_list li, ul.transactions li").live("click",function(){
+	$("ul.results_list li, ul.transactions li, .brick_wall div.brick").live("click",function(){
 		if($(this).find("a.title").length >= 1 && !$(this).parent('ul').hasClass('events')) {
 	       window.location.href = $(this).find("a.title").attr("href");
+		   window.location.css('cursor','pointer');
 	   }
 	 });
 

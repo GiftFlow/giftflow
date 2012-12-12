@@ -107,6 +107,9 @@ class UI_results
 			case "large":
 				$view= $CI->load->view('goods/includes/results',$options,TRUE);
 				break;
+			case "bricks":
+				$view = $CI->load->view('goods/includes/bricks', $options, TRUE);
+				break;
 			default:
 				$view= $CI->load->view('goods/includes/results',$options,TRUE);
 				break;

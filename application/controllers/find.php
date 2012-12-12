@@ -20,7 +20,7 @@ class Find extends CI_Controller {
 		"location"=>NULL,
 		"category_id"=>NULL,
 		"radius"=>10000,
-		"limit"=>20,
+		"limit"=>10,
 		"offset"=>0,
 		'order_by' => NULL,
 		'profile_type' => NULL
@@ -128,12 +128,12 @@ class Find extends CI_Controller {
 
 		$this->data['people_menu'] = $this->load->view('people/includes/submenu.php', $this->data, TRUE);
 
-		//$this->data['js'][] = 'GF.Locations.js';
+		$this->data['js'][] = 'masonry.js';
 
 		// Load views
 		$this->load->view('header',$this->data);
 		//$this->load->view('find/includes/header',$this->data);
-		$this->load->view('find/index', $this->data);
+		$this->load->view('find/masonry', $this->data);
 		$this->load->view('footer', $this->data);
 		
 		Console::logSpeed("Find::items(): done.");
@@ -177,7 +177,7 @@ class Find extends CI_Controller {
 				"keyword"=>$this->args["q"],
 				"location"=>$this->args['location'],
 				"radius"=>$this->args['radius'],
-				"limit"=>100,
+				"limit"=>10,
 				"order_by"=>$this->args['order_by'],
 				"sort" => $this->args['sort'],
 				'status' => 'active',
@@ -200,10 +200,10 @@ class Find extends CI_Controller {
 				"type"=>$this->args["type"],
 				"category_id"=>$this->args["category_id"],
 				"order_by"=>$this->args["order_by"],
-				"limit"=>100,
 				"status"=>"active",
 				'sort' =>$this->args['sort'],
-				'radius' => $this->args['radius']
+				'radius' => $this->args['radius'],
+				'limit' =>30
 			);
 			
 			$results = $GS->find($options);

@@ -82,8 +82,13 @@ if(isset($css))
 					</a>
 				</li>
 				<li>
-					<a href="<?php echo site_url('find/simple_find'); ?>">
-						Find
+					<a href="<?php echo site_url('find/?type=need'); ?>">
+						Give
+					</a>
+				</li>
+				<li>
+					<a href="<?php echo site_url('find/?type=gift'); ?>">
+						Get
 					</a>
 				</li>
 				<li>
