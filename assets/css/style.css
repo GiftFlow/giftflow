@@ -407,6 +407,35 @@ span.key{
 	font-size: 15px;
 	color: #666;
 }
+#login-form li {
+	margin-bottom: 5px;
+}
+
+#dropfbook {
+	margin-top: -10px;
+	width: auto;
+	height: auto;
+}
+#dropfbook:hover {
+	background-color:transparent;
+}
+#dropforgot a {
+	font-size: 1em;
+	margin: 8px 0px 5px 0px;
+	color: #6cb6e2 !important;
+	font-weight:bold;
+}
+#dropforgot a:hover {
+	background: #FFF;
+	opacity: .8;
+}
+#dropsignup a {
+margin: 12px 15px 5px 15px;
+	width:auto
+}
+#dropsignup a:hover {
+	background-color:#05C;
+}
 
 /* END header style */
 

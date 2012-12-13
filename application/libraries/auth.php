@@ -106,24 +106,31 @@ class Auth
 	/**
 	* Resets and saves new User password
 	*
-	*	@param options array
+	* @param object $user 
+	* @param array $post
 	*/
-	function reset_password($U = NULL)
+	function reset_password($user, $post)
 	{
 		
-		$this->U = new User;
+		$U = new User;
 		
-		$this->U->where('id', $U->id)->get();
+		$U->where('id', $user->id)->get();
 		
-		$this->U->password = $this->CI->input->post('password');
+		$U->password = $post['password'];
 		// Generate salt based on time and email
-		$this->U->salt =  sha1('~'.$this->U->email.'~'.microtime(TRUE));
+		$U->salt =  sha1('~'.$U->email.'~'.microtime(TRUE));
 		// Generate forgotten password code
-		$this->U->forgotten_password_code = sha1('$'.$this->U->ip_address.'$'.microtime(TRUE));
+		$U->forgotten_password_code = sha1('$'.$U->ip_address.'$'.microtime(TRUE));
 		
-		$this->U->activation_code = "0";
+		$U->activation_code = "0";
 		
-		return($this->U->save_new_password());
+		if($U->save())
+		{
+			return TRUE;
+		} else {
+			show_error('auth::reset_password');
+			return FALSE;
+		}
 			
 	}
 	

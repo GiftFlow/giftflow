@@ -14,6 +14,8 @@
  *
  *	@author Brandon Jackson
  * 	@package Libraries
+ *
+ *	@param data is always an object
  */
 
 class Notify
@@ -76,8 +78,8 @@ class Notify
 	/**
 	 * Sends message to user if a new posting matches one of their watches
 	 * 
-	 * @param type $watch
-	 * @param type $good 
+	 * @param object $watch
+	 * @param oobjectt $good 
 	 */
 	function alert_user_watch_match($watch, $good) {
 		
@@ -114,7 +116,6 @@ class Notify
 	*	$data->Transaction: Transaction object representing the request itself
 	*	$data->Good: Good object of the gift requested
 	*
-	*	@param array $params
 	*	@param array $data		$this passed from the controller
 	*/
 	function alert_transaction_new($data)
@@ -142,6 +143,11 @@ class Notify
 		$A->send();
 	}
 	
+
+	/**
+	 * Called when user Accepts a transaction
+	 * param object $data
+	 */
 	function alert_transaction_activated($data)
 	{
 		$A = new Alert();
@@ -165,6 +171,10 @@ class Notify
 		$A->send();
 	
 	}
+
+	/**
+	 * param object $data
+	 */
 	
 	function alert_transaction_message($data)
 	{
@@ -189,6 +199,10 @@ class Notify
 		$A->send();
 	}
 
+	/**
+	 * param object $data
+	 */
+
 	function alert_user_message($data)
 	{
 		$A = new Alert();
@@ -207,6 +221,9 @@ class Notify
 		$A->send();
 	}
 
+	/**
+	 * param object $data
+	 */
 	
 	function review_new($data)
 	{
@@ -230,6 +247,7 @@ class Notify
 
 	/** 
 	*	Email forgotten password code to user
+	*	param object $data
 	*
 	*/
 	function reset_password($data)
@@ -237,11 +255,11 @@ class Notify
 		$A = new Alert();
 		
 		$A->parseables = array(
-			'password_reset_link' => site_url('member/reset_password/'.$data['forgotten_password_code']),
+			'password_reset_link' => site_url('member/reset_password/?code='.$data->forgotten_password_code),
 			'subject' => 'Reset your password',
-			'screen_name' => $data['screen_name'],
+			'screen_name' => $data->screen_name,
 			);
-		$A->to = $data['email'];
+		$A->to = $data->email;
 		
 		$A->template_name = "reset_password";
 		
@@ -249,28 +267,9 @@ class Notify
 	
 	}
 	
-	/**
-	* For admin purposes ONLY - sends email to admin with information about a given error
-	* DOES NOT WORK 
-	*/
-	function report_error($data)
-	{
-		$A = new Alert();
-		$A->parseables = array (
-			"subject" => $data['heading'],
-			"message" => $data['message'],
-			"page"=> $data['page']
-		);
-		
-		$A->template_name = "report_error";
-		
-		$A->to = "admin@giftflow.org";
-		
-		$A->send();
-	}
-	
-	/**
+	/*
 	*	For admin purposes ONLY - sends email from about/contact form to admin@giftflow
+	*	param object $data
 	*
 	*/
 	function contact_giftflow($data)
@@ -279,9 +278,9 @@ class Notify
 		
 		$A->parseables = array (
 			'subject' => 'Message from Outer Space',
-			'message' => $data['message'],
-			'email' => $data['email'],
-			'name' => $data['name']
+			'message' => $data->message,
+			'email' => $data->email,
+			'name' => $data->name
 			);
 			
 		$A->template_name = 'contact_giftflow';
@@ -294,6 +293,7 @@ class Notify
 	 * When a user 'thanks' another, this function sends the recipient an email with
 	 * the text of the thank and 'approve/decline' buttons
 	 * The buttons then call the thank controller which validates/disables the thankyou
+	 * param object $data
 	 */
 	function thankyou($data)
 	{
@@ -313,6 +313,11 @@ class Notify
 		$A->send();
 	}
 
+
+	/*
+	 * param object $data
+	 */
+
 	function thankyou_updated($data)
 	{
 		$A = new Alert();
@@ -331,6 +336,11 @@ class Notify
 		$A->send();
 	}
 
+
+	/*
+	 * param array $data
+	 */ 
+
 	function remind($data)
 	{
 		$A = new Alert();
@@ -347,6 +357,11 @@ class Notify
 		$A->send();
 	}
 
+
+	/*
+	 * param object $data
+	 */
+
 	function send_matches($data) 
 	{
 		$A = new Alert();
@@ -362,6 +377,10 @@ class Notify
 		$A->send();
 
 	}	
+
+	/*
+	 * param array $data
+	 */
 
 	function thankInvite($data)
 	{

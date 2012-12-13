@@ -232,32 +232,44 @@ class Member extends CI_Controller {
 	
 	
 	/**
-	*	Email reset_password link to user
+	* Forgotten password procedure works as follows
+	* User clicks a "Forgot your password?" link taking them here. If POST is empty, a form is loaded.
+	* The submitted for returns back here. Using the submitted email we get the
+	* associated forgotten_password_code, or generate one if the email lacks one.
+	* Then the notify library sends them an reset_link including the code, which routes them to
+	* the reset_password function below.
+	*
+	*	Handle forgot_password form data and Email reset_password link to user
+	*
+	*	@author Hans
 	*
 	*/
 	function forgot_password()
 	{
 		if(!empty($_POST))
 		{
-			$email = $_POST['email'];
+			$input = $this->input->post();
+			$email = $input['email'];
+
+			//get User row, include forgotten password code generated upon initial registration
 			$this->load->library('Search/User_search');
-			$U = new User_search();
+			$U_search = new User_search();
 			$options = array(
 				'email' => $email, 
 				'include_forgotten_password_code' => TRUE
 			);
 			
-			$this->U = $U->get($options);
+			$U = $U_search->get($options);
 			
-			if($this->U->email == $email)
+			if(isset($U->id))
 			{
 				$event_data = array(
-					"email" => $this->U->email,
-					"screen_name" => $this->U->screen_name,
-					"user_id" => $this->U->id
+					"email" => $U->email,
+					"screen_name" => $U->screen_name,
+					"user_id" => $U->id
 				);
 				//If user is old and doesn't have code already in database
-				if(empty($this->U->forgotten_password_code))
+				if(empty($U->forgotten_password_code))
 				{
 					$new_code = sha1('$newpassword%$'.microtime(TRUE));
 					$event_data['forgotten_password_code'] = $new_code;
@@ -274,11 +286,12 @@ class Member extends CI_Controller {
 				}
 				else
 				{
-					$event_data['forgotten_password_code'] = $this->U->forgotten_password_code;
+					$event_data['forgotten_password_code'] = $U->forgotten_password_code;
 				}
 				
+				$event_data = (object)$event_data;
 				$this->load->library('event_logger');
-				$this->event_logger->reset_password($event_data);
+				$this->event_logger->basic('reset_password',$event_data);
 				
 				$this->load->library('notify');
 				$this->notify->reset_password( $event_data);
@@ -287,7 +300,7 @@ class Member extends CI_Controller {
 			}
 			else  // TODO: Give a better error message for accounts that do not exist
 			{
-				$this->session->set_flashdata('error','Sorry an error occured');
+				$this->session->set_flashdata('error','Sorry but we could not find an account with the email address you provided.');
 				redirect('');
 			}
 			
@@ -307,49 +320,60 @@ class Member extends CI_Controller {
 	/**
 	* Process reset_password link, then redirect to reset password page
 	*
+	* @author hans
+	*
+	* @param $code string passed via GET
+	*
 	*/
-	function reset_password( $code )
+	function reset_password()
 	{
+		$code = $this->input->get('code');
 		if(empty($code))
 		{
 			$this->session->set_flashdata('error','Your forgotten code did not work');
 			redirect('');
-		}
-		else
-		{
-			$this->U = new User();
-			$this->U->where('forgotten_password_code', $code)->get();
+
+		} else {
+
+			$U = new User();
+			$U->where('forgotten_password_code', $code)->get();
 			
-			if(count($this->U->all)==1)
+			if(!$U->exists())
 			{
-				$this->auth->manual_login($this->U, FALSE);
-				return $this->enter_new_password();
-				$this->session->set_flashdata('success','Now you can reset your password');
-			}
-			else
-			{
-				$this->session->set_flashdata('error','Your forgotten password code did not work');
+				$this->session->set_flashdata('error','Your forgotten password code did not work. Please contact email info@giftflow.org for assistance.');
 				redirect('');
-			}
+			} else {
+				$this->load->library('auth');
+				$this->auth->manual_login($U, FALSE);
+				$this->session->set_flashdata('success','Now you can reset your password');
 				
+				$this->new_password_form();
+
+			}
 		}
-	
-	
 	}
 	
-	function enter_new_password()
+	/**
+	 * processes form data from new_password form
+	 * or loads new password_form
+	 * @param int user_id
+	 *
+	 */
+	protected function enter_new_password()
 	{
 		if(!empty($_POST))
 		{
+			$post = $this->input->post();
+
 			$this->load->library('Search/User_search');
-			$U = new User_search();
-			$this->U = $U->get($options = array('user_id' => $this->data['userdata']['user_id']));
+			$U_search = new User_search();
+			$U = $U_search->get($options = array('user_id' => $this->session->userdata('user_id')));
 			
-			if($this->U->email == $_POST['email'])
+			if($U->email == $post['email'])
 			{
 				$this->load->library('auth');
 				$A = new Auth();
-				if($A->reset_password($this->U))
+				if($A->reset_password($U, $post))
 				{
 					$this->session->set_flashdata('success','New password saved!');
 					redirect('you');
@@ -364,12 +388,20 @@ class Member extends CI_Controller {
 		}
 		else
 		{
+			//user submitted blank form
 			$this->new_password_form();
 		}
 	}
-	
+		
+	/**
+	 * Loads new_password form
+	 * for user, already validated to enter their new password
+	 * passes user_id as a hidden form field
+	 * @param int user_id
+	 */
+
 	protected function new_password_form()
-	{
+	{	
 		//Load view to enter new password
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['title'] = "Reset Password";
@@ -377,7 +409,6 @@ class Member extends CI_Controller {
 		$this->load->view('member/new_password', $this->data);
 		$this->load->view('footer', $this->data);
 	}
-	
 	
 	protected function _login_form($redirect)
 	{

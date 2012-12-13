@@ -205,15 +205,16 @@ if(isset($css))
 							<!-- eof Facebook Link -->
 							<?php } ?>
 							
+							<li id='dropsignup'>
+								<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-primary btn-large'>
+									Sign Up
+								</a>
+							</li>
 							<li id='dropforgot'>
 								<a href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
 								</a>
 							</li>
 						</ul>
-
-					<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-large btn-success'>
-						Sign Up
-					</a>
 					</div>
 				</div><!-- close visitor buttons -->
 			<?php } ?>

@@ -36,19 +36,19 @@ class Event_logger
 	*	type if the method called isn't defined explicitly
 	*
 	*	@param string $name			Name of method called
-	*	@param array $arguments		Arguments passed
+	*	@param array $data		Arguments passed
 	*/
-	function __call($name,$arguments)
+	function __call($name,$data)
 	{
 		// TODO: remove this function
-		$E = $this->basic($name,$arguments);
+		$E = $this->basic($name,$data);
 	}
 	
 	/**
 	*	Creates basic event entry using only event name and data
 	*
 	*	@param string $name
-	*	@param array $data
+	*	@param object $data
 	*	@return object $E
 	*/
 	function basic($name,$data)
@@ -57,7 +57,13 @@ class Event_logger
 		$E->type = $name;
 		$E->data = json_encode($data);
 		
-		$E->user_id = $this->CI->session->userdata('user_id');
+		if($this->CI->session->userdata('user_id')){
+			$E->user_id = $this->CI->session->userdata('user_id');
+		} elseif (isset($data->user_id)) {
+			$E->user_id = $data->user_id;
+		} else {
+			show_error('Event_logger::basic missing user_id');
+		}
 
 		if(!empty($data->transaction_id)) {
 			$E->transaction_id = $data->transaction_id;
@@ -234,7 +240,7 @@ class Event_logger
 
 
 	
-	function reset_password($params, $data)
+	function reset_passworkjnd($params, $data)
 	{
 		$E = new Event();
 		$E->type = 'reset_password';

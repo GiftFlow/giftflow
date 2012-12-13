@@ -263,25 +263,6 @@ class User extends DataMapperExtension {
 		$this->status = "active";
 		$this->save();
 	}
-	
-	/** 
-	* Update password and salt from old and forgotten to NEW 
-	*
-	*/
-	function save_new_password()
-	{
-		if($this->save())
-		{
-			return TRUE;
-		}
-		else
-		{
-			echo $this->error->string;
-			return FALSE;
-		}
-	
-	}
-	
 	/**
 	* 	Returns the user's current gifts
 	*

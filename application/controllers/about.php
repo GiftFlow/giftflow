@@ -68,12 +68,16 @@ class About extends CI_Controller {
 		if( ! empty($_POST) ) 
 		{					
 			$this->load->library('Notify');
+			$input = $this->input->post();
 
-			$this->notify->contact_giftflow(array(
-				'name' => $_POST['name'],
-				'email' => $_POST['email'],
-				'message' => $_POST['message']
-				));
+			$data = array(
+				'name' => $input['name'],
+				'email' => $input['email'],
+				'message' => $input['message']
+				);
+			$data = (object)$data;
+
+			$this->notify->contact_giftflow($data);
 			
 			$this->session->set_flashdata('success', 'Message submitted. We will get back to you as soon as possible.');
 			redirect('');
