@@ -328,7 +328,7 @@ if (!empty($flashdata_error))
 				<a href='<?php echo $crumb['href']; ?>'>
 					<?php echo $crumb['title']; ?>
 				</a>
-				<span class='ui-icon ui-icon-triangle-1-e' id='breadcrumb_delimiter'></span>
+				<span class='ui-icon ui-icon-triangle-1-e breadcrumb_delimiter'></span>
 				
 			<?php } else { ?>
 			

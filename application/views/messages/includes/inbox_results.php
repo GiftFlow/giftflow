@@ -6,9 +6,6 @@
 		<?php foreach($results as $T) { ?>
 		<li class='message_row'>
 				<div class='row-fluid'>		
-					<div class='span1'>
-						<img src="<?php echo base_url()."assets/images/status_icons/active.png";?>" title="" alt="" class="left status_icon" />
-					</div>
 					<div class='span2'>
 						<a class='user_image medium left' href='<?php echo site_url('people/'.$T->other_user->id); ?>'>
 							<img src="<?php echo $T->other_user->default_photo->thumb_url;?>"/>

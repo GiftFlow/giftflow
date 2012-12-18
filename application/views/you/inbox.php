@@ -11,7 +11,7 @@
 				<?php echo $welcome_view; ?>
 		<?php } else { ?>
 			<ul class= 'nav nav-tabs inbox_nav' id='inbox_tabs' data-tabs='tabs'>
-			<li><a  href="#gifts_pane" data-toggle="tab">Gifts (<?php echo $counts['gifts']['total'];?>)</a></li>
+			<li class='active'><a href="#gifts_pane" data-toggle="tab">Gifts (<?php echo $counts['gifts']['total'];?>)</a></li>
 			<li><a href="#thanks_pane" data-toggle="tab">Thanks (<?php echo $counts['thanks']['total'];?>)</a></li>
 			<li><a href="#messages_pane" data-toggle="tab">Conversations (<?php echo $counts['conversations']; ?>)</a></li>
 			</ul>

@@ -5,8 +5,7 @@
 <?php } ?>
 
 	<?php foreach($results as $val) { ?>
-	
-	<li class="transaction_row <?php if($val->unread) { echo 'unread'; } ?> <?php echo $val->status ?>">
+		<li class="transaction_row <?php if($val->unread) { echo 'unread'; } ?> <?php echo $val->status ?>">
 			<div class='row-fluid'>
 				<div class='span2'>
 					<a href="#" class="user_image medium left">

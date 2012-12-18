@@ -6,20 +6,17 @@
 	</div>
 	
 	<div class='span9'>
-		<div class="inbox_summary chunk">
-		<div class='row-fluid'>
+		<div class='row-fluid inbox_summary chunk'>
 			<div class='span2'> 
 				<a href="<?php echo site_url('people/'.$other_user->id);?>" class="user_image medium left">
 					<img src="<?php echo $other_user->default_photo->thumb_url; ?>" alt="<?php echo $other_user->screen_name;?>" />
 				</a>
 			</div>
-			<div class='span6'>
-				<a href="<?php echo site_url('you/inbox/'.$transaction->id);?>" class="title">
-					Request <?php echo $demander ? "to":"from"; echo " ".$other_user->screen_name;?>
-				</a>
-				<span class="summary">
+			<div class='span8'>
+				<span class='summary'>
 				<?php echo $demander ? $transaction->language->demander_summary : $transaction->language->decider_summary; ?>
 				</span>
+				<p>Current Status: <span class='label label-info'><?php echo $transaction->status; ?></span></p>
 			</div>
 			<div class='span2'>
 				<span class="updated css_right">
@@ -28,9 +25,43 @@
 			</div>
 		</div>
 		<div class='row-fluid'>
+			<div class='span2'>
+				<span class='label'>Step by Step Guide</span>
+			</div>
+			<div class='span10 chunk trans_helper'>
+				<ul class='nav nav-pills' id='trans_nav'>
+					<li <?php if($transaction->status == 'pending') { echo "class='active'"; }?> >
+						<a id='nav_pending' href='#'>Pending</a>
+					</li>
+					<li <?php if($transaction->status =='active') { echo "class='active'"; } ?> >
+						<a id='nav_active' href='#'>Active</a>
+					</li>
+					<li <?php if($transaction->status == 'completed') { echo "class='active'"; } ?> >
+						<a id='nav_completed' href='#'>Completed</a>
+					</li>
+					<li <?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { echo "active"; } ?> >	
+						<a id='nav_cancelled' href='#'>Cancelled/Declined</a>
+					</li>
+				</ul>
+				<div class='nav_text'>		
+					<span class='nav_pending'><em>Pending: </em> The gift is "pending" until it has either been accepted or declined by the person who received the request. </span>
+					<span class='nav_active'><em>Active: </em> Once the request has been accepted, the gift becomes "active".  Correspond via message, email or phone to set up a meeting. Choose a convient public location.</span>
+					<span class='nav_cancelled'><em>Cancelled/Declined: </em> The recipient of the request can decline to participate. Likewise the iniitator can cancel the request. Not everything works out, but don't stop trying!</span>
+					<span class='nav_completed'><em>Completed: </em> The gift interaction is completed when both sides write reviews of one another. Be sure to include details of the experience and feedback for the other person.</span>
+				</div>
+			</div>
+	
+
+		</div>
+		<div class="inbox_summary chunk">
+			<div class='row-fluid'>
 			<div class='span12'>
+
+		<!-- anything but cancelled or declined -->
 			<?php if($transaction->status!="declined" && $transaction->status!="cancelled") { ?>
-				<p>What's Next</p>
+				<p class='nicebigtext' >What's Next</p>
+
+				<!-- PENDING -->
 					<?php if($transaction->status=="pending"){ ?>
 						<?php if($demander){ ?>
 							<p>Waiting for <?php echo $other_user->screen_name; ?> to respond</p>
@@ -41,6 +72,8 @@
 								</form>
 
 							<?php } else { ?>
+							<p>By clicking Accept, you agree to participate in this gift. Write <?php echo $other_user->screen_name; ?> a message if you have questions. </p>
+							<p>Upon completion both of you will write public reviews of each other. This is a great way to build credibility and gratitude on GiftFlow. If you do not want to participate in the requested gift, simply click Decline and nothing will appear on your profile. </p>
 							
 								<form method='post' id='decide_transaction'>
 									<input type='hidden' name='form_type' value='decide_transaction'/>
@@ -50,20 +83,34 @@
 									</div>
 								</form>
 							<?php } ?>
-					<?php } elseif ($transaction->status == 'active') { ?>
-									<p>It's go time! Arrange a time and place for the gift to happen. Then write a review when you're done.</p>
-							<?php } ?>
-					<?php if ($transaction->status == 'active' || $transaction->status =='completed') { ?>
+
+				<!-- ACTIVE -->
+					<?php } elseif ($transaction->status == 'active' && !$has_reviewed && !$other_reviewed) { ?>
+							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
+									Arrange a time and place for the gift to happen.
+							</p>
+							<p> <a href="#" id="write_review" class="left btn">Write Review</a>
+									Write a review after the gift has taken place.
+							</p>
+					<?php } ?>
+					<?php if ($transaction->status == 'active' && $other_reviewed) { ?>
+							<p><?php echo $other_user->screen_name; ?> has written a review of you.</p>
+								<p>Write a review of <?php echo $other_user->screen_name; ?>. Be detailed and sincere.
+									<a href="#" id="write_review" class="left btn">Write Review</a>
+									</p>
+								<p>Has there been a misunderstanding? Anything to clear up?
 									<a href="#" class="left btn" id="write_message">Write Message</a>
-									<?php if(!$has_reviewed) { ?>
-										<a href="#" id="write_review" class="left btn">Write Review</a>
-									<?php } ?>
+								</p>
 					<?php } ?>
 					<?php if($transaction->status == 'completed' && $has_reviewed && $is_owner) { ?>
-						<p><?php echo $delete_prompt; ?></p>
+						<p>Congratulations. You have completed a gift!! <?php echo $delete_prompt; ?></p>
 						<a href="<?php echo $delete_link; ?>" class='left btn'>Delete <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
 					<?php } ?>
-			<?php } ?>
+				<?php } ?>
+				<!-- cancelled or declined -->
+				<?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { ?>
+					<p>Interaction with <?php echo $other_user->screen_name; ?> has been <?php echo $transaction->status; ?></p>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -157,8 +204,19 @@
 
 <script type='text/javascript'>
 $(function(){
-	$("table tr:even").addClass("odd");
-	$("table tr:odd").addClass("even");
+
+	$('#'+<?php echo $helper_text; ?>).show();
+
+	var active = $('#trans_nav').find('li.active a');
+	$('.'+active.attr('id')).show();
+
+	$('#trans_nav li a').click(function() {
+		$('.nav_text span').hide();
+		var panel = $(this).attr('id');
+		console.log(panel);
+		$('.'+panel).show();
+	});
+
 	$("form#review").validate({
 		highlight: function(label) {
 			$(label).closest('.control-group').addClass('error').removeClass('success');

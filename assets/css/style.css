@@ -158,9 +158,9 @@ ul.breadcrumbs li{
 ul.breadcrumbs li a{
 	float: left;
 }
-#breadcrumb_delimiter{
+.breadcrumb_delimiter{
 	float: right;
-	margin: 4px 7px 0px;
+	margin: 0px 7px 5px;
 	background-image: url('silver/images/ui-icons_888888_256x240.png');
 }
 
@@ -177,7 +177,7 @@ ul.breadcrumbs li a{
 	font-size: 18px;
 	padding: 7px 7px 6px;
 	font-family:'helvetica neue', helvetica, arial;
-	width: 100%;
+	width: 95%;
 }
 
 /* header nav style */
@@ -1145,11 +1145,16 @@ ul.inbox li img.status_icon, .inbox_summary img.status_icon {
 .inbox_summary p {
 	margin-top: 10px;
 }
+.inbox_summary .summary {
+	font-size:16px;
+	font-weight:400;
+}
 
 .updated{
 	font-size: 12px;
 	color: #ccc;
 	margin-top: 5px;
+	float:right;
 }
 .interaction_header {
 	margin-bottom: 20px;
@@ -1179,6 +1184,20 @@ ul#you_sidebar ul#account_menu li a{
 ul#you_sidebar ul#account_menu li.active a {
 	background:#65B15B !important;
 	color: #FFF;
+}
+
+.trans_helper { 
+	padding: 5px;
+}
+#trans_nav {
+	margin-bottom: 10px;
+}
+.nav_text span {
+	display:none;
+}
+
+li.review{
+	border-bottom: 2px solid #EEE;
 }
 
 .good_buttons {

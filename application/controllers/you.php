@@ -10,7 +10,6 @@ class You extends CI_Controller {
 		parent::__construct();
 		$this->util->config();
 		$this->data = $this->util->parse_globals();
-		$this->data['welcome'] = FALSE;
 		$this->load->library('Search/Review_search');
 		$this->load->library('Search/Transaction_search');
 		$this->load->library('Search/Good_search');
@@ -222,6 +221,7 @@ class You extends CI_Controller {
 	{
 		Console::logSpeed("You::view_transaction()");
 		
+		
 		// Loading libraries
 		$this->load->library('Messaging/Conversation');
 		$this->load->helper('form');
@@ -244,29 +244,6 @@ class You extends CI_Controller {
 		));
 		$this->data['transaction'] = $T_result;
 		
-		
-		//Check for already existing review written by logged in user
-		$this->data['has_reviewed'] = $T_model->has_review_by_user($U->id);
-		
-		//If existing review found, load it
-		if($this->data['has_reviewed'])
-		{
-			$RS = new Review_search;
-			$this->data['reviews'] = $RS->find(array(
-				"transaction_id" => $id
-			));
-		}		
-		
-		//Set data for delete link, allowing user to easily delete good after transaction is over	
-		$this->data['delete_link'] = site_url()."/".$T_result->demands[0]->good->type."s/".$T_result->demands[0]->good->id."/disable";
-		$this->data['is_owner'] = ($T_result->demands[0]->good->user->id == $this->data['logged_in_user_id'])? TRUE : FALSE;
-		$this->data['delete_prompt'] = ($T_result->demands[0]->good->type == 'gift')? "Can you give this gift again? If not, click this button to delete it." : "Has your need been fulfilled? If so, click this button to delete it.";
-
-		
-		//Check if both users have submitted a review
-		$this->data['both_reviews'] = $T_model->has_both_reviews();
-
-		// Done Loading Data
 		
 		// Processing $_POST Data
 		if(!empty($_POST))
@@ -391,9 +368,36 @@ class You extends CI_Controller {
 			$this->data['current_user'] = $this->data['transaction']->decider;
 
 		}
+
+		
+			
+		//Set data for delete link, allowing user to easily delete good after transaction is over	
+		$this->data['delete_link'] = site_url()."/".$T_result->demands[0]->good->type."s/".$T_result->demands[0]->good->id."/disable";
+		$this->data['is_owner'] = ($T_result->demands[0]->good->user->id == $this->data['logged_in_user_id'])? TRUE : FALSE;
+		$this->data['delete_prompt'] = ($T_result->demands[0]->good->type == 'gift')? "Can you give this gift again? If not, click this button to delete it." : "Has your need been fulfilled? If so, click this button to delete it.";
+
+		//Check for already existing review written by logged in user
+		$this->data['has_reviewed'] = $T_model->has_review_by_user($U->id);
+		$this->data['other_reviewed'] = $T_model->has_review_by_user($this->data['other_user']->id);
+		$this->data['both_reviews'] = $T_model->has_both_reviews();
+		
+		$this->data['helper_text'] = $this->data['transaction_role']."_".$this->data['transaction']->status;
+
+		
+		//If existing review found, load it
+		if($this->data['has_reviewed'])
+		{
+			$RS = new Review_search;
+			$this->data['reviews'] = $RS->find(array(
+				"transaction_id" => $id
+			));
+		}		
+		
 		//Prepare review data for View
 		if($this->data['has_reviewed']) 
-			{
+		{
+			$this->data['helper_text'] .= '_reviewed';
+
 				foreach($this->data['reviews']['reviews'] as $key=>$val)
 				{ 
 					if($val->reviewer_id == $this->data['logged_in_user_id']) 
@@ -429,9 +433,12 @@ class You extends CI_Controller {
 		Console::logSpeed("Notify::transaction_viewed()");
 		$this->db->query("UPDATE `notifications` AS N JOIN events AS E ON N.event_id=E.id SET `N`.`enabled` = 0 WHERE `E`.`transaction_id` = ? AND `N`.`user_id` = ?",array($id, $this->data["logged_in_user_id"]));		
 
+		$this->data['helper_text'] = json_encode($this->data['helper_text']);
+
 		// Title
 		$this->data['title'] = "Gift  with ".$this->data['other_user']->screen_name;
-	/*	
+
+
 		// Breadcrumbs
 		$this->data['breadcrumbs'][] = array(
 			"title"=>"You", 
@@ -442,10 +449,10 @@ class You extends CI_Controller {
 			"href" =>site_url('you/inbox')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>$id,
-			'href' => site_url('you/view_transaction/'.$id)
+			"title"=>$this->data['title'],
 		);
-	 */			
+
+
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		$this->data['review_form'] = $this->load->view('you/includes/review_form', $this->data, TRUE);
@@ -531,6 +538,21 @@ class You extends CI_Controller {
 		$thankyou = $T->find(array('id'=>$id));
 		$this->data['thankyou'] = $thankyou[0];
 	
+
+		// Breadcrumbs
+		$this->data['breadcrumbs'][] = array(
+			"title"=>"You", 
+			"href"=>site_url('you')
+		);
+		$this->data['breadcrumbs'][] = array (
+			"title"=>"Thanks",
+			"href" =>site_url('you/inbox')
+		);
+		$this->data['breadcrumbs'][] = array (
+			"title"=>'from '.$this->data['thankyou']->screen_name
+		);
+
+
 		// Menu
 		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
 		$this->data['title'] = 'Thank you';

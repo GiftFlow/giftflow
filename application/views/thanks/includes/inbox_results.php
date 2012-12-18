@@ -7,9 +7,6 @@
 	<?php foreach($results as $val) { ?>
 		<li class='thank_row <?php echo $val->status; ?>'>
 			<div class='row-fluid'>	
-				<div class='span1'>	
-					<img src="<?php echo base_url()."assets/images/status_icons/".$val->status.".png";?>" title="<?php echo ucfirst($val->status);?>" alt="<?php echo ucfirst($val->status);?>" class="left status_icon" />
-				</div>
 				<div class='span2'>
 					<a href="#" class="user_image medium left">
 						<img src="<?php echo $val->default_photo->thumb_url; ?>" alt="<?php echo $val->screen_name;?>" />
@@ -20,7 +17,7 @@
 							Thank you from <?php echo $val->screen_name; ?>
 						</a>
 						<span class="summary">
-							For: " <?php echo $val->gift_title; ?>"
+							For: <?php echo $val->gift_title; ?>
 						</span>
 					
 					<span class="updated">

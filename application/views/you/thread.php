@@ -66,7 +66,7 @@
 						<input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>" />
 						<input type='hidden' name='recip_id' value="<?php echo $thread->other_user->id; ?>"/>
 						<label>Send a Message</label>
-						<textarea rows="5" name="body" id="message_body"></textarea>
+						<textarea rows="5" name="body" id="message_body" class='big-border'></textarea>
 						<input type="submit" value="Send" class="button btn btn-primary" />
 					</form>
 				</li>
