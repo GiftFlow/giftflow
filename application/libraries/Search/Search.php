@@ -48,10 +48,10 @@ class Search {
 		// Assemble SQL Clauses
 		
 		// Add latitude WHERE BETWEEN clause
-		$this->CI->db->where("L.latitude BETWEEN ".$location->bounds['latitude']['min']." AND ".$location->bounds['latitude']['max']);
+		//$this->CI->db->where("L.latitude BETWEEN ".$location->bounds['latitude']['min']." AND ".$location->bounds['latitude']['max']);
 		
 		// Add longitude WHERE BETWEEN clause
-		$this->CI->db->where("L.longitude BETWEEN ".$location->bounds['longitude']['min']." AND ".$location->bounds['longitude']['max']);
+		//$this->CI->db->where("L.longitude BETWEEN ".$location->bounds['longitude']['min']." AND ".$location->bounds['longitude']['max']);
 		
 		// Add default_location_id WHERE clause
 		// $this->CI->db->where("U.default_location_id IS NOT NULL");

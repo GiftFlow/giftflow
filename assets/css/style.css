@@ -735,6 +735,7 @@ a.good_icon {
 	font-size: 18px;
 	margin:5px 0px 10px 0px;
 	text-align:center;
+	word-wrap:break-word;
 
 }
 .brick_wall a.author {
@@ -744,6 +745,7 @@ a.good_icon {
 	font-size: 10px;
 	margin: 5px 0px 5px 0px;
 	text-align:center;
+	word-wrap:break-word;
 }
 .brick_wall a.result_image, .brick_wall a.result_sprite {
 	margin:auto;
@@ -852,45 +854,36 @@ span.nav_form{
 	padding:5px 0px 0px 0px;
 	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 4px 3px 0px;
 	box-shadow: rgba(0, 0, 0, 0.199219) 0px 4px 3px 0px;
-}
-#masonry_nav div {
-	display:inline-block;
-	margin: 0px 0px 5px 10px;
-}
-.search_elements select {
-	height:37px;
-	font-size:15px;
-	margin-top:4px;
+	height:50px;
+	width:960px;
 }
 #masonry_nav .btn-group {
-	padding-top:5px;
+	display:inline-block;
+	padding: 4px 0px 0px 5px;
 }
+.search_elements select {
+	font-size:15px;
+	margin-top: 5px;
+}
+.search_elements {
+	padding: 4px 0px 0px 0px;
+}
+
 .masonry_input {
 	height:25px;
    border: 2px solid #CCCCCC;
    font-size:16px;
    color:#555;
 }   
-.radius_label {
-	display:inline;
-	font-size: 16px;
-	color:#CCCCCC;
-}
 .nav_wrapper {
 	margin: 20px 0px 20px 0px;
 }
 .affix {
 	position:fixed;
+	width:960px;
 	top:-20px;
-	left:78px;
+	left:135px;
 	z-index:10;
-}
-.search_elements select, .search_elements form {
-	margin-left:10px;
-	padding-top:5px;
-}
-.search_elements button {
-	margin-left:10px;
 }
 
 li.subcategory {

@@ -10,7 +10,7 @@
 			<div class='span2 result_image'>
 					<!-- Image -->
 						<?php if(!isset($G->default_photo->thumb_url)) { ?>	
-							<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image <?php if(!$mini) { echo $G->default_photo->thumb_class; } else { echo $G->default_photo->mini_class; } ?>">
+							<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image <?php echo $G->default_photo->mini_class; ?>">
 							</a>
 						<?php } else { ?>
 							<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">

@@ -185,7 +185,6 @@ class Good_search extends Search
 			
 
 			$this->CI->db->order_by($options->order_by, $options->sort);
-
 			
 			// Execute query
 			Console::logSpeed("Good_search::find(): executing...");
@@ -193,10 +192,6 @@ class Good_search extends Search
 			// Get full results
 			if(!$options->id_search)
 			{	
-				// Set ORDER BY
-				
-				// Set LIMIT
-				$this->CI->db->limit($options->limit, $options->offset);
 
 				$result = $this->CI->db->get()->result();
 				// Hydrate & return results
@@ -222,11 +217,9 @@ class Good_search extends Search
 				$factory = new Good_factory();
 				return $factory->build_goods($options, $result);
 				
-			}
+			} else {
 			
 			// Get simple ID search results
-			else
-			{
 				$this->CI->db->limit($options->limit, $options->offset);
 				$result = $this->CI->db->get()->result_array();
 				$good_ids = array_map( function($good){ return $good['id']; }, $result);

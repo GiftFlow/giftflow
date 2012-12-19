@@ -20,7 +20,7 @@ class Find extends CI_Controller {
 		"location"=>NULL,
 		"category_id"=>NULL,
 		"radius"=>10000,
-		"limit"=>10,
+		"limit"=>50,
 		"offset"=>0,
 		'order_by' => NULL,
 		'profile_type' => NULL
@@ -97,7 +97,7 @@ class Find extends CI_Controller {
 		
 		// Search args
 		$this->data['args'] = $this->args;
-		
+
 		//Store searh radius
 		$this->data['radius'] = $this->args["radius"];
 
@@ -177,7 +177,7 @@ class Find extends CI_Controller {
 				"keyword"=>$this->args["q"],
 				"location"=>$this->args['location'],
 				"radius"=>$this->args['radius'],
-				"limit"=>10,
+				"limit" => $this->args['limit'],
 				"order_by"=>$this->args['order_by'],
 				"sort" => $this->args['sort'],
 				'status' => 'active',
@@ -203,7 +203,9 @@ class Find extends CI_Controller {
 				"status"=>"active",
 				'sort' =>$this->args['sort'],
 				'radius' => $this->args['radius'],
-				'limit' =>30
+				'limit' =>$this->args['limit'],
+				"limit" => $this->args['limit'],
+				'offset' => $this->args['offset']
 			);
 			
 			$results = $GS->find($options);

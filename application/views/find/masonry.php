@@ -8,7 +8,7 @@
 	<?php } ?>
 </div>
 <div class='nav_wrapper'>
-	<div class='row chunk' id='masonry_nav' data-spy='affix' data-offset-top='140'>
+	<div class='row-fluid chunk' id='masonry_nav' data-spy='affix' data-offset-top='140'>
 			<!-- Goods dropdown -->
 			<div class='btn-group span2'>
 				<button class='btn btn-large parent_cat' type='button' id='cat_'>Goods</button>
@@ -29,18 +29,22 @@
 					<?php } ?>
 				</ul>
 			</div>
-			<div class='search_elements span8'>
-				<form name='find_goods' class='find_form'id="find_goods" action="" method='get'>
+			<div class='span4 search_elements'>
+				<form name='find_goods' class='find_form'id="find_goods" action="#" method='get'>
 					<div class='input-append'>
 						<input type='text' size='16' placeholder="<?php if($type == 'people') { echo 'Name'; } else { echo 'Keyword'; } ?>" class='masonry_input' id="q" name='q' value='<?php echo $args["q"];?>' />
 						<button class='btn btn-large' type='submit' id="find"><i class='icon-search'></i> Find</button>
 					</div>
 				</form>
-					<select name="sort" id="order_by" class='input-small'>
-						<option value="newest" selected>Newest</option>
-						<option value="nearby">Nearby</option>
-					</select>
-					<button class='btn btn-large' type='button' href="<?php echo site_url('you/add_good/'.$type);?>"><i class='icon icon-plus'></i>Post <?php echo ucfirst($type); ?></button>
+			</div>
+			<div class='span2 search_elements'>
+				<select name="sort" id="order_by" class='input-small'>
+					<option value="newest">Newest</option>
+					<option value="nearby">Nearby</option>
+				</select>
+			</div>
+			<div class='btn-group span2'>
+				<a class='btn btn-large' href="<?php echo site_url('you/add_good/'.$type);?>"><i class='icon icon-plus'></i> Post <?php echo ucfirst($type); ?></a>
 			</div>
 	</div>
 </div><!-- close row -->
@@ -68,8 +72,10 @@
 <div id='ajax_loader' style='display:none;'>
 	<center>	
 		<?php if($type =='need') { ?>
+			<h3 class='need'>Loading...</h3>
 			<img src="<?php echo site_url('assets/images/285needloader.gif');?>"/>
 		<?php } else { ?>
+			<h3>Loading...</h3>
 			<img src="<?php echo site_url('assets/images/285loader.gif');?>"/>
 		<?php } ?>
 	</center>
@@ -91,6 +97,8 @@ $(function() {
 
 
 	$('.nav_wrapper').height($('#masonry_nav').height());
+	$('#masonry_nav').css('left', $('.brick_wall').offset().left);
+
 
 
 	// GF Namespace wrapper
@@ -101,9 +109,12 @@ $(function() {
 	//Infinite scroll flag
 
 	 GF.UI.scroll_load = false;
+	GF.UI.more_available = false;
 	
 	// Write pre-loaded data
-	GF.Data = <?php echo $results_json; ?>;
+	if(GF.Data.total_results == <?php echo $args['limit']; ?>) {
+		GF.UI.more_available = true;
+	}
 	
 	GF.Params = (function(){
 	
@@ -140,7 +151,6 @@ $(function() {
 	}());
 
 	GF.UI.noResults = function(){
-		console.log("NO RESULTS");
 		$('.results_empty').show();
 	};
 	GF.UI.clearResults = function() {
@@ -159,13 +169,23 @@ $(function() {
 
 	// Process AJAX Data
 	GF.Ajax.process = function(data){
+
+		//check if more results might be available
+		var params = GF.Params.get();
+		if(data.results.length == params.limit) {
+			GF.UI.more_available = true;
+		} else {
+			GF.UI.more_available = false;
+		}
+
 		if(!GF.UI.scroll_load) {
 			GF.UI.clearResults();
 		}
 		if(data.results.length > 0){
 			GF.UI.setResults(data.results);
 		} else {
-			return GF.UI.noResults();
+			console.log('nomore!');
+			GF.UI.noResults();
 		}
 	}
 
@@ -179,7 +199,6 @@ $(function() {
 
 	//Set Event Listeners
 	$('#find_goods').submit(function() {
-		console.log($('#q').val());
 		GF.Params.set('q', $('#q').val());
 		GF.Ajax.request(); 
 	});
@@ -201,11 +220,19 @@ $(function() {
 	//Infinite ScrollerZ
 	$(window).scroll(function()
 	{
-	   if(!GF.UI.scroll_load && $(window).scrollTop() == $(document).height() - $(window).height())
+	   if(GF.UI.more_available && !GF.UI.scroll_load && $(window).scrollTop() == $(document).height() - $(window).height())
 	   {
 		console.log('ahhhh');
 	      $('#ajax_loader').show();
 			GF.UI.scroll_load = true;
+			
+			var params = GF.Params.get();
+			var new_offset = params.offset + params.limit;
+
+			console.log(new_offset);
+			
+			GF.Params.set('offset', new_offset);	
+			
 			GF.Ajax.request();
 	   }
 	});
