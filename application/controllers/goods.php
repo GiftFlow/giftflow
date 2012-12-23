@@ -836,18 +836,17 @@ class Goods extends CI_Controller {
 	*/
 	function _extend_open_graph_tags()
 	{
-		@$extension = array(
-			'og:image' => $this->G->default_photo->thumb_url,
+
+		//set image url. Because we use sprites for category images, we have to provide a specific url
+		//I decided to leave out categories here and just provide a generic gift image, slightly larger because fbook wants a 200px wide image
+
+		$image_url = (isset($this->G->default_photo->url))? $this->G->default_photo->url : site_url('assets/images/fbookGift.png');
+
+		$extension = array(
+			'og:image' => $image_url,
 			'og:title' => "My latest ".ucfirst($this->G->type)." on GiftFlow:  ".$this->G->title,
 			'og:description' => $this->G->description,
 			'og:type' => "product",
-			'og:latitude' => $this->G->location->latitude,
-			'og:longitude' => $this->G->location->longitude,
-			'og:street-address' => $this->G->location->street_address,
-			'og:locality' => $this->G->location->city,
-			'og:region' => $this->G->location->state,
-			'og:postal-code' => $this->G->location->postal_code,
-			'og:country-name' => $this->G->location->country
 		);
 		$this->data['open_graph_tags'] = array_merge($this->data['open_graph_tags'], $extension);
 	}
