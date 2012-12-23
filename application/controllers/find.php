@@ -101,19 +101,12 @@ class Find extends CI_Controller {
 		//Store searh radius
 		$this->data['radius'] = $this->args["radius"];
 
-		// Page can display one of three types of content.
-		// 1. Tags
-		// 2. Tags + No results message
-		// 3. Results & Google Map
-		// Cases 1 & 2: Tags / Tags + No Results Message
-		if(empty($this->data['results']))
-		{
-			$this->data['display'] = 'no_results';
-		}
-		elseif(!empty($this->data['results']))
-		{
-			$this->data['display'] = 'results';
-		}
+		$this->data['display'] = (empty($this->data['results']))? 'no_results' : 'results';
+
+		$more_available = (count($this->data['results']) == $this->args['limit']);
+		$this->data['more_available'] = json_encode($more_available);
+
+
 
 		// Load category data
 		$this->data['categories']= $this->db->order_by("name","ASC")

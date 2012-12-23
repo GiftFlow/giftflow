@@ -44,7 +44,8 @@
 				</select>
 			</div>
 			<div class='btn-group span2'>
-				<a class='btn btn-large' href="<?php echo site_url('you/add_good/'.$type);?>"><i class='icon icon-plus'></i> Post <?php echo ucfirst($type); ?></a>
+				<a id='post_button' class='btn btn-large' href="<?php echo site_url('you/add_good/'.$type);?>"><i class='icon icon-plus'></i> Post <?php echo ucfirst($type); ?></a>
+				<button id='scroll_button' style='display:none;' class='btn btn-large'><i class='icon-arrow-up'></i>Back to Top</button>
 			</div>
 	</div>
 </div><!-- close row -->
@@ -108,13 +109,8 @@ $(function() {
 
 	//Infinite scroll flag
 
-	 GF.UI.scroll_load = false;
-	GF.UI.more_available = false;
-	
-	// Write pre-loaded data
-	if(GF.Data.total_results == <?php echo $args['limit']; ?>) {
-		GF.UI.more_available = true;
-	}
+	GF.UI.scroll_load = false;
+	GF.UI.more_available = <?php echo $more_available; ?>
 	
 	GF.Params = (function(){
 	
@@ -216,10 +212,29 @@ $(function() {
 		GF.Ajax.request();
 	});
 
+	//add listener to scroll button
+	$('#scroll_button').click(function() {
+		$('body, html').animate({
+			scrollTop:0
+		}, 800);
+		$('#scroll_button').hide();
+		$('#post_button').show()
+	});
+
+	
 
 	//Infinite ScrollerZ
 	$(window).scroll(function()
 	{
+		if($(window).scrollTop() < 200) {
+			$('#post_button').show();
+			$('#scroll_button').hide();
+		} else {
+
+			$('#post_button').hide();
+			$('#scroll_button').show();
+		}
+
 	   if(GF.UI.more_available && !GF.UI.scroll_load && $(window).scrollTop() == $(document).height() - $(window).height())
 	   {
 		console.log('ahhhh');

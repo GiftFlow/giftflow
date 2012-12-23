@@ -851,7 +851,7 @@ span.nav_form{
 	border-radius:0px;
 	border-bottom: 2px solid #CCCCCC;
 	z-index:10;
-	padding:5px 0px 0px 0px;
+	padding:5px 0px 0px 15px;
 	-webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 4px 3px 0px;
 	box-shadow: rgba(0, 0, 0, 0.199219) 0px 4px 3px 0px;
 	height:50px;
