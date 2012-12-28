@@ -14,7 +14,7 @@
 									<a href='#' class="result_sprite <?php echo $G->default_photo->thumb_class;?>">
 									</a>
 							<?php } else { ?>
-								<a href="<?php echo site_url('gifts/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
+								<a href="<?php echo site_url($G->type's/'.$G->id);?>" class="result_image" title="<?php echo $G->title;?>">
 								<img src="<?php echo $G->default_photo->thumb_url; ?>"/>
 								</a>
 							<?php }?>

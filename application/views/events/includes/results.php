@@ -5,7 +5,7 @@
 
 	<?php if(!$row) { ?>
 		<!-- Results List -->
-		<ul class='results_list events <?php if($mini) {echo "mini"; }?>'>
+		<ul class='results_list events'>
 	<?php } ?>
 		
 	<?php foreach($results as $key=>$val) {?>
@@ -15,8 +15,8 @@
 		<!--Open transaction completed -->
 			<?php echo UI_Results::reviews(array(
 				'results' => $val,
+				'size' => 'event',
 				'row' => TRUE,
-				'mini'=> TRUE
 			));?>
 
 		<?php } ?>
@@ -26,7 +26,7 @@
 		<!-- open thankyou -->
 			<?php echo UI_Results::thanks(array(
 				'results'=> $val,
-				'mini' => TRUE,
+				'size' => 'event',
 				'row' => TRUE
 			)); ?>
 

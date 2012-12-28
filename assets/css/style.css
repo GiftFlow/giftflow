@@ -330,7 +330,15 @@ span.key{
 .center {
 	text-align: center;
 }
-
+.minidata {
+	display:block;
+	font-size: 12px;
+	color:#666666;
+}
+.usercopy {
+	font-size:13px;
+	color:#000000;
+}
 /* END site-wide style */
 
 /* BEGIN header style */
@@ -1094,6 +1102,34 @@ ul.simplePagerNav li.currentPage a{
 .entry_body {
 	padding: 13px;
 }
+
+.review_header {
+	padding:5px;
+	max-height: 100px;
+	margin-bottom: 10px;
+}
+.review_header .review_summary {
+	font-size: 14px;
+	font-weight: 500;
+
+}
+.review_header .title {
+	color: #587498;
+	font-weight: 500;
+	border-bottom: none;
+	font-size: 14px;
+}
+.review_body {
+	background-color: #FFFFFF
+	border-radius: 3px;
+	padding: 5px;
+}
+li.event_row {
+	border-bottom: 2px solid #eee;
+	margin-top: 10px;
+}
+
+	
 
 /* END reviews and thanks style */
 

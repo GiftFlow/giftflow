@@ -156,7 +156,8 @@
 
 				<?php if(!empty($reviews)) { ?>
 					<?php echo UI_Results::reviews(array(
-						'results'=>$reviews
+						'results'=>$reviews,
+						'size' => 'profile'
 					)); ?>
 
 				<?php } else { ?>
@@ -170,7 +171,8 @@
 
 			<?php if(!empty($thanks)) { ?>
 				<?php echo UI_Results::thanks(array(
-					'results' => $thanks
+					'results' => $thanks,
+					'size' => 'profile'
 				)); ?>
 				
 				<?php } else { ?>

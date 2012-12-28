@@ -7,7 +7,7 @@
 				
 				<div class='span1'>
 					<a class="result_image" href='<?php echo site_url("people/".$val->thank->thanker_id); ?>'>
-						 <img src ="<?php echo $val->thank->default_photo->thumb_url; ?>">
+						 <img src ="<?php echo $val->thank->thanker_default_photo->thumb_url; ?>">
 					</a>
 				</div>
 				<div class='span8 metadata'>

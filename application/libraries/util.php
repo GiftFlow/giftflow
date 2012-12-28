@@ -195,13 +195,13 @@ class Util
 		}
 
 		/* Get and trim location for header */
-		$header_location = (isset($globals['userdata']['location']->city)) ? $globals['userdata']['location']->address: 'Add your location';
+		$header_location = (isset($globals['userdata']['location']->city)) ? $globals['userdata']['location']->city : 'Add your location';
 		$locate_array = explode(" ",$header_location);
 
 		$i=0;
 		$rebuild = '';
 		while($i < count($locate_array)) {
-			if(strlen($rebuild.$locate_array[$i]) < 14) {
+			if(strlen($rebuild.$locate_array[$i]) < 20) {
 				$rebuild .= " ".$locate_array[$i];
 				$i++;
 			} else {

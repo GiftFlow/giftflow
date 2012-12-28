@@ -133,8 +133,7 @@ class UI_results
 		//Compile options
 		$default_options= array (
 		"results" => array(),
-		"mini" => FALSE,
-		"grid"=>FALSE,
+		"size" => 'mini',
 		"include" => array ("rating", "created"),
 		"row" => FALSE
 		);
@@ -148,10 +147,17 @@ class UI_results
 		}
 
 		// Load View
-		if($options['mini']) {
+		switch($options['size']) {
+			
+		case 'mini':
 			$view = $CI->load->view('reviews/includes/mini_results', $options, TRUE);
-		} else {
+			break;
+		case 'profile' :
 			$view = $CI->load->view('reviews/includes/results',$options,TRUE);
+			break;
+		case 'event':
+			$view = $CI->load->view('reviews/includes/event_results',$options, TRUE);
+			break;
 		}
 		
 		// Return HTML string
@@ -190,7 +196,7 @@ class UI_results
 		$default_options = array(
 			"results" => array(),
 			"row" => FALSE,
-			'mini' => FALSE
+			'size' => 'profile'
 		);
 		
 		$options = array_merge($default_options, $options);
@@ -201,14 +207,21 @@ class UI_results
 		{
 			$options['results'] = array($options['results']);
 		}
-
-		//Load View
-		if($options['mini']) {
+		
+		// Load View
+		switch($options['size']) {
+			
+		case 'mini':
 			$view = $CI->load->view('thanks/includes/mini_results', $options, TRUE);
-		} else {
-			$view = $CI->load->view('thanks/includes/results', $options, TRUE);
+			break;
+		case 'profile' :
+			$view = $CI->load->view('thanks/includes/results',$options,TRUE);
+			break;
+		case 'event':
+			$view = $CI->load->view('thanks/includes/event_results',$options, TRUE);
+			break;
 		}
-
+		
 		//Return HTML string
 		Console::logspeed("UI_Results::thanks() done.");
 		return $view;	

@@ -279,7 +279,9 @@ class Goods extends CI_Controller {
 
 	
 	/**
-	*	Main "View Gift" or "View Need" page
+	 *	Main "View Gift" or "View Need" page
+	 *
+	 *	Demand types in use are give and take
 	*/
 	function _view()
 	{
@@ -293,7 +295,7 @@ class Goods extends CI_Controller {
 		$this->data['is_owner'] = $this->_restrict(FALSE);
 		$this->data['is_gift'] = ($this->G->type=="gift");
 
-		$this->data['demand'] = ($this->data['is_gift']) ? 'take' : 'offer';
+		$this->data['demand'] = ($this->data['is_gift']) ? 'take' : 'give';
 		$this->data['demand_text'] = ($this->data['is_gift']) ? 'Request this Gift' : 'Offer to help';
 		
 		// Set default value of requested flag, will be updated below

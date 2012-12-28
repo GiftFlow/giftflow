@@ -78,7 +78,7 @@ if(isset($css))
 			<ul id='nav'>
 				<li>
 					<a href="<?php echo site_url('welcome/home'); ?>">
-						Home
+						<?php echo $header_location; ?>
 					</a>
 				</li>
 				<li>
@@ -95,25 +95,6 @@ if(isset($css))
 					<a href="<?php echo site_url('about/press'); ?>">
 						About
 					</a>
-				</li>
-				<li>
-					<div class='dropdown' id='drop_locate'>
-					<a data-target='#' class='dropdown-toggle' data-toggle='dropdown' id='change_location' title='Change Location'>
-						<span id='header_location'><?php echo $header_location; ?></span>
-					</a>
-						<ul class='dropdown-menu well' id='header_form'>
-							<li>
-								<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
-									<div class='control group'>
-									<label for="header_relocate">Change Your City</label>
-									<input id ='header_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
-									<input type='submit' value='submit'/>
-									</div>
-									<input type='hidden' name='relocate_redirect' value="<?php echo current_url(); ?>"/>
-								</form>
-							</li>
-						</ul>
-					</div>
 				</li>
 			</ul>
 			</div>

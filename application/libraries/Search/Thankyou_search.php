@@ -75,23 +75,33 @@ class Thankyou_search extends Search
 			T.status AS status,
 			T.created AS created,
 			T.updated AS updated,
-			TU.screen_name AS screen_name,
-			TU.email AS email,
-			TU.photo_source AS photo_source,
-			TU.default_photo_id AS photo_id,
-			TU.facebook_id AS facebook_id,
-			U.screen_name AS recipient_screen_name,
-			U.email AS recipient_email,
+			RU.screen_name AS recipient_screen_name,
+			RU.email AS recipient_email,
+			RU.photo_source AS recipient_photo_source,
+			RU.default_photo_id AS recipient_photo_id,
+			RU.facebook_id AS recipient_facebook_id,
+			TU.screen_name AS thanker_screen_name,
+			TU.email AS thanker_email,
+			TU.photo_source AS thanker_photo_source,
+			TU.default_photo_id AS thanker_photo_id,
+			TU.facebook_id as thanker_facebook_id,
 			L.city AS city,
 			L.state AS state,
-			P.id AS photo_id,
-			P.url AS photo_url,
-			P.thumb_url AS photo_thumb_url")
+
+			TP.id AS thanker_photo_id,
+			TP.url AS thanker_photo_url,
+			TP.thumb_url AS thanker_photo_thumb_url,
+
+			RP.id AS recipient_photo_id,
+			RP.url AS recipient_photo_url,
+			RP.thumb_url AS recipient_photo_thumb_url")
+
 			->from('thankyous AS T')
 			->join('users AS TU', 'T.thanker_id = TU.id', 'left')
-			->join('users AS U', 'T.recipient_id = U.id', 'left')
-			->join('photos AS P', 'U.default_photo_id = P.id AND U.default_photo_id IS NOT NULL', 'left')
-			->join('locations AS L', 'U.default_location_id = L.id', 'left');
+			->join('users AS RU', 'T.recipient_id = RU.id', 'left')
+			->join('photos AS TP', 'TU.default_photo_id = TP.id AND TU.default_photo_id IS NOT NULL', 'left')
+			->join('photos AS RP', 'RU.default_photo_id = RP.id AND RU.default_photo_id IS NOT NULL', 'left')
+			->join('locations AS L', 'RU.default_location_id = L.id', 'left');
 	}
 
 

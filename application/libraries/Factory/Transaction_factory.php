@@ -332,6 +332,14 @@ class Transaction_factory {
 	
 	/**
 	*	Generate language data which is added to Transactions
+	*	The language object contains three summaries:
+	*	decider_summary
+	*	demander_summary
+	*	overview_summary
+	*
+	*	@author Hans Schoenburg
+	*
+	*	@todo refactor this rats nest!
 	*/
 	function set_language()
 	{
@@ -343,7 +351,8 @@ class Transaction_factory {
 			$demander_link = "<a href='".site_url('people/'.$val->demander->id)."'>".$val->demander->screen_name."</a> ";
 			$decider_link = "<a href='".site_url('people/'.$val->decider->id)."'>".$val->decider->screen_name."</a> ";
 
-			// Decider summary
+
+	//Set the Decider summary - this is seen by the user who received the request
 			$decider_summary_demands = array();
 			$decider_summary = "";
 			
@@ -351,15 +360,7 @@ class Transaction_factory {
 			foreach($val->demands as $demand)
 			{
 				$brief="";
-				if($demand->type == "give" && $demand->good->type == "need")
-				{
-					//This is a bit of a band-aid fix for when someone offers to "give to" another's need. requires different language than the usual "give"
-					$type = "give to";
-				}
-				else
-				{
 				 $type = $demand->type;
-				}
 				
 				if($demand->type != "fulfill")
 				{
@@ -369,18 +370,6 @@ class Transaction_factory {
 				{
 					case "take":
 						$brief .= " has requested your";
-						break;
-					case "borrow":
-						$brief .= " would like to borrow your";
-						break;
-					case "fulfill":
-						$brief .= " to fulfill ";
-						break;
-					case "give to":
-						$brief .= "would like to help with your need";
-						break;
-					case "share":
-						$brief .= "has offered to share ";
 						break;
 					case "give":
 						$brief .= "has offered you ";
@@ -398,8 +387,10 @@ class Transaction_factory {
 			$decider_summary .= implode(" ",$decider_summary_demands);
 			
 			$this->Transactions[$key]->language->decider_summary = $decider_summary;
-			
-			// Demander summary
+
+
+	//Set the demander summary - this is seen by the user who initated the interaction
+
 			$demander_summary = "";
 			$demander_summary_demands = array();
 			
@@ -413,15 +404,6 @@ class Transaction_factory {
 					case "take":
 						$brief = "You asked for ".$thing." from ";
 						break;
-					case "borrow":
-						$brief = "You asked to borrow ".$thing." from ";
-						break;
-					case "fulfill":
-						$brief = "to fulfill ".$thing;
-						break;
-					case "share":
-						$brief = "You offered to share ".$thing." with ";
-						break;
 					case "give":
 						$brief = "You offered to give ".$thing." to ";
 						break;
@@ -431,7 +413,7 @@ class Transaction_factory {
 						$brief = "would like to ".$type." your ".$thing." to ";
 				}
 				
-				if($demand->type != "fulfill" || $demand->type != 'thank')
+				if($demand->type != 'thank')
 				{
 					$brief .= $decider_link;
 				}
@@ -441,6 +423,9 @@ class Transaction_factory {
 			$demander_summary .= implode(" ",$demander_summary_demands);
 			
 			$this->Transactions[$key]->language->demander_summary = $demander_summary;
+
+
+	//Set overview summary - this is seen in the activity feeed
 			
 			$overview_summary = "";
 			$overview_summary_demands = array();
@@ -450,35 +435,26 @@ class Transaction_factory {
 			{
 				$brief = "";
 				$thing = " <a href='".site_url($demand->good->type.'s/'.$demand->good->id)."'>".$demand->good->title."</a>";
-				
-				if($demand->type != "fulfill")
-				{
-					$brief = $demander_link;
-				}
+				$type = $demand->type;
+				$brief = $demander_link;
 				
 				switch($demand->type)
 				{
 					case "take":
 						$brief .= " received ".$thing." from ";
 						break;
-					case "borrow":
-						$brief .= " borrowed ".$thing." from ";
-						break;
-					case "fulfill":
-						$brief .= " to fulfill ".$thing;
-						break;
-					case "share":
-						$brief .= " share ".$thing." with ";
-						break;
 					case "give":
 						$brief .= " gave ".$thing." to ";
 						break;
 					case 'thank':
 						$brief .= " thanked ".$decider_link." for ".$thing;
+						break;
 					default:
-						$brief .= " want to ".$type." your ".$thing." to ";
+						$brief .= $type."hhaha";
+
+						break;
 				}
-				if($demand->type != "fulfill" || $demand->type != 'thank')
+				if($demand->type != 'thank')
 				{
 					$brief .= $decider_link;
 				}

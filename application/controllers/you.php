@@ -549,7 +549,7 @@ class You extends CI_Controller {
 			"href" =>site_url('you/inbox')
 		);
 		$this->data['breadcrumbs'][] = array (
-			"title"=>'from '.$this->data['thankyou']->screen_name
+			"title"=>'from '.$this->data['thankyou']->thanker_screen_name
 		);
 
 

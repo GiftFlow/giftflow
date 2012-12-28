@@ -30,7 +30,7 @@
 				</ul>
 			</div>
 			<div class='span4 search_elements'>
-				<form name='find_goods' class='find_form'id="find_goods" action="#" method='get'>
+				<form name='find_goods' class='find_form'id="find_goods" action="" method='post'>
 					<div class='input-append'>
 						<input type='text' size='16' placeholder="<?php if($type == 'people') { echo 'Name'; } else { echo 'Keyword'; } ?>" class='masonry_input' id="q" name='q' value='<?php echo $args["q"];?>' />
 						<button class='btn btn-large' type='submit' id="find"><i class='icon-search'></i> Find</button>

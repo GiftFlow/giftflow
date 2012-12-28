@@ -85,7 +85,7 @@
 							<?php } ?>
 
 				<!-- ACTIVE -->
-					<?php } elseif ($transaction->status == 'active' && !$has_reviewed && !$other_reviewed) { ?>
+					<?php } elseif ($transaction->status == 'active' && !$has_reviewed) { ?>
 							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
 									Arrange a time and place for the gift to happen.
 							</p>
@@ -93,16 +93,27 @@
 									Write a review after the gift has taken place.
 							</p>
 					<?php } ?>
-					<?php if ($transaction->status == 'active' && $other_reviewed) { ?>
-							<p><?php echo $other_user->screen_name; ?> has written a review of you.</p>
-								<p>Write a review of <?php echo $other_user->screen_name; ?>. Be detailed and sincere.
-									<a href="#" id="write_review" class="left btn">Write Review</a>
-									</p>
-								<p>Has there been a misunderstanding? Anything to clear up?
-									<a href="#" class="left btn" id="write_message">Write Message</a>
-								</p>
+					<?php if ($other_reviewed && !$has_reviewed) { ?>
+							<p>
+								<?php echo $other_user->screen_name; ?> has written a review of you.
+							</p>
+							<p>
+								<a href="#" id="write_review" class="left btn">Write Review</a>
+								Be detailed and sincere.
+							</p>
+							<p>
+								<a href="#" class="left btn" id="write_message">Write Message</a>
+								Has there been a misunderstanding? Anything to clear up?
+							</p>
+					<?php } else if($has_reviewed && !$other_reviewed) { ?>
+							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
+								Remind <?php echo $other_user->screen_name;?> to write a review of you!
+							</p>
 					<?php } ?>
-					<?php if($transaction->status == 'completed' && $has_reviewed && $is_owner) { ?>
+
+								
+				
+					<?php if($transaction->status == 'completed' && $has_reviewed && $other_reviewed) { ?>
 						<p>Congratulations. You have completed a gift!! <?php echo $delete_prompt; ?></p>
 						<a href="<?php echo $delete_link; ?>" class='left btn'>Delete <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
 					<?php } ?>

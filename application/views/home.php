@@ -1,36 +1,33 @@
 <div class='row'>
 <!-- set header for visitor -->
-<?php if(!isset($this->data['userdata']['user_id'])) { ?>
-	<div class='span6'>
-		<p class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><?php echo $userdata['location']->city; ?></p>
-	</div>
-
-<?php } else { ?>
-
+<?php if(isset($this->data['userdata']['user_id'])) { ?>
 	<div class='span1'>
 		<a href="<?php echo site_url("you");?>" class="user_image medium left">
 			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
 		</a>
 	</div>
-	<div class='span2'>
-		<p  class='nicebigtext'>Welcome <?php echo $userdata['screen_name']; ?></p>
-	</div>
-	<div class='span8'>
-		<div class='btn-group profile_actions'>
-			<?php if(!isset($userdata['bio'])) { ?>
-				<a class='btn' href="<?php echo site_url('account'); ?>"><i class='icon-plus'></i>Update profile</a>
-			<?php } ?>
-				<a class='btn' href="<?php echo site_url('account/photos'); ?>"><i class='icon-plus'></i>Upload photos</a>
-				<a class='btn' href="<?php echo site_url('you/list_goods/need'); ?>"><i class='icon-plus'></i>Your Needs</a>
-				<a class='btn' href="<?php echo site_url('you/list_goods/gift'); ?>"><i class='icon-plus'></i>Your Gifts</a>
-				<a class='btn' href="<?php echo site_url('you/watches'); ?>"><i class='icon-plus'></i>Your Watches</a>
-		</div>
-	</div>
 <?php } ?>
-	</div><!-- close header row -->
+	<div class='span7'>
+		<p class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><strong><a class='welcome_location' href='#' title='Click to change city'><?php echo $userdata['location']->city; ?></a></strong></p>
+			<div class='home_location_change' style='display:none;'>
+				<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
+					<div class='control group'>
+					<label for="welcome_relocate">New City</label>
+					<input id ='welcome_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
+					<input type='submit' value='submit'/>
+					</div>
+					<input type='hidden' name='relocate_redirect' value="<?php echo current_url(); ?>"/>
+				</form>
+			</div>
+	</div>
+	<div class='span2 offset2'>
+		<button title=' Click to change location' class='welcome_location btn btn-medium'>Change City</button>
+	</div>
+
+</div><!-- close header row -->
 
 <div class='row' id='home_page'>
-		<div class='span7'>	
+		<div class='span4'>	
 		<div class='row-fluid home_left'>
 			<div class='span12 chunk' id='home_blog'>
 				<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
@@ -91,64 +88,20 @@
 		</div>
 		<?php } ?>
 		<div class='row-fluid home_left'>
-<?php if(!$logged_in) { ?>
-		<div class='span6 home_list chunk'>
-		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
-	<?php if(!empty($nonprofits)) { ?>
-		<h3>Nonprofits</h3>
-			<?php echo UI_Results::users(array(
-				'results' => $nonprofits,
-				"mini" => TRUE,
-				"border" => FALSE,
-				"follow" => FALSE,
-			)); ?>
-	<?php } ?>
-		</div>
-		<div class='span6 home_list chunk'>
-		<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
-		<h3>Gifts + Needs</h3>
-		
-			<?php echo UI_Results::goods(array(
-				"results" => $goods,
-				"size" => 'mini',
-				"border" => FALSE,
-			)); ?>
-		</div>
-	<?php } else { ?>
-		
-		<div class='span6 home_list chunk'>
-		<h3>Following</h3>
-			<?php if(!empty($following)) { ?>		
-				<?php echo UI_Results::users(array(
-					'results' => $following,
-					"mini" => TRUE,
-					"border" => FALSE,
-					"follow" => FALSE,
-					"home_results" => TRUE
-				)); ?>
-			<?php } else { ?>
-			<span class='empty_text'>You are not yet following anyone. Click the Follow button next to a users name to follow them. </span>
-			<?php } ?>
-		</div>
-		<div class='span6 home_list chunk'>
-		<h3>Your GiftFlow</h3>
-			<?php if(!empty($following_goods)) { ?>
-				<span class='minidata'>(Posted by those you follow)</span>
+			<div class='span12 home_list chunk'>
+			<span class='minidata'><?php echo $userdata['location']->city; ?>:</span>
+			<h3>Gifts + Needs</h3>
+			
 				<?php echo UI_Results::goods(array(
-					"results" => $following_goods,
-					"mini" => TRUE,
+					"results" => $goods,
+					"size" => 'mini',
 					"border" => FALSE,
-					"size" => "medium"
 				)); ?>
-			<?php } else { ?>
-				<span class='empty_text'>The Gifts and Needs posted by the users you follow will show up here. </span>
-			<?php } ?>
+			</div>
 		</div>
-	<?php } ?>
-	</div>
 	</div>
 	
-	<div class='span4 chunk' id='home_activity'>
+	<div class='span7 chunk' id='home_activity'>
 			<h3>Recent Activity</h3>
 			<?php echo UI_Results::events(array(
 				"results" => $activity,
@@ -156,6 +109,7 @@
 				"mini" => TRUE,
 				"border" => FALSE
 			)); ?>
+	</div>
 
 </div>
 </div>
@@ -163,6 +117,13 @@
 <script type='text/javascript'>
 
 $(function() {
+
+	$('.welcome_location').tooltip();
+	$('.welcome_location').click(function() {
+		$('.home_location_change').show();
+	});
+
+	GF.Locations.initialize($('#welcome_relocate'));
 
 	var url = 'http://blog.giftflow.org/?feed=rss2';
 
@@ -176,7 +137,7 @@ $(function() {
 			var latest = data.entries[i];
 
 			var blurb = latest.content.replace(/(<([^>]+)>)/ig,"");
-			blurb = blurb.substring(0,150)+'... by '+latest.author;
+			blurb = blurb.substring(0,60)+'... by '+latest.author;
 			
 			var entry = "<li><span class='entry_title'><a target='blank' href='"+latest.link+"'>"+latest.title+"</a></span><span class='entry_blurb'>  "+blurb+"</span></li>";
 			$('#blog_feed').append(entry);
@@ -196,9 +157,9 @@ $(function() {
 
 	//On page load, show loading gif and get blog RSS feed
 	$('.results_loading').show();
-	parseRSS(url, logfeed);
+	//parseRSS(url, logfeed);
 
-
+	
 });
 
 

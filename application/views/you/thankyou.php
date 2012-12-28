@@ -8,14 +8,14 @@
 		<div class="row-fluid chunk">
 			<div class='span2'>	
 				<a href="<?php echo site_url('people/'.$thankyou->thanker_id);?>" class="user_image medium left">
-					<img src="<?php echo $thankyou->default_photo->thumb_url;?>" alt="<?php echo $thankyou->screen_name;?>" />
+					<img src="<?php echo $thankyou->thanker_default_photo->thumb_url;?>" alt="<?php echo $thankyou->thanker_screen_name;?>" />
 				</a>
 			</div>
 				
 			<div class="span10">
 				<span class='summary'>	
 					<a href="<?php echo site_url('you/inbox/'.$thankyou->id);?>" class="title">
-						Thank you from  <?php echo $thankyou->screen_name; ?>
+						Thank you from  <?php echo $thankyou->thanker_screen_name; ?>
 					</a>
 				</span>
 				<span>
@@ -23,7 +23,7 @@
 				</span>
 					<p>
 						<a href="<?php echo site_url('people/'.$thankyou->thanker_id); ?>">
-							<?php echo $thankyou->screen_name; ?> 
+							<?php echo $thankyou->thanker_screen_name; ?> 
 						</a>
 
 						thanked you for: 
@@ -31,7 +31,7 @@
 				</p>
 				<p>
 					<a href="<?php echo site_url('people/'.$thankyou->thanker_id); ?>">
-						<?php echo $thankyou->screen_name; ?> 
+						<?php echo $thankyou->thanker_screen_name; ?> 
 					</a>
 					wrote:
 				</p>
