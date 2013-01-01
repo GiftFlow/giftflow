@@ -159,6 +159,10 @@ if(isset($css))
 						<b class='caret'></b>
 					</a>
 						<ul class='dropdown-menu' id='login-form'>
+							
+							<li>
+								<span class='login_prompt:'>Already have an account? Log in below. </span>
+							</li>
 							<li>
 								<a href='#' style='background-color: transparent; !important'>
 								<form id='drop_login' action="<?php echo site_url('member/login'); ?>" method='post'>
@@ -186,16 +190,14 @@ if(isset($css))
 							<!-- eof Facebook Link -->
 							<?php } ?>
 							
-							<li id='dropsignup'>
-								<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-primary btn-large'>
-									Sign Up
-								</a>
-							</li>
 							<li id='dropforgot'>
 								<a href="<?php echo site_url('member/forgot_password'); ?>">Forgot your password?
 								</a>
 							</li>
 						</ul>
+						<a href='<?php echo site_url("register"); ?>' id='signup' class='btn btn-success btn-large'>
+							Sign Up
+						</a>
 					</div>
 				</div><!-- close visitor buttons -->
 			<?php } ?>

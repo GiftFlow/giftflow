@@ -418,6 +418,13 @@ span.key{
 #login-form li {
 	margin-bottom: 5px;
 }
+.login_prompt {
+	padding: 5px;
+	margin: 0px 5px 0px 10px;
+	display:block;
+	text-align: right;
+}
+
 
 #dropfbook {
 	margin-top: -10px;
@@ -1103,30 +1110,57 @@ ul.simplePagerNav li.currentPage a{
 	padding: 13px;
 }
 
-.review_header {
-	padding:5px;
+.event_header {
+	padding:5px 5px 0px 0px;
 	max-height: 100px;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 }
-.review_header .review_summary {
+
+
+.event_summary {
 	font-size: 14px;
 	font-weight: 500;
+	vertical-align:middle;
 
 }
-.review_header .title {
+.event_header .title {
 	color: #587498;
 	font-weight: 500;
 	border-bottom: none;
 	font-size: 14px;
 }
-.review_body {
-	background-color: #FFFFFF
+.event_body {
+	background-color: rgba(242, 240, 240, .8);
+	-moz-box-shadow: 1px 2px 3px rgba(238,238,238,.5);
+	-webkit-box-shadow: 1px 2px 3px rgba(238,238,238,.5);
+	box-shadow: 1px 2px 3px rgba(238,238,238,.5);
 	border-radius: 3px;
-	padding: 5px;
+	padding: 10px;
+	margin: -5px 0px 10px 0px;
 }
+
+.event_body span {
+	padding: 0px 4px 4px 0px;
+}
+.event_body .user_copy {
+	font-size: 14px;
+	font-weight: 400px;
+	color:#666;
+}
+
+.event_data {
+	font-size: 14px;
+	font-weight: 500;
+	color:#3E5981;
+}
+.event_review {
+	margin-top: 10px;
+}
+
 li.event_row {
 	border-bottom: 2px solid #eee;
 	margin-top: 10px;
+	background-color: #FFFFFF;
 }
 
 	
@@ -1139,6 +1173,7 @@ li.event_row {
 
 .you_dashboard {
 	margin-bottom: 20px;
+	clear:both;
 }
 .you_dashboard p {
 	margin: 0px 0px 0px 0px;

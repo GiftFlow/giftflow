@@ -1,4 +1,5 @@
 <div class='row find_header'>
+	<div class='span12'>
 	<?php if($type == 'need') { ?>
 		<h1 class='need'>Give!</h1>
 		<p class='nicebigtext'>Earn some gratitude. Browse these needs to find where you can help.</p>
@@ -6,24 +7,15 @@
 		<h1>Get!</h1>
 		<p class='nicebigtext'>Enjoy the generosity of your community. Request what you want.</p>
 	<?php } ?>
+	</div>
 </div>
 <div class='nav_wrapper'>
 	<div class='row-fluid chunk' id='masonry_nav' data-spy='affix' data-offset-top='140'>
 			<!-- Goods dropdown -->
-			<div class='btn-group span2'>
-				<button class='btn btn-large parent_cat' type='button' id='cat_'>Goods</button>
+			<div class='btn-group span3'>
+				<button class='btn btn-large parent_cat' type='button' id='cat_'>Categories</button>
 				<button class='btn btn-large dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></button>
 				<ul class='dropdown-menu goods_menu'>
-					<?php foreach($categories as $cat) { ?>
-						<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
-					<?php } ?>
-				</ul>
-			</div>
-			<!-- services dropdown -->
-			<div class='btn-group span2'>
-				<button class='btn btn-large parent_cat' id='cat_11' type='button'>Deeds</button>
-				<button class='btn btn-large dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></button>
-				<ul class='dropdown-menu deeds_menu'>
 					<?php foreach($categories as $cat) { ?>
 						<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
 					<?php } ?>

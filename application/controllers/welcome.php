@@ -58,7 +58,7 @@ class Welcome extends CI_Controller {
 
 		$G = new Good_search();
 		$this->data['goods'] = $G->find(array(
-			'limit' => 12,
+			'limit' => 100,
 			'order_by' => 'G.created',
 			'location' => $location
 		));

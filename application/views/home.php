@@ -157,7 +157,7 @@ $(function() {
 
 	//On page load, show loading gif and get blog RSS feed
 	$('.results_loading').show();
-	//parseRSS(url, logfeed);
+	parseRSS(url, logfeed);
 
 	
 });

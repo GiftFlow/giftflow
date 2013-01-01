@@ -202,7 +202,6 @@ class Alert {
 		$Mail->message_html($config['message_html']);
 		
 		$info = $Mail->send();
-		
 		$this->CI->load->library('datamapper');
 		$E = new Event();
 		

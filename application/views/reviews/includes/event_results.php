@@ -4,7 +4,7 @@
 
 	<li class='result_row event_row clearfix'>
 		<!-- Metadata -->
-		<div class='row-fluid review_header'>
+		<div class='row-fluid event_header'>
 		<!-- Title --> 	
 			<div class='span2'>
 				<!-- Image -->
@@ -17,32 +17,25 @@
 					</a>
 				<?php } ?>
 			</div>
-			<div class='span8'>
-			<span class='review_summary'><?php echo ($R->transaction->language->overview_summary); ?></span>
-			</div>
-			<div class='span2'>
+			<div class='span8 header_text'>
+				<span class='event_summary'><?php echo ($R->transaction->language->overview_summary); ?></span>
 				<span class='minidata'><?php echo user_date($R->event_created, 'n/j/o'); ?></span>
 			</div>
 		</div>
-		<div class='row-fluid event_reviews'>
+		<div class='row-fluid'>
 			<div class='span2'></div>
-			<div class='span10'>
+			<div class='span8'>
 			<?php foreach($R->transaction->reviews as $rev) { ?>
-				<div class='row-fluid'>
-					<div class='span2'>
-						<a class='user_image' href="<?php echo site_url('people/'.$rev->reviewer_id); ?>">
-							<img src="<?php echo $rev->reviewer->default_photo->thumb_url;?>"/>
-						</a>
-					</div>
-					<div class='span8'>
-						<span class='minidata'>
+				<div class='row-fluid event_review'>
+					<div class='span12 event_body'>
+						<span class='event_data'>
 							<a href="<?php echo site_url('people/'.$rev->reviewer->id); ?>">
 							 <?php echo $rev->reviewer->screen_name; ?></a> wrote: 
 						</span>
-						<span class='usercopy'>
+						<span class='user_copy'>
 							<?php echo $rev->body; ?>
 						</span>
-						<span class='minidata'>Rating: <?php echo $rev->rating; ?></span>
+						<span class='event_data'>Rating: <?php echo $rev->rating; ?></span>
 					</div>
 				</div>
 			<?php } ?>
