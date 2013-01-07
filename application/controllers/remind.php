@@ -177,6 +177,9 @@ class Remind extends CI_Controller {
 		$this->_send_matches($content);
 	}
 
+
+	//collects list of all goods, gets user ids, uses array_unique() method to pluck out distinct user_ids
+	//then collects lists of goods and needs matching each user
 	private function _buildUserStack()
 	{
 
@@ -184,12 +187,12 @@ class Remind extends CI_Controller {
 			G.location_id AS good_location_id, U.id AS user_id,
 			U.screen_name AS screen_name, U.email AS user_email')
 					->from('goods AS G')
-					->join('users AS U','G.user_id = U.id','inner')
+					->join('users AS U','G.user_id = U.id','left')
 					->where('G.status','active')
-					->where('U.id !=','36')
-					->order_by('U.id')
-					->limit(10);
+					->limit('10')
+					->order_by('U.id');
 		$raw = $this->db->get()->result();
+
 		$users = array();
 		foreach($raw as $val)
 		{
@@ -245,7 +248,7 @@ class Remind extends CI_Controller {
 				$location = $user->needs[0]->good_location_id;
 			}
 
-			$user->location = $L->get(array('location_id' => $location));
+			$user->location = $L->get($location);
 
 			if(!empty($user->gifts))
 			{
@@ -253,12 +256,10 @@ class Remind extends CI_Controller {
 				{
 					$good->matches = $G->find(array(
 						'keyword' => $good->good_title,
-						'location' => $user->location,
-						'radius' => 1000,
 						'limit' => 10,
 						'exclude' => $good->good_id,
 						'type' => 'need',
-                                                'status' => 'active'
+                        'status' => 'active'
 					));
 				}
 			}
@@ -272,8 +273,6 @@ class Remind extends CI_Controller {
 
 					$good->matches = $G->find(array(
 						'keyword' => $good->good_title,
-						'location' => $user->location,
-						'radius' => 1000,
 						'limit' => 10,
 						'exclude' => $good->good_id,
 						'type' => 'gift',
@@ -294,8 +293,7 @@ class Remind extends CI_Controller {
 		{
 			//build html for email
 
-			$content = "<span><p>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs that <i>might</i> match your own. OUr search alogrithms aren't perfect but we hope you find this helpful.
-							Thank you for helping us build a community of giving one click at a time.</p></span>";
+			$content = "<span><p>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs that might match your own. We hope you find this helpful.</p></span>";
 			$content .= "<ul style='list-style:none;'>";
 
 
@@ -309,6 +307,7 @@ class Remind extends CI_Controller {
 				$content .= $this->buildRows($user->needs);
 			}
 			$content .= "</ul>";
+			$content .= "Thank you for using GiftFlow. <a href='".site_url('find/')."'>Check out new our Give and Get pages!</a>";
 			$user->body = $content;
 		}
 		return $stack;
@@ -324,12 +323,12 @@ class Remind extends CI_Controller {
 			if(!empty($val->matches))
 			{
 				$row .=  "<li><p style ='padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; margin-right:10px; display:inline; vertical-align:middle;'/>";
-				$row .= $val->good_title."</p><ul style='list-style:none;'>";
+				$row .= "Matches for: ".$val->good_title."</p><ul style='list-style:none;'>";
 
 					foreach($val->matches as $match)
 					{
 					
-						$row .= "<li><div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+						$row .= "<li style='padding: 5px;'><div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
 						$row .= "<a href='".site_url($match->type.'s/'.$match->id)."'>".$match->title."</a></div></li>";
 					}
 				$row .= "</ul></li>";
