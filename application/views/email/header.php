@@ -29,10 +29,13 @@
 			color: #666;
 			}
 
-		a,a:link,a:visited{
-			/*@editable*/color:#6cb6e2;
-			/*@editable*/text-decoration:underline;
-			/*@editable*/font-weight:bold;
+		a {
+			color:#587498;
+			text-decoration:none;
+			font-weight:bold;
+		}
+		a:hover {
+			color:#000;
 		}
 
 

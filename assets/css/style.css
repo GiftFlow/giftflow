@@ -81,6 +81,9 @@ ul.alert_error{
 	list-style: none;
 	margin-bottom: 0px;
 }
+.padd_right {
+	padding-right: 20px;
+}
 
 /* IMPORTANT NOTE 
  * Javascript in the footer looks for a.title and makes the region 
@@ -145,11 +148,9 @@ html[xmlns] .clearfix {
 ul.breadcrumbs{
 	list-style: none;
 	padding: 0px;
-	margin: 0px;
 	color: #ccc;
 	font-size: 18px;
-	margin-bottom: 30px;
-	height: 20px;
+	margin:15px 0px 30px 0px;
 	display: block;
 }
 ul.breadcrumbs li{
@@ -1209,9 +1210,11 @@ ul.inbox li img.status_icon, .inbox_summary img.status_icon {
 .inbox_summary p {
 	margin-top: 10px;
 }
-.inbox_summary .summary {
-	font-size:16px;
-	font-weight:400;
+.inbox .summary {
+	margin-top:10px;
+	display:inline-block;
+	font-size:13px;
+	font-weight:300;
 }
 
 .updated{
@@ -1230,6 +1233,10 @@ ul.interaction {
 }
 ul.interaction li {
 	margin-bottom: 15px;
+}
+
+.transaction_actions form {
+	display:inline;
 }
 .message_form {
 	width: 80%;
@@ -1351,6 +1358,15 @@ span.error{
 	display:block;
 	width:100%;
 	margin: 5px 5px 5px 5px;
+}
+#location_change_button {
+	margin: 0px 0px 10px 20px;
+}
+.home_location_change {
+	margin-top: 20px;
+}
+.welcome_user a img {
+	display:inline-block;
 }
 .welcome_block{
 	display:block;

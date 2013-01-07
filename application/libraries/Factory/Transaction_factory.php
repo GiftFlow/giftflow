@@ -450,8 +450,7 @@ class Transaction_factory {
 						$brief .= " thanked ".$decider_link." for ".$thing;
 						break;
 					default:
-						$brief .= $type."hhaha";
-
+						$brief .= $type;
 						break;
 				}
 				if($demand->type != 'thank')

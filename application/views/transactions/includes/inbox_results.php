@@ -14,7 +14,7 @@
 				</div>
 				<div class='span9 metadata'>
 					<a href="<?php echo site_url('you/view_transaction/'.$val->id);?>" class="title">
-						Request <?php echo $val->is_demander ? "to":"from"; echo " ".$val->other_user->screen_name;?>
+						<?php echo $val->other_user->screen_name; ?>
 					</a>
 					<span class="summary">
 						<?php echo strip_tags($val->is_demander ? $val->language->demander_summary : $val->language->decider_summary); ?>

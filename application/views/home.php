@@ -1,27 +1,24 @@
 <div class='row'>
 <!-- set header for visitor -->
+	<div class='span12 welcome_user'>
 <?php if(isset($this->data['userdata']['user_id'])) { ?>
-	<div class='span1'>
-		<a href="<?php echo site_url("you");?>" class="user_image medium left">
+		<a href="<?php echo site_url('you');?>" class="user_image">
 			<img src="<?php echo $userdata['default_photo_thumb_url'];?>" alt="<?php echo $userdata['screen_name'];?>" />
 		</a>
-	</div>
 <?php } ?>
-	<div class='span7'>
-		<p class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><strong><a class='welcome_location' href='#' title='Click to change city'><?php echo $userdata['location']->city; ?></a></strong></p>
+		<span class='nicebigtext'><span class='smaller'>Welcome to GiftFlow </span><strong><a class='welcome_location' href='#' title='Click to change city'><?php echo $userdata['location']->city; ?></a></strong></span>
 			<div class='home_location_change' style='display:none;'>
 				<form name='relocate' class='find_form' id="relocate" method="post" action="<?php echo site_url('account/relocate'); ?>">
 					<div class='control group'>
-					<label for="welcome_relocate">New City</label>
-					<input id ='welcome_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
-					<input type='submit' value='submit'/>
+						<label for="welcome_relocate">New City</label>
+						<input id ='welcome_relocate' size='16' class='input-medium' type="text"  placeholder="" name="header_relocation" />
 					</div>
 					<input type='hidden' name='relocate_redirect' value="<?php echo current_url(); ?>"/>
+					<button type='submit' class='btn-small'>Submit</button>
+					<button type='button' class='btn-small' title='cancel' id='cancel_change'>Cancel</button>
 				</form>
 			</div>
-	</div>
-	<div class='span2 offset2'>
-		<button title=' Click to change location' class='welcome_location btn btn-medium'>Change City</button>
+		<button title='Click to change location' id='location_change_button' class='welcome_location btn btn-small'>Change City</button>
 	</div>
 
 </div><!-- close header row -->
@@ -121,6 +118,11 @@ $(function() {
 	$('.welcome_location').tooltip();
 	$('.welcome_location').click(function() {
 		$('.home_location_change').show();
+		$('#location_change_button').hide();
+	});
+	$('#cancel_change').click(function() {
+		$('.home_location_change').hide();
+		$('#location_change_button').show();
 	});
 
 	GF.Locations.initialize($('#welcome_relocate'));

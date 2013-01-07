@@ -169,18 +169,18 @@ class Util
 		//Important note about locations. Locations are almost always stored as objects...
 		//EXCEPT for the session->userdata which is an flat array with each value as 'location_whatever'
 		//Geocode via IP address if session has no location
+		
 		$sess_locate = $this->CI->session->userdata('location_longitude');
 		if(empty($sess_locate))
 		{
 			$this->CI->load->library('geo');
 			$this->CI->load->library('auth');
-			//die("processing location");
 			$globals['userdata']['location'] = $this->CI->geo->geocode_ip();
 			$this->CI->auth->update_session_location($globals['userdata']['location']);
 
 		}
 		//session location is set, but globals is not
-		else if(empty($globals['userdata']['location']))
+		if(empty($globals['userdata']['location']))
 		{
 			$globals['userdata']['location'] = new stdClass();
 			
@@ -215,7 +215,6 @@ class Util
 		
 		// Is this an AJAX request?
 		$globals['is_ajax'] = $this->CI->input->is_ajax_request();
-
 
 		
 		// Load URI segments as array so they can be used in conditionals

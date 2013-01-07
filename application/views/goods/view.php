@@ -21,7 +21,7 @@
 			<!-- action buttons -->
 				<p>
 				<?php if($logged_in && !$is_owner){ ?>
-					<a href="#" id='demand_button' class='btn btn-large btn-primary'><?php echo $demand_text; ?></a>
+					<a href="#" id='demand_button' class='btn btn-medium btn-primary'><?php echo $demand_text; ?></a>
 				<?php } ?>
 				<?php if($is_owner) { ?>
 					<!-- Edit Gift Buttons -->

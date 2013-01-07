@@ -243,6 +243,20 @@ class You extends CI_Controller {
 			"include_events"=>TRUE
 		));
 		$this->data['transaction'] = $T_result;
+
+		//Security Check
+		//Only allow transaction participants to view transaction page
+		$is_participant = FALSE;
+		for($i=0; $i<2; $i++) {
+			if($T_result->users[$i]->id == $this->data['logged_in_user_id']) {
+				$is_participant = TRUE;
+			}
+		}
+		if(!$is_participant) {
+			$this->session->set_flashdata('error', 'Sorry an error has occured');
+			redirect('welcome/home');
+		}
+					
 		
 		
 		// Processing $_POST Data
@@ -373,6 +387,7 @@ class You extends CI_Controller {
 			
 		//Set data for delete link, allowing user to easily delete good after transaction is over	
 		$this->data['delete_link'] = site_url()."/".$T_result->demands[0]->good->type."s/".$T_result->demands[0]->good->id."/disable";
+
 		$this->data['is_owner'] = ($T_result->demands[0]->good->user->id == $this->data['logged_in_user_id'])? TRUE : FALSE;
 		$this->data['delete_prompt'] = ($T_result->demands[0]->good->type == 'gift')? "Can you give this gift again? If not, click this button to delete it." : "Has your need been fulfilled? If so, click this button to delete it.";
 
@@ -463,7 +478,7 @@ class You extends CI_Controller {
 		
 		// Load Views
 		$this->load->view('header', $this->data);
-		$this->load->view('you/includes/header', $this->data);
+		//$this->load->view('you/includes/header', $this->data);
 		$this->load->view('you/transaction', $this->data);	
 		$this->load->view('footer', $this->data);
 		

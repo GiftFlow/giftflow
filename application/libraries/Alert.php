@@ -142,26 +142,28 @@ class Alert {
 		
 		$T = $templates[$this->template_name]["en"];
 		
-		// Parse template
-		if(!empty($this->parseables) && is_array($this->parseables))
-		{
-			// Loop through the parseables array
-			foreach ($this->parseables as $key => $val)
+		if(empty($this->message)) { 
+			// Parse template
+			if(!empty($this->parseables) && is_array($this->parseables))
 			{
-				// Generate list of tags to look for using delimiters
-				$find_arr[]    = $this->left_delimiter . $key . $this->right_delimiter;
-				
-				// Generate list of values to replace tags with
-				$replace_arr[] = htmlspecialchars($val,ENT_COMPAT,"UTF-8");
+				// Loop through the parseables array
+				foreach ($this->parseables as $key => $val)
+				{
+					// Generate list of tags to look for using delimiters
+					$find_arr[]    = $this->left_delimiter . $key . $this->right_delimiter;
+					
+					// Generate list of values to replace tags with
+					$replace_arr[] = htmlspecialchars($val,ENT_COMPAT,"UTF-8");
+				}
+				// Replace tags with values, set message and subject fields
+				$this->message = str_replace($find_arr, $replace_arr, $T);
 			}
-			// Replace tags with values, set message and subject fields
-			$this->message = str_replace($find_arr, $replace_arr, $T);
-		}
-		
-		// If nothing to parse, set message to be body field from database
-		else
-		{
-			$this->message = $T;
+			
+			// If nothing to parse, set message to be body field from database
+			else
+			{
+				$this->message = $T;
+			}
 		}
 	}
 	

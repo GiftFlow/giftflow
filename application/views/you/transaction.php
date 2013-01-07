@@ -1,5 +1,4 @@
 <div class='row'>
-
 	<div class ='span2 chunk'>
 		<!-- Sidebar Menu -->
 		<?php echo $menu; ?>
@@ -39,7 +38,7 @@
 					<li <?php if($transaction->status == 'completed') { echo "class='active'"; } ?> >
 						<a id='nav_completed' href='#'>Completed</a>
 					</li>
-					<li <?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { echo "active"; } ?> >	
+					<li <?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { echo "class='active'"; } ?> >	
 						<a id='nav_cancelled' href='#'>Cancelled/Declined</a>
 					</li>
 				</ul>
@@ -55,7 +54,7 @@
 		</div>
 		<div class="inbox_summary chunk">
 			<div class='row-fluid'>
-			<div class='span12'>
+			<div class='span12 transaction_actions'>
 
 		<!-- anything but cancelled or declined -->
 			<?php if($transaction->status!="declined" && $transaction->status!="cancelled") { ?>
@@ -64,13 +63,15 @@
 				<!-- PENDING -->
 					<?php if($transaction->status=="pending"){ ?>
 						<?php if($demander){ ?>
-							<p>Waiting for <?php echo $other_user->screen_name; ?> to respond</p>
-							
+							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
+								Its time for <?php echo $other_user->screen_name;?> to respond. Message them a reminder!
+							</p>
+							<p>	
 								<form method="post" id="cancel_transaction">
 									<input type="hidden" name="form_type" value="transaction_cancel" />
-									<input type="submit" class="button btn btn-large btn-warning" value="Cancel" style="margin-top: 10px;" />
+									<input type="submit" class="btn" value="Cancel"/>
 								</form>
-
+							</p>
 							<?php } else { ?>
 							<p>By clicking Accept, you agree to participate in this gift. Write <?php echo $other_user->screen_name; ?> a message if you have questions. </p>
 							<p>Upon completion both of you will write public reviews of each other. This is a great way to build credibility and gratitude on GiftFlow. If you do not want to participate in the requested gift, simply click Decline and nothing will appear on your profile. </p>
@@ -78,8 +79,8 @@
 								<form method='post' id='decide_transaction'>
 									<input type='hidden' name='form_type' value='decide_transaction'/>
 									<div class="btn-group">
-									<input type="submit" class="left btn btn-large btn-success" name='decision' value="Accept" />
-									<input type="submit" class="left btn btn-large btn-danger" name='decision' value="Decline" />
+									<input type="submit" class="btn" name='decision' value="Accept" />
+									<input type="submit" class="btn" name='decision' value="Decline" />
 									</div>
 								</form>
 							<?php } ?>
@@ -91,6 +92,13 @@
 							</p>
 							<p> <a href="#" id="write_review" class="left btn">Write Review</a>
 									Write a review after the gift has taken place.
+							</p>
+							<p>
+								<form method="post" id="cancel_transaction">
+									<input type="hidden" name="form_type" value="transaction_cancel" />
+									<input type="submit" class="btn" value="Cancel" />
+								</form>
+								Changed your mind? Cancel this interaction here.
 							</p>
 					<?php } ?>
 					<?php if ($other_reviewed && !$has_reviewed) { ?>
@@ -113,14 +121,22 @@
 
 								
 				
-					<?php if($transaction->status == 'completed' && $has_reviewed && $other_reviewed) { ?>
-						<p>Congratulations. You have completed a gift!! <?php echo $delete_prompt; ?></p>
-						<a href="<?php echo $delete_link; ?>" class='left btn'>Delete <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
+					<?php if($transaction->status == 'completed' && $has_reviewed) { ?>
+						<p>
+						Congratulations. You have completed a gift!! 
+						<?php if($transaction->demands[0]->good->status != 'disabled') { ?>	
+							<?php echo $delete_prompt; ?></p>
+							<a href="<?php echo $delete_link; ?>" class='left btn'>Delete <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
+						<?php } else { ?>
+							<b><?php echo $transaction->demands[0]->good->title; ?></b> is no longer listed.
+						<?php } ?>
+						</p>
 					<?php } ?>
+
 				<?php } ?>
 				<!-- cancelled or declined -->
 				<?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { ?>
-					<p>Interaction with <?php echo $other_user->screen_name; ?> has been <?php echo $transaction->status; ?></p>
+					<p>Interaction with <?php echo $other_user->screen_name; ?> has been <?php echo $transaction->status; ?>.</p>
 				<?php } ?>
 			</div>
 		</div>

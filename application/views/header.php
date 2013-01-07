@@ -159,10 +159,6 @@ if(isset($css))
 						<b class='caret'></b>
 					</a>
 						<ul class='dropdown-menu' id='login-form'>
-							
-							<li>
-								<span class='login_prompt:'>Already have an account? Log in below. </span>
-							</li>
 							<li>
 								<a href='#' style='background-color: transparent; !important'>
 								<form id='drop_login' action="<?php echo site_url('member/login'); ?>" method='post'>

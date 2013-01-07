@@ -35,6 +35,7 @@ class Remind extends CI_Controller {
 		$this->add_transactions();
 		echo "Transaction data added<br/>";
 
+
 		$this->send_reminders();
 		echo "<br/>Reminders sent<br/>";
 		
@@ -47,7 +48,8 @@ class Remind extends CI_Controller {
 			U.email AS email')
 		->from('transactions_users AS TU')
 		->join('transactions AS T','TU.transaction_id=T.id AND T.status IN ("pending", "active")','inner')
-		->join('users AS U', 'TU.user_id = U.id', 'left');
+		->join('users AS U', 'TU.user_id = U.id', 'left')
+		->limit('1');
 
 		$this->users = $this->db->get()->result();
 	}
@@ -69,8 +71,7 @@ class Remind extends CI_Controller {
 
 			$transactions = $this->db->get()->result();
 
-			$content = "<span style='font-weight:bold;'><p>Hello ".$user->screen_name.", </p><p> Here is a list of your pending and active gifts on GiftFlow. Log in and stay in touch with your fellow GiftFlowers.
-							Help us build a community of giving one click at a time.</p></span>";
+			$content = "<h3>Hello ".$user->screen_name.", </p><p> Here is a list of your uncompleted interactions on GiftFlow. Click the links below to stay in touch with your fellow GiftFlowers.</h3>";
 			$content .= "<ul style='list-style:none;'>";
 
 
@@ -90,13 +91,13 @@ class Remind extends CI_Controller {
 							"<li> <p style ='font-weight:bold; padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; display:inline; vertical-align:middle;'/>
 							".strip_tags($fullTrans->demands[0]->good->title)."</p>";
 
-					$content .= "<div style='margin-left:25px;'><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+					$content .= "<div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
 
 					$content .= strip_tags(trim($fullTrans->language->$summary)).". ";
 
 					if($fullTrans->status == 'active')
 					{
-						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. Otherwise, you should write ".$other_user->screen_name." a message.</span>";
+						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. Otherwise, write ".$other_user->screen_name." a message.</span>";
 					} else if ($fullTrans->status == 'pending') { 
 						if($user->role == 'decider')
 						{
@@ -115,9 +116,9 @@ class Remind extends CI_Controller {
 			$location = $fullTrans->$role->location;
 
 			$teaser_gifts = $G->find(array(
-				'location' => $fullTrans->$role->location,
 				'radius' => 1000,
-				'sort' => 'newest',
+				'order_by' => 'newest',
+				'sort' => 'DESC',
 				'limit' => '10'
 			));
 
@@ -128,11 +129,10 @@ class Remind extends CI_Controller {
 				$content .= " <a href='".site_url('gifts/'.$gift->id)."'>".$gift->title."</a>, ";
 			}
 
-			$user->content = $content;
 
 
 			$user->data = array(
-				'body' => $user->content,
+				'body' => $content,
 				'email' => 'hans@giftflow.org',
 				'screen_name' => $user->screen_name
 			);
@@ -329,7 +329,7 @@ class Remind extends CI_Controller {
 					foreach($val->matches as $match)
 					{
 					
-						$row .= "<li><div style='margin-left:25px;'><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+						$row .= "<li><div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
 						$row .= "<a href='".site_url($match->type.'s/'.$match->id)."'>".$match->title."</a></div></li>";
 					}
 				$row .= "</ul></li>";
