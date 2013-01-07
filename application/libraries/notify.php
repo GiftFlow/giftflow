@@ -300,11 +300,11 @@ class Notify
 		$A = new Alert();
 
 		$A->parseables = array(
-			'subject' => $data->screen_name.' wants to thank you for '.$data->gift_title,
+			'subject' => $data->thanker_screen_name.' wants to thank you for '.$data->gift_title,
 			'body' => $data->body,
 			'gift_title' => $data->gift_title,
 			'recipient_screen_name' => $data->recipient_screen_name,
-			'screen_name' => $data->screen_name,
+			'screen_name' => $data->thanker_screen_name,
 			'return_url' => $data->return_url
 		);
 
@@ -326,13 +326,13 @@ class Notify
 			'subject' => $data->recipient_screen_name.' has '.$data->decision.' your Thank.',
 			'body' => $data->body,
 			'gift_title' => $data->gift_title,
-			'screen_name' => $data->screen_name,
+			'screen_name' => $data->thanker_screen_name,
 			'recipient_screen_name' => $data->recipient_screen_name,
 			'return_url' => site_url('/you/view_thankyou/'.$data->id)
 		);
 		
 		$A->template_name = 'thankyou_updated';
-		$A->to = $data->email;
+		$A->to = $data->recipient_email;
 		$A->send();
 	}
 
