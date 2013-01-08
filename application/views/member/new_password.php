@@ -18,7 +18,7 @@
 			<label for="password">New Password</label>
 			</p>
 			<p>
-				<input minlength='7' maxlength="45" size="30" class="required" type="password" name="password" id="password" value="" />			
+				<input minlength='7' maxlength="45" size="30" class="required" type="password" name="password" id="new_password" value="" />			
 			</p>
 			<p>
 				<label for="confirm_password">Confirm New Password</label>
@@ -37,11 +37,10 @@
 </div>
 <script type='text/javascript'>
 $(function(){
-
 	$("#enter_new_password").validate({
 		rules: { 
 			confirm_password: {
-				equalTo: "#password"
+				equalTo: "#new_password"
 			}
 		},
 		messages: {
@@ -51,6 +50,5 @@ $(function(){
 		}
 	});
 	$("p.alert_error").css('margin-bottom', '0px');
-	
 });
 </script>

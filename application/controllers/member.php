@@ -359,7 +359,7 @@ class Member extends CI_Controller {
 	 * @param int user_id
 	 *
 	 */
-	protected function enter_new_password()
+	function enter_new_password()
 	{
 		if(!empty($_POST))
 		{
