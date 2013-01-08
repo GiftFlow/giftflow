@@ -31,8 +31,8 @@
 			</div>
 			<div class='span2 search_elements'>
 				<select name="sort" id="order_by" class='input-small'>
-					<option value="newest">Newest</option>
-					<option value="nearby">Nearby</option>
+					<option value="newest"<?php if($args['order_by'] == 'newest') { echo "selected"; }?>>Newest</option>
+					<option value="nearby" <?php if($args['order_by'] =='location_distance') { echo "selected"; } ?>>Nearby</option>
 				</select>
 			</div>
 			<div class='btn-group span2'>

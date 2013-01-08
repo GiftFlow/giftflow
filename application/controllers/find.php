@@ -34,32 +34,6 @@ class Find extends CI_Controller {
 		$this->load->library('Search/Good_search');
 		$this->load->library('Search/User_search');
 	}
-
-	/**
-	 * loads find/cover.php form for find page
-	 * routes input to _items
-	 */
-
-	function simple_find()
-	{
-		if(!empty($_GET))
-		{
-			$type = $this->input->get('type');
-			$this->_items($type);
-
-		} else {
-		
-			// Load categories
-			$this->data['categories'] = $this->db->order_by("name","ASC")
-				->get("categories")
-				->result();
-			
-			$this->data['title'] = 'Find';
-			$this->load->view('header', $this->data);
-			$this->load->view('find/simple_find', $this->data);
-			$this->load->view('footer', $this->data);
-		}
-	}
 	
 	function gifts()
 	{
@@ -246,8 +220,8 @@ class Find extends CI_Controller {
 		// Search lib requires values of either "G.created" or 
 		// "location_distance"
 
-		$this->args['order_by'] = ($this->args['type'] != 'people') ? 'G.created' : 'U.created';
-		$this->args['sort'] = 'DESC';
+		$this->args['order_by'] = ($this->args['type'] != 'people') ? 'location_distance' : 'U.created';
+		$this->args['sort'] = 'ASC';
 		
 		// Encode "nearby" as "location_distance" if found
 		if(!empty($_REQUEST["order_by"]) && $_REQUEST["order_by"]=="nearby")

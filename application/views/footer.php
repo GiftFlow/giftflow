@@ -19,7 +19,7 @@
 				<a href="<?php echo site_url('about'); ?>">About</a>
 			</li>
 			<li>
-				<a href="http://giftflow.uservoice.com">Feedback Forum</a>
+				<a href="http://www.giftflow.uservoice.com">Feedback Forum</a>
 			</li>
 			<li>
 				<a href="http://www.github.com/GiftFlow/GiftFlow">GitHub</a>
@@ -39,6 +39,7 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/javascript/masterJS.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/javascript/bootstrap.min.js"></script>
+
 <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=giftflow"></script>
 
 <?php if(!empty($googlemaps)&&$googlemaps==TRUE && !$localhost){ ?>
@@ -113,53 +114,34 @@ setTimeout(function(){
 	}, 1);
 
 
-/*jquery Google analytics, push events for Add buttons */
-function trackEvent(category, action, label) {
-  window._gaq.push(['_trackEvent', category, action, label])
-}
-
+/* Scripts for header menu items */
 $('.dropdown-menu').find('form').click(function(e) {
 	e.stopPropagation();
 });
 
+/*Google analytics */
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16470536-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+
+/* GA event Tracking scripts */
 $("#add_button").click(function(e) {
-  var element = $(this)
-  var label = "Add"
-  trackEvent("button", "Click", label)
+  _gaq.push(['_trackEvent',"post_menu", "open"]);
 });
 
 $("ul#add_actions li a").click(function(e) {
-  var element = $(this)
-  var label = element.attr("href")
-  trackEvent("add_menu", "Click", label)
+  var element = $(this);
+  var label = $(this).attr("href");
+  _gaq.push(['trackEvent', "post_menu", "choose",label]);
 });
 
-
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-try {
-	var pageTracker = _gat._getTracker("	UA-16470536-1");
-	pageTracker._trackPageview();
-} catch(err) {}
-
-  var uservoiceOptions = {
-    key: 'giftflow',
-    host: 'giftflow.uservoice.com', 
-    forum: '50431',
-    alignment: 'left',
-    background_color:'#65b15b', 
-    text_color: 'white',
-    hover_color: '#93ff85',
-    lang: 'en',
-    showTab: true
-  };
-  function _loadUserVoice() {
-    var s = document.createElement('script');
-    s.src = ("https:" == document.location.protocol ? "https://" : "http://") + "uservoice.com/javascripts/widgets/tab.js";
-    document.getElementsByTagName('head')[0].appendChild(s);
-  }
-  _loadSuper = window.onload;
-  window.onload = (typeof window.onload != 'function') ? _loadUserVoice : function() { _loadSuper(); _loadUserVoice(); };
 </script>
 
 </body>
