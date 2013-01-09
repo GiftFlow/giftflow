@@ -36,6 +36,7 @@
 		}
 		a:hover {
 			color:#000;
+			border-bottom: #000;
 		}
 
 

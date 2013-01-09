@@ -130,10 +130,11 @@ class Remind extends CI_Controller {
 			}
 
 
+			$content .= "<p><a href='".site_url('remind/unsubscribe/'.$user->id)."'>Unsubscribe</a></p>";
 
 			$user->data = array(
 				'body' => $content,
-				'email' => 'hans@giftflow.org',
+				'email' => $user->email,
 				'screen_name' => $user->screen_name
 			);
 		}
@@ -163,7 +164,7 @@ class Remind extends CI_Controller {
 
 	function matchGoods()
 	{
-		$this->auth->bouncer(100);
+		//$this->auth->bouncer(100);
 		//get users and their goods
 		$stack = $this->_buildUserStack();
 
@@ -196,7 +197,9 @@ class Remind extends CI_Controller {
 		$users = array();
 		foreach($raw as $val)
 		{
-			$users[] = $val->user_id;
+			if(!empty($val->user_id)) {
+				$users[] = $val->user_id;
+			}
 		}
 	
 		$user_ids =	array_unique($users);
@@ -256,7 +259,7 @@ class Remind extends CI_Controller {
 				{
 					$good->matches = $G->find(array(
 						'keyword' => $good->good_title,
-						'limit' => 10,
+						'limit' => 5,
 						'exclude' => $good->good_id,
 						'type' => 'need',
                         'status' => 'active'
@@ -273,7 +276,7 @@ class Remind extends CI_Controller {
 
 					$good->matches = $G->find(array(
 						'keyword' => $good->good_title,
-						'limit' => 10,
+						'limit' => 5,
 						'exclude' => $good->good_id,
 						'type' => 'gift',
 						'status'=> 'active'
@@ -291,24 +294,27 @@ class Remind extends CI_Controller {
 	{
 		foreach($stack as $user)
 		{
-			//build html for email
+			if(!empty($user->user_id)) {
+				//build html for email
 
-			$content = "<span><p>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs that might match your own. We hope you find this helpful.</p></span>";
-			$content .= "<ul style='list-style:none;'>";
+				$content = "<p style='color:#000; font-size:14px; font-weight:bold;'>Hello ".$user->screen_name.", </p><p> Here is a list of the gifts and needs that might match your own. We hope you find this helpful.</p>";
+				$content .= "<ul style='list-style:none; margin-left:-20px'>";
 
 
-			if(!empty($user->gifts)) {
+				if(!empty($user->gifts)) {
 
-				$content .= $this->buildRows($user->gifts);
+					$content .= $this->buildRows($user->gifts);
+				}
+			
+				if(!empty($user->needs)) 
+				{
+					$content .= $this->buildRows($user->needs);
+				}
+				$content .= "</ul>";
+				$content .= "Thank you for using GiftFlow. <a href='".site_url('find/')."'>Check out new our Give and Get pages!</a>";
+				$content .= "<p><a href='".site_url('remind/unsubscribe/'.$user->user_id)."'>Unsubscribe</a></p>";
+				$user->body = $content;
 			}
-		
-			if(!empty($user->needs)) 
-			{
-				$content .= $this->buildRows($user->needs);
-			}
-			$content .= "</ul>";
-			$content .= "Thank you for using GiftFlow. <a href='".site_url('find/')."'>Check out new our Give and Get pages!</a>";
-			$user->body = $content;
 		}
 		return $stack;
 
@@ -322,14 +328,14 @@ class Remind extends CI_Controller {
 		{
 			if(!empty($val->matches))
 			{
-				$row .=  "<li><p style ='padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; margin-right:10px; display:inline; vertical-align:middle;'/>";
-				$row .= "Matches for: ".$val->good_title."</p><ul style='list-style:none;'>";
+				$match_type = ($val->good_type == 'gift')? 'Needs' : 'Gifts';
+				$row .=  "<li><p style ='padding-top:10px; font-size:14px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+				$row .= $match_type." matching your ".$val->good_type.":<span style='font-weight:bold;'> ".$val->good_title."</span></p><ul>";
 
 					foreach($val->matches as $match)
 					{
-					
-						$row .= "<li style='padding: 5px;'><div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
-						$row .= "<a href='".site_url($match->type.'s/'.$match->id)."'>".$match->title."</a></div></li>";
+						$row .= "<li style='padding: 5px;'><div>";
+						$row .= "<a style='font-size:14px; font-weight:bold; color:#587498;' href='".site_url($match->type.'s/'.$match->id)."'>".$match->title."</a> <span style='font-size:12px; color:#666666;'>from: ".$match->user->screen_name;". </span></div></li>";
 					}
 				$row .= "</ul></li>";
 			}
@@ -348,5 +354,20 @@ class Remind extends CI_Controller {
 		}
 		
 	}
+
+	function unsubscribe($id) 
+	{
+		if(!empty($id) && is_numeric($id)) {
+			$id = (int)$id;
+			$sql = "INSERT into unsubscribes (user_id) VALUES (".$id.")";
+			if($this->db->query($sql)) {
+				$this->session->set_flashdata('success', 'You have unsubscribed from the Match Email'); 
+				redirect('welcome/home');
+			}
+		} else {
+			echo "Error saving unsubscribe";
+		}
+	}
+
 
 }

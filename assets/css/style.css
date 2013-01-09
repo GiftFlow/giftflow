@@ -311,6 +311,9 @@ a.result_image {
 	height:150px;
 	padding: 2px;
 }
+.good_title {
+	word-wrap:break-word;
+}
 .mini a.result_image {
 	padding:2px;
 	border-width: .25px .5px .5px .25px;
@@ -1283,12 +1286,16 @@ li.review{
 }
 
 .spreadWord {
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
 .spreadWord p {
 	display:block;
-	margin:50px 0px 0px 0px;
+	text-align:center;
+	margin-bottom: 15px;
+}
+.spreadWord .thisadd_buttons {
+	margin-left: 120px;
 }
 /* Account style */
 

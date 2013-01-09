@@ -7,16 +7,17 @@
 	
 	<div class='span8 chunk'>
 		<h3>Watch a Keyword</h3>
+		<p>Choose words or phrases to save as 'watches'.</p>
 
 		<?php echo $form; ?>
 		
+		<p> Whenever another user posts a gift that matches one of your watch keywords you will receive an automatic email. </p> 
 		
-		<?php if(!empty($watches)) { ?>
 			<ul class='interaction'>
 				<li class='section_header'>
 					<h3 class='inbox_title'>Currently Watching</h3>
 				</li>
-				<?php 
+				<?php if(!empty($watches)) { 
 					foreach($watches as $val) 
 					{ ?>
 						<li class='watch'>

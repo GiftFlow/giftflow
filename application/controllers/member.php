@@ -376,7 +376,7 @@ class Member extends CI_Controller {
 				if($A->reset_password($U, $post))
 				{
 					$this->session->set_flashdata('success','New password saved!');
-					redirect('you');
+					redirect('welcome/home');
 				}
 			}
 			else

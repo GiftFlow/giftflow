@@ -367,7 +367,7 @@ class Notify
 		$A = new Alert();
 
 		$A->parseables = array(
-			'subject' => 'Might this be what you are looking for?',
+			'subject' => 'Matches for your gifts and needs',
 			'screen_name' => $data->screen_name,
 			'return_url' => site_url('login')
 		);

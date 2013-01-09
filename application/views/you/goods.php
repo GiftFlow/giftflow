@@ -63,20 +63,19 @@
 		</div>
 		<div class='modal-body row-fluid spreadWord'>
 			
-			<div class='span3'>
-				<a class='result_image medium-16'></a>
+			<div class='span1'>
 			</div>
-			<div class="span6 addthis_toolbox addthis_default_style addthis_32x32_style"
-				addthis:url="<?php echo site_url($type.'s/'.$shareId);?>">
-					<a class="addthis_button_preferred_1"></a>
-					<a class="addthis_button_preferred_2"></a>
-					<a class="addthis_button_preferred_3"></a>
-					<a class="addthis_button_preferred_4"></a>
-					<a href="http://www.addthis.com/bookmark.php?v=250&pubid=giftflow" class="addthis_button_compact"></a>
-				<p class='nicebigtext'>Spread the word!</p>
-			</div>
-			<div class='span3'>
-				<a class='result_image medium-16'></a>
+			<div class="span10 addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="<?php echo site_url($type.'s/'.$shareId);?>">
+				<p class='nicebigtext'>Broadcast your <?php echo ucfirst($type); ?> to your friends.</p>
+					<div class='thisadd_buttons'>
+						<a class="addthis_button_preferred_1"></a>
+						<a class="addthis_button_preferred_2"></a>
+						<a class="addthis_button_preferred_3"></a>
+						<a class="addthis_button_preferred_4"></a>
+						<a href="http://www.addthis.com/bookmark.php?v=250&pubid=giftflow" class="addthis_button_compact"></a>
+					</div>
+				</div>
+			<div class='span1'>
 			</div>
 		</div>
 		<div class='modal-footer'>
@@ -94,6 +93,11 @@ $(function(){
 		$('#shareModal').modal({
 			'toggle': 'true',
 			'backdrop': 'static'
+		});
+
+		$('.thisadd_buttons a').click(function() {
+			_gaq.push(['_trackEvent', 'shareModal','shareClick']);
+			console.log('hello!');
 		});
 	}
 

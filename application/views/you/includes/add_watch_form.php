@@ -4,7 +4,5 @@
 		<input type="text" name="keyword" id="keyword" value="" class="required" placeholder="e.g. shovels, sweaters" />
 		<input type='submit' class="btn" value='Add Watch'>
 	</div>
-	
-	<p class="help-block">this keyword will be automatically looked for in new gifts</p>
 
 </form>

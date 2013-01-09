@@ -14,7 +14,7 @@
 				<?php }?>
 			</div>
 			<div class='span4'>	
-				<h1 class="<?php if($G->type == 'need') { echo 'need'; } ?>" >
+				<h1 class="good_title <?php if($G->type == 'need') { echo 'need'; } ?>" >
 					<?php echo $G->title; ?>
 				</h1>
 			

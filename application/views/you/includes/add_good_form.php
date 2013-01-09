@@ -4,23 +4,6 @@
 	<fieldset>
 	
     <div class="control-group">
-    	<label class="control-label" for="title">Title</label>
-    	<div class="controls">
-    		<input class='big-border' type="text" name="title" id="title" value="<?php if(isset($G) && !empty($G->title)){ echo $G->title; } ?>" class="required input-xlarge" maxlength='25'/>	
-    	</div>
-    </div>
-    
-	<?php if(!$is_ajax){ ?>
-    <div class="control-group">
-    	<label class="control-label" for="description">Description</label>
-    	<div class="controls">
-    		<textarea rows="5" name="description" id="description" value="" class="big-border required"><?php if(isset($G) && !empty($G->description)){ echo $G->description; }?></textarea>
-    	</div>
-    </div>
-	<?php } ?>
-
-	
-    <div class="control-group">
     	<label class="control-label" for="category">Category</label>
     	<div class="controls">
 			<select name='category' id='category' title='Category' class="required input-xlarge">
@@ -35,6 +18,22 @@
     	</div>
     </div>
     
+    <div class="control-group">
+    	<label class="control-label" for="title">Title</label>
+    	<div class="controls">
+    		<input class='big-border' type="text" name="title" id="title" value="<?php if(isset($G) && !empty($G->title)){ echo $G->title; } ?>" class="required input-xlarge" maxlength='31'/>	
+    	</div>
+    </div>
+    
+	<?php if(!$is_ajax){ ?>
+    <div class="control-group">
+    	<label class="control-label" for="description">Description</label>
+    	<div class="controls">
+    		<textarea rows="5" name="description" id="description" value="" class="big-border required"><?php if(isset($G) && !empty($G->description)){ echo $G->description; }?></textarea>
+    	</div>
+    </div>
+	<?php } ?>
+
     <!-- Tags -->
     <div class="control-group">
     	<label class="control-label" for="title">Tags</label>
@@ -114,6 +113,11 @@ $(function(){
 		$(".photos-list").fadeIn();
 	});
 	$("#add_good_form").validate({
+		rules: {
+			title: {
+				maxlength: 30
+			}
+		},
 		highlight: function(label) { 
 			$(label).closest('.control-group') 		
 			.addClass('error').removeClass('success');
@@ -121,6 +125,10 @@ $(function(){
 	  	success: function(label) {
 		  	label.hide().closest('.control-group').addClass('success');
 	  	}
+	});
+
+	$('#location').click(function() {
+		$(this).val('');
 	});
 });
 </script>
