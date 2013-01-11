@@ -71,6 +71,30 @@
 
 		</div> <!-- close profile info -->
 
+		<?php if(!empty($followers) || !empty($following)) { ?>
+		<!-- Followers/Following Section -->
+		<div class='chunk'>
+				<div class='thumb_grid'>
+				<p class='nicebigtext'>Followers (<?php echo count($followers); ?>) </p>
+				<?php foreach($followers as $val) { ?>
+				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
+					<img src='<?php echo $val->default_photo->thumb_url;?>' />
+				</a>
+			 <?php } ?>
+				</div>
+				<div class='thumb_grid'>
+				<p class='nicebigtext'>Following (<?php echo count($following); ?>)</p>
+				<?php foreach($following as $val) { ?>
+				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
+					<img src='<?php echo $val->default_photo->thumb_url;?>' />
+				</a>
+			 <?php } ?>
+				</div>
+		</div>
+		<?php } ?>
+
+		<?php if(count($u->photos) > 1){ ?>
+		<!-- Photos Section (if more than one photo found) -->
 		<div class='chunk thumb_grid'>
 				<p class='nicebigtext'>Photos</p>
 				<p>
@@ -93,26 +117,8 @@
 					</div>
 				</div>
 		</div>
-		<?php if(!empty($followers) || !empty($following)) { ?>
-		<div class='chunk'>
-				<div class='thumb_grid'>
-				<p class='nicebigtext'>Followers</p>
-				<?php foreach($followers as $val) { ?>
-				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
-					<img src='<?php echo $val->default_photo->thumb_url;?>' />
-				</a>
-			 <?php } ?>
-				</div>
-				<div class='thumb_grid'>
-				<p class='nicebigtext'>Following</p>
-				<?php foreach($following as $val) { ?>
-				<a href="<?php echo site_url('people/'.$val->id); ?>" title="<?php echo $val->screen_name;?>">
-					<img src='<?php echo $val->default_photo->thumb_url;?>' />
-				</a>
-			 <?php } ?>
-				</div>
-		</div>
 		<?php } ?>
+
 	</div><!-- close span -->
 	<div class = 'span4'>
 			<!--- Gifts and Needs Column -->
