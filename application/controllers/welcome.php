@@ -60,6 +60,7 @@ class Welcome extends CI_Controller {
 		$this->data['goods'] = $G->find(array(
 			'limit' => 100,
 			'order_by' => 'G.created',
+			'sort'=>'desc',
 			'location' => $location
 		));
 
