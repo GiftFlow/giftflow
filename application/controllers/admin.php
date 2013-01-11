@@ -82,9 +82,9 @@ class Admin extends CI_Controller {
 		$G = new Good();
 		$G->include_related('location', array('address'), FALSE, TRUE); // resolve the address
 		$G->include_related_count("tag"); // include the tag count
-		$G->order_by('type', 'asc')
+		$G->order_by('created', 'desc')
 		->where('type', $type)
-		->limit(500)
+		->limit(5000)
 		->get();
 		$this->data['goods'] = $G->all;
 		$this->data['js'][] = 'jquery-datatables.php';
