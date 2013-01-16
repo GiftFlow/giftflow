@@ -154,19 +154,21 @@ class Thank extends CI_Controller {
 					
 					$hook_data = array(
 						'recipient_email' => $post['thankEmail'],
-						'screen_name' => $this->U->screen_name,
+						'thanker_screen_name' => $this->U->screen_name,
 						'gift_title' => $post['gift'],
 						'body' => $post['body'],
 						'subject'=> 'You have been thanked on GiftFlow!',
 						'return_url' => site_url('register')
 					);
 
-					$N->thankInvite($hook_data);
+					$N->thank_invite($hook_data);
 
 					$E = new Event_logger();
 					$E->basic('thank_invite', $hook_data);
 
-					redirect('you');
+					$this->session->set_flashdata('success', 'Thank sent to '.$post['thankEmail']);
+
+					redirect('welcome/home');
 				}
 			}
 

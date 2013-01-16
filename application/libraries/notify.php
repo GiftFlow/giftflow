@@ -382,13 +382,13 @@ class Notify
 	 * param array $data
 	 */
 
-	function thankInvite($data)
+	function thank_invite($data)
 	{
 		$A = new Alert();
 
 		$A->parseables = $data;
 
-		$A->template_name = 'thankInvite';
+		$A->template_name = 'thank_invite';
 		$A->to = $data['recipient_email'];
 			
 		$A->send();
