@@ -146,6 +146,8 @@ class Good_search extends Search
 			// Filter by category_id
 			if(!empty($options->category_id))
 			{
+				$categories = $this->check_for_parent($options->category_id);	
+				print_r($categories); die();
 				$this->CI->db->where_in("G.category_id",$options->category_id);
 			}
 		
@@ -545,5 +547,16 @@ class Good_search extends Search
 		$this->CI->db->select("G.id")
 			->from("goods AS G ");
 	}
+
+	function check_for_parent($id)
+	{
+		$categories = $this->CI->db->select('C.id, C.parent_category_id')
+					->from('categories AS C')
+					->where('C.parent_category_id',$id)
+					->get()
+					->result();
+		echo $this->CI->db->last_query();
+	}
+
 	
 }

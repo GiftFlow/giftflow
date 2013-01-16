@@ -16,8 +16,17 @@
 				<button class='btn btn-large parent_cat' type='button' id='cat_'>Categories</button>
 				<button class='btn btn-large dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></button>
 				<ul class='dropdown-menu goods_menu'>
-					<?php foreach($categories as $cat) { ?>
-						<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
+					<?php foreach($parent_categories as $pcat) { ?>
+					<li class='parent_category' id='cat_<?php echo $pcat->id; ?>'>
+						<span class='parent_name'><?php echo $pcat->name; ?></span>
+						<ul class='sub_categories'>
+							<?php foreach($sub_categories as $cat) {?>
+								<?php if($cat->parent_category_id == $pcat->id) { ?>
+									<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
+								<?php } ?>
+							<?php } ?>
+							</ul>
+						</li>
 					<?php } ?>
 				</ul>
 			</div>
@@ -194,7 +203,7 @@ $(function() {
 		GF.Params.set('category_id',$(this).attr('id').substr(4));
 		GF.Ajax.request();
 	});
-	$('li.subcategory').click(function() {
+	$('.subcategory, .parent_category').click(function() {
 		var cat = $(this).attr('id').substr(4);
 		GF.Params.set('category_id',cat);
 		GF.Ajax.request();

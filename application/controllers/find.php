@@ -83,11 +83,16 @@ class Find extends CI_Controller {
 
 
 		// Load category data
-		$this->data['categories']= $this->db->order_by("name","ASC")
+		$this->data['parent_categories']= $this->db->order_by("name","ASC")
 			->where('parent_category_id',NULL)
 			->get('categories')
 			->result();
 		
+		$this->data['sub_categories']= $this->db->order_by("name","ASC")
+			->where('parent_category_id IS NOT NULL', null, FALSE)
+			->get('categories')
+			->result();
+
 		// Load Menu
 		$this->data['menu'] = $this->load->view('find/includes/menu', $this->data, TRUE);
 

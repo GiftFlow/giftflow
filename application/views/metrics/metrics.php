@@ -1,16 +1,12 @@
  <h1> Metrics Data </h1>
 
 </br>
-
- <?php
- Echo "<a href=metrics/monthly_users>Monthly Users</a>"
- ?>
+<?php print_r($monthly_users); ?>
+ <a href=metrics/monthly_users>Monthly Users</a>
 
 </br>
 
- <?php
- Echo "<a href=metrics/gifts_needs_monthly>Monthly Gifts and Needs</a>"
- ?>
+<a href=metrics/gifts_needs_monthly>Monthly Gifts and Needs</a>
 
  </br>
 
