@@ -1,4 +1,3 @@
-
 <div class='row' id='find_page'>
 
 	<div class='span2 chunk' id='find_sidebar'>

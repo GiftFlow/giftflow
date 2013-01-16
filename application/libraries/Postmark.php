@@ -440,7 +440,8 @@ class Postmark {
 		log_message('debug', 'POSTMARK JSON: ' . $encoded_data . "\nHeaders: \n\t" . implode("\n\t", $headers) . "\nReturn:\n$return");
 		
 		if (curl_error($ch) != '') {
-			show_error(curl_error($ch));
+			//show_error(curl_error($ch));
+			log_message('debug','Error temp disabled, line 444');
 		}
 		
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -448,7 +449,8 @@ class Postmark {
 		
 		if (intval($httpCode / 100) != 2) {
 			$message = json_decode($return)->Message;
-			show_error('Error while mailing. Postmark returned HTTP code ' . $httpCode . ' with message "'.$message.'"');
+			//show_error('Error while mailing. Postmark returned HTTP code ' . $httpCode . ' with message "'.$message.'"');
+			log_message('debug', 'ERROR temp disabled, line 444');
 		}
 		
 		$info = array (

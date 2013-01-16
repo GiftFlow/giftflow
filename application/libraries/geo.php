@@ -187,7 +187,7 @@ class Geo
 	*	@return array
 	*/
 	public function geocode_ip($ip = NULL)
-  {
+	{
 		Console::logSpeed("Geo::geocode_ip()");
 	
 		// Grab IP Address

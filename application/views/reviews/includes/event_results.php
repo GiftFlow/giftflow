@@ -19,6 +19,8 @@
 			</div>
 			<div class='span8 header_text'>
 				<span class='event_summary'><?php echo ($R->transaction->language->overview_summary); ?></span>
+			</div>
+			<div class='span1'>
 				<span class='minidata'><?php echo user_date($R->event_created, 'n/j/o'); ?></span>
 			</div>
 		</div>

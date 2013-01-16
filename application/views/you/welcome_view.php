@@ -4,21 +4,21 @@
 		<div class='center'>
 			<div id="welcome_three">
 				<div class="welcome_block" id="gifts" >
-					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:150px;"/>
+					<p><a href="<?php echo site_url("you/add_good/?type=gift");?>"  class="btn btn-large">Add Gift</a></p>
+					<img src="<?php echo base_url();?>assets/images/categories/1.png" style="width:100px; margin:10px 0px 10px 0px;"/>
 					<p>What do you want to give? A helping hand? An expert opinion? Handmade jewerly? It's all up to you.</p>
-					<p><a href="<?php echo site_url("you/add_good/?type=gift");?>"  class="button btn">Add a Gift</a></p>
 				</div>
 				
 				<div class="welcome_block" id="needs">
-					<img src="<?php echo base_url();?>assets/images/categories/16.png" style="width:150px;"/>
+					<p><a href="<?php echo site_url("you/add_good/?type=gift");?>"  class="btn btn-large">Add Need</a></p>
+					<img src="<?php echo base_url();?>assets/images/categories/16.png" style="width:100px; margin:10px 0px 10px 0px;"/>
 				 <p>What do you need? Help in your garden? A pair of gloves? Don't be afraid to ask.</p>
-				 <p><a href="<?php echo site_url("you/add_good/?type=need");?>"  class="button btn">Add a Need</a></p>
 				</div>
 					
 				<div class="welcome_block" id="people">
-					<img src="<?php echo base_url();?>assets/images/user.png" style="width:150px;"/>
+				 <p><a href="<?php echo site_url("you/add_good/?type=need");?>"  class="btn btn-large">Update profile</a></p>
+					<img src="<?php echo base_url();?>assets/images/user.png" style="width:100px; margin: 10px 0px 10px 0px;"/>
 					<p>Who is using GiftFlow near you? Invite your friends and build a network of giving in your community.</p>
-					<p><a href="<?php echo site_url('account'); ?>" class="button btn">Complete your Profile</a></p>
 				</div>
 				
 			</div><!-- close welcome_three-->

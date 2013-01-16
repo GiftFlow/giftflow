@@ -1,5 +1,11 @@
+<span class='nicebigtext dash_lists'>Lists:</span>
 <ul id='you_sidebar' class='sidebar_menu'>
-	<li <?php if($segment[2]=='inbox' || $segment[2] == 'view_thankyou' || $segment[2] == 'view_transaction' || $segment[2] == 'view_thread'){ echo  "class='active'"; } ?>>
+	<li <?php if($segment[2] == 'activity'){ echo  "class='active'"; } ?>>
+		<a href='<?php echo site_url('you/activity');?>'> 
+			Activity Feed
+		</a>
+	</li>
+	<li <?php if($segment[2]=='inbox' || $segment[2] == 'view_thankyou' || $segment[2] == 'view_transaction' || $segment[2] == 'view_thread' || $segment[2] == 'add_thank'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/inbox');?>'> 
 			Inbox<?php if($activeInbox) { echo " (".$inboxCount.")"; }?>
 		</a>
@@ -17,6 +23,11 @@
 	<li <?php if($segment[2]=='watches'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/watches');?>' > 
 			Watches
+		</a>
+	</li>
+	<li <?php if($segment[2]=='following'){ echo  "class='active'"; } ?>>
+		<a href='<?php echo site_url('you/following');?>' > 
+			Following
 		</a>
 	</li>
 	<li <?php if($segment[1]=='account'){ echo  "class='active'"; } ?>>

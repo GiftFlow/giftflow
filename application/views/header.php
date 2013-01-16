@@ -76,23 +76,18 @@ if(isset($css))
 		</div>
 		<div class='span6' id='home_find_about'>
 			<ul id='nav'>
-				<li>
-					<a href="<?php echo site_url('welcome/home'); ?>">
-						<?php echo $header_location; ?>
+			<li class='nav_li'>
+					<a class='nav_a' href="<?php echo site_url('find/?type=gift'); ?>">
+						Gifts
 					</a>
 				</li>
-				<li>
-					<a href="<?php echo site_url('find/?type=need'); ?>">
-						Give
+				<li class='nav_li'>
+					<a class='nav_a' href="<?php echo site_url('find/?type=need'); ?>">
+						Needs
 					</a>
 				</li>
-				<li>
-					<a href="<?php echo site_url('find/?type=gift'); ?>">
-						Get
-					</a>
-				</li>
-				<li>
-					<a href="<?php echo site_url('about/press'); ?>">
+				<li class='nav_li'>
+					<a class='nav_a' href="<?php echo site_url('about/press'); ?>">
 						About
 					</a>
 				</li>
@@ -105,12 +100,7 @@ if(isset($css))
 					<a id='add_button' href='#' data-toggle='modal' data-target='#addModal' class='btn btn-large btn-success'>
 						<i class='icon-plus icon-white'></i>Post
 					</a>
-
-					<a href="<?php echo site_url('you/inbox');?>" class='btn btn-large btn-success'>
-						<i class="icon-envelope icon-white <?php if(!$activeInbox) { echo 'empty';}?>">
-							</i>Inbox
-					</a>
-					<a  class='btn btn-large btn-success' href='<?php echo site_url("people/".$logged_in_user_id);?>'>
+					<a  class='btn btn-large btn-success' href='<?php echo site_url("you/activity");?>'>
 							<?php if(!empty($userdata['default_photo_thumb_url'])){ ?>
 								<img src="<?php echo $userdata['default_photo_thumb_url']; ?>" id='you_img'/>
 							<?php } ?>
@@ -124,7 +114,7 @@ if(isset($css))
 
 						<ul class='dropdown-menu' id='logged_in_dropdown'>
 							<li>
-								<a href='<?php echo site_url(''); ?>'>
+								<a href='<?php echo site_url('you/index'); ?>'>
 									Dashboard
 								</a>
 							</li>
@@ -225,7 +215,7 @@ if(isset($css))
 					<span>What do you need? Ask away!</span>
 				</li>
 				<li>
-					<a href="<?php echo site_url('thank/addThankForm'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
+					<a href="<?php echo site_url('you/add_thank'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
 					<span>Try thanking a friend who doesn't yet use GiftFlow!</span>
 				</li>
 				<li> 

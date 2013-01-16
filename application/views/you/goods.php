@@ -4,8 +4,8 @@
 		<?php echo $menu; ?>
 	</div>
 	<div class='span9 chunk'>
-		<a href="<?php echo site_url('you/add_good/'.$type);?>" id='add_good' class="btn btn-large btn-success">Add a <?php echo ucfirst($type); ?></a>
-		<ul class ="results_list">
+<!--		<a href="<?php echo site_url('you/add_good/'.$type);?>" id='add_good' class="btn btn-large btn-success">Add a <?php echo ucfirst($type); ?></a> -->
+		<ul class ="results_list dash_goods">
 			<?php if(!empty($goods)) { ?>
 				<?php foreach($goods as $val) { ?>
 						<li class='clearfix'>

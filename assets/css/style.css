@@ -36,8 +36,8 @@ body {
 	height: 53px;
 }
 #main {
-	background-color: #fcfcfc;
-	background-image: url('../images/textures/grey.gif');
+	background-color: #FFF;
+/*	background-image: url('../images/textures/grey.gif'); */
 	padding: 20px 0 50px 0;
 	min-height: 488px;
 }
@@ -361,13 +361,11 @@ span.key{
 	min-height:15px;
 }
 
+
 #header_actions ul.dropdown-menu a {
 	color:#000;
 	font-size:12px;
 	font-weight: normal;
-}
-#header_actions ul.dropdown-menu {
-	left:200px;
 }
 #home_find_about ul.dropdown-menu {
 	padding: 5px 8px 5px 8px;
@@ -632,12 +630,27 @@ ul.sidebar_menu li.active ul li.active a{
 #home_activity {
 	padding-left: 10px;
 }
-#blog_feed li {
-	margin: 10px 0px 5px 0px;
+#blog_feed {
+	list-style:none;
 }
-#blog_feed span.entry_title {
+.blog_post {
+	margin: 10px 0px 0px 0px;
+}
+.entry_blurb {
+	display:block;
+}
+.entry_title {
+	display:inline-block;
 	font-weight:bold;
-	font-size:14px;
+	font-size:16px;
+	padding: 2px;
+	margin: 5px 0px 5px 0px;
+}
+.entry_metadata {
+	display:inline-block;
+	font-size: 12px;
+	color: #666;
+	margin-left: 15px;
 }
 #featured_image {
 	margin: 0px 10px 1px 0px;
@@ -966,6 +979,9 @@ div.simple_find {
 .about h1{
 	margin-top: 9px;
 }
+.faq_header {
+	margin-bottom: 20px;
+}
 
 /* END about style */
 
@@ -1113,6 +1129,11 @@ ul.simplePagerNav li.currentPage a{
 #profile_thank_form {
 	width:90%;
 }
+#thankyouform {
+	margin-top:20px;
+	padding-top: 20px;
+	border-top: 1px solid #CCC;
+}
 .entry_body {
 	padding: 13px;
 }
@@ -1179,7 +1200,7 @@ li.event_row {
  */
 
 .you_dashboard {
-	margin-bottom: 20px;
+	margin: 0px 35px 20px 0px;
 	clear:both;
 }
 .you_dashboard p {
@@ -1247,6 +1268,23 @@ ul.interaction li {
 .message_form {
 	width: 80%;
 }	
+.dash_title {
+	padding-bottom: 20px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #CCC;
+}
+.dash_actions {
+	display:inline-block;
+	float:left;
+	margin-right: 20px;
+}
+.dash_lists {
+	display:block;
+	margin: 0px 0px 15px 0px;
+}
+ul.dash_goods {
+	border-top: none;
+}
 li.watch {
 	margin:10px;
 }
@@ -1254,6 +1292,9 @@ a.keyword  {
 	padding: 20px;
 	font-size: 14px;
 	font-weight:bold;
+}
+#you_sidebar {
+	margin-left: 10px;
 }
 ul#you_sidebar ul#account_menu li a{
 	color: black;
@@ -1370,10 +1411,14 @@ span.error{
 	margin: 5px 5px 5px 5px;
 }
 #location_change_button {
+	display:inline-block;
 	margin: 0px 0px 10px 20px;
 }
 .home_location_change {
 	margin-top: 20px;
+}
+.dashboard_actions {
+	margin: 20px 0px 10px 0px;
 }
 .welcome_user a img {
 	display:inline-block;
@@ -1402,5 +1447,5 @@ span.error{
 	width:100%;
 	display:block;
 	margin-top: 20px;
-	float:left;
+	text-align:left;
 }

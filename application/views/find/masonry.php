@@ -1,10 +1,11 @@
 <div class='row find_header'>
+				</li>
 	<div class='span12'>
 	<?php if($type == 'need') { ?>
-		<h1 class='need'>Give!</h1>
+		<h1 class='need'>Needs</h1>
 		<p class='nicebigtext'>Earn some gratitude. Browse these needs to find where you can help.</p>
 	<?php } else { ?>
-		<h1>Get!</h1>
+		<h1>Gifts</h1>
 		<p class='nicebigtext'>Enjoy the generosity of your community. Request what you want.</p>
 	<?php } ?>
 	</div>
@@ -36,7 +37,6 @@
 				</select>
 			</div>
 			<div class='btn-group span2'>
-				<a id='post_button' class='btn btn-large' href="<?php echo site_url('you/add_good/'.$type);?>"><i class='icon icon-plus'></i> Post <?php echo ucfirst($type); ?></a>
 				<button id='scroll_button' style='display:none;' class='btn btn-large'><i class='icon-arrow-up'></i>Back to Top</button>
 			</div>
 	</div>
@@ -210,7 +210,6 @@ $(function() {
 			scrollTop:0
 		}, 800);
 		$('#scroll_button').hide();
-		$('#post_button').show()
 	});
 
 	
@@ -219,11 +218,8 @@ $(function() {
 	$(window).scroll(function()
 	{
 		if($(window).scrollTop() < 200) {
-			$('#post_button').show();
 			$('#scroll_button').hide();
 		} else {
-
-			$('#post_button').hide();
 			$('#scroll_button').show();
 		}
 

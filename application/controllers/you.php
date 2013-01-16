@@ -29,8 +29,32 @@ class You extends CI_Controller {
 
 	function index()
 	{
-		$this->inbox();
+		$this->activity();
 	}
+
+	/* displays activity feed */
+	function activity()
+	{
+		$this->load->library('Search/event_search');
+
+		$E = new Event_search();
+		$this->data['activity'] = $E->get_events(array(
+			'event_type_id' => array(17,2),
+			'limit' => 40
+		));
+
+
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['title'] = 'Your Dashboard';
+		
+		// Load views
+		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header',$this->data);
+		$this->load->view('you/activity', $this->data);
+		$this->load->view('footer');
+		
+	}
+
 	
 	/**
 	*	Your gifts or needs
@@ -502,7 +526,27 @@ class You extends CI_Controller {
 		return $results;
 	}
 
+	public function following()
+	{
 
+		$F = new User_search();
+
+		$this->data['following'] = $F->following(array(
+			'user_id' => $this->session->userdata['user_id']
+		));
+		
+		$this->data['followers'] = $F->following(array(
+			'user_id' => $this->session->userdata['user_id']
+		));
+		
+		$this->data['menu'] = $this->load->view('you/includes/menu',$this->data, TRUE);
+		$this->data['title'] = "Following";
+		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header', $this->data);
+		$this->load->view('you/following',$this->data);
+		$this->load->view('footer', $this->data);
+
+	}
 	public function view_thankyou($id)
 	{
 		//accept or decline thankyou
@@ -674,4 +718,17 @@ class You extends CI_Controller {
 		}
 	}	
 
+	public function add_thank()
+	{
+		$this->auth->bouncer('1');
+		$this->data['js'][] = 'GF.Users.js';
+		$this->data['title'] = 'Add a thank!';
+
+		$this->data['menu'] = $this->load->view('you/includes/menu', $this->data, TRUE);
+
+		$this->load->view('header', $this->data);
+		$this->load->view('you/includes/header', $this->data);
+		$this->load->view('you/add_thank', $this->data);
+		$this->load->view('footer', $this->data);
+	}
 }

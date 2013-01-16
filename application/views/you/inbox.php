@@ -5,7 +5,7 @@
 	<?php echo $menu; ?>
 </div>
 <div class='span9 chunk'>
-		<?php if($show_welcome) { ?>
+		<?php if(!$show_welcome) { ?>
 				<!--welcome view -->
 				<p class='nicebigtext'> You don't have any messages! It's time to get with the flow.</p>
 				<?php echo $welcome_view; ?>

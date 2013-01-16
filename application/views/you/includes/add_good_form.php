@@ -1,4 +1,4 @@
-<h3><?php if($add){ echo $is_ajax ? $title : $question; }
+<h3 class='dash_title'><?php if($add){ echo $is_ajax ? $title : $question; }
 		  else { echo "Edit ".$G->title; } ?></h3>
 <form  id='add_good_form' name='add_good' action="<?php if($add){ echo site_url('goods/add'); } ?>" method='post' class="form-horizontal form_wrapper">
 	<fieldset>

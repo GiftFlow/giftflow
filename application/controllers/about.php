@@ -14,13 +14,10 @@ class About extends CI_Controller {
 
 	public function index()
 	{
-		$this->press();
-		/*
 		$this->data['title'] = 'About';
 		$this->load->view('header', $this->data);
 		$this->load->view('about/index', $this->data);
 		$this->load->view('footer', $this->data);
-		 */
 	}
 	
 	

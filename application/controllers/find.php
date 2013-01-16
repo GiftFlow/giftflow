@@ -79,6 +79,8 @@ class Find extends CI_Controller {
 
 		$more_available = (count($this->data['results']) == $this->args['limit']);
 		$this->data['more_available'] = json_encode($more_available);
+		
+		$this->data['form'] = $this->load->view('you/includes/add_good_form', $this->data, TRUE);
 
 
 

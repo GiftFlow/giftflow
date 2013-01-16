@@ -14,7 +14,9 @@ $config['email_templates'] = array(
 	'thankyou_updated' => array('en' => '<p><b>Hello {{thanker_screen_name}},</b></p><p>{{subject}}</p><p>You thanked them for <b>{{gift_title}}</b>.</p><p>If you would like, you can send them a message through your <a href="{{return_url}}">Inbox</a>.</p>'),
 	'transaction_reminder' => array('en' => ''),
 	'goods_match' => array('en' => ''),
-	'user_message' => array('en' => '<p><b>Hello {{recipient_name}},</b></p><p>{{user_screen_name}} has sent you a message.</p><p><b>{{user_screen_name}}</b> wrote: <br/>"{{message}}"</p><p><a href="{{return_url}}"Click Here to Login and Respond</a></p>')
+	'user_message' => array('en' => '<p><b>Hello {{recipient_name}},</b></p><p>{{user_screen_name}} has sent you a message.</p><p><b>{{user_screen_name}}</b> wrote: <br/>"{{message}}"</p><p><a href="{{return_url}}"Click Here to Login and Respond</a></p>'),
+	'thank_invite' => array('en' => '<p><b>Hello {{recipient_email}},</b></p><p>{{thanker_screen_name}} has thanked you on <a href="'.site_url().'">GiftFlow</a> for: "{{gift_title}}".</p><p>{{thanker_screen_name}} wrote: </p><p>"{{body}}"</p><br /><br /><div style="font-size:12px; color:#666666;"><p>GiftFlow is an online community of giving where users post what they need and what they can give away. <a href="'.site_url("member/register").'">Register</a> and be recognized for your generosity.</p><p>This Thank will not be published online unless you create an account with this email address. </p></div>')
+
 );
 
 /* End of file email_templates.php */

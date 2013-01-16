@@ -5,8 +5,8 @@
 	</div>
 	
 	
-	<div class='span8 chunk'>
-		<h3>Watch a Keyword</h3>
+	<div class='span9 chunk'>
+		<h3 class='dash_title'>Watch a Keyword</h3>
 		<p>Choose words or phrases to save as 'watches'.</p>
 
 		<?php echo $form; ?>
