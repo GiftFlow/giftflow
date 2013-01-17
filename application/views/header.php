@@ -76,7 +76,7 @@ if(isset($css))
 		</div>
 		<div class='span6' id='home_find_about'>
 			<ul id='nav'>
-			<li class='nav_li'>
+			<li class='nav_li first_li'>
 					<a class='nav_a' href="<?php echo site_url('find/?type=gift'); ?>">
 						Gifts
 					</a>
@@ -86,7 +86,7 @@ if(isset($css))
 						Needs
 					</a>
 				</li>
-				<li class='nav_li'>
+				<li class='nav_li last_li'>
 					<a class='nav_a' href="<?php echo site_url('about/press'); ?>">
 						About
 					</a>
