@@ -836,6 +836,10 @@ ul#categories {
 	 margin-bottom: 5px;
  }
 
+.sub_categories {
+	list-style:none;
+}
+
 /* find nav style */
 
 #find_nav {
@@ -908,11 +912,11 @@ span.nav_form{
 	z-index:10;
 }
 
-li.subcategory {
+.subcategory {
 	font-size:12px;
 	padding:2px;
 }
-li.subcategory:hover {
+.subcategory:hover {
 	color:#587498;
 	background-color:#9BBBE4;
 	cursor:pointer;

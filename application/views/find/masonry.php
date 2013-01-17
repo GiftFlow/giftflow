@@ -17,17 +17,20 @@
 				<button class='btn btn-large dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></button>
 				<ul class='dropdown-menu goods_menu'>
 					<?php foreach($parent_categories as $pcat) { ?>
-					<li class='parent_category' id='cat_<?php echo $pcat->id; ?>'>
-						<span class='parent_name'><?php echo $pcat->name; ?></span>
-						<ul class='sub_categories'>
-							<?php foreach($sub_categories as $cat) {?>
-								<?php if($cat->parent_category_id == $pcat->id) { ?>
-									<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
+						<?php if($pcat->name != 'Other') { ?>
+						<li class='parent_category'>
+							<span class='parent_name'><?php echo $pcat->name; ?></span>
+							<ul class='sub_categories'>
+								<?php foreach($sub_categories as $cat) {?>
+									<?php if($cat->parent_category_id == $pcat->id) { ?>
+										<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
+									<?php } ?>
 								<?php } ?>
-							<?php } ?>
 							</ul>
 						</li>
+						<?php } ?>
 					<?php } ?>
+					<li class='subcategory' id='cat_16'>Other</li>
 				</ul>
 			</div>
 			<div class='span4 search_elements'>

@@ -81,9 +81,7 @@ class Find extends CI_Controller {
 		$this->data['more_available'] = json_encode($more_available);
 
 
-
-		// Load category data
-		$this->data['parent_categories']= $this->db->order_by("name","ASC")
+		$this->data['parent_categories']= $this->db->order_by("name","DESC")
 			->where('parent_category_id',NULL)
 			->get('categories')
 			->result();
