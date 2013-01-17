@@ -20,6 +20,7 @@ class Root extends CI_Controller {
 		
 		// Load categories
 		$this->data['categories'] = $this->db->order_by("name","ASC")
+			->where('parent_category_id IS NOT NULL', null,false)
 			->get("categories")
 			->result();
 

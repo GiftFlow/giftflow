@@ -142,7 +142,6 @@ class Good_search extends Search
 				$this->CI->db->where_in("G.status",$options->status);
 			}
 			
-
 			// Filter by category_id
 			if(!empty($options->category_id))
 			{
@@ -545,5 +544,7 @@ class Good_search extends Search
 		$this->CI->db->select("G.id")
 			->from("goods AS G ");
 	}
+
+
 	
 }

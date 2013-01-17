@@ -24,7 +24,10 @@ var $month_name=array(
 		$this->data = $this->util->parse_globals();
 	}
 
-	function index(){
+	function index()
+	{
+
+		$this->data['monthly_users'] = $this->monthly_users();
 		
 		$this->load->view('header', $this->data);
 		$this->load->view('metrics/metrics', $this->data);
@@ -38,7 +41,7 @@ var $month_name=array(
 		$results = array();
 
 
-		for($x=10; $x<13; $x++)
+		for($x=10; $x<14; $x++)
 		{
 			for($i=1; $i<13; $i++)
 			{
@@ -56,12 +59,13 @@ var $month_name=array(
 				$results[$x][$i] = count($month);
 			}
 		}
+			
+		return $results;
+		//$this->data['monthly_users'] = $results;
 
-		$this->data['monthly_users'] = $results;
-
-		$this->load->view('header', $this->data);
-		$this->load->view('metrics/monthly_users', $this->data);
-		$this->load->view('footer', $this->data);
+	//	$this->load->view('header', $this->data);
+	//	$this->load->view('metrics/monthly_users', $this->data);
+	//	$this->load->view('footer', $this->data);
 	}
 
 	function gifts_needs_monthly()
@@ -71,7 +75,7 @@ var $month_name=array(
 		$need_results = array();
 
 
-		for($x=10; $x<13; $x++)
+		for($x=10; $x<14; $x++)
 		{
 			for($i=1; $i<13; $i++)
 			{
@@ -119,7 +123,7 @@ var $month_name=array(
 		$declined_transactions_results = array();
 
 
-		for($x=10; $x<13; $x++)
+		for($x=10; $x<14; $x++)
 		{
 			for($i=1; $i<13; $i++)
 			{
