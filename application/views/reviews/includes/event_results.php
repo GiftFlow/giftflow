@@ -19,29 +19,22 @@
 			</div>
 			<div class='span8 header_text'>
 				<span class='event_summary'><?php echo ($R->transaction->language->overview_summary); ?></span>
+				<?php foreach($R->transaction->reviews as $rev) { ?>
+						<div class='event_body'>
+							<span class='event_data'>
+								<a href="<?php echo site_url('people/'.$rev->reviewer->id); ?>">
+								 <?php echo $rev->reviewer->screen_name; ?></a> wrote: 
+							</span>
+							<span class='user_copy'>
+								<?php echo $rev->body; ?>
+							</span>
+							<span class='event_data'>Rating: <?php echo $rev->rating; ?></span>
+						</div>
+				<?php } ?>
 			</div>
 			<div class='span1'>
 				<span class='minidata'><?php echo user_date($R->event_created, 'n/j/o'); ?></span>
 			</div>
-		</div>
-		<div class='row-fluid'>
-			<div class='span2'></div>
-			<div class='span8'>
-			<?php foreach($R->transaction->reviews as $rev) { ?>
-				<div class='row-fluid event_review'>
-					<div class='span12 event_body'>
-						<span class='event_data'>
-							<a href="<?php echo site_url('people/'.$rev->reviewer->id); ?>">
-							 <?php echo $rev->reviewer->screen_name; ?></a> wrote: 
-						</span>
-						<span class='user_copy'>
-							<?php echo $rev->body; ?>
-						</span>
-						<span class='event_data'>Rating: <?php echo $rev->rating; ?></span>
-					</div>
-				</div>
-			<?php } ?>
-		</div>
 	</div>
 </li>
 <?php } ?>

@@ -13,6 +13,10 @@
 					<span class='event_summary'>
 						<?php echo $val->thank->summary;?>
 					</span>                  
+					<div class='event_body'>
+						<span class='event_data'><?php echo $val->thank->thanker_screen_name;?> wrote: </span>
+						<span class='user_copy'><?php echo $val->thank->body;?> </span>
+					</div>
 				</div>
 				<div class='span1 minidata'>
 					<span>
@@ -20,12 +24,5 @@
 					</span>
 				</div>
 			</div>
-			<div class='row-fluid'>
-				<div class='span2'></div>
-				<div class='span8 event_body'>
-					<span class='event_data'><?php echo $val->thank->thanker_screen_name;?> wrote: </span>
-					<span class='user_copy'><?php echo $val->thank->body;?> </span>
-				</div>
-			</div>
-	</li>
+		</li>
 <?php } ?>
