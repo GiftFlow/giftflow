@@ -52,7 +52,7 @@ class Member extends CI_Controller {
 	function facebook()
 	{
 		$get = $this->input->get('redirect');
-		$redirect = (!empty($get)) ? $get : 'welcome/home';
+		$redirect = (!empty($get)) ? $get : 'you/index';
 
 		//check if user is facebook authorized
 		$user = $this->facebook->getUser();
@@ -91,15 +91,15 @@ class Member extends CI_Controller {
 
 			$redirect = $this->input->post('redirect');
 
-			//if loggin in from index, redirect to welcome
+			//if loggin in from index, redirect to you/index
 			if($redirect == site_url() || $redirect == site_url('member/login') || $redirect == site_url('register')) {
-				$redirect ='welcome/home';
+				$redirect ='you/index';
 			}
 
 		} else if(!empty($sess_redirect)){
 			$redirect = $sess_redirect;
 		} else {
-			$redirect = 'welcome/home';
+			$redirect = 'you/index';
 		}
 
 		
@@ -197,7 +197,7 @@ class Member extends CI_Controller {
 
 	/**
 	*	Processes activation link to confirm user's account, then redirects to
-	*	welcome page
+	*	you/index page
 	*
 	*	@param string $code
 	*/
@@ -217,10 +217,10 @@ class Member extends CI_Controller {
 				// Update user data
 				$U->activate();
 				
-				// Log user in, redirect to welcome page
+				// Log user in, redirect to you/index page
 				$this->auth->manual_login($U, FALSE);
 				$this->session->set_flashdata('success','Welcome to GiftFlow!');
-				redirect('welcome/home');
+				redirect('you/index');
 			}
 			else
 			{
@@ -376,7 +376,7 @@ class Member extends CI_Controller {
 				if($A->reset_password($U, $post))
 				{
 					$this->session->set_flashdata('success','New password saved!');
-					redirect('welcome/home');
+					redirect('you/index');
 				}
 			}
 			else
@@ -472,7 +472,7 @@ class Member extends CI_Controller {
 	protected function _register_success()
 	{
 		$this->session->set_flashdata('success', "Congratulations! We sent you an email with a link to log you in");
-		redirect('welcome/home');
+		redirect('you/index');
 	}
 	
 	/**
@@ -483,7 +483,7 @@ class Member extends CI_Controller {
 	protected function _reset_password_success()
 	{
 		$this->session->set_flashdata('success', "A confirmation email is on its way");
-		redirect('welcome/home');
+		redirect('you/index');
 	}
 
 

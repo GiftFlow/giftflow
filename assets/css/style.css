@@ -1181,7 +1181,7 @@ ul.simplePagerNav li.currentPage a{
 	box-shadow: 1px 2px 3px rgba(238,238,238,.5);
 	border-radius: 3px;
 	padding: 10px;
-	margin: -5px 0px 10px 0px;
+	margin: 20px 0px 10px 0px;
 }
 
 .event_body span {
