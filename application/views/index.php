@@ -2,7 +2,6 @@
 <div class='row' id='landing_page'>
 	<div class ='row-fluid'>
 			<div class='span12' id='landing_header'> 
-
 				<p class='nicebigtext landing_text' style='text-align:center'>
 					<span class='green'>Give</span> what you can.
 					<span class='green'>&nbsp&nbspAsk</span> for what you need.
@@ -22,7 +21,7 @@
 
 		</div>
 		<div class='row'>
-			<div  id='landing_search' class='span8 offset2'>
+			<div class='span8 offset2 landing_search'>
 
 				<form class='form-search' method='post' action='<?php echo site_url("find/gifts"); ?>'>
 						<div class='landing_input'>
@@ -31,21 +30,6 @@
 						</div>
 				</form>
 			</div>
-		</div>
-		<div class='row'>
-			<div class='landing_search span8 offset2'>
-
-				<form class='form-search' method='post' action='<?php echo site_url("find/needs"); ?>'>
-						<div class='landing_input needBar'>
-						<input name='q'  class='landing_search_input input-large search-query' type='text' placeholder='What can you give?'>	
-						<button value='need' id='needSearch' class='typeToggle btn btn-large'>Search Needs</button>
-						</div>
-				</form>
-			</div>
-		</div>
-		<div class='row-fluid'>
-			</div>
-
 		</div>
 </div>
 <script type='text/javascript'>

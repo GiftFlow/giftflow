@@ -1,5 +1,4 @@
 <div class='row find_header'>
-				</li>
 	<div class='span12'>
 	<?php if($type == 'need') { ?>
 		<h1 class='need'>Needs</h1>
@@ -13,28 +12,7 @@
 <div class='nav_wrapper'>
 	<div class='row-fluid chunk' id='masonry_nav' data-spy='affix' data-offset-top='140'>
 			<!-- Goods dropdown -->
-			<div class='btn-group span3'>
-				<button class='btn btn-large parent_cat' type='button' id='cat_'>Categories</button>
-				<button class='btn btn-large dropdown-toggle' data-toggle='dropdown'><span class='caret'></span></button>
-				<ul class='dropdown-menu goods_menu'>
-					<?php foreach($parent_categories as $pcat) { ?>
-						<?php if($pcat->name != 'Other') { ?>
-						<li class='parent_category'>
-							<span class='parent_name'><?php echo $pcat->name; ?></span>
-							<ul class='sub_categories'>
-								<?php foreach($sub_categories as $cat) {?>
-									<?php if($cat->parent_category_id == $pcat->id) { ?>
-										<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
-									<?php } ?>
-								<?php } ?>
-							</ul>
-						</li>
-						<?php } ?>
-					<?php } ?>
-					<li class='subcategory' id='cat_16'>Other</li>
-				</ul>
-			</div>
-			<div class='span4 search_elements'>
+			<div class='span6 search_elements'>
 				<form name='find_goods' class='find_form'id="find_goods" action="" method='post'>
 					<div class='input-append'>
 						<input type='text' size='16' placeholder="<?php if($type == 'people') { echo 'Name'; } else { echo 'Keyword'; } ?>" class='masonry_input' id="q" name='q' value='<?php echo $args["q"];?>' />
@@ -48,18 +26,42 @@
 					<option value="nearby" <?php if($args['order_by'] =='location_distance') { echo "selected"; } ?>>Nearby</option>
 				</select>
 			</div>
-			<div class='btn-group span2'>
+			<div class='btn-group span3'>
 				<button id='scroll_button' style='display:none;' class='btn btn-large'><i class='icon-arrow-up'></i>Back to Top</button>
 			</div>
 	</div>
 </div><!-- close row -->
 
-<div class='row brick_wall'>
+<div class='row'>
+		<div class='span2 chunk' id='category_sidebar'>
+			<ul id='categories'>
+			<?php foreach($parent_categories as $pcat) { ?>
+				<?php if($pcat->name != 'Other') { ?>
+				<li class='parent_category'>
+						<span class='parent_name'><?php echo $pcat->name; ?></span>
+						<ul class='sub_categories'>
+							<?php foreach($sub_categories as $cat) {?>
+								<?php if($cat->parent_category_id == $pcat->id) { ?>
+									<li class='subcategory' id='cat_<?php echo $cat->id; ?>'><?php echo $cat->name; ?></li>
+								<?php } ?>
+							<?php } ?>
+						</ul>
+				</li>
+				<?php } ?>
+				<?php } ?>
+				<li class='subcategory' id='cat_16'>Other</li>
+			</ul>
+	</div>
+
+	<div class='span9'>
+		<div class=' brick_wall'>
 	<?php if($display == 'results') { ?>
 		<?php foreach($results as $obj) { ?>
 			<?php echo $obj->html; ?>
 		<?php } ?>
 	<?php } ?>
+		</div>
+	</div>
 
 		<!-- Loading Message -->
 		<div class="results_empty" style="<?php if($display == 'results') { echo 'display:none'; } ?>">
@@ -103,6 +105,9 @@ $(function() {
 
 	$('.nav_wrapper').height($('#masonry_nav').height());
 	$('#masonry_nav').css('left', $('.brick_wall').offset().left);
+
+
+//	$('.category_wrapper').width($('#category_sidebar').width());
 
 
 
