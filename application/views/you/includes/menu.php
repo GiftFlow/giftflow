@@ -1,4 +1,3 @@
-<span class='nicebigtext dash_lists'>Lists:</span>
 <ul id='you_sidebar' class='sidebar_menu'>
 	<li <?php if($segment[2] == 'activity'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('you/activity');?>'> 

@@ -32,8 +32,8 @@
 						</div>
 				<?php } ?>
 			</div>
-			<div class='span1'>
-				<span class='minidata'><?php echo user_date($R->event_created, 'n/j/o'); ?></span>
+			<div class='span2'>
+				<span class='minidata'><?php echo time_ago(strtotime($R->event_created)); ?></span>
 			</div>
 	</div>
 </li>

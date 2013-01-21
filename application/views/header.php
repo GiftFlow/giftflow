@@ -87,7 +87,7 @@ if(isset($css))
 					</a>
 				</li>
 				<li class='nav_li last_li'>
-					<a class='nav_a' href="<?php echo site_url('about/press'); ?>">
+					<a class='nav_a' href="<?php echo site_url('about'); ?>">
 						About
 					</a>
 				</li>
@@ -219,14 +219,9 @@ if(isset($css))
 					<span>Try thanking a friend who doesn't yet use GiftFlow!</span>
 				</li>
 				<li> 
-				<a href="<?php echo site_url('you/watches');?>" class='btn btn-large btn-info'>Add Watch</a>
+				<a href="<?php echo site_url('you/watches');?>" class='btn btn-large btn-primary'>Add Watch</a>
 					<span>Receive custom notifications.</span>
 				</li>
-				<li>
-					<a href='#' class='btn btn-large btn-primary disabled'>Invite Friends</a>
-					<span>Coming Soon!</span>
-				</li>
-			</ul>
 
 		</div>
 		<div class='modal-footer'>

@@ -27,4 +27,5 @@
 							<label for="rating" style="clear: left; display: none;" class="error">Please rate the transaction.</label>
 						</div>
 						<input type="submit" value="Send" class="btn-primary btn clearfix"/>
+						<button class='btn btn-small' style='float:right;' id='review_cancel'>Cancel</button>
 				</form>

@@ -18,9 +18,9 @@
 						<span class='user_copy'><?php echo $val->thank->body;?> </span>
 					</div>
 				</div>
-				<div class='span1 minidata'>
+				<div class='span2 minidata'>
 					<span>
-						<?php echo user_date($val->event_created,"n/j/o"); ?>
+						<?php echo time_ago(strtotime($val->event_created)); ?>
 					</span>
 				</div>
 			</div>

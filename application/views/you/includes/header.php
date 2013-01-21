@@ -27,12 +27,11 @@
 	</div>
 	<div class='row-fluid dashboard_actions'>
 
-		<div class='btn-group span8'>
-			<span class='nicebigtext dash_actions'>Actions:</span>
-			<a href='<?php echo site_url("you/add_good/gift");?>' class='btn btn-large'><i class='icon-plus'></i> Gift</a>
-			<a href='<?php echo site_url("you/add_good/need");?>' class='btn btn-large'><i class='icon-plus'></i> Need</a>
-			<a href='<?php echo site_url("you/add_thank");?>' class='btn btn-large'><i class='icon-plus'></i> Thank</a>
-			<a href='<?php echo site_url("you/watches");?>' class='btn btn-large'><i class='icon-plus'></i> Watch</a>
+		<div class='dashboard_actions span12 btn-group'>
+			<a href='<?php echo site_url("you/add_good/gift");?>' class='btn btn-large'><i class='icon-plus'></i> Post a Gift</a>
+			<a href='<?php echo site_url("you/add_good/need");?>' class='btn btn-large btn-danger'><i class='icon-plus icon-white'></i> Post a Need</a>
+			<a href='<?php echo site_url("you/add_thank");?>' class='btn btn-large btn-success'><i class='icon-plus icon-white'></i> Thank Someone</a>
+			<a href='<?php echo site_url("you/watches");?>' class='btn btn-large btn-primary'><i class='icon-plus icon-white'></i> Add a Watch Keyword</a>
 		</div>
 	</div>
 </div>
@@ -50,6 +49,8 @@ $(function() {
 		$('#home_location_change').hide();
 		$('#dashboard_city').show();
 	});
+
+	$('.disabled_gift').tooltip();
 
 	GF.Locations.initialize($('#welcome_relocate'));
 });
