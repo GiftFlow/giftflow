@@ -40,6 +40,10 @@ INSERT INTO `categories` (`id`, `name`, `parent_category_id`) VALUES
 (13, 'Tools', NULL),
 (14, 'Transportation', NULL),
 (15, 'Video Games', NULL),
-(16, 'Other', NULL);
+(16, 'Other', NULL),
+(17, 'Food', NULL),
+(18, 'Volunteers', NULL),
+(19, 'Goods', NULL),
+(20, 'Services', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

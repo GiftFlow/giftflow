@@ -582,7 +582,7 @@ ALTER table thankyous ADD COLUMN recipient_email VARCHAR(60) NULL AFTER recipien
 --Sort categories into Goods/Services 
 -- 1/16/13
 INSERT INTO categories (name) VALUES ('Goods');
-INSERT INTO categories (name) VALUES ('Deeds');
+INSERT INTO categories (name) VALUES ('Services');
 
 -- WARNING - you need to log into your database and get the ids of the Goods and Deeds
 -- Categories and add the id to the commands below
@@ -590,6 +590,11 @@ INSERT INTO categories (name) VALUES ('Deeds');
 
 UPDATE categories SET parent_category_id = '19' WHERE id IN ('1','2','4','5','6','7','8','9','10','12','13','14','15','17');
 UPDATE categories SET parent_category_id = '20' WHERE id IN ('3','11','18');
+
+-- Revise transaction process
+-- Set all pending transactions to active and all declined to cancelled
+UPDATE transactions SET status = 'active' WHERE status ='pending' AND id > 0;
+UPDATE transactions SET status = 'cancelled' WHERE status = 'declined' AND id > 0;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
