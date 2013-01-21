@@ -15,7 +15,7 @@
 			<div class='span6 search_elements'>
 				<form name='find_goods' class='find_form'id="find_goods" action="" method='post'>
 					<div class='input-append'>
-						<input type='text' size='16' placeholder="<?php if($type == 'people') { echo 'Name'; } else { echo 'Keyword'; } ?>" class='masonry_input' id="q" name='q' value='<?php echo $args["q"];?>' />
+						<input type='text' size='16' placeholder="<?php if($type == 'gift') { echo 'What do you need?'; } else { echo 'What can you give?'; } ?>" class='masonry_input' id="q" name='q' value='<?php echo $args["q"];?>' />
 						<button class='btn btn-large' type='submit' id="find"><i class='icon-search'></i> Find</button>
 					</div>
 				</form>
@@ -61,19 +61,18 @@
 		<?php } ?>
 	<?php } ?>
 		</div>
-	</div>
-
 		<!-- Loading Message -->
 		<div class="results_empty" style="<?php if($display == 'results') { echo 'display:none'; } ?>">
 			<h3>No Results Found</h3>
 			<p>Oops! No results were found that matched your query.</p>
 			<?php if($args['type'] != 'people') { ?>
-				<p></p>
-				<a href="<?php echo site_url('you/watches'); ?>" class='btn btn-info btn-large'>Add Watch</a>
-				<p></p>
-				<p>Add a watch keyword to be notified when someone posts a match!</p>
+				<p><a href="<?php echo site_url('you/watches'); ?>" class='btn btn-info btn-large'>Add Watch</a>
+					Add a watch keyword to be notified when someone posts a match!
+				</p>
+				<p><a class='btn btn-success btn-large'>Add Gift</a> Is this something you can give? Make it a gift!</p>
 			<?php }?>
 		</div>
+	</div>
 	
 </div>
 <div id='ajax_loader' style='display:none;'>

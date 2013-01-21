@@ -10,12 +10,6 @@
 				&copy; <?php echo date("Y"); ?> GiftFlow
 			</li>
 			<li>
-				<div class="addthis_toolbox addthis_32x32_style addthis_default_style">
-				<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
-				<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>
-				</div>
-			</li>
-			<li>
 				<a href="<?php echo site_url('about'); ?>">About</a>
 			</li>
 			<li>
@@ -31,6 +25,10 @@
 				<a href="<?php echo site_url('about/contact_form'); ?>">Contact</a>
 			</li>
 		</ul>
+				<div class="addthis_toolbox addthis_32x32_style addthis_default_style footer_addthis">
+				<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
+				<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>
+				</div>
 	</div>
 </div>
 

@@ -4,7 +4,7 @@
 	</div>
 <div class='span9 chunk'>
 	
-		<h3>Write a Thank.</h3>
+		<h3>Record a gift. Thank the giver.</h3>
 		
 
 	<form name = 'thankyou' id='thankyouform' method='post' action="<?php echo site_url('thank/addThank'); ?>">

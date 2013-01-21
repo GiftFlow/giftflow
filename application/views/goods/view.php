@@ -93,77 +93,77 @@
 					</span>
 				</p>
 				<?php } ?>
-				
-				<?php if(!empty($G->tags[0]) && count($G->tags)>0) { ?>
-				<!-- Tags -->
-					<p id='tags'>
-						<span class='key'>Tags</span>
-						<span class='value'>
-							<?php foreach($G->tags as $tag) { ?>
-								<a href="<?php echo UI::tag_url($tag,$G->type);?>" class='btn tag'>
-									<i class="icon-tag"></i>
-									<?php echo $tag; ?>
-								</a>
-							<?php } ?>
-						</span>
-					</p>
-				<?php } ?>
-
-				<?php if(!empty($G->photos)) { ?>
-				<div id='goods_photos'  class='thumb_grid'>
-					<p class='nicebigtext'>More Photos</p>
-					<p>
-						<?php foreach($G->photos as $val) { ?>
-						<a class='photoMod'	style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
-								<img src='<?php echo site_url($val->thumb_url);?>' />
+			</div>
+		</div>
+	
+		<div class='row-fluid'>
+			<?php if(!empty($G->tags[0]) && count($G->tags)>0) { ?>
+			<!-- Tags -->
+				<p id='tags'>
+					<span class='key'>Tags</span>
+					<span class='value'>
+						<?php foreach($G->tags as $tag) { ?>
+							<a href="<?php echo UI::tag_url($tag,$G->type);?>" class='btn tag'>
+								<i class="icon-tag"></i>
+								<?php echo $tag; ?>
 							</a>
 						<?php } ?>
-					</p>
-				</div>
-					<!-- PHOTO Modal window -->
-					<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
-						<div class='modal-header'>
-							<h3 id='photoModalLabel'>Photo of <?php echo $G->title; ?></h3>
-						</div>
-						<div class='modal-body'>
-							<img src='' id = 'modImage'/>
-						</div>
-						<div class='modal-footer'>
-							<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
-						</div>
+					</span>
+				</p>
+			<?php } ?>
+
+			<?php if(!empty($G->photos)) { ?>
+			<div id='goods_photos'  class='thumb_grid'>
+				<p class='nicebigtext'>More Photos</p>
+				<p>
+					<?php foreach($G->photos as $val) { ?>
+					<a class='photoMod'	style='text-decoration:none;'id="<?php echo site_url($val->url); ?>" href='#photoModal' role='button' data-toggle='modal'>
+							<img src='<?php echo site_url($val->thumb_url);?>' />
+						</a>
+					<?php } ?>
+				</p>
+			</div>
+			<!-- PHOTO Modal window -->
+			<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
+				<div class='modal-header'>
+					<h3 id='photoModalLabel'>Photo of <?php echo $G->title; ?></h3>
 					</div>
-				<?php } ?>
-		</div><!-- close content -->
+					<div class='modal-body'>
+						<img src='' id = 'modImage'/>
+					</div>
+					<div class='modal-footer'>
+						<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
+					</div>
+				</div>
+			</div>
+			<?php } ?>
 	</div><!-- close row -->
+<div class='row-fluid posted_by'>
+		<div class='span2'>
+			<!-- Image -->
+			<a  class='user_image' href="<?php echo site_url('people/'.$G->user->id);?>">
+				<img src="<?php echo $G->user->default_photo->thumb_url; ?>" />
+			</a>
+		</div>
+		<div class='span6'>
+			<!-- Name -->
+			<p class='nicebigtext'>Posted by 
+				<a class='title' href="<?php echo site_url('people/'.$G->user->id);?>">
+					<?php echo $G->user->screen_name; ?>
+				</a>
+			</p>
+		</div>
+		<div class='span4'>
+			<p>
+			<?php echo $G->location->city.", ".$G->location->state;?>
+			<br />Joined <?php echo user_date($G->user->created, "n/j/o"); ?>
+			</p>
+		</div>
+	</div>
 </div><!-- close content -->
 
 
 <div class='span4'><!-- open sidebar -->
-	<?php if(!$is_owner) { ?>
-		<div class='row-fluid'>
-			<div class='span10 chunk posted_by'>
-			<!-- More About This Person Sidebar-->
-				<h3>Posted By</h3>
-					<!-- Image -->
-					<a  class='user_image' href="<?php echo site_url('people/'.$G->user->id);?>">
-						<img src="<?php echo $G->user->default_photo->thumb_url; ?>" />
-					</a>
-					</p>	
-					<!-- Name -->
-					<a class='title' href="<?php echo site_url('people/'.$G->user->id);?>">
-						<h3><?php echo $G->user->screen_name; ?></h3>
-					</a>
-					</p>
-				
-					<p>			
-					<!-- Location -->
-						<?php echo $G->location->city.", ".$G->location->state;?>
-						<br />Joined <?php echo user_date($G->user->created, "n/j/o"); ?>
-					</p>
-			</div>
-		</div><!-- close row -->
-	<?php } ?>
-
 	<!-- Gifts Sidebar -->
 	<?php if(!empty($other_goods)) { ?>
 		<div class='row-fluid'>
