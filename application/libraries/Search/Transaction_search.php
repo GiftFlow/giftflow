@@ -279,4 +279,24 @@ class Transaction_search extends Search
 		
 		return $result;
 	}
+
+	/*
+	 * Function to validate if a user is involved in a given transaction
+	 * takes transaction_id and user_id
+	 * used on the you/controller for security purposes
+	 *
+	 * @author hans schoenburg
+	 */
+	public function check_user($options)
+	{
+		$result = $this->CI->db->select('TU.user_id, TU.transaction_id')
+								->from('transactions_users AS TU')
+								->where('TU.user_id',$options['user_id'])
+								->where('TU.transaction_id', $options['transaction_id'])
+								->get()
+								->result();
+
+		return(count($result) > 0);
+	}
+
 }

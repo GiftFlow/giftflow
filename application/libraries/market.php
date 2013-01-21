@@ -94,7 +94,7 @@ class Market
 	{
 		// Create pending transaction
 		$Transaction = new Transaction();
-		$Transaction->status = "pending";
+		$Transaction->status = "active";
 		
 		// Save Transaction
 		if(!$Transaction->save())
@@ -496,10 +496,6 @@ class Market
 		$this->CI->event_logger->review_new($event_data);
 		$this->CI->notify->review_new($event_data);
 
-		// Attempt to change status to completed
-		$this->complete(array(
-			"transaction_id"=>$Transaction->id
-		));
 
 		return TRUE;
 	}
@@ -517,21 +513,13 @@ class Market
 		// Load transaction
 		$Transaction = new Transaction($options['transaction_id']);
 	
-		/*Eliminated the has_both_reviews check 
-		 * changed it to a simple status check
-		 * This check is called from market::review in two different ways
-		 * One when a user writes another a review and the other when they write a thankyou
-		 * A thankyou creates a 'pending' transaction, so this test won't pass.
-		*/
-
 		if($Transaction->status == 'active')
 		{
 			$Transaction->status = "completed";
 		
 			if(!$Transaction->save())
 			{
-				//@todo handle error
-				return FALSE;
+				show_error('Error saving Transaction');
 			}
 		
 			// Prep hook data
@@ -539,14 +527,20 @@ class Market
 			$event_data = (object) array(
 				"transaction"=> $TS->get(array(
 					"transaction_id"=>$Transaction->id
-			))
-			);
+			)));
+			$event_data->return_url = site_url('you/view_transaction/'.$Transaction->id);
+
+			$N = new Notify();
+			$N->alert_transaction_completed($event_data);
 		
 			$E = new Event_logger();
 			$E->basic('transaction_completed',$event_data);
+
+			return TRUE;
+		} else {
+			show_error('Transaction not yet active');
+			return FALSE;
 		}
-		
-		return TRUE;
 	}
 	
 	/**

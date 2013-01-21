@@ -17,6 +17,7 @@ class You extends CI_Controller {
 		$this->load->library('datamapper');
 		$this->load->library('Search/Message_search');
 		$this->load->library('Search/User_search');
+		$this->load->library('market');
 		
 		if(!$this->data['logged_in']) 
 		{
@@ -177,10 +178,8 @@ class You extends CI_Controller {
 		//some last minute arranging of the transactions
 		$trans_status = array(
 			"active" => 0,
-			"pending" => 0,
 			"completed" => 0,
-			"cancelled" => 0,
-			"declined" => 0
+			"cancelled" => 0
 		);
 		$this->data['trans_status'] = $trans_status;
 				
@@ -215,10 +214,8 @@ class You extends CI_Controller {
 			'gifts' => array(
 				'total' => count($transactions),
 				'active' => $trans_status['active'],
-				'pending' => $trans_status['pending'],
 				'completed' => $trans_status['completed'],
 				'cancelled' => $trans_status['cancelled'],
-				'declined' => $trans_status['declined']
 			),
 			'thanks' => array(
 				'total' => count($thanks),
@@ -287,7 +284,6 @@ class You extends CI_Controller {
 		if(!empty($_POST))
 		{
 		
-			$this->load->library('market');				
 				
 			// New message
 			if($_POST['form_type'] == "transaction_message")
@@ -304,35 +300,7 @@ class You extends CI_Controller {
 				}
 				redirect('you/view_transaction/'.$id);
 			}
-			
-			// Accept/Decline transaction, 
-			elseif($_POST['form_type'] == "decide_transaction")
-			{
-				$decision = ($_POST['decision'] == 'Accept') ? 'activate' : 'decline';
-				
-				$success = $this->market->$decision(array(
-					"transaction_id"=>$id,
-					"message"=>$this->input->post('body')
-				));
-				
-				// If decision successful, set flashdata
-				if($success)
-				{
-					// Note: hook 'transaction_'activate/decline has been called from 
-					// within Market()
-
-					// Set success flashdata and refresh page
-					$this->session->set_flashdata('success','Gift '.$decision.'d');
-					redirect('you/view_transaction/'.$id);
-				}
-				
-				else
-				{
-					// @todo handle unsuccssful decisions
-				}
-			}
-			
-			// New Review
+					// New Review
 			elseif($_POST['form_type'] == "transaction_review_new")
 			{
 				$reviewed = $this->market->review(array(
@@ -353,33 +321,6 @@ class You extends CI_Controller {
 					// @todo handle error
 				}
 
-			}
-			
-			// Cancel transaction
-			elseif($_POST['form_type'] == "transaction_cancel")
-			{
-				// Execute cancellation, call 'transaction_cancelled' hook
-				// if succssful
-				$cancelled = $this->market->cancel(array(
-					"transaction_id"=>$id,
-					"message"=>$this->input->post('body')
-				));
-				
-				// If cancellation successful, set flashdata
-				if($cancelled)
-				{
-					// Note: hook 'transaction_cancelled' has been called from 
-					// within Market::cancel()
-
-					// Set success flashdata and refresh page
-					$this->session->set_flashdata('success','Gift cancelled!');
-					redirect('you/view_transaction/'.$id);
-				}
-				
-				else
-				{
-					// @todo handle unsuccssful cancellations
-				}
 			}
 		}
 		
@@ -507,7 +448,61 @@ class You extends CI_Controller {
 		$this->load->view('footer', $this->data);
 		
 	}
-	
+
+
+	/* Updates transaction status to cancelled or completed
+	 * Called from cancel and complete buttons on you/transaction page
+	 * @params $transaction_id and $status
+	 *
+	 * @author Hans Schoenburg
+	 */
+	function update_transaction($status, $id)
+	{
+		if(empty($id) || empty($status)) {
+			$this->session->set_flashdata('error', 'Error updating interaction');
+			redirect('you/index');
+		}
+
+		$T = new Transaction_search();
+
+		//make sure transaction belongs to user
+		if($T->check_user(array('user_id' => $this->session->userdata['user_id'],'transaction_id' => $id))) {
+			
+				// Execute cancellation, call 'transaction_cancelled' hook
+				// if succssful
+
+			if($status == 'cancelled') {	
+				$result = $this->market->cancel(array(
+					"transaction_id"=>$id,
+					"message"=>$this->input->post('body')
+				));
+			} else if($status == 'completed') {
+				
+				$result = $this->market->complete(array(
+					"transaction_id"=>$id,
+				));
+			} else {
+				show_error('Error updating transaction');
+			}
+
+
+			// If update successful, set flashdata
+			if($result)
+			{
+				// Set success flashdata and refresh page
+				$this->session->set_flashdata('success','Gift '.$status.'. Now write a review of your interaction!');
+				redirect('you/view_transaction/'.$id);
+			} else {
+				$this->session->set_flashdata('error', 'Error cancelling interaction, please contact info@giftflow.org');
+				redirect('you/index/');
+			}
+
+		} else {
+			$this->session->set_flashdata('error', 'You do not have permission to cancel this interaction');
+			redirect('you/index');
+		}
+	}
+		
 	public function reviews($include)
 	{
 		//$include is a boolean for whether or not to include transactions in results

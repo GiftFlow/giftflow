@@ -434,7 +434,12 @@ class Transaction_factory {
 			foreach($val->demands as $demand)
 			{
 				$brief = "";
-				$thing = " <a href='".site_url($demand->good->type.'s/'.$demand->good->id)."'>".$demand->good->title."</a>";
+				if($demand->good->status == 'active') {
+					$thing = " <a href='".site_url($demand->good->type.'s/'.$demand->good->id)."'>".$demand->good->title."</a>";
+				} else {
+					$thing = " <a class='disabled_gift' title='This gift is no longer available' href='#'>".$demand->good->title."</a>";
+				}
+
 				$type = $demand->type;
 				$brief = $demander_link;
 				

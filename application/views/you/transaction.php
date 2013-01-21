@@ -15,7 +15,8 @@
 				<span class='summary'>
 				<?php echo $demander ? $transaction->language->demander_summary : $transaction->language->decider_summary; ?>
 				</span>
-				<p>Current Status: <span class='label label-info'><?php echo $transaction->status; ?></span></p>
+				<p>Current Status: <span class='label label-info'><?php echo $transaction->status; ?></span>
+				</p>
 			</div>
 			<div class='span2'>
 				<span class="updated css_right">
@@ -23,123 +24,55 @@
 				</span>
 			</div>
 		</div>
-		<div class='row-fluid'>
-			<div class='span2'>
-				<span class='label'>Step by Step Guide</span>
-			</div>
-			<div class='span10 chunk trans_helper'>
-				<ul class='nav nav-pills' id='trans_nav'>
-					<li <?php if($transaction->status == 'pending') { echo "class='active'"; }?> >
-						<a id='nav_pending' href='#'>Pending</a>
-					</li>
-					<li <?php if($transaction->status =='active') { echo "class='active'"; } ?> >
-						<a id='nav_active' href='#'>Active</a>
-					</li>
-					<li <?php if($transaction->status == 'completed') { echo "class='active'"; } ?> >
-						<a id='nav_completed' href='#'>Completed</a>
-					</li>
-					<li <?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { echo "class='active'"; } ?> >	
-						<a id='nav_cancelled' href='#'>Cancelled/Declined</a>
-					</li>
-				</ul>
-				<div class='nav_text'>		
-					<span class='nav_pending'><em>Pending: </em> The gift is "pending" until it has either been accepted or declined by the person who received the request. </span>
-					<span class='nav_active'><em>Active: </em> Once the request has been accepted, the gift becomes "active".  Correspond via message, email or phone to set up a meeting. Choose a convient public location.</span>
-					<span class='nav_cancelled'><em>Cancelled/Declined: </em> The recipient of the request can decline to participate. Likewise the iniitator can cancel the request. Not everything works out, but don't stop trying!</span>
-					<span class='nav_completed'><em>Completed: </em> The gift interaction is completed when both sides write reviews of one another. Be sure to include details of the experience and feedback for the other person.</span>
-				</div>
-			</div>
-	
-
-		</div>
-		<div class="inbox_summary chunk">
-			<div class='row-fluid'>
-			<div class='span12 transaction_actions'>
-
-		<!-- anything but cancelled or declined -->
-			<?php if($transaction->status!="declined" && $transaction->status!="cancelled") { ?>
-				<p class='nicebigtext' >What's Next</p>
-
-				<!-- PENDING -->
-					<?php if($transaction->status=="pending"){ ?>
-						<?php if($demander){ ?>
-							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
-								Its time for <?php echo $other_user->screen_name;?> to respond. Message them a reminder!
-							</p>
-							<p>	
-								<form method="post" id="cancel_transaction">
-									<input type="hidden" name="form_type" value="transaction_cancel" />
-									<input type="submit" class="btn" value="Cancel"/>
-								</form>
-							</p>
-							<?php } else { ?>
-							<p>By clicking Accept, you agree to participate in this gift. Write <?php echo $other_user->screen_name; ?> a message if you have questions. </p>
-							<p>Upon completion both of you will write public reviews of each other. This is a great way to build credibility and gratitude on GiftFlow. If you do not want to participate in the requested gift, simply click Decline and nothing will appear on your profile. </p>
-							
-								<form method='post' id='decide_transaction'>
-									<input type='hidden' name='form_type' value='decide_transaction'/>
-									<div class="btn-group">
-									<input type="submit" class="btn" name='decision' value="Accept" />
-									<input type="submit" class="btn" name='decision' value="Decline" />
-									</div>
-								</form>
-							<?php } ?>
-
-				<!-- ACTIVE -->
-					<?php } elseif ($transaction->status == 'active' && !$has_reviewed) { ?>
-							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
-									Arrange a time and place for the gift to happen.
-							</p>
-							<p> <a href="#" id="write_review" class="left btn">Write Review</a>
-									Write a review after the gift has taken place.
-							</p>
-							<p>
-								<form method="post" id="cancel_transaction">
-									<input type="hidden" name="form_type" value="transaction_cancel" />
-									<input type="submit" class="btn" value="Cancel" />
-								</form>
-								Changed your mind? Cancel this interaction here.
-							</p>
-					<?php } ?>
-					<?php if ($other_reviewed && !$has_reviewed) { ?>
-							<p>
-								<?php echo $other_user->screen_name; ?> has written a review of you.
-							</p>
-							<p>
-								<a href="#" id="write_review" class="left btn">Write Review</a>
-								Be detailed and sincere.
-							</p>
-							<p>
-								<a href="#" class="left btn" id="write_message">Write Message</a>
-								Has there been a misunderstanding? Anything to clear up?
-							</p>
-					<?php } else if($has_reviewed && !$other_reviewed) { ?>
-							<p>	<a href="#" class="left btn" id="write_message">Write Message</a>
-								Remind <?php echo $other_user->screen_name;?> to write a review of you!
-							</p>
-					<?php } ?>
-
-								
-				
-					<?php if($transaction->status == 'completed' && $has_reviewed) { ?>
-						<p>
-						Congratulations. You have completed a gift!! 
-						<?php if($transaction->demands[0]->good->status != 'disabled') { ?>	
-							<?php echo $delete_prompt; ?></p>
-							<a href="<?php echo $delete_link; ?>" class='left btn'>Delete <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
-						<?php } else { ?>
-							<b><?php echo $transaction->demands[0]->good->title; ?></b> is no longer listed.
-						<?php } ?>
-						</p>
-					<?php } ?>
-
+		<div class='row-fluid chunk'>
+			<div class='span12 interact_buttons'>
+					<p>
+						<button id='write_message' class='interact btn btn-medium'><i class='icon icon-pencil'></i>Message</button>
+						<span class='helper_text'>Message <?php echo $other_user->screen_name; ?></span>
+					</p>
+				<?php if($transaction->status != 'completed' && $transaction->status != 'cancelled') { ?>
+					<p>
+					<a  href="<?php echo site_url('you/update_transaction/completed/'.$transaction->id); ?>" id='confirm_button' class='interact btn btn-medium btn-success'><i class='icon icon-white icon-check'></i>Gift Completed</a>
+						<span class='helper_text'>Click this button when the gift is completed. </span>
+					</p>
 				<?php } ?>
+				<?php if ($transaction->status == 'completed' && !$has_reviewed) { ?>
+					<p>
+						<button id='write_review' class='interact btn btn-medium btn-success'><i class='icon icon-pencil icon-white'></i>Write Review</button>
+						<span class='helper_text'>Write a review of your gift interaction. Be sure to include details.</span>
+						<?php if($other_reviewed) { ?>
+							<span class='helper_text error'><?php echo $other_user->screen_name; ?> has written a review of you. You should write on in return. </span>	
+						<?php } ?>
+					</p>
+				<?php } ?>
+				<?php if($transaction->status != 'cancelled' && $transaction->status != 'completed') { ?>
+					<p class='cancel_bar'> 
+						<span class='mini_helper_text'>Is this interaction not going to happen? If so, cancel it. </span>
+						<a class='btn btn-small' href="<?php echo site_url('you/update_transaction/cancelled/'.$transaction->id); ?>" >Cancel</a>
+						
+					</p>
+				<?php } ?>
+									
+				<?php if($transaction->status == 'completed' && $has_reviewed) { ?>
+					<p>
+						Congratulations. You have completed a gift!! 
+					<?php if($transaction->demands[0]->good->status != 'disabled') { ?>	
+						<?php echo $delete_prompt; ?></p>
+						<a href="<?php echo $delete_link; ?>" class='left btn'>Disable <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
+					<?php } else { ?>
+						<b><?php echo $transaction->demands[0]->good->title; ?></b> is no longer listed.
+					<?php } ?>
+					</p>
+				<?php } ?>
+
 				<!-- cancelled or declined -->
 				<?php if($transaction->status =='declined' || $transaction->status == 'cancelled') { ?>
 					<p>Interaction with <?php echo $other_user->screen_name; ?> has been <?php echo $transaction->status; ?>.</p>
 				<?php } ?>
 			</div>
 		</div>
+	<div class='chunk' id='review_form' style='display:none;'>
+		<?php echo $review_form; ?>
 	</div>
 	<div class='chunk'>
 		<ul class='interaction'>
@@ -174,13 +107,11 @@
 					<?php } ?>
 				<?php } ?>
 			<?php } ?>
-			<!-- review form -->
-			<?php if($transaction->status == "active" && !$has_reviewed) { ?>
-				<li class='transaction_form message review' id='review_new' style='display:none;'>
+		</ul>
+	</div>
+	<div class='chunk'>
+		<ul class='interaction'>
 
-					<?php echo $review_form; ?>
-				</li>
-			<?php } ?>
 			<!-- eof review form-->
 			<li class='section_header'>
 				<h3 class="messages_title">Messages</h3>
@@ -252,16 +183,17 @@ $(function(){
 		  	label.hide().closest('.control-group').addClass('success');
 	  	}
 	});
-	$("a#write_message").click(function(){
-		$('.transaction_form').hide();
+	$("#write_message").click(function(){
 		$('#message_new').show();
 		$("#message_body").focus();
 		return false;
 	});
-	$('a#write_review').click(function(){
-		$('.transaction_form').hide();
-		$('#review_new').show();
+	$('#write_review').click(function(){
+		$('#review_form').show();
 		$('#review_body').focus();
+	});
+	$('#review_cancel').click(function() {
+		$('#review_form').hide();
 	});
 });
 </script>

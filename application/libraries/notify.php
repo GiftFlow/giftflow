@@ -148,24 +148,27 @@ class Notify
 	 * Called when user Accepts a transaction
 	 * param object $data
 	 */
-	function alert_transaction_activated($data)
+	function alert_transaction_completed($data)
 	{
 		$A = new Alert();
+
+		$other_user = ($data->transaction->demander->id == $this->CI->session->userdata['user_id'])? $data->transaction->decider : $data->transaction->demander;
+
+		$summary = ($data->transaction->demander->id == $this->CI->session->userdata['user_id'])? $data->transaction->language->decider_summary: $data->transaction->language->demander_summary;
 		
 		$A->parseables = array(
-			"message" => $data->message,
-			"demander_name" => $data->transaction->demander->screen_name,
-			"decider_name" => $data->transaction->decider->screen_name,
-			"demander_summary" => strip_tags($data->transaction->language->demander_summary),
-			"subject" => $data->transaction->decider->screen_name." has accepted your request!",
+			"completer_name" => $this->CI->session->userdata['screen_name'],
+			"receiver_name" => $other_user->screen_name,
+			"summary" => strip_tags($summary),
+			"subject" => $data->transaction->decider->screen_name." has marked your gift as complete",
 			'return_url' => $data->return_url
 			);
 			
 		// Set template name
-		$A->template_name = 'transaction_activated';
+		$A->template_name = 'transaction_completed';
 			
 		//Set recipient	
-		$A->to = $data->transaction->demander->email;
+		$A->to = $other_user->email;
 	
 		//Send
 		$A->send();
