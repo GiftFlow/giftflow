@@ -4,7 +4,7 @@
 		<?php echo $menu; ?>
 	</div>
 	
-	<div class='span8 chunk'>
+	<div class='span9 chunk'>
 
 		<ul class='results_list' id='linked_accounts'>
 			<?php if($links['facebook']['enabled']) { ?>

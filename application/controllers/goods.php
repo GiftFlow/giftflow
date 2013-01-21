@@ -791,7 +791,7 @@ class Goods extends CI_Controller {
 			}
 			else
 			{
-				$this->session->set_flashdata('success', $this->G->title." was deleted successfully."); 
+				$this->session->set_flashdata('success', $this->G->title." was disabled successfully."); 
 				
 				redirect("you/list_goods/".$this->G->type);
 			}

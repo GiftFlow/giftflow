@@ -4,7 +4,7 @@
 		<?php echo $menu; ?>
 	</div>
 	
-	<div class='span8 chunk'>
+	<div class='span9 chunk'>
 
 		<form id='settings' name='settings' method='post'>
 		<table class="form">

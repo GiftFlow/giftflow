@@ -5,7 +5,7 @@
 		<?php echo $menu; ?>
 	</div>
 	
-	<div class='span8 chunk'>
+	<div class='span9 chunk'>
 	<legend>Manage Photos </legend>
 		<ul class="thumbnails photos-list">
 			<?php foreach($photos as $key=>$photo){ ?>

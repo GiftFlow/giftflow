@@ -3,7 +3,19 @@
 		<?php echo $menu; ?>
 	</div>
 	<div class='span9 chunk' id='home_blog'>
-		<h3>Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a></h3>
+		<p class='nicebigtext mission'>
+			GiftFlow's mission is to help individuals and organizations give and share goods and services with their communities by providing an online platform that is open-source and free.
+		</p>
+
+	</div>
+	<div class='span9 chunk'>
+		<h3>
+			Latest from the <a href='http://blog.giftflow.org'>GiftFlow Blog</a>
+			<div class="about_addthis addthis_toolbox addthis_32x32_style addthis_default_style">
+			<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
+			<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>
+			</div>
+		</h3>
 
 		<!-- Loading Message -->
 		<div class="results_loading" style="display: none;">

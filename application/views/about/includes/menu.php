@@ -4,12 +4,6 @@
 			<img alt="About" src="<?php echo base_url();?>assets/images/headings/about_menu.png">
 		</a>
 	</li>
-	<li>
-			<div class="addthis_toolbox addthis_32x32_style addthis_default_style">
-			<a class="addthis_button_facebook_follow" addthis:userid="giftflow"></a>
-			<a class="addthis_button_twitter_follow" addthis:userid="giftflow"></a>
-			</div>
-	</li>
 	<li <?php if($segment[2]=='press'){ echo  "class='active'"; } ?>>
 		<a href='<?php echo site_url('about/press');?>'> 
 			News

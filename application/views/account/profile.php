@@ -3,7 +3,7 @@
 		<!-- Sidebar Menu -->
 		<?php echo $menu; ?>
 	</div>
-	<div class='span8 chunk'>
+	<div class='span9 chunk'>
 	
 		<form  class='form_wrapper' action="<?php echo site_url('account/profile'); ?>" method="post">
 			<div class='control-group'>
