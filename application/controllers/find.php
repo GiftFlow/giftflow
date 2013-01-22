@@ -229,10 +229,16 @@ class Find extends CI_Controller {
 		$this->args['sort'] = 'ASC';
 		
 		// Encode "nearby" as "location_distance" if found
-		if(!empty($_REQUEST["order_by"]) && $_REQUEST["order_by"]=="nearby")
+		if(!empty($_REQUEST["order_by"]))
 		{
-			$this->args["order_by"] = "location_distance";
-			$this->args['sort'] = 'ASC';
+			if($_REQUEST["order_by"]=="nearby") {
+				$this->args["order_by"] = "location_distance";
+				$this->args['sort'] = 'ASC';
+
+			} else if($_REQUEST['order_by'] == 'newest' && $this->args['type'] != 'people') {
+				$this->args['order_by'] = 'G.created';
+				$this->args['sort'] = 'DESC';
+			}
 		}
 		// If location consists only of a string, geocode it
 		if(!empty($this->args["location"]) && !is_object($this->args["location"]))

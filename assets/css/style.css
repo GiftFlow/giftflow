@@ -452,7 +452,7 @@ ul#logged_in_dropdown  li a:hover {
 #dropforgot a {
 	font-size: 1em;
 	margin: 8px 0px 5px 0px;
-	color: #6cb6e2 !important;
+	color: #587498 !important;
 	font-weight:bold;
 }
 #dropforgot a:hover {
@@ -510,7 +510,11 @@ div#landing_page {
 }
 #landing_categories {
 	margin: 20px 0 20px -10px;
+	display:inline-block;
 	text-align:center;
+}
+#landing_categories a {
+	display:inline-block;
 }
 .landing_search {
 	margin-top: 30px;
@@ -683,10 +687,6 @@ ul.sidebar_menu li.active ul li.active a{
 .profile_header {
 	margin: 25px 0px 0px 0px;
 }
-#profile_masthead .metadata {
-	margin-left: 70px;
-	display:block;
-}
 h1#profile_name{
 	font-weight: bold;
 	letter-spacing: -.7px;
@@ -694,14 +694,15 @@ h1#profile_name{
 	margin: 0px 0px 0px 70px;
 }
 .profile_actions {
-	margin-top:10px;
-}
-.profile_action {
-	float:left;
+	display:block;
+	clear:both;
 }
 
 p.chunk_empty {
 	margin-top: 8px;
+}
+.profile_form {
+	padding-top:20px;
 }
 
 /* END profile style */
@@ -890,7 +891,7 @@ span.nav_form{
 
 /* new masonry find style */
 #masonry_nav {
-	margin: 20px 0px 20px 0px;
+	margin: 20px 0px 20px -10px;
 	border-radius:0px;
 	border-bottom: 2px solid #CCCCCC;
 	z-index:10;
@@ -930,7 +931,7 @@ span.nav_form{
 }
 
 #category_sidebar {
-	padding: 10px; 0px 10px 10px;
+	padding: 10px 0px 10px 10px;
 	margin-top:-67px;
 
 }
@@ -975,6 +976,12 @@ span.nav_form{
 .about_addthis {
 	display:inline;
 	float:right;
+}
+.about_faq p {
+	padding:15px 20px 15px 20px;
+	margin-left:20px;
+	margin-right: 20px;
+	line-height:25px;
 }
 
 /* END about style */
@@ -1123,7 +1130,7 @@ ul.simplePagerNav li.currentPage a{
 #profile_thank_form {
 	width:90%;
 }
-#thankyouform {
+.profile_form_container {
 	margin-top:20px;
 	padding-top: 20px;
 	border-top: 1px solid #CCC;
@@ -1294,6 +1301,9 @@ ul.interaction li {
 
 .transaction_actions form {
 	display:inline;
+}
+.reviews_messages {
+	margin: 30px 0px 0px 0px;
 }
 .message_form {
 	width: 80%;

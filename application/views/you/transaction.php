@@ -24,8 +24,8 @@
 				</span>
 			</div>
 		</div>
-		<div class='row-fluid chunk'>
-			<div class='span12 interact_buttons'>
+		<div class='row-fluid'>
+			<div class='span10 chunk interact_buttons'>
 					<p>
 						<button id='write_message' class='interact btn btn-medium'><i class='icon icon-pencil'></i>Message</button>
 						<span class='helper_text'>Message <?php echo $other_user->screen_name; ?></span>
@@ -45,18 +45,10 @@
 						<?php } ?>
 					</p>
 				<?php } ?>
-				<?php if($transaction->status != 'cancelled' && $transaction->status != 'completed') { ?>
-					<p class='cancel_bar'> 
-						<span class='mini_helper_text'>Is this interaction not going to happen? If so, cancel it. </span>
-						<a class='btn btn-small' href="<?php echo site_url('you/update_transaction/cancelled/'.$transaction->id); ?>" >Cancel</a>
-						
-					</p>
-				<?php } ?>
-									
 				<?php if($transaction->status == 'completed' && $has_reviewed) { ?>
 					<p>
 						Congratulations. You have completed a gift!! 
-					<?php if($transaction->demands[0]->good->status != 'disabled') { ?>	
+					<?php if($transaction->demands[0]->good->status != 'disabled' && $is_owner) { ?>	
 						<?php echo $delete_prompt; ?></p>
 						<a href="<?php echo $delete_link; ?>" class='left btn'>Disable <?php echo ucfirst($transaction->demands[0]->good->title); ?></a>
 					<?php } else { ?>
@@ -70,45 +62,54 @@
 					<p>Interaction with <?php echo $other_user->screen_name; ?> has been <?php echo $transaction->status; ?>.</p>
 				<?php } ?>
 			</div>
+			<?php if($transaction->status != 'cancelled' && $transaction->status != 'completed') { ?>
+				<div class='span2 chunk'>
+					<p class='cancel_bar'> 
+						<span class='mini_helper_text'>Want to cancel this interaction?</span>
+						<a class='btn btn-small' href="<?php echo site_url('you/update_transaction/cancelled/'.$transaction->id); ?>" >Cancel</a>
+						
+					</p>
+				</div>
+			<?php } ?>
 		</div>
-	<div class='chunk' id='review_form' style='display:none;'>
-		<?php echo $review_form; ?>
-	</div>
-	<div class='chunk'>
-		<ul class='interaction'>
-
-			<?php if(!empty($transaction->reviews)) { ?>
-				<li class='section_header'>
-					<h3 class='inbox_title'>Reviews</h3>
-				</li>
-				<?php foreach($transaction->users as $use) { ?>
-					<?php foreach($transaction->reviews as $rev) { ?>
-						<?php if($use->id == $rev->reviewer_id) { ?>
-							<li>
-								<div class='row-fluid'>
-									<div class='span2'>
-										<a href='#' class='user_image medium css_left'>
-											<img src="<?php echo $use->default_photo->thumb_url; ?>" alt="<?php echo $use->screen_name;?>" />
-										</a>
+	<div class='row-fluid reviews_messages'>
+		<div class='chunk' id='review_form' style='display:none;'>
+			<?php echo $review_form; ?>
+		</div>
+		<?php if(!empty($transaction->reviews)) { ?>
+		<div class='chunk'>
+			<ul class='interaction'>
+					<li class='section_header'>
+						<h3 class='inbox_title'>Reviews</h3>
+					</li>
+					<?php foreach($transaction->users as $use) { ?>
+						<?php foreach($transaction->reviews as $rev) { ?>
+							<?php if($use->id == $rev->reviewer_id) { ?>
+								<li>
+									<div class='row-fluid'>
+										<div class='span2'>
+											<a href='#' class='user_image medium css_left'>
+												<img src="<?php echo $use->default_photo->thumb_url; ?>" alt="<?php echo $use->screen_name;?>" />
+											</a>
+										</div>
+										<div class='span6 result_text'>
+										<p>
+											<a href="<?php echo site_url('people/profile/'.$use->id); ?>" >
+												<?php echo $use->screen_name;?>
+											 </a>
+										</p>
+											<?php echo $rev->body; ?>
+										<p>
+												Rating: <?php echo ucfirst($rev->rating); ?>
+										</p>
 									</div>
-									<div class='span6 result_text'>
-									<p>
-										<a href="<?php echo site_url('people/profile/'.$use->id); ?>" >
-											<?php echo $use->screen_name;?>
-										 </a>
-									</p>
-										<?php echo $rev->body; ?>
-									<p>
-											Rating: <?php echo ucfirst($rev->rating); ?>
-									</p>
-								</div>
 							</li>
 						<?php } ?>
 					<?php } ?>
 				<?php } ?>
-			<?php } ?>
-		</ul>
-	</div>
+			</ul>
+		</div>
+	<?php } ?>
 	<div class='chunk'>
 		<ul class='interaction'>
 
@@ -156,7 +157,7 @@
 		</ul>
 		</div>
 	</div>
-	
+</div>	
 </div>
 <!-- eof div.two_panels -->
 

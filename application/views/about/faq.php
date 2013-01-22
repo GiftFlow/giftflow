@@ -4,7 +4,7 @@
 		<?php echo $menu; ?>
 	</div>
 
-	<div class='span9 chunk'>
+	<div class='span9 chunk about_faq'>
 		<h1 class='faq_header'>Frequently Asked Questions</h1>
 		
 		<h3>Is GiftFlow a barter system?</h3>

@@ -234,7 +234,7 @@ class Member extends CI_Controller {
 	/**
 	* Forgotten password procedure works as follows
 	* User clicks a "Forgot your password?" link taking them here. If POST is empty, a form is loaded.
-	* The submitted for returns back here. Using the submitted email we get the
+	* The submitted form returns back here. Using the submitted email we get the
 	* associated forgotten_password_code, or generate one if the email lacks one.
 	* Then the notify library sends them an reset_link including the code, which routes them to
 	* the reset_password function below.
@@ -472,7 +472,7 @@ class Member extends CI_Controller {
 	protected function _register_success()
 	{
 		$this->session->set_flashdata('success', "Congratulations! We sent you an email with a link to log you in");
-		redirect('you/index');
+		redirect('');
 	}
 	
 	/**
@@ -483,7 +483,7 @@ class Member extends CI_Controller {
 	protected function _reset_password_success()
 	{
 		$this->session->set_flashdata('success', "A confirmation email is on its way");
-		redirect('you/index');
+		redirect('');
 	}
 
 

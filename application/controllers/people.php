@@ -282,8 +282,8 @@ class People extends CI_Controller {
 		$this->data['rss'] = '<link rel="alternate" type="application/rss+xml" title="'.$U->screen_name.'\'s Latest Gifts" href="'.site_url('rss/user/'.$user_id).'">
 		<link rel="alternate" type="application/rss+xml" title="'.$U->screen_name.'\'s Latest Needs" href="'.site_url('rss/user/'.$user_id.'/needs').'">';
 
-		$this->data['thankform'] = $this->load->view('forms/thankform', $this->data, TRUE);
-		$this->data['messageform'] = $this->load->view('forms/messageform', $this->data, TRUE);
+		$this->data['thankform'] = $this->load->view('people/includes/thankform', $this->data, TRUE);
+		$this->data['messageform'] = $this->load->view('people/includes/messageform', $this->data, TRUE);
 		
 		// Load views
 		$this->load->view('header', $this->data);

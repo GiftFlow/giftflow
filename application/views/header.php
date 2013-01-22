@@ -114,8 +114,8 @@ if(isset($css))
 
 						<ul class='dropdown-menu' id='logged_in_dropdown'>
 							<li>
-								<a href='<?php echo site_url('you/index'); ?>'>
-									Dashboard
+								<a href='<?php echo site_url('people/'.$userdata['user_id']); ?>'>
+									Profile
 								</a>
 							</li>
 							<?php if ($this->auth->validate(100)) { ?>
@@ -216,7 +216,7 @@ if(isset($css))
 				</li>
 				<li>
 					<a href="<?php echo site_url('you/add_thank'); ?>" class='btn btn-large btn-success'>Thank Someone</a>
-					<span>Try thanking a friend who doesn't yet use GiftFlow!</span>
+					<span>Record a gift by thanking the giver.</span>
 				</li>
 				<li> 
 				<a href="<?php echo site_url('you/watches');?>" class='btn btn-large btn-primary'>Add Watch</a>

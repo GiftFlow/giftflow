@@ -1,31 +1,34 @@
-<div id='login'>
-<h1>Forgot Your Password?</h1>
 
-<table>
+<div class='row'>
+	<div class='span6 offset2 chunk'>
+		<h1>Forgot Your Password?</h1>
 
-<tr>
-	
-	<td style='width: 500px;'>
-		<p>Enter your email below and we will send you a link to reset your password</p> <?php echo form_errors(); ?>
-		<form id="new_password" name="new_password" action="<?php echo site_url('member/forgot_password'); ?>" method="post">
-			<p>
-				<label>Email Address</label>
-			</p>
-			<p>
-				<input type="text" name='email' class='required email' id='email' value='' />
-			</p>
+		<table>
 
-				<input type='submit' class='btn-primary btn' value="Reset My Password" />
-			</p>
-		</form>
-	</td>
-</tr>
-</table>
+		<tr>
+			
+			<td style='width: 500px;'>
+				<p>Enter your email below and we will send you a link to reset your password</p> <?php echo form_errors(); ?>
+				<form id="new_password" name="new_password" action="<?php echo site_url('member/forgot_password'); ?>" method="post">
+					<p>
+						<label>Email Address</label>
+					</p>
+					<p>
+						<input type="text" name='email' class='required email' id='email' value='' />
+					</p>
+
+						<input type='submit' class='btn-primary btn' value="Reset My Password" />
+					</p>
+				</form>
+			</td>
+		</tr>
+		</table>	
+	</div>
 </div>
 <script type='text/javascript'>
 $(function(){
 	$("#new_password").validate();
 	$("p.alert_error").css('margin-bottom', '0px');
-	
+		
 });
 </script>

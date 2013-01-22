@@ -278,13 +278,9 @@ class You extends CI_Controller {
 			redirect('welcome/home');
 		}
 					
-		
-		
 		// Processing $_POST Data
 		if(!empty($_POST))
 		{
-		
-				
 			// New message
 			if($_POST['form_type'] == "transaction_message")
 			{
@@ -476,11 +472,13 @@ class You extends CI_Controller {
 					"transaction_id"=>$id,
 					"message"=>$this->input->post('body')
 				));
+				$this->session->set_flashdata('success', 'Gift interaction cancelled');
 			} else if($status == 'completed') {
 				
 				$result = $this->market->complete(array(
 					"transaction_id"=>$id,
 				));
+				$this->session->set_flashdata('success', 'Gift interaction completed!');
 			} else {
 				show_error('Error updating transaction');
 			}
@@ -490,7 +488,6 @@ class You extends CI_Controller {
 			if($result)
 			{
 				// Set success flashdata and refresh page
-				$this->session->set_flashdata('success','Gift '.$status.'. Now write a review of your interaction!');
 				redirect('you/view_transaction/'.$id);
 			} else {
 				$this->session->set_flashdata('error', 'Error cancelling interaction, please contact info@giftflow.org');

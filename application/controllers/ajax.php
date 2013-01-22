@@ -23,7 +23,7 @@ class Ajax extends CI_Controller {
 		{	
 			$keyword = $this->db->escape_like_str($_POST['term']);
 			
-				$query = "SELECT CONCAT(U.screen_name,', ',U.email) AS label, U.email as value
+				$query = "SELECT U.screen_name AS label, U.screen_name as value, U.id AS id
 						FROM users AS U 
 						WHERE U.id !=".$this->data['userdata']['user_id']."
 						AND U.status = 'active'

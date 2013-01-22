@@ -217,6 +217,7 @@ $(function() {
 	});
 	$('#order_by').change(function(e) {
 		GF.Params.set('order_by',$('#order_by option:selected').val());
+		console.log('ehllo!');
 		GF.Ajax.request();
 	});
 

@@ -123,26 +123,31 @@ class Goods extends CI_Controller {
 				"include_photos"=>TRUE
 				));
 			
-			
-			Console::logSpeed('loading the gift...done.');
+			if(isset($this->G->title)) {
+				
+				Console::logSpeed('loading the gift...done.');
 
 
-			//Load matches for sidebar
+				//Load matches for sidebar
 
-			$this->data['gifts'] = $Good_search->find(array(
-				'keyword' => $this->G->title,
-				'limit' => 5,
-				'type' => 'gift',
-				'exclude' => $this->good_id,
-				'status' => 'active'
-			));
-			$this->data['needs'] = $Good_search->find(array(
-				'keyword' => $this->G->title,
-				'limit' => 5,
-				'type' => 'need',
-				'exclude' => $this->good_id,
-				'status' => 'active'
-			));
+				$this->data['gifts'] = $Good_search->find(array(
+					'keyword' => $this->G->title,
+					'limit' => 5,
+					'type' => 'gift',
+					'exclude' => $this->good_id,
+					'status' => 'active'
+				));
+				$this->data['needs'] = $Good_search->find(array(
+					'keyword' => $this->G->title,
+					'limit' => 5,
+					'type' => 'need',
+					'exclude' => $this->good_id,
+					'status' => 'active'
+				));
+			} else {
+				$this->session->set_flashdata('error', 'Sorry an error occured');
+				redirect('find/gifts');
+			}
 		} else {
 			redirect('find/gifts');
 		}
