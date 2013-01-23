@@ -1,3 +1,5 @@
+# Version 0.2 1-23-2013
+
 # Giftflow
 
 Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. To learn more about the concept behind it and to see the project in action please visit [Giftflow.org](http://www.giftflow.org).
