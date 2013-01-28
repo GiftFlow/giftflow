@@ -307,7 +307,7 @@ class Notify
 			'body' => $data->body,
 			'gift_title' => $data->gift_title,
 			'recipient_screen_name' => $data->recipient_screen_name,
-			'screen_name' => $data->thanker_screen_name,
+			'thanker_screen_name' => $data->thanker_screen_name,
 			'return_url' => $data->return_url
 		);
 

@@ -125,7 +125,7 @@
 			</div>
 			<!-- PHOTO Modal window -->
 			<div class='modal hide' id='photoModal' tabindex='-1' role='dialog' aria-labelledby='photoModalLabel' aria-hidden='true'>
-				<div class='modal-header'>
+					<div class='modal-header'>
 					<h3 id='photoModalLabel'>Photo of <?php echo $G->title; ?></h3>
 					</div>
 					<div class='modal-body'>
@@ -134,7 +134,6 @@
 					<div class='modal-footer'>
 						<button class='btn' data-dismiss='modal' aria-hidden='true'>Close</button>
 					</div>
-				</div>
 			</div>
 			<?php } ?>
 	</div><!-- close row -->
