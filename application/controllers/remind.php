@@ -25,6 +25,10 @@ class Remind extends CI_Controller {
 	}
 
 
+	/*
+	 * generates email reminding user of active transactions
+	 * references $this->users and $this->transactions
+	 */
 
 	function transactionReminder()
 	{
@@ -32,11 +36,11 @@ class Remind extends CI_Controller {
 		$this->get_users();
 		echo count($this->users)." users selected<br/>";
 
-		$this->add_transactions();
+		//$this->add_transactions();
 		echo "Transaction data added<br/>";
+		//print_r($this->users);
 
-
-		$this->send_reminders();
+		//$this->send_reminders();
 		echo "<br/>Reminders sent<br/>";
 		
 
@@ -47,11 +51,16 @@ class Remind extends CI_Controller {
 			U.screen_name AS screen_name,
 			U.email AS email')
 		->from('transactions_users AS TU')
-		->join('transactions AS T','TU.transaction_id=T.id AND T.status IN ("pending", "active")','inner')
-		->join('users AS U', 'TU.user_id = U.id', 'left')
-		->limit('1');
+		->join('transactions AS T','TU.transaction_id=T.id AND T.status ="active"','inner')
+		->join('users AS U', 'TU.user_id = U.id AND U.status = "active"', 'left');
 
-		$this->users = $this->db->get()->result();
+		$users = $this->db->get()->result();
+
+		foreach($users as $key=>$use) {
+			if(!empty($use->id)) {
+				$this->users->$key = $use;
+			} 
+		}
 	}
 
 	function add_transactions() 
@@ -62,81 +71,74 @@ class Remind extends CI_Controller {
 
 		foreach($this->users as $user) 
 		{
-			$this->db->select('TU.transaction_id AS transaction_id, TT.user_id AS other_user')
-					->from('transactions_users AS TU')
-					->join('transactions_users AS TT', 'TU.transaction_id = TT.transaction_id AND TT.user_id !='.$user->id, 'left')
-					->join('transactions AS T', 'TU.transaction_id = T.id AND T.status IN ("pending","active")','inner')
-					->where('TU.user_id', $user->id)
-					->limit(10);
+			if(!empty($user->id)) {
+				$this->db->select('TU.transaction_id AS transaction_id, TT.user_id AS other_user')
+						->from('transactions_users AS TU')
+						->join('transactions_users AS TT', 'TU.transaction_id = TT.transaction_id AND TT.user_id !='.$user->id, 'left')
+						->join('transactions AS T', 'TU.transaction_id = T.id AND T.status IN ("pending","active")','inner')
+						->where('TU.user_id', $user->id);
 
-			$transactions = $this->db->get()->result();
+				$transactions = $this->db->get()->result();
 
-			$content = "<h3>Hello ".$user->screen_name.", </p><p> Here is a list of your uncompleted interactions on GiftFlow. Click the links below to stay in touch with your fellow GiftFlowers.</h3>";
-			$content .= "<ul style='list-style:none;'>";
+				$content = "<h3>Hello ".$user->screen_name.", </p><p> Here is a list of your uncompleted interactions on GiftFlow. Click the links below to stay in touch with your fellow GiftFlowers.</h3>";
+				$content .= "<ul style='list-style:none;'>";
 
 
-			//Build list of users active and pending transactions	
-			foreach($transactions as $big)
-			{
-				$fullTrans = $T->get(array('transaction_id' => $big->transaction_id));
-				if(!empty($fullTrans))
+				//Build list of users active and pending transactions	
+				foreach($transactions as $big)
 				{
-
-					$user->role = ($fullTrans->demander->id == $user->id ? 'demander' : 'decider');
-					$other_user = ($fullTrans->demander->id == $user->id ? $fullTrans->decider : $fullTrans->demander);
-									
-					$summary = $user->role."_summary";
-
-					$content .= "<a href='".site_url('you/view_transaction/'.$fullTrans->id)."' style='text-decoration:none; color:black;'>".
-							"<li> <p style ='font-weight:bold; padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; display:inline; vertical-align:middle;'/>
-							".strip_tags($fullTrans->demands[0]->good->title)."</p>";
-
-					$content .= "<div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
-
-					$content .= strip_tags(trim($fullTrans->language->$summary)).". ";
-
-					if($fullTrans->status == 'active')
+					$fullTrans = $T->get(array('transaction_id' => $big->transaction_id));
+					if(!empty($fullTrans))
 					{
-						$content .= "<span class='instructions'>Has the gift happened yet? If so, write a review. Otherwise, write ".$other_user->screen_name." a message.</span>";
-					} else if ($fullTrans->status == 'pending') { 
-						if($user->role == 'decider')
-						{
-							$content .= "<span class='instructions'>You should accept or decline ".$other_user->screen_name."'s request.</span>";
-						} else {
-							$content .= "<span class='instructions'> Send ".$other_user->screen_name." a message to remind them to reply.</span>";
-						}
+
+						$user->role = ($fullTrans->demander->id == $user->id ? 'demander' : 'decider');
+						$other_user = ($fullTrans->demander->id == $user->id ? $fullTrans->decider : $fullTrans->demander);
+										
+						$summary = $user->role."_summary";
+
+						$content .= "<a href='".site_url('you/view_transaction/'.$fullTrans->id)."' style='text-decoration:none; color:black;'>".
+								"<li> <p style ='font-weight:bold; padding-top:10px;'><img src='http://giftflow.org/assets/images/categories/16.png' style='width:25px; display:inline; vertical-align:middle;'/>
+								".strip_tags($fullTrans->demands[0]->good->title)."</p>";
+
+						$content .= "<div><img src='http://giftflow.org/assets/images/applegate/bluearrow1.png' style='width:20px; margin-right:10px; display:inline; vertical-align:middle;'/>";
+
+						$content .= strip_tags(trim($fullTrans->language->$summary)).". ";
+
+						$content .= "<br /><div style='color: #666; font-size: 13px; display:block; margin-left: 30px;'>Write <a href='#' style='font-size: 14px;'>".$other_user->screen_name."</a> a review or message.</div>";
+						$content .= "</div></li></a>";
 					}
-					$content .= "</div></li></a>";
 				}
+			
+				$content .= "</ul>";
+
+				$role = $user->role;	
+				$location = $fullTrans->$role->location;
+
+				$teaser_gifts = $G->find(array(
+					'radius' => 1000,
+					'order_by' => 'newest',
+					'sort' => 'DESC',
+					'limit' => '10'
+				));
+
+				$content .= "<br/><h3>Check out some of the latest gifts on GiftFlow</h3><p>";
+
+				foreach($teaser_gifts as $gift)
+				{
+					$content .= " <a style='line-height: 23px; padding: 2px; font-size:14px;' href='".site_url('gifts/'.$gift->id)."'>".$gift->title."</a> ";
+				
+				}
+				$content .= "</p>";
+
+
+				$content .= "<p><a  href='".site_url('remind/unsubscribe/'.$user->id)."'>Unsubscribe</a></p>";
+
+				$user->data = array(
+					'body' => $content,
+					'email' => $user->email,
+					'screen_name' => $user->screen_name
+				);
 			}
-		
-			$content .= "</ul>";
-
-			$role = $user->role;	
-			$location = $fullTrans->$role->location;
-
-			$teaser_gifts = $G->find(array(
-				'radius' => 1000,
-				'order_by' => 'newest',
-				'sort' => 'DESC',
-				'limit' => '10'
-			));
-
-			$content .= "<br/><h3>Check out some of the latest Gifts</h3><p>";
-
-			foreach($teaser_gifts as $gift)
-			{
-				$content .= " <a href='".site_url('gifts/'.$gift->id)."'>".$gift->title."</a>, ";
-			}
-
-
-			$content .= "<p><a href='".site_url('remind/unsubscribe/'.$user->id)."'>Unsubscribe</a></p>";
-
-			$user->data = array(
-				'body' => $content,
-				'email' => $user->email,
-				'screen_name' => $user->screen_name
-			);
 		}
 	}
 

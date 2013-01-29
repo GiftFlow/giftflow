@@ -349,7 +349,7 @@ class Notify
 		$A = new Alert();
 
 		$A->parseables = array(
-			'subject' => 'You have notifications pending.',
+			'subject' => 'Your unfinished gifts',
 			'body' => $data['body'],
 			'screen_name' => $data['screen_name'],
 			'return_url' => site_url('login')
