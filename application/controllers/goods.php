@@ -250,6 +250,21 @@ class Goods extends CI_Controller {
 				{
 					$this->G->add_tag( trim($tag) );
 				}
+
+				//save to groups
+				if(!empty($post['groups'])) {
+
+					$this->load->library('groups_manager');
+					$GM = new Groups_manager();
+
+					foreach($post['groups'] as $g) {
+						$GM->add_good(array(
+							"good_id" => $this->G->id,
+							"group_id" => $g
+						));
+					}
+				}
+
 				
 				// Hook: 'good_new'
 				$event_data = array(

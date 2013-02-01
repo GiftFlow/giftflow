@@ -44,6 +44,28 @@
     	</div>
     </div>
 
+    <!-- Tags -->
+    <div class="control-group">
+    	<label class="control-label" for="title">Public or Private?</label>
+    	<div class="controls">
+			<select name='privacy' id='privacy'>
+				<option value='public'>Public</option>
+				<option value='private'>Private (selected groups only)</option>
+			</select>
+    	</div>
+    </div>
+<?php if(!empty($groups) ) { ?>
+	<div class='control-group'>
+	<label class='control-label group_checks'>Add to Groups </label>
+	<?php foreach($groups as $g) { ?>
+			<label class="checkbox inline group_checkbox">
+			<input type="checkbox" name='groups[]' value="<?php echo $g->group_id; ?>">
+				<?php echo $g->group_name; ?>
+			</label>
+	<?php } ?>
+	</div>
+<?php } ?>
+
 	<!-- Location -->
     <div class="control-group">
     	<label class="control-label" for="location">Location</label>

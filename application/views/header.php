@@ -86,6 +86,11 @@ if(isset($css))
 						Needs
 					</a>
 				</li>
+				<li class='nav_li'>
+					<a class='nav_a' href="<?php echo site_url('groups'); ?>">
+						Groups
+					</a>
+				</li>
 				<li class='nav_li last_li'>
 					<a class='nav_a' href="<?php echo site_url('about'); ?>">
 						About

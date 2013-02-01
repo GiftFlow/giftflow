@@ -678,6 +678,11 @@ class You extends CI_Controller {
 			show_error('Error determining type');
 		}
 
+		$this->load->library('Search/Group_search');
+		$GS = new Group_search();
+		$this->data['groups'] = $GS->find_by_user(array("user_id" => $this->data['logged_in_user_id']));
+		//print_r($this->data['groups']); die();
+
 		$this->data['default_location'] = $this->data['userdata']['location']->address;
 
 		$this->data['add']=TRUE;

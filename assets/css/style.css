@@ -79,6 +79,9 @@ ul.alert_error{
 	list-style: none;
 	margin-bottom: 0px;
 }
+.error, label.error {
+	color:red;
+}
 .padd_right {
 	padding-right: 20px;
 }
@@ -1487,4 +1490,15 @@ span.error{
 	display:block;
 	margin-top: 20px;
 	text-align:left;
+}
+
+/* Group styles */
+.group_checks {
+	margin-right: 20px;
+}
+.group_checkbox {
+	display:inline-block;
+	margin: 2px;
+	padding: 3px;
+	background: #CCCCCC;
 }
