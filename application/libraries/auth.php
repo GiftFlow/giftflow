@@ -126,6 +126,7 @@ class Auth
 		
 		if($U->save())
 		{
+			$this->manual_login($U, FALSE);
 			return TRUE;
 		} else {
 			show_error('auth::reset_password');

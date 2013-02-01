@@ -267,6 +267,8 @@ class User extends DataMapperExtension {
 	* 	Returns the user's current gifts
 	*
 	*	@return array
+	*
+	*	BROKEN!
 	*/
 	function gifts()
 	{
@@ -284,7 +286,9 @@ class User extends DataMapperExtension {
 			->get();
 
 		// Build object from DB results
-		$result = Factory::good($query->result());
+		$this->load->library('factory');
+			$Factory = new Factory();
+		$result = $Factory::good($query->result());
 		
 		// Build related transactions
 		Console::logSpeed("building transactions");

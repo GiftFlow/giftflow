@@ -31,6 +31,7 @@
 					</p>
 
 					<p>
+						<input type='hidden' id='password_user_id' name='password_user_id' value='<?php echo $user_id; ?>'/>
 						<input type='submit' class='btn btn-primary' value="Reset Password" />
 				</p>
 			</form>
