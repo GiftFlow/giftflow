@@ -27,7 +27,7 @@
 						<textarea rows='5' class='big-border required' name='body' id='body' value=''></textarea>
 					</div>
 				</div>
-						<input type='hidden' name='thank_id' id='thank_id' value=''/>
+						<input type='hidden' name='user_id' id='user_id' value=''/>
 						<input type='submit' class='btn btn-primary btn-medium' value='Send'/>
 						<a id='thank_cancel' class='btn' href="<?php echo site_url('you');?>">Cancel</a>
 					</p>

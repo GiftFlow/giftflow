@@ -25,8 +25,7 @@ GF.Users = (function(){
 			select: function( event, ui ){
 				// Append selected item to list, override default behavior
 				input.val(ui.item.value);
-				$('#thank_id').val(ui.item.id);
-				console.log(ui.item.id);
+				$('#user_id').val(ui.item.id);
 				return false;
 			}
 		});
