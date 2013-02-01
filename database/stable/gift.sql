@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS `goods` (
   `status` enum('active','unavailable','disabled') NOT NULL COMMENT 'Acceptable values: "active","disabled"',
   `quantity` int(10) NOT NULL,
   `shareable` int(1) NOT NULL DEFAULT '0' COMMENT '1=Gift can be shared\n0=Gift can''t be shared',
+  `visibility` enum('public', 'private') NOT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `location_id` int(10) unsigned DEFAULT NULL,
   `category_id` int(11) unsigned DEFAULT NULL,
@@ -451,6 +452,59 @@ CREATE TABLE IF NOT EXISTS `watches` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
+-- -------------------------------------------
+-- 
+-- Table structure for table `groups`
+--
+
+CREATE TABLE IF NOT EXISTS `groups` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`name` varchar(100) NOT NULL,
+	`description` varchar(1000) NOT NULL,
+	`location_id` int(10) unsigned,
+	`default_photo_id` int(10) unsigned,
+	`privacy` enum('public', 'findable') DEFAULT 'public',
+	`members_can_invite` enum('yes', 'no') DEFAULT 'yes',
+	`admission` enum('open', 'by_request') DEFAULT 'open',
+	PRIMARY KEY (`id`),
+	KEY `groups_location` (`location_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups_goods`
+--
+
+CREATE TABLE IF NOT EXISTS `groups_goods` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(10) unsigned NOT NULL,
+  `good_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `good_id` (`good_id`),
+  KEY `group_id` (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relates `goods` with `groups`' AUTO_INCREMENT=1 ;
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `groups_users`
+--
+
+CREATE TABLE IF NOT EXISTS `groups_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `role` enum('member', 'admin') DEFAULT 'member',
+  `status` enum('active', 'disabled') DEFAULT 'active',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `group_id` (`group_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Relates `users` with `groups`' AUTO_INCREMENT=1 ;
+
 
 --
 -- Constraints for dumped tables
@@ -557,3 +611,26 @@ ALTER TABLE `user_openids`
 --
 ALTER TABLE `watches`
   ADD CONSTRAINT `watches_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `groups`
+--
+ALTER TABLE `groups`
+  ADD CONSTRAINT `locations_groups_fk` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`),
+  ADD CONSTRAINT `photos_groups_fk` FOREIGN KEY (`default_photo_id`) REFERENCES `photos` (`id`);
+
+--
+-- Constraints for table `groups_users`
+--
+ALTER TABLE `groups_users`
+  ADD CONSTRAINT `groups_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `groups_users_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+--
+-- Constraints for table `groups_goods`
+--
+ALTER TABLE `groups_goods`
+  ADD CONSTRAINT `groups_goods_ibfk_1` FOREIGN KEY (`good_id`) REFERENCES `goods` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `groups_goods_ibfk_2` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
