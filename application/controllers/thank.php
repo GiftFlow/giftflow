@@ -64,6 +64,7 @@ class Thank extends CI_Controller {
 			$hook_data = $newThank->get(array('id'=>$TY->id));
 			$hook_data->return_url = site_url('you/view_thankyou/'.$TY->id);
 			$hook_data->notify_id = $TY->recipient_id;
+			$hook_data->thanker_screen_name = $this->data['logged_in_screen_name'];
 
 			//record event and send notification
 			$this->event_logger->basic('thankyou', $hook_data);
@@ -73,24 +74,6 @@ class Thank extends CI_Controller {
 			redirect('people/'.$form['recipient_id']);
 	}
 }
-
-/**
- * Loads a form for adding a thank
- * User gets here from the Add menu
- */
-
-	function addThankForm() 
-	{
-		$this->auth->bouncer('1', 'thank/addThankForm');
-		$this->data['js'][] = 'GF.Users.js';
-		$this->data['title'] = 'Add a thank!';
-		$this->load->view('header', $this->data);
-
-		$this->load->view('forms/addThankForm', $this->data);
-
-		$this->load->view('footer', $this->data);
-	}
-
 
 	/**
 	 * Handles incoming profile thankForm
@@ -111,7 +94,7 @@ class Thank extends CI_Controller {
 	 * gets extra data for thank function
 	 * post from forms/addThankForm.php
 	 */
-	function addThank()
+	function add_thank()
 	{
 		$data = array();
 
@@ -119,29 +102,28 @@ class Thank extends CI_Controller {
 		{
 			$post = $this->input->post();
 			
-			$U = new User();
-			$U->where('email',$post['thankEmail']);
-			$U->get();
+			if(!empty($post['user_id'])) {
+				$U = new User();
+				$U->where('id',$post['user_id']);
+				$U->get();
 
-			//if the recipient is already a user, call thank
-			if($U->exists())
-			{
-				$data['recipient_id'] = $U->id;
-				$data['gift'] = $post['gift'];
-				$data['body'] = $post['body'];
+				//if the recipient is already a user, call thank
+				if($U->exists()) {
+					$data['recipient_id'] = $U->id;
+					$data['gift'] = $post['gift'];
+					$data['body'] = $post['body'];
+					$this->_thank($data);
+				}
 
-				$this->_thank($data);
+			} else if(is_int(strrpos($post['thank_name'], '@'))) {
 
-			//otherwise, save the thank with a status of 'invite'
-				//and send email
-			} else {
-				//User does not exist in database - save thank with a status of 'invite'
+				//user entered email of invited person
 				$TY = new Thankyou();
-				
+
 				//because the recipient is not yet a user, fudge in the senders id for now
 				$TY->recipient_id = NULL;
-				$TY->recipient_email = $post['thankEmail'];
-				$TY->thanker_id = $this->U->id;
+				$TY->recipient_email = $post['thank_name'];
+				$TY->thanker_id = $this->data['logged_in_user_id'];
 				$TY->gift_title = $post['gift'];
 				$TY->body = $post['body'];
 				$TY->status = 'invited';
@@ -153,8 +135,8 @@ class Thank extends CI_Controller {
 					$N = new Notify();
 					
 					$hook_data = array(
-						'recipient_email' => $post['thankEmail'],
-						'thanker_screen_name' => $this->U->screen_name,
+						'recipient_email' => $post['thank_name'],
+						'thanker_screen_name' => $this->data['logged_in_screen_name'],
 						'gift_title' => $post['gift'],
 						'body' => $post['body'],
 						'subject'=> 'You have been thanked on GiftFlow!',
@@ -166,19 +148,21 @@ class Thank extends CI_Controller {
 					$E = new Event_logger();
 					$E->basic('thank_invite', $hook_data);
 
-					$this->session->set_flashdata('success', 'Thank sent to '.$post['thankEmail']);
+					$this->session->set_flashdata('success', 'Thank sent to '.$post['thank_name']);
 
-					redirect('welcome/home');
+					redirect('you/index');
 				}
+			} else {
+
+				$this->session->set_flashdata('error', 'Please either choose an existing user or provide an email address.');
+				redirect('you/add_thank');
 			}
-
 		} else {
-			redirect('thank/addThankForm');
+			redirect('you/add_thank');
 		}
-		
 	}
-
 }
+
 
 
 			

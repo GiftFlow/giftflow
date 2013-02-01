@@ -110,7 +110,7 @@ class Alert {
 		$footer = $this->CI->load->view('email/footer',FALSE,TRUE);
 		$config['message_html'] = $header.$this->message.$footer;
 		
-		$config["to"] = $this->to;
+		$config["to"] = 'hschoenburg+YARYAR@gmail.com';
 		$config["reply_to_email"] = '';
 		$config["reply_to_name"] = '';
 		$config["cc"] = '';

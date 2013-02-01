@@ -22,15 +22,55 @@ var $month_name=array(
 		parent::__construct();
 		$this->util->config();
 		$this->data = $this->util->parse_globals();
+		$this->auth->bouncer(100);
 	}
 
 	function index()
 	{
 
-		$this->data['monthly_users'] = $this->monthly_users();
+		$this->data['montly_needs'] = $this->monthly_goods('need');
+		$this->data['montly_transactions'] = $this->monthly_transactions();
+		$this->data['montly_reviews'] = $this->monthly_reviews();
+		$this->data['montly_messages'] = $this->monthly_messages();
+		$this->data['montly_thankyous'] = $this->monthly_thankyous();
+
+		$this->data['calendar']= $this->month_name;
+
+		$user_options = array(
+			'type' => 'Users',
+			'monthly' => $this->monthly_users(),
+			'calendar' => $this->month_name
+		);
+		$this->data['user_mod'] = $this->load->view('metrics/module', $user_options, TRUE);
+
+
+		$gift_options = array(
+			'type' => 'Gifts',
+			'monthly' => $this->monthly_goods('gift'),
+			'calendar' => $this->month_name
+		);
+		$this->data['gift_mod'] = $this->load->view('metrics/module', $gift_options, TRUE);
+
+
+		$need_options = array(
+			'type' => 'Needs',
+			'monthly' => $this->monthly_goods('need'),
+			'calendar' => $this->month_name
+		);
+		$this->data['need_mod'] = $this->load->view('metrics/module', $need_options, TRUE);
+
+		$review_options = array(
+			'type' => 'Reviews',
+			'monthly' => $this->monthly_reviews(),
+			'calendar' => $this->month_name
+		);
+		$this->data['review_mod'] = $this->load->view('metrics/module', $review_options, TRUE);
+
+
+		$this->data['title'] = 'Metrics!';
 		
 		$this->load->view('header', $this->data);
-		$this->load->view('metrics/metrics', $this->data);
+		$this->load->view('metrics/index', $this->data);
 		$this->load->view('footer', $this->data);
 	}
 
@@ -68,7 +108,7 @@ var $month_name=array(
 	//	$this->load->view('footer', $this->data);
 	}
 
-	function gifts_needs_monthly()
+	function monthly_goods($type)
 	{
 		$this->data['x']= $this->month_name;
 		$gift_results = array();
@@ -86,33 +126,16 @@ var $month_name=array(
 						->from('goods AS G')
 						->where('G.created >', "20".$x."-".$i."-01 12:00:00")
 						->where('G.created <', "20".$x."-".$y."-01 12:00:00")
-						->where('G.type =','gift')
+						->where('G.type =',$type)
 						->get()
 						->result();
-				//Needs
-				$needs = $this->db->select ('G.created')
-						->from('goods AS G')
-						->where('G.created >', "20".$x."-".$i."-01 12:00:00")
-						->where('G.created <', "20".$x."-".$y."-01 12:00:00")
-						->where('G.type =', 'need')
-						->get()
-						->result();
-
-				
 				$gift_results[$x][$i] = count($gifts);
-				$need_results[$x][$i] = count($needs);
 			}
 		}
-
-			$this->data['gifts_monthly'] = $gift_results;
-			$this->data['needs_monthly'] = $need_results;
-
-		$this->load->view('header', $this->data);
-		$this->load->view('metrics/gifts_needs_monthly', $this->data);
-		$this->load->view('footer', $this->data);
+		return $gift_results;
 	}
 
-	function transactions_monthly()
+	function monthly_transactions()
 	{
 		$this->data['x']= $this->month_name;
 
@@ -129,61 +152,44 @@ var $month_name=array(
 			{
 				$y = $i + 1;
 
-				//number of transactions started each month
-				$new_transactions = $this->db->select ('T.created')
-						->from('transactions as T')
-						->where('T.created >', "20".$x."-".$i."-01 12:00:00")
-						->where('T.created <', "20".$x."-".$y."-01 12:00:00")
-						->get()
-						->result();
-				//completed transactions each month
-				$completed_transactions = $this->db->select ('T.created')
+								//completed transactions each month
+				$completed = $this->db->select ('T.created')
 						->from('transactions as T')
 						->where('T.created >', "20".$x."-".$i."-01 12:00:00")
 						->where('T.created <', "20".$x."-".$y."-01 12:00:00")
 						->where('T.status =','completed')
 						->get()
 						->result();
-				$active_transactions = $this->db->select ('T.created')
+				$active = $this->db->select ('T.created')
 						->from('transactions as T')
 						->where('T.created >', "20".$x."-".$i."-01 12:00:00")
 						->where('T.created <', "20".$x."-".$y."-01 12:00:00")
 						->where('T.status =','active')
 						->get()
 						->result();
-				$cancelled_transactions = $this->db->select ('T.created')
+				$cancelled = $this->db->select ('T.created')
 						->from('transactions as T')
 						->where('T.created >', "20".$x."-".$i."-01 12:00:00")
 						->where('T.created <', "20".$x."-".$y."-01 12:00:00")
 						->where('T.status =','cancelled')
 						->get()
 						->result();
-				$declined_transactions = $this->db->select ('T.created')
-						->from('transactions as T')
-						->where('T.created >', "20".$x."-".$i."-01 12:00:00")
-						->where('T.created <', "20".$x."-".$y."-01 12:00:00")
-						->where('T.status =','declined')
-						->get()
-						->result();
 
-			$new_transactions_results [$x][$i]= count($new_transactions);
-			$completed_transactions_results [$x][$i]= count($completed_transactions);
-			$active_transactions_results [$x][$i]= count($active_transactions);
-			$cancelled_transactions_results [$x][$i]= count($cancelled_transactions);
-			$declined_transactions_results [$x][$i]= count($declined_transactions);
+			$completed_transactions[$x][$i]= count($completed);
+			$active_transactions[$x][$i]= count($active);
+			$cancelled_transactions[$x][$i]= count($cancelled);
 			
 			}
 		}
 
-			$this->data['new_transactions_monthly'] = $new_transactions_results;
-			$this->data['completed_transactions_monthly'] = $completed_transactions_results;
-			$this->data['active_transactions_monthly'] = $active_transactions_results;
-			$this->data['cancelled_transactions_monthly'] = $cancelled_transactions_results;
-			$this->data['declined_transactions_monthly'] = $declined_transactions_results;
+			$transactions = array(
+				'completed' => $completed_transactions,
+				'active' => $active_transactions,
+				'cancelled' => $cancelled_transactions
+			);
 
-		$this->load->view('header', $this->data);
-		$this->load->view('metrics/transactions_monthly', $this->data);
-		$this->load->view('footer', $this->data);
+			return $transactions;
+
 	}
 
 	function monthly_reviews()
@@ -192,7 +198,7 @@ var $month_name=array(
 		$results = array();
 
 
-		for($x=10; $x<13; $x++)
+		for($x=10; $x<14; $x++)
 		{
 			for($i=1; $i<13; $i++)
 			{
@@ -211,11 +217,8 @@ var $month_name=array(
 			}
 		}
 
-		$this->data['monthly_reviews'] = $results;
+		return $results;
 
-		$this->load->view('header', $this->data);
-		$this->load->view('metrics/monthly_reviews', $this->data);
-		$this->load->view('footer', $this->data);
 	}
 
 	function monthly_thankyous()
@@ -237,17 +240,12 @@ var $month_name=array(
 						->get()
 						->result();
 
-
-
 				$results[$x][$i] = count($thankyous);
 			}
 		}
 
-		$this->data['monthly_thankyous'] = $results;
+		return $results;
 
-		$this->load->view('header', $this->data);
-		$this->load->view('metrics/monthly_thankyous', $this->data);
-		$this->load->view('footer', $this->data);
 	}
 
 	function monthly_messages()
@@ -275,11 +273,8 @@ var $month_name=array(
 			}
 		}
 
-		$this->data['monthly_messages'] = $results;
+		return $results;
 
-		$this->load->view('header', $this->data);
-		$this->load->view('metrics/monthly_messages', $this->data);
-		$this->load->view('footer', $this->data);
 	}
 
 

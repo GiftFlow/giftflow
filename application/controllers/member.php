@@ -343,11 +343,11 @@ class Member extends CI_Controller {
 				$this->session->set_flashdata('error','Your forgotten password code did not work. Please contact email info@giftflow.org for assistance.');
 				redirect('');
 			} else {
-				$this->load->library('auth');
-				$this->auth->manual_login($U, FALSE);
+				//$this->load->library('auth');
+				//$this->auth->manual_login($U, FALSE);
 				$this->session->set_flashdata('success','Now you can reset your password');
 				
-				$this->new_password_form();
+				$this->new_password_form($U->id);
 
 			}
 		}
@@ -365,9 +365,13 @@ class Member extends CI_Controller {
 		{
 			$post = $this->input->post();
 
+			if(empty($post['password_user_id'])) {
+				$this->session->set_flashdata('error', 'Please click the link in your email again');
+				redirect('');
+			}
+
 			$this->load->library('Search/User_search');
-			$U_search = new User_search();
-			$U = $U_search->get($options = array('user_id' => $this->session->userdata('user_id')));
+			$U = new User($post['password_user_id']);
 			
 			if($U->email == $post['email'])
 			{
@@ -382,14 +386,13 @@ class Member extends CI_Controller {
 			else
 			{
 				$this->session->set_flashdata('error','You entered the wrong email');
-				$this->new_password_form();
+				$this->new_password_form($U->id);
 			}
 			
 		}
 		else
 		{
-			//user submitted blank form
-			$this->new_password_form();
+			redirect('');
 		}
 	}
 		
@@ -400,8 +403,9 @@ class Member extends CI_Controller {
 	 * @param int user_id
 	 */
 
-	protected function new_password_form()
+	protected function new_password_form($user_id= NULL)
 	{	
+		$this->data['user_id'] = $user_id;
 		//Load view to enter new password
 		$this->data['js'][] = 'jquery-validate.php';
 		$this->data['title'] = "Reset Password";
