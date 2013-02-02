@@ -21,6 +21,7 @@ class Factory
 	public function __construct()
 	{
 		$this->CI =& get_instance();
+		$this->CI->load->library('UI/UI_results');
 	}
 
 
@@ -35,7 +36,6 @@ class Factory
   {
     if(!empty($results))
     {
-      $this->CI->load->library('UI/UI_results');
       $include = array();
 
 			
@@ -62,8 +62,6 @@ class Factory
   }
 
 
-
-
   /**
    *    same as above, creates html row for display
    * @param type $results
@@ -74,7 +72,6 @@ class Factory
 	{
 		if(!empty($results))
 		{
-			$this->CI->load->library("UI/UI_results");
 			$include = array ("author");
 			
 			if($sort == 'location_distance')
@@ -151,6 +148,18 @@ class Factory
 			$ty->summary = '<a href="'.site_url("people/".$ty->recipient_id).'">'.$ty->recipient_screen_name.'</a> was thanked by <a href="'.site_url("people/".$ty->thanker_id).'">'.$ty->thanker_screen_name.'</a> for "'.$ty->gift_title.'"';
 		}
 		return $results;
+	}
+
+	public function groups_ajax($results)
+	{
+			foreach($results as $key=>$val)
+			{
+				$results[$key]->html = UI_Results::groups(array(
+					"results"=>$val,
+					"row"=>TRUE
+				));
+			}
+			return $results;
 	}
 
 

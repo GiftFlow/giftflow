@@ -55,22 +55,19 @@ class Groups_manager
 	{
 		if($this->ready('user')) {
 
-				if($this->user_role() == 'admin') {
-					$options = array(
-						'user_id' => $invite_user_id,
-						'group_id' => $this->group_id,
-						'status' => 'active',
-						'role' => 'member'
-					);
-					if(!$this->CI->db->insert('groups_users', $options)) {
-						show_error("Error saving user");
-					} else {
-						return TRUE;
-					}
-			} else {
-				show_error("You do not have permission to add users");
-			}
+				$options = array(
+					'user_id' => $invite_user_id,
+					'group_id' => $this->group_id,
+					'status' => 'active',
+					'role' => 'member'
+				);
+				if(!$this->CI->db->insert('groups_users', $options)) {
+					show_error("Error saving user");
+				} else {
+					return TRUE;
+				}
 		}
+
 	}
 
 	public function join_group()
@@ -166,19 +163,20 @@ class Groups_manager
 		return $response;
 	}
 
-	public function remove_good($options)
+	public function remove_good()
 	{
-		$success = $this->CI->db->where('group_id', $options['group_id'])
-								->where('good_id', $options['good_id'])
-								->delete('groups_goods');	
-		if(!$success){
+		if($this->ready('good')) {
+			$success = $this->CI->db->where('group_id', $this->group_id)
+									->where('good_id', $this->good_id)
+									->delete('groups_goods');	
+			if($success){
+				return TRUE;
+			}
+		} else {
 			show_error('Error removing good from group');
 			return FALSE;
-		} else {
-			return TRUE;
-		}
+		} 
 	}
-
 
 	public function remove_user($remove_user)
 	{

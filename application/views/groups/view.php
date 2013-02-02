@@ -14,7 +14,9 @@
 			<ul>
 				<?php foreach($group->users as $user) { ?>
 					<li><?php echo $user->screen_name; ?>
-						<a href="<?php echo site_url('groups/remove_user/'.$group->id.'/'.$user->user_id); ?>" class='btn btn-small'>x</a>
+						<?php if($admin) { ?>
+							<a href="<?php echo site_url('groups/remove_user/'.$group->id.'/'.$user->user_id); ?>" class='btn btn-small'>x</a>
+						<?php } ?>
 					</li>
 				<?php } ?>
 			</ul>

@@ -49,6 +49,10 @@ class Find extends CI_Controller {
 	{
 		$this->_items("need");
 	}
+	function groups()
+	{
+		$this->items("group");
+	}
 	
 	function _items($type)
 	{
@@ -155,13 +159,23 @@ class Find extends CI_Controller {
 				'status' => 'active',
 				'type' => $this->args['profile_type']
 			);
-			
 			$US = new User_search;
 			$results = $US->find($options);
 			$this->data['results'] = $this->factory->users_ajax($results, $this->args['order_by']);
-		}
-		else
-		{
+
+		} else if($this->args['type'] == 'groups') {
+
+			$options = array(
+				'q' =>$this->args['q'],
+				'status' => 'active'
+			);
+			$this->load->library('Search/Group_search');
+			$GS = new Group_search;
+			$results = $GS->find($options);
+			$this->data['results'] = $this->factory->groups_ajax($results);
+
+		} else {
+
 			Console::logSpeed("Find::_search(): starting goods search...");
 			
 			$GS = new Good_search;

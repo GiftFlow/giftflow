@@ -272,5 +272,33 @@ class UI_results
 	}
 
 
+	function groups($options = array())
+	{
+		Console::logspeed("UI_Results::groups()");
+		$CI =& get_instance();
+
+		//Compile options
+		$default_options = array(
+			"results" => array(),
+			"row" => FALSE
+		);
+		
+		$options = array_merge($default_options, $options);
+
+		 // If set to return single row, place in array so the view's foreach
+		// loop iterates over it properly
+		if($options['row'] && !is_array($options['results']))
+		{
+			$options['results'] = array($options['results']);
+		}
+		
+		$view = $CI->load->view('groups/includes/results',$options,TRUE);
+		
+		//Return HTML string
+		Console::logspeed("UI_Results::groups() done.");
+		return $view;	
+	
+	}
+
 
 }

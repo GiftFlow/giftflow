@@ -36,6 +36,10 @@ class Group_search extends Search
 			$this->CI->db->where('G.id',$options['group_id']);
 		}
 
+		if(!empty($options['q'])) {
+			$this->add_keyword_clauses($options);
+		}
+
 		$groups = $this->CI->db->get()->result();
 		$groups = $this->get_users($groups);
 		$groups = $this->get_goods($groups);
@@ -43,6 +47,31 @@ class Group_search extends Search
 		return $groups;
 
 
+	}
+
+	function add_keyword_clauses($options)
+	{
+
+		$keywords = explode(' ',$options['q']);
+		$likewhere = '(';
+		$i = 0;
+		$len = count($keywords);
+		foreach($keywords as $word) {
+			$i++;
+			$word = $this->CI->db->escape_like_str($word);
+			$word = "'%".$word."%'";
+
+
+					$likewhere .= "G.name LIKE ".$word.
+									" OR G.description LIKE ".$word." ";
+
+					if($i != $len){
+						$likewhere.= ' OR ';
+					}
+				}
+				$likewhere .= ")";
+
+		$this->CI->db->where($likewhere);
 	}
 
 

@@ -55,6 +55,7 @@ class Groups extends CI_Controller {
 
 	}
 
+
 	function view($group_id = NULL)
 	{
 		if(empty($group_id)) {
@@ -99,21 +100,21 @@ class Groups extends CI_Controller {
 				'status' => 'active'
 			));
 
+			//$this->data['goods'] = $GM->group_good_filter($this->data['goods']);
+
 			$GM = new Groups_manager();
 			$GM->user_id = $this->data['logged_in_user_id'];
 			$GM->group_id = $group->id;
 
-			$this->data['user_role'] = $GM->user_role();
+			$this->data['admin'] = ($GM->user_role() == 'admin')? TRUE : FALSE;
 
 			//Set can_invite flag depending on role and group settings
-			if($this->data['user_role'] == 'admin') {
+			if($this->data['admin']) {
 				$this->data['can_invite'] = TRUE;
-			} else {
-				if($group->members_can_invite) {
+			} else if($membership['in_group'] && $group->members_can_invite) {
 					$this->data['can_invite'] = TRUE;
-				} else {
-					$this->data['can_invite'] = FALSE;
-				}
+			} else {
+				$this->data['can_invite'] = FALSE;
 			}
 
 			
@@ -131,6 +132,7 @@ class Groups extends CI_Controller {
 
 	function create()
 	{
+		$this->auth->bouncer(1);
 
 		if(!empty($_POST)) {
 
@@ -271,12 +273,13 @@ class Groups extends CI_Controller {
 	{
 		$GM = new Groups_manager();
 
-		if(is_numeric($group_id) && is_numeric($remove_user)) {
+		if(isset($group_id) && isset($remove_user)) {
 
-				$GM->group_id = $group_id;
+				$GM->group_id = (int)$group_id;
 				$GM->user_id = $this->data['logged_in_user_id'];
-				$GM->remove_user($remove_user);
+				$GM->remove_user((int)$remove_user);
 				return $this->view($group_id);
+
 		} else {
 			$this->session->set_flashdata('Error', 'Error removing user from group');
 			return $this->index();
@@ -286,20 +289,25 @@ class Groups extends CI_Controller {
 
 	function remove_good($group_id, $good_id) 
 	{
+		if(isset($group_id) && isset($good_id)) {
 
-		//Good can only be removed by owner of the good. 
+			//Good can only be removed by owner of the good. 
 
-		$GM = new Groups_manager();
+			$GM = new Groups_manager();
+			$GM->user_id = $this->data['logged_in_user_id'];
+			$GM->group_id = (int)$group_id;
+			$GM->good_id = (int)$good_id;
 
-		if($GM->owns_good(array('user_id'=>$this->data['logged_in_user_id'], 'good_id' => $good_id))) {
-			if($GM->remove_good(array('group_id' => $group_id, 'good_id' => $group_id))) {
-				$this->session->set_flashdata('success', 'Successfully removed from group');
+			if($GM->owns_good() && $GM->remove_good()) {
+					$this->session->set_flashdata('success', 'Successfully removed from group');
+			} else {
+				$this->session->set_flashdata('error','Sorry, you do not have permission to perform this action');
 			}
-			
-		} else {
-			$this->session->set_flashdata('error','Sorry, you do not have permission to perform this action');
+		} else { 
+				$this->session->set_flashdata('error','Sorry incorrect data submitted');
 		}
-			$this->view($group_id);
+
+			return $this->view($group_id);
 	}
 
 		
