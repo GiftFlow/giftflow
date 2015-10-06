@@ -2,7 +2,12 @@
 
 # Giftflow
 
-Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. To learn more about the concept behind it and to see the project in action please visit [Giftflow.org](http://www.giftflow.org).
+Giftflow is a web application where people can share resources, meet each others' needs and reduce waste, all without spending money. 
+
+Giftflow.org is no longer running. To learn more about the project, you can visit these links
+[Huffington Post](http://www.huffingtonpost.com/2011/03/07/giftflow-social-startup_n_830284.html)
+[Fast Company](http://www.fastcompany.com/1726306/giving-economy-hans-schoenburg-giftfloworg)
+[Shareable](http://www.shareable.net/blog/why-we-started-giftflow)
 
 The source code for this project was released per request of the users. We put it here so people can deploy their own gift economy web site, and so that developers can continue to contribute and discuss the future of this application.
 
